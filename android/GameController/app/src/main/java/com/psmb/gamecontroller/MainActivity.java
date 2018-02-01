@@ -32,9 +32,11 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 String message = et.getText().toString();
                 EditText etip = (EditText) findViewById(R.id.ipText);
                 String ip = etip.getText().toString();
+                EditText etport = (EditText) findViewById(R.id.portText);
+                String port = etip.getText().toString();
                 thread = new ClientThread(MainActivity.this);
 
-                thread.execute(message,ip);
+                thread.execute(message,ip, port);
             }
         });
 

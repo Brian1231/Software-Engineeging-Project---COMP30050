@@ -16,7 +16,7 @@ import java.net.Socket;
 class ClientThread extends AsyncTask <String, Void, String> {
 
     private static Socket socket;
-    private static final int SERVER_PORT = 50000;
+    //private static final int SERVER_PORT = 50000;
 
     private AsyncResponse mCallback;
 
@@ -29,6 +29,7 @@ class ClientThread extends AsyncTask <String, Void, String> {
 
         String message = params[0];
         String SERVER_IP = params[1];
+        int SERVER_PORT = Integer.parseInt(params[2]);
         String response = null;
         boolean connected;
         try {
