@@ -38,6 +38,9 @@ public class Server {
 			case "roll":
 				response = "Player rolled!";
 				break;
+			case "buy":
+				response = "Player bought property!";
+				break;
 			default:
 				response = JOptionPane.showInputDialog("Message from server", "hello from server");
 			}
