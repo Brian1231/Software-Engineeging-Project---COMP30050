@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 EditText etip = (EditText) findViewById(R.id.ipText);
                 String ip = etip.getText().toString();
                 EditText etport = (EditText) findViewById(R.id.portText);
-                String port = etip.getText().toString();
+                String port = etport.getText().toString();
                 thread = new ClientThread(MainActivity.this);
 
                 thread.execute(message,ip, port);
