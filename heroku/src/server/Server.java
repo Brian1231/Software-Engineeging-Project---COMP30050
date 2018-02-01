@@ -14,7 +14,7 @@ public class Server {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("Your IP is: " + Inet4Address.getLocalHost().getHostAddress().toString());
-		final ServerSocket server = new ServerSocket(50000);
+		final ServerSocket server = new ServerSocket(8080);
 		System.out.println("Listening for connection on port " + server.getLocalPort() + " ...");
 		boolean serverActive = true;
 		while (serverActive){
