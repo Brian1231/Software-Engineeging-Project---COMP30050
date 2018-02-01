@@ -20,7 +20,7 @@
             android:text="IP" />
 
         <EditText
-            android:id="@+id/portText"
+            android:id="@+id/ipText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
@@ -43,7 +43,7 @@
             android:text="Port" />
 
         <EditText
-            android:id="@+id/ipText"
+            android:id="@+id/portText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
