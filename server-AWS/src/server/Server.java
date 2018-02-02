@@ -4,51 +4,58 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import javax.swing.JOptionPane;
 
 public class Server {
 
-	public static void main(String[] args) throws IOException {
-		System.out.println("Your IP is: " + Inet4Address.getLocalHost().getHostAddress().toString());
-		final ServerSocket server = new ServerSocket(8080);
+	public ServerSocket server;
+	public Socket socket;
+
+	public Server(int PORT) throws IOException{
+		server = new ServerSocket(8080);
+	}
+
+	public void close() throws IOException{
+		server.close();
+	}
+	
+	public String listen() throws IOException{
 		System.out.println("Listening for connection on port " + server.getLocalPort() + " ...");
-		boolean serverActive = true;
-		while (serverActive){
-			Socket socket = server.accept();
-			String response;
+		socket = server.accept();
+		String response = "null";
 
-			//Read input from client
-			InputStreamReader isr = new InputStreamReader(socket.getInputStream());
-			BufferedReader reader = new BufferedReader(isr);
-			String line = reader.readLine();
-			if (!line.isEmpty()) {
-				//System.out.println("Message from client: " + line);
-			}
-
-			switch (line.toLowerCase().split(" ")[0]){
-			/*case "exit":
-				server.close();
-				serverActive = false;
-				response = "Bye!";
-				break;
-			case "roll":
-				response = "Player rolled!";
-				break;
-			case "buy":
-				response = "Player bought property!";
-				break;*/
-			default:
-				response = "Hello from AWS!";//JOptionPane.showInputDialog("Message from server", "hello from server");
-			}
-
-			//Send response
-			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-			out.println(response);
+		//Read input from client
+		InputStreamReader isr = new InputStreamReader(socket.getInputStream());
+		BufferedReader reader = new BufferedReader(isr);
+		String line = reader.readLine();
+		if (!line.isEmpty()) {
+			System.out.println("Message from client: " + line);
 		}
-		//System.out.println("Done!");
+
+		switch (line.toLowerCase().split(" ")[0]){
+		case "exit":
+			server.close();
+			Main.serverActive = false;
+			response = "Done";
+			break;
+		case "roll":
+			response = "Player rolled!";
+			break;
+		case "buy":
+			response = "Player bought property!";
+			break;
+		default:
+			response = "Hello from AWS!";//JOptionPane.showInputDialog("Message from server", "hello from server");
+		}
+
+		return response;
+		
+	}
+	
+	public void send(String message) throws IOException{
+		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+		out.println(message);
 	}
 }
