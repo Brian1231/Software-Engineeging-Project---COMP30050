@@ -26,11 +26,11 @@ public class Server {
 			BufferedReader reader = new BufferedReader(isr);
 			String line = reader.readLine();
 			if (!line.isEmpty()) {
-				System.out.println("Message from client: " + line);
+				//System.out.println("Message from client: " + line);
 			}
 
 			switch (line.toLowerCase().split(" ")[0]){
-			case "exit":
+			/*case "exit":
 				server.close();
 				serverActive = false;
 				response = "Bye!";
@@ -40,15 +40,15 @@ public class Server {
 				break;
 			case "buy":
 				response = "Player bought property!";
-				break;
+				break;*/
 			default:
-				response = JOptionPane.showInputDialog("Message from server", "hello from server");
+				response = "Hello from AWS!";//JOptionPane.showInputDialog("Message from server", "hello from server");
 			}
 
 			//Send response
 			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 			out.println(response);
 		}
-		System.out.println("Done!");
+		//System.out.println("Done!");
 	}
 }

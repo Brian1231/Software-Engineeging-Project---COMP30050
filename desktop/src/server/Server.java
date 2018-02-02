@@ -12,9 +12,9 @@ import javax.swing.JOptionPane;
 
 public class Server {
 
-	public static void main(String[] args) throws IOException {
+	public void run(int PORT) throws IOException{
 		System.out.println("Your IP is: " + Inet4Address.getLocalHost().getHostAddress().toString());
-		final ServerSocket server = new ServerSocket(50000);
+		final ServerSocket server = new ServerSocket(PORT);
 		System.out.println("Listening for connection on port " + server.getLocalPort() + " ...");
 		boolean serverActive = true;
 		while (serverActive){
