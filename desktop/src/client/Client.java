@@ -9,9 +9,9 @@ import java.net.Socket;
 
 class Client {
 
-	final static String IP = "52.211.177.158";
+	final static String IP = "54.194.139.216";
 	final static int PORT = 8080;
-	final static String message = "exit";
+	final static String message = "buy";
 	
 	public static void main(String[] args) throws IOException{
 		Socket client = new Socket(Inet4Address.getByName(IP), PORT);

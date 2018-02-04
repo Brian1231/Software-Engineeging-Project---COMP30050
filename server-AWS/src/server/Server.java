@@ -10,8 +10,8 @@ import java.net.Socket;
 
 public class Server {
 
-	public ServerSocket server;
-	public Socket socket;
+	private ServerSocket server;
+	private Socket socket;
 
 	public Server(int PORT) throws IOException{
 		server = new ServerSocket(8080);
@@ -26,6 +26,12 @@ public class Server {
 		socket = server.accept();
 		String response = "null";
 
+		//Allocate player id to client ip
+		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
+		if(!Main.CLIENT_IP_PLAYER_ID_MAP.containsKey(client_ip)){
+			Main.CLIENT_IP_PLAYER_ID_MAP.put(client_ip, Main.CLIENT_IP_PLAYER_ID_MAP.size()+1);
+		}
+		
 		//Read input from client
 		InputStreamReader isr = new InputStreamReader(socket.getInputStream());
 		BufferedReader reader = new BufferedReader(isr);
