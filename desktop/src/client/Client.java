@@ -9,7 +9,7 @@ import java.net.Socket;
 
 class Client {
 
-	final static String IP = "54.194.139.216";
+	final static String IP = "52.48.249.220";
 	final static int PORT = 8080;
 	final static String message = "buy";
 	

@@ -3,10 +3,11 @@ package server;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
 
-	public static HashMap<String, Integer> CLIENT_IP_PLAYER_ID_MAP;
+	public static Map<String, Integer> CLIENT_IP_PLAYER_ID_MAP;
 	public static boolean serverActive = true;
 	static final int PORT = 8080;
 	

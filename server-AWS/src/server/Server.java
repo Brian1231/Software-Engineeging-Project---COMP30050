@@ -7,14 +7,13 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
 public class Server {
 
 	private ServerSocket server;
 	private Socket socket;
 
 	public Server(int PORT) throws IOException{
-		server = new ServerSocket(8080);
+		server = new ServerSocket(PORT);
 	}
 
 	public void close() throws IOException{
