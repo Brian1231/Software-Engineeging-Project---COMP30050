@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SEGameController</string>
+    <string name="roll_dices">Roll dices</string>
+    <string name="buy_property">Buy Property</string>
+    <string name="main_screen">Monopoly Controller</string>
+    <string name="balence_string">Bank Balance:</string>
 </resources>
