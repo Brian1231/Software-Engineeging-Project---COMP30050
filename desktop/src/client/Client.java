@@ -11,7 +11,7 @@ class Client {
 
 	final static String IP = "52.48.249.220";
 	final static int PORT = 8080;
-	final static String message = "buy";
+	final static String message = "exit";
 	
 	public static void main(String[] args) throws IOException{
 		Socket client = new Socket(Inet4Address.getByName(IP), PORT);
