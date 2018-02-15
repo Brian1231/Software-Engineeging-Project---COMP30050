@@ -1,4 +1,4 @@
-package pw.jcollado.segamecontroller;
+package pw.jcollado.segamecontroller.connections;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
-class ClientThread extends AsyncTask <String, Void, String> {
+public class ClientThread extends AsyncTask <String, Void, String> {
 
     private static Socket socket;
 

@@ -1,14 +1,17 @@
-package pw.jcollado.segamecontroller
+package pw.jcollado.segamecontroller.mainActivity
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.sdk25.coroutines.onClick
-import pw.jcollado.segamecontroller.model.Connections
-import android.view.MenuInflater
 import android.view.MenuItem
+import kotlinx.android.synthetic.main.activity_main.*
+import pw.jcollado.segamecontroller.model.Connections
+import pw.jcollado.segamecontroller.connections.AsyncResponse
+import pw.jcollado.segamecontroller.connections.*
+import pw.jcollado.segamecontroller.R
+import pw.jcollado.segamecontroller.listProperties.ListPropertiesActivity
 
 
 class MainActivity : AppCompatActivity(), AsyncResponse {
@@ -28,6 +31,17 @@ class MainActivity : AppCompatActivity(), AsyncResponse {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_main, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        when (item.getItemId()) {
+            R.id.propertiesMenu -> {
+                startActivity(Intent(this,ListPropertiesActivity::class.java))
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
     fun handleResponse(s: String?) {
