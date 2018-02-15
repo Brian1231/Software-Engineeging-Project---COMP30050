@@ -3,7 +3,7 @@
 "id": int (0 means desktop) <br />
 "player_turn":int <br />
 "game_started": boolean <br />
-"action": String
+"action": String (Used to start game if value is "Start")
 
 
 ## Server-to-Desktop JSON:
