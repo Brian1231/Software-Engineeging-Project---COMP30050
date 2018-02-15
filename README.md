@@ -1,8 +1,9 @@
 # SEProject
 ## Desktop-to-Server JSON:
-"id": int (0 means desktop) <br />  
+"id": int (0 means desktop) <br />
 "player_turn":int <br />
 "game_started": boolean <br />
+"action": String
 
 
 ## Server-to-Desktop JSON:
