@@ -31,19 +31,17 @@ public class GameState {
 
 	public void startGame(){
 		gameStarted = true;
-		playerTurn = rand.nextInt(this.players.size()+1);
+		playerTurn = rand.nextInt(this.players.size()+1) + 1;
 	}
 
-	public void addPlayer(String client_ip){
+	public int addPlayer(String client_ip){
+		int newID = players.size()+1;
 		if(!clientIPplayerIDMap.containsKey(client_ip)){
-			Player newPlayer = new Player(players.size()+1);
+			Player newPlayer = new Player(newID, client_ip);
 			players.add(newPlayer);
 			clientIPplayerIDMap.put(client_ip, newPlayer);
 		}
-	}
-
-	public String playerInfo(){
-		return clientIPplayerIDMap.toString();
+		return newID;
 	}
 
 	public JSONObject getInfo() throws JSONException{
@@ -54,8 +52,9 @@ public class GameState {
 			jsonPlayers.put(p.getInfo());
 		}
 		info.put("players", jsonPlayers);
-		info.put("playerTurn", this.playerTurn);
-		info.put("gameStarted", this.gameStarted);
+		info.put("player_turn", this.playerTurn);
+		info.put("game_started", this.gameStarted);
+		info.put("action_info", "Something happened!");
 		return info;
 
 	}

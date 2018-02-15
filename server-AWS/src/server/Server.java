@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import game.GameState;
 import main.Main;
@@ -32,9 +33,7 @@ public class Server {
 		socket = server.accept();
 		String response = "null";
 
-		//Add player for new ip
-		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
-		gamestate.addPlayer(client_ip);
+		
 		
 		//Read input from client
 		InputStreamReader isr = new InputStreamReader(socket.getInputStream());
@@ -43,22 +42,39 @@ public class Server {
 		if (!line.isEmpty()) {
 			System.out.println("Message from client: " + line);
 		}
-
-		switch (line.toLowerCase().split(" ")[0]){
-		case "exit":
+		
+		//Parse JSONObject from input
+		JSONObject obj = new JSONObject(line);
+		int id = (int) obj.get("id");
+		JSONObject phoneResponse = new JSONObject();
+		switch (id){
+		//New player
+		case -1:
+			//Add player for new ip
+			String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
+			int newPlayerID = gamestate.addPlayer(client_ip);
+			phoneResponse.put("id", newPlayerID);
+			phoneResponse.put("action", "Created new Player");
+			response = phoneResponse.toString();
+			break;
+		//Desktop app
+		case 0:
+			if(obj.get("action").equals("Start")){
+				gamestate.startGame();
+			}
+			response = gamestate.getInfo().toString();
+			break;
+		case -10:
 			server.close();
 			Main.serverActive = false;
 			response = "Done";
 			break;
-		case "roll":
-			response = "Player rolled!";
-			break;
-		case "buy":
-			response = "Player bought property!";
-			break;
+		//Player
 		default:
-			response = gamestate.getInfo().toString();//JOptionPane.showInputDialog("Message from server", "hello from server");
+			response = gamestate.getInfo().toString();
+			break;
 		}
+		System.out.println();
 
 		return response;
 		
@@ -67,5 +83,9 @@ public class Server {
 	public void send(String message) throws IOException{
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		out.println(message);
+	}
+	
+	public void sendToDesktop(JSONObject obj){
+		
 	}
 }
