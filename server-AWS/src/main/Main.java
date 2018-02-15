@@ -1,24 +1,24 @@
 package main;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.json.JSONException;
 
 import game.GameState;
 import server.Server;
 
 public class Main {
 
-	public static Map<String, Integer> CLIENT_IP_PLAYER_ID_MAP;
 	public static GameState gameState;
 	public static boolean serverActive = true;
 	static final int PORT = 8080;
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, JSONException {
 		
+		//Used to listen for input from players
 		Server server = new Server(PORT);
 		
+		//Contains all information about current game state
 		gameState = new GameState();
 		
 		while (serverActive){
@@ -27,7 +27,6 @@ public class Main {
 			if(response.equals("Done")){
 				serverActive = false;
 			}
-			System.out.println(gameState.playerInfo() + "\n");
 		}
 	}
 }

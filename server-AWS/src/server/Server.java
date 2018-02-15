@@ -8,6 +8,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.json.JSONException;
+
 import game.GameState;
 import main.Main;
 
@@ -24,7 +26,7 @@ public class Server {
 		server.close();
 	}
 	
-	public String listen(GameState gamestate) throws IOException{
+	public String listen(GameState gamestate) throws IOException, JSONException{
 		System.out.println(InetAddress. getLocalHost().getHostAddress());
 		System.out.println("Listening for connection on port " + server.getLocalPort() + " ...");
 		socket = server.accept();
@@ -55,7 +57,7 @@ public class Server {
 			response = "Player bought property!";
 			break;
 		default:
-			response = "Hello from AWS!";//JOptionPane.showInputDialog("Message from server", "hello from server");
+			response = gamestate.getInfo().toString();//JOptionPane.showInputDialog("Message from server", "hello from server");
 		}
 
 		return response;
