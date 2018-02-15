@@ -12,4 +12,6 @@
     <color name="green">#8BC34A</color>
     <color name="red">#D80027</color>
     <color name="grey">#BDBDBD</color>
+    <color name="album_title">#4c4c4c</color>
+
 </resources>

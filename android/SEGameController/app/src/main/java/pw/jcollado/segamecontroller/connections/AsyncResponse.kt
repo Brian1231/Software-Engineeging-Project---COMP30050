@@ -1,4 +1,4 @@
-package pw.jcollado.segamecontroller
+package pw.jcollado.segamecontroller.connections
 
 /**
  * Created by jcolladosp on 08/02/2018.

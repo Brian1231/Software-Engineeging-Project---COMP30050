@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pw.jcollado.segamecontroller.MainActivity">
+    tools:context="pw.jcollado.segamecontroller.mainActivity.MainActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -28,12 +28,12 @@
         android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:drawableLeft="@drawable/ic_money"
-        android:drawablePadding="25dp"
+        android:drawablePadding="20dp"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:text="@string/balence_string"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.101"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
         android:layout_marginTop="60dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_shopping_cart"
-        android:drawablePadding="25dp"
+        android:drawablePadding="20dp"
         android:drawableStart="@drawable/ic_shopping_cart"
         android:gravity="center_vertical"
         android:text="@string/buy_property"
@@ -67,7 +67,7 @@
         android:layout_marginTop="60dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_dices"
-        android:drawablePadding="25dp"
+        android:drawablePadding="20dp"
         android:drawableStart="@drawable/ic_dices"
         android:gravity="center_vertical"
         android:text="@string/roll_dices"
@@ -94,7 +94,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="8dp"
         android:text="800 $"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toEndOf="@+id/balanceTitle"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 

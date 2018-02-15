@@ -4,4 +4,8 @@
     <string name="buy_property">Buy Property</string>
     <string name="main_screen">Monopoly Controller</string>
     <string name="balence_string">Bank Balance:</string>
+    <string name="build">Build</string>
+    <string name="mortgage">Mortgage</string>
+    <string name="properties">Properties</string>
+    <string name="marving_gardens">Marving Gardens</string>
 </resources>
