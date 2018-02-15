@@ -4,13 +4,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.property_card.view.*
-import org.jetbrains.anko.toast
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.model.Property
 
 /**
  * Created by jcolladosp on 13/02/2018.
  */
+
 class CardsAdapter(val items: List<Property>, val listener: (Property) -> Unit,val listener2: (Property) -> Unit) : RecyclerView.Adapter<CardsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.property_card))
