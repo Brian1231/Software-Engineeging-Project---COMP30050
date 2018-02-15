@@ -4,8 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import game.GameState;
+import main.Main;
 
 public class Server {
 
@@ -20,16 +24,15 @@ public class Server {
 		server.close();
 	}
 	
-	public String listen() throws IOException{
+	public String listen(GameState gamestate) throws IOException{
+		System.out.println(InetAddress. getLocalHost().getHostAddress());
 		System.out.println("Listening for connection on port " + server.getLocalPort() + " ...");
 		socket = server.accept();
 		String response = "null";
 
-		//Allocate player id to client ip
+		//Add player for new ip
 		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
-		if(!Main.CLIENT_IP_PLAYER_ID_MAP.containsKey(client_ip)){
-			Main.CLIENT_IP_PLAYER_ID_MAP.put(client_ip, Main.CLIENT_IP_PLAYER_ID_MAP.size()+1);
-		}
+		gamestate.addPlayer(client_ip);
 		
 		//Read input from client
 		InputStreamReader isr = new InputStreamReader(socket.getInputStream());

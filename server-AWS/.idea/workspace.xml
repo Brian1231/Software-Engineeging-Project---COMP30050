@@ -61,17 +61,17 @@
         <subPane>
           <expand>
             <path>
-              <item name="heroku" type="b2602c69:ProjectViewProjectNode" />
-              <item name="heroku" type="462c0819:PsiDirectoryNode" />
+              <item name="SE_Server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SE_Server" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="heroku" type="b2602c69:ProjectViewProjectNode" />
-              <item name="heroku" type="462c0819:PsiDirectoryNode" />
+              <item name="SE_Server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SE_Server" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="heroku" type="b2602c69:ProjectViewProjectNode" />
-              <item name="heroku" type="462c0819:PsiDirectoryNode" />
+              <item name="SE_Server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SE_Server" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -127,7 +127,7 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="heroku" />
+      <module name="SE_Server" />
       <envs />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
