@@ -34,7 +34,7 @@ public class GameState {
 	public void startGame(){
 		gameStarted = true;
 		playerTurn = rand.nextInt(this.players.size()+1) + 1;
-		
+
 	}
 
 	public int addPlayer(String client_ip){
@@ -47,16 +47,22 @@ public class GameState {
 		return newID;
 	}
 
-	public void playerRoll(int id){
-		
-		for(Player p : this.players){
-			if(p.getID() == id){
-				int spaces = dice.roll();
-				p.moveForward(spaces);
+	public String playerRoll(int id){
+
+		if(this.playerTurn == id){
+			int spaces = dice.roll();
+			for(Player p : this.players){
+				if(p.getID() == id){
+					p.moveForward(spaces);
+				}
 			}
+			return "Player " + id + " rolled " + spaces;
+		}
+		else{
+			return "It's not your turn!";
 		}
 	}
-	
+
 	public JSONObject getInfo() throws JSONException{
 		JSONObject info = new JSONObject();
 
@@ -67,7 +73,7 @@ public class GameState {
 		info.put("players", jsonPlayers);
 		info.put("player_turn", this.playerTurn);
 		info.put("game_started", this.gameStarted);
-		info.put("action_info", "Something happened!");
+		//info.put("action_info", "Something happened!");
 		return info;
 
 	}

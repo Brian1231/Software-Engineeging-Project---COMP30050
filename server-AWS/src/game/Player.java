@@ -21,6 +21,10 @@ public class Player {
 		return "ID: " + this.id;
 	}
 	
+	public String getIp(){
+		return this.ip;
+	}
+	
 	public JSONObject getInfo() throws JSONException{
 		JSONObject info = new JSONObject();
 		
@@ -40,6 +44,6 @@ public class Player {
 	}
 	
 	public void moveForward(int spaces){
-		this.position += spaces;
+		this.position = (this.position + spaces)%40;
 	}
 }

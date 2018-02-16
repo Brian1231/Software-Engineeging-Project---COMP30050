@@ -26,15 +26,15 @@ public class Server {
 	public void close() throws IOException{
 		server.close();
 	}
-	
+
 	public String listen(GameState gamestate) throws IOException, JSONException{
 		System.out.println(InetAddress. getLocalHost().getHostAddress());
 		System.out.println("Listening for connection on port " + server.getLocalPort() + " ...");
 		socket = server.accept();
 		String response = "null";
 
-		
-		
+
+
 		//Read input from client
 		InputStreamReader isr = new InputStreamReader(socket.getInputStream());
 		BufferedReader reader = new BufferedReader(isr);
@@ -42,7 +42,7 @@ public class Server {
 		if (!line.isEmpty()) {
 			System.out.println("Message from client: " + line);
 		}
-		
+
 		//Parse JSONObject from input
 		JSONObject obj = new JSONObject(line);
 		int id = (int) obj.get("id");
@@ -57,7 +57,7 @@ public class Server {
 			phoneResponse.put("action", "Created new Player");
 			response = phoneResponse.toString();
 			break;
-		//Desktop app
+			//Desktop app
 		case 0:
 			if(obj.get("action").equals("Start")){
 				gamestate.startGame();
@@ -69,26 +69,31 @@ public class Server {
 			Main.serverActive = false;
 			response = "Done";
 			break;
-		//Player
+			//Player
 		default:
 			if(obj.get("action").equals("roll")){
-				gamestate.playerRoll(id);
+				String actionInfo = gamestate.playerRoll(id);
+				JSONObject res = gamestate.getInfo();
+				res.put("action_info", actionInfo);
+				response = res.toString();
 			}
-			response = gamestate.getInfo().toString();
+			else{
+				response = gamestate.getInfo().toString();
+			}
 			break;
 		}
 		System.out.println();
 
 		return response;
-		
+
 	}
-	
+
 	public void send(String message) throws IOException{
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		out.println(message);
 	}
-	
+
 	public void sendToDesktop(JSONObject obj){
-		
+
 	}
 }
