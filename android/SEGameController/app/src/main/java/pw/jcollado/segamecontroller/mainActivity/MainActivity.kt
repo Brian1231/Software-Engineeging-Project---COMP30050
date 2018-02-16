@@ -1,6 +1,5 @@
 package pw.jcollado.segamecontroller.mainActivity
 
-import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -35,16 +34,16 @@ class MainActivity : AppCompatActivity(), AsyncResponse {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
-        when (item.getItemId()) {
+        return when (item.itemId) {
             R.id.propertiesMenu -> {
                 startActivity(Intent(this,ListPropertiesActivity::class.java))
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
-    fun handleResponse(s: String?) {
+    private fun handleResponse(s: String?) {
 
         when (s) {
             null -> balanceTitle.text = "null"
