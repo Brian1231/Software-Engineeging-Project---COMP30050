@@ -34,4 +34,12 @@ public class Player {
 	public int getPos(){
 		return this.position;
 	}
+	
+	public int getID(){
+		return this.id;
+	}
+	
+	public void moveForward(int spaces){
+		this.position += spaces;
+	}
 }

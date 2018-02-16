@@ -71,6 +71,9 @@ public class Server {
 			break;
 		//Player
 		default:
+			if(obj.get("action").equals("roll")){
+				gamestate.playerRoll(id);
+			}
 			response = gamestate.getInfo().toString();
 			break;
 		}

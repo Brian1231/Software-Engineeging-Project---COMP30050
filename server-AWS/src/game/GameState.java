@@ -17,12 +17,14 @@ public class GameState {
 	private Map<String, Player> clientIPplayerIDMap;
 	private boolean gameStarted;
 	private int playerTurn;
+	private Dice dice;
 
 	public GameState(){
 		players = new ArrayList<Player>();
 		clientIPplayerIDMap = new HashMap<String, Player>();
 		gameStarted = false;
 		playerTurn = 0;
+		dice = new Dice();
 	}
 
 	public boolean isStarted(){
@@ -32,6 +34,7 @@ public class GameState {
 	public void startGame(){
 		gameStarted = true;
 		playerTurn = rand.nextInt(this.players.size()+1) + 1;
+		
 	}
 
 	public int addPlayer(String client_ip){
@@ -44,6 +47,16 @@ public class GameState {
 		return newID;
 	}
 
+	public void playerRoll(int id){
+		
+		for(Player p : this.players){
+			if(p.getID() == id){
+				int spaces = dice.roll();
+				p.moveForward(spaces);
+			}
+		}
+	}
+	
 	public JSONObject getInfo() throws JSONException{
 		JSONObject info = new JSONObject();
 
