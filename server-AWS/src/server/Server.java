@@ -54,12 +54,18 @@ public class Server {
 			String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
 			int newPlayerID = gamestate.addPlayer(client_ip);
 			phoneResponse.put("id", newPlayerID);
-			phoneResponse.put("action", "Created new Player");
+			if(newPlayerID != -1){
+				phoneResponse.put("action", "Created new Player");
+			}
+			else{
+				phoneResponse.put("action", "You're already a player!");
+			}
+			gamestate.startGame();
 			response = phoneResponse.toString();
 			break;
 			//Desktop app
 		case 0:
-			if(obj.get("action").equals("Start")){
+			if(obj.get("action").equals("start")){
 				gamestate.startGame();
 			}
 			response = gamestate.getInfo().toString();
@@ -71,15 +77,15 @@ public class Server {
 			break;
 			//Player
 		default:
-			if(obj.get("action").equals("roll")){
-				String actionInfo = gamestate.playerRoll(id);
-				JSONObject res = gamestate.getInfo();
-				res.put("action_info", actionInfo);
-				response = res.toString();
-			}
-			else{
-				response = gamestate.getInfo().toString();
-			}
+			String action = (String) obj.get("action");
+			String actionInfo = gamestate.playerAction(id, action);
+			JSONObject res = gamestate.getInfo();
+			res.put("action_info", actionInfo);
+			response = res.toString();
+
+
+			//	response = gamestate.getInfo().toString();
+
 			break;
 		}
 		System.out.println();

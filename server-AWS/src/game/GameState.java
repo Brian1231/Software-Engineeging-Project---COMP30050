@@ -33,36 +33,64 @@ public class GameState {
 
 	public void startGame(){
 		gameStarted = true;
-		playerTurn = rand.nextInt(this.players.size()+1) + 1;
+		playerTurn = rand.nextInt(this.players.size()) + 1;
 
 	}
 
+	/** 
+	 * Returns new player ID or -1
+	 */
 	public int addPlayer(String client_ip){
 		int newID = players.size()+1;
 		if(!clientIPplayerIDMap.containsKey(client_ip)){
 			Player newPlayer = new Player(newID, client_ip);
 			players.add(newPlayer);
 			clientIPplayerIDMap.put(client_ip, newPlayer);
+			return newID;
 		}
-		return newID;
+		else{
+			return -1;
+		}
+		
 	}
 
-	public String playerRoll(int id){
+	/** 
+	 * Returns result of player action
+	 */
+	public String playerAction(int id, String action){
 
+		//Check if its the correct players turn
 		if(this.playerTurn == id){
-			int spaces = dice.roll();
+			//Increment player turn
+			this.playerTurn ++;
+			if(this.playerTurn == this.players.size()) this.playerTurn=0;
+			
+			//Get player from id
+			Player player = null;
 			for(Player p : this.players){
 				if(p.getID() == id){
-					p.moveForward(spaces);
+					player = p;
 				}
 			}
-			return "Player " + id + " rolled " + spaces;
+			
+			//Do player action
+			switch(action){
+			case "roll":
+				int spaces = dice.roll();
+				player.moveForward(spaces);
+				return "Player " + id + " rolled " + spaces + ".";
+			default:
+				return "Player " + id + " did nothing.";
+			}	
 		}
 		else{
 			return "It's not your turn!";
 		}
 	}
 
+	/** 
+	 * Returns full game state in JSON format
+	 */
 	public JSONObject getInfo() throws JSONException{
 		JSONObject info = new JSONObject();
 
