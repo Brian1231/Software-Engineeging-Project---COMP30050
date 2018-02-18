@@ -9,18 +9,20 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Inet4Address;
 import java.net.Socket;
+import java.util.function.Consumer;
 
 
 public class NetworkConnection {
 
     private String ip;
     private int port;
-
     private ConnectionThread networkThread = new ConnectionThread();
+    private Consumer<JSONObject> onReceiveCallBack;
 
-    public  NetworkConnection(String ip, int port){
+    public  NetworkConnection(String ip, int port, Consumer<JSONObject> function){
         this.ip = ip;
         this.port = port;
+        this.onReceiveCallBack = function;
     }
 
     public void startConnection() throws Exception {
@@ -33,10 +35,11 @@ public class NetworkConnection {
         writer.println(output.toString());
     }
 
-    public void closeconnection() throws Exception {
+    public void closeConnection() throws Exception {
         networkThread.socket.close();
     }
 
+    // Thread which listens to the socket for game updates.
     private class ConnectionThread extends Thread {
 
         private Socket socket;
@@ -62,13 +65,13 @@ public class NetworkConnection {
                         onMessage(message);
                     }
                 }
-
             }catch(Exception e){e.printStackTrace();}
         }
 
         public void onMessage(String message) throws JSONException {
-            System.out.println("message!" + message);
+            System.out.println("message!: " + message);
             JSONObject input = new JSONObject(message);
+            onReceiveCallBack.accept(input);
         }
     }
 }

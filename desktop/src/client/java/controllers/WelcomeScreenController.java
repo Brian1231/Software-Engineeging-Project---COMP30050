@@ -15,15 +15,14 @@ public class WelcomeScreenController {
     public BorderPane base;
     public Button gamebutton;
 
+    // New game
     public void onButtonClick(ActionEvent event) throws Exception{
 
-        System.out.println("New Game");
         Parent inGame = FXMLLoader.load(getClass().getResource("/client/resources/view/inGame.fxml"));
         Scene gameScene = new Scene(inGame);
         Stage gameStage = (Stage)((Node) event.getSource()).getScene().getWindow();
         gameStage.setScene(gameScene);
         gameStage.show();
-
     }
 
 }

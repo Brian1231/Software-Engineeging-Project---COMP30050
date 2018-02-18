@@ -1,16 +1,20 @@
 package client.java.controllers;
 
 import client.java.NetworkConnection;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import org.json.JSONObject;
 
 
 public class InGameController {
 
+    // Temporary street names.
+    // To be replaced by NOC-List
     private String[] SquareNames = {
             "Go","Old Kent Road","Community Chest","Whitechapel Road","Income Tax", "King Cross", "The Angel Islington", "Chance", "Euston Road", "Pentonville Road", "Jail",
             "Pall Mall","Electric Co","Whitehall","Northumberland Ave","Marylebone Station", "Bow St", "Community Chest","Marlborough St","Vine St",
@@ -18,16 +22,16 @@ public class InGameController {
             "Regent St","Oxford St","Community Chest","Bond St","Liverpool St Station","Chance","Park Lane","Super Tax","Mayfair"
     };
 
-    //Streets
+    // Streets
     public HBox top;
     public HBox bottom;
     public VBox left;
     public VBox right;
 
-
+    // Networking.
     private final static String IP = "52.48.249.220";
     private final static int PORT = 8080;
-    private NetworkConnection connection = new NetworkConnection(IP,PORT);
+    private NetworkConnection connection = new NetworkConnection(IP,PORT, input -> onUpdateReceived(input));
 
 
     public void initialize() throws Exception{
@@ -35,8 +39,16 @@ public class InGameController {
         connection.startConnection();
     }
 
+    // called whenever a message/JSON is received form the server.
+    public void onUpdateReceived(JSONObject update){
+        Platform.runLater(() -> System.out.println("message from controller!: " + update.toString()));
+        // Extract JSON fields
+        // Update player positions
+        // Print action information
+    }
+
+    // Populates the board with property. Plan to refactor a lot.
     public void drawProperty() {
-        System.out.println("Adding Property");
 
         for (int i = 0; i < 11; i++) {
             Pane squarePane = new Pane();
@@ -83,8 +95,8 @@ public class InGameController {
         }
     }
 
+    // Draws players in their current positions.
     public void drawPlayers() {
-
 
     }
 }
