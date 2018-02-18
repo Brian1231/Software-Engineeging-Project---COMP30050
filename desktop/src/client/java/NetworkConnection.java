@@ -29,7 +29,7 @@ public class NetworkConnection {
 
     public void send(JSONObject output) throws Exception {
         System.out.println("sending message" + output.toString());
-        PrintWriter writer = new PrintWriter(networkThread.out);
+        PrintWriter writer = new PrintWriter(networkThread.out, true);
         writer.println(output.toString());
     }
 

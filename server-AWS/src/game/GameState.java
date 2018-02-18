@@ -33,7 +33,12 @@ public class GameState {
 
 	public void startGame(){
 		gameStarted = true;
-		playerTurn = rand.nextInt(this.players.size()) + 1;
+		if(this.players.size() == 0 ){
+			playerTurn = rand.nextInt(this.players.size()+1) + 1;
+		}
+		else{
+			playerTurn = rand.nextInt(this.players.size()) + 1;
+		}
 
 	}
 
@@ -51,7 +56,7 @@ public class GameState {
 		else{
 			return -1;
 		}
-		
+
 	}
 
 	/** 
@@ -64,7 +69,7 @@ public class GameState {
 			//Increment player turn
 			this.playerTurn ++;
 			if(this.playerTurn == this.players.size()) this.playerTurn=0;
-			
+
 			//Get player from id
 			Player player = null;
 			for(Player p : this.players){
@@ -72,7 +77,7 @@ public class GameState {
 					player = p;
 				}
 			}
-			
+
 			//Do player action
 			switch(action){
 			case "roll":
