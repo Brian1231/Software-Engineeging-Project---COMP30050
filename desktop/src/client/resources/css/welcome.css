@@ -1,6 +1,6 @@
 
 #base{
--fx-background-image: url("space.jpg");
+-fx-background-image: url("/client/resources/images/space.jpg");
 -fx-background-repeat: stretch;
 -fx-background-size: 1200 800;
 -fx-background-position: center center;
@@ -16,6 +16,7 @@
 #gamebutton:hover{
 -fx-background-color: rgb(255,255,255,0.5);
 }
+
 
 #heading{
 -fx-font-size: 50px;

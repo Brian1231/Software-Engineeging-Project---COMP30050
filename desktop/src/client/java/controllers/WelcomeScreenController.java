@@ -1,4 +1,4 @@
-package client;
+package client.java.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -12,15 +12,13 @@ import javafx.stage.Stage;
 
 public class WelcomeScreenController {
 
-
     public BorderPane base;
     public Button gamebutton;
-
 
     public void onButtonClick(ActionEvent event) throws Exception{
 
         System.out.println("New Game");
-        Parent inGame = FXMLLoader.load(getClass().getResource("inGame.fxml"));
+        Parent inGame = FXMLLoader.load(getClass().getResource("/client/resources/view/inGame.fxml"));
         Scene gameScene = new Scene(inGame);
         Stage gameStage = (Stage)((Node) event.getSource()).getScene().getWindow();
         gameStage.setScene(gameScene);

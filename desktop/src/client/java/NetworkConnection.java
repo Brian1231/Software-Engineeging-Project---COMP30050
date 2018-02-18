@@ -1,4 +1,4 @@
-package client;
+package client.java;
 
 import org.json.JSONException;
 import org.json.JSONObject;

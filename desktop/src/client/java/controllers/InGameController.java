@@ -1,5 +1,7 @@
-package client;
+package client.java.controllers;
 
+import client.java.NetworkConnection;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -85,9 +87,6 @@ public class InGameController {
 
 
     }
-
-
-
 }
 
 
