@@ -37,7 +37,7 @@ public class GameState {
 			playerTurn = rand.nextInt(this.players.size()+1) + 1;
 		}
 		else{
-			playerTurn = rand.nextInt(this.players.size()+1) + 1;
+			playerTurn = rand.nextInt(this.players.size()) + 1;
 		}
 
 	}
