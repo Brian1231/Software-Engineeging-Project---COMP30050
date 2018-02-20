@@ -1,5 +1,6 @@
 package client.java;
 
+import javafx.application.Platform;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,10 +15,12 @@ import java.util.function.Consumer;
 
 public class NetworkConnection {
 
+    private boolean gameActive = false;
     private String ip;
     private int port;
     private ConnectionThread networkThread = new ConnectionThread();
     private Consumer<JSONObject> onReceiveCallBack;
+
 
     public  NetworkConnection(String ip, int port, Consumer<JSONObject> function){
         this.ip = ip;
@@ -26,6 +29,7 @@ public class NetworkConnection {
     }
 
     public void startConnection() throws Exception {
+        gameActive = true;
         networkThread.start();
     }
 
@@ -37,7 +41,17 @@ public class NetworkConnection {
 
     public void closeConnection() throws Exception {
         networkThread.socket.close();
+        Platform.exit();
     }
+
+    public void setConsumerfunction(Consumer<JSONObject> function) {
+        this.onReceiveCallBack = function;
+    }
+
+    public void gameEnd(){
+        gameActive = false;
+    }
+
 
     // Thread which listens to the socket for game updates.
     private class ConnectionThread extends Thread {
@@ -59,12 +73,15 @@ public class NetworkConnection {
                 output.put("action", "start");
                 send(output);
 
-                while(true){
+                while(gameActive){
                     String message = reader.readLine();
                     if(!message.isEmpty()){
                         onMessage(message);
                     }
                 }
+
+                closeConnection();
+
             }catch(Exception e){e.printStackTrace();}
         }
 

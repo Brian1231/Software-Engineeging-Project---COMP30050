@@ -2,13 +2,24 @@ package client.java.controllers;
 
 import client.java.NetworkConnection;
 import javafx.application.Platform;
-import javafx.scene.Node;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 
 public class InGameController {
@@ -22,6 +33,8 @@ public class InGameController {
             "Regent St","Oxford St","Community Chest","Bond St","Liverpool St Station","Chance","Park Lane","Super Tax","Mayfair"
     };
 
+    private ObservableList<String> players = FXCollections.observableArrayList("player1","player2","player3", "player 4");
+
     // Streets
     public HBox top;
     public HBox bottom;
@@ -33,10 +46,35 @@ public class InGameController {
     private final static int PORT = 8080;
     private NetworkConnection connection = new NetworkConnection(IP,PORT, input -> onUpdateReceived(input));
 
-
     public void initialize() throws Exception{
         drawProperty();
+        showLobbyWindow();
         connection.startConnection();
+    }
+
+    public void closeGame() {
+        connection.gameEnd();
+    }
+
+    public void showLobbyWindow() throws IOException {
+        VBox lobbyRoot = new VBox();
+        Button startGameButton = new Button("Start Game");
+        ListView<String> playerList = new ListView<>(players);
+
+        lobbyRoot.getChildren().add(playerList);
+        lobbyRoot.getChildren().add(startGameButton);
+
+        Scene lobbyScene = new Scene(lobbyRoot, 400,600);
+        lobbyScene.getStylesheets().add("/client/resources/css/lobby.css");
+
+        Stage lobbyStage = new Stage();
+        lobbyStage.initStyle(StageStyle.UNDECORATED);
+        lobbyStage.initModality(Modality.APPLICATION_MODAL);
+        lobbyStage.setScene(lobbyScene);
+
+        startGameButton.setOnAction(e -> lobbyStage.close());
+
+        lobbyStage.show();
     }
 
     // called whenever a message/JSON is received form the server.
