@@ -70,6 +70,7 @@ public class Server {
 			phoneResponse.put("action", lastAction);
 			response = phoneResponse.toString();
 			clientUpdater.updateActionInfo(lastAction);	
+			
 			break;
 		case -10:
 			server.close();
@@ -89,6 +90,7 @@ public class Server {
 		}
 
 		clientUpdater.updateActionInfo(lastAction);
+		clientUpdater.updateDesktop();
 		return response;
 
 	}

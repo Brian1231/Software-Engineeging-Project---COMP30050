@@ -10,7 +10,7 @@ import pw.jcollado.segamecontroller.model.Connections
 import pw.jcollado.segamecontroller.connections.AsyncResponse
 import pw.jcollado.segamecontroller.connections.*
 import pw.jcollado.segamecontroller.R
-import pw.jcollado.segamecontroller.listProperties.ListPropertiesActivity
+import pw.jcollado.segamecontroller.listPropertiesActivity.ListPropertiesActivity
 
 
 class MainActivity : AppCompatActivity(), AsyncResponse {
