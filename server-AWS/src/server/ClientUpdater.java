@@ -16,7 +16,11 @@ public class ClientUpdater extends Thread{
 
 	private ServerSocket server;
 	private Socket socket;
+	private String actionInfo;
 
+	public void updateActionInfo(String s){
+		this.actionInfo = s;
+	}
 	public void setup() throws IOException{
 		System.out.println("Connecting to Desktop...");
 		server = new ServerSocket(8081);
@@ -41,9 +45,9 @@ public class ClientUpdater extends Thread{
 			while(Main.serverActive){
 				try{
 					output = Main.gameState.getInfo();
-					wait(2000);
-					System.out.println("Updating Desktop...");
-
+					output.put("action_info", this.actionInfo);
+					wait(1000);
+					
 					//Input from desktop
 					if(reader.ready()){
 						String line = reader.readLine();
