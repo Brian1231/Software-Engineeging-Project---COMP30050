@@ -53,6 +53,7 @@ public class Server {
 		JSONObject phoneResponse = new JSONObject();
 		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
 		String lastAction = "New Game";
+		
 		switch (id){
 		//New player
 		case -1:
@@ -61,23 +62,15 @@ public class Server {
 			int newPlayerID = gamestate.addPlayer(client_ip);
 			phoneResponse.put("id", newPlayerID);
 			if(newPlayerID != -1){
-				phoneResponse.put("action", "Created new Player");
+				lastAction = "Created new Player";
 			}
 			else{
-				phoneResponse.put("action", "You're already a player!");
+				lastAction = "You're already a player!";
 			}
-			gamestate.startGame();
+			phoneResponse.put("action", lastAction);
 			response = phoneResponse.toString();
-			//clientUpdater.updateClient(gamestate.getInfo());
+			clientUpdater.updateActionInfo(lastAction);	
 			break;
-			//Desktop app
-		//case 0:
-			
-			/*if(obj.get("action").equals("update")){
-				//clientUpdater.updateDesktop();
-			}*/
-			//response = gamestate.getInfo().put("action_info", lastAction).toString();
-			//break;
 		case -10:
 			server.close();
 			Main.serverActive = false;
@@ -88,12 +81,14 @@ public class Server {
 			String action = (String) obj.get("action");
 			String actionInfo = gamestate.playerAction(id, action);
 			lastAction = actionInfo;
+			
 			JSONObject res = gamestate.getInfo();
 			res.put("action_info", actionInfo);
 			response = res.toString();
 			break;
 		}
 
+		clientUpdater.updateActionInfo(lastAction);
 		return response;
 
 	}
