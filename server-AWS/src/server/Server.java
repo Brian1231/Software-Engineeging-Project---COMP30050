@@ -23,9 +23,9 @@ public class Server {
 	public Server(int PORT) throws IOException{
 		server = new ServerSocket(PORT);
 		//Thread to update desktop
-				clientUpdater = new ClientUpdater();
-				clientUpdater.setup();
-				clientUpdater.start();
+		clientUpdater = new ClientUpdater();
+		clientUpdater.setup();
+		clientUpdater.start();
 		//clientUpdater = new ClientUpdater();
 	}
 
@@ -34,74 +34,81 @@ public class Server {
 	}
 
 	public String listen(GameState gamestate) throws IOException, JSONException{
-		System.out.println(InetAddress. getLocalHost().getHostAddress());
-		System.out.println("Listening for connection on port " + server.getLocalPort() + " ...");
-		socket = server.accept();
-		String response = "null";
-
-		//Read input from client
-		InputStreamReader isr = new InputStreamReader(socket.getInputStream());
-		BufferedReader reader = new BufferedReader(isr);
-		String line = reader.readLine();
-		if (!line.isEmpty()) {
-			System.out.println("Message from Phone: " + line);
-		}
-
-		//Parse JSONObject from input
-		JSONObject obj = new JSONObject(line);
-		int id = (int) obj.get("id");
-		JSONObject phoneResponse = new JSONObject();
-		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
-		String lastAction = "New Game";
 		
-		switch (id){
-		//New player
-		case -1:
-			//Add player for new ip
-			
-			int newPlayerID = gamestate.addPlayer(client_ip);
-			phoneResponse.put("id", newPlayerID);
-			if(newPlayerID != -1){
-				lastAction = "Created new Player";
+			System.out.println(InetAddress. getLocalHost().getHostAddress());
+			System.out.println("Listening for connection on port " + server.getLocalPort() + " ...");
+			socket = server.accept();
+			String response = "null";
+
+			//Read input from client
+			InputStreamReader isr = new InputStreamReader(socket.getInputStream());
+			BufferedReader reader = new BufferedReader(isr);
+			String line = reader.readLine();
+			if (!line.isEmpty()) {
+				System.out.println("Message from Phone: " + line);
 			}
-			else{
-				lastAction = "You're already a player!";
+
+			//Parse JSONObject from input
+			try{
+				JSONObject obj = new JSONObject(line);
+
+				int id = (int) obj.get("id");
+				JSONObject phoneResponse = new JSONObject();
+				String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
+				String lastAction = "New Game";
+
+				switch (id){
+				//New player
+				case -1:
+					//Add player for new ip
+
+					int newPlayerID = gamestate.addPlayer(client_ip);
+					phoneResponse.put("id", newPlayerID);
+					if(newPlayerID != -1){
+						lastAction = "Created new Player";
+					}
+					else{
+						lastAction = "You're already a player!";
+					}
+					phoneResponse.put("action", lastAction);
+					response = phoneResponse.toString();
+					clientUpdater.updateActionInfo(lastAction);	
+
+					break;
+				case -10:
+					server.close();
+					Main.serverActive = false;
+					response = "Done";
+					break;
+					//Player
+				default:
+					String action = (String) obj.get("action");
+					String actionInfo = gamestate.playerAction(id, action);
+					lastAction = actionInfo;
+
+					JSONObject res = gamestate.getInfo();
+					res.put("action_info", actionInfo);
+					response = res.toString();
+					break;
+				}
+
+
+				clientUpdater.updateActionInfo(lastAction);
+				clientUpdater.updateDesktop();
+			}catch(Exception e){
+				System.out.println(e.getLocalizedMessage());
 			}
-			phoneResponse.put("action", lastAction);
-			response = phoneResponse.toString();
-			clientUpdater.updateActionInfo(lastAction);	
-			
-			break;
-		case -10:
-			server.close();
-			Main.serverActive = false;
-			response = "Done";
-			break;
-			//Player
-		default:
-			String action = (String) obj.get("action");
-			String actionInfo = gamestate.playerAction(id, action);
-			lastAction = actionInfo;
-			
-			JSONObject res = gamestate.getInfo();
-			res.put("action_info", actionInfo);
-			response = res.toString();
-			break;
+
+			return response;
 		}
 
-		clientUpdater.updateActionInfo(lastAction);
-		clientUpdater.updateDesktop();
-		return response;
+		public void send(String message) throws IOException{
+			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+			out.println(message);
+			socket.close();
+		}
 
-	}
-
-	public void send(String message) throws IOException{
-		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-		out.println(message);
-		socket.close();
-	}
-
-	/*public void updateDesktop() throws JSONException{
+		/*public void updateDesktop() throws JSONException{
 		//clientUpdater.updateClient(Main.gameState.getInfo());
 	}*/
-}
+	}
