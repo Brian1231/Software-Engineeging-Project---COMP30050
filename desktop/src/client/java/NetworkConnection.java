@@ -64,39 +64,29 @@ public class NetworkConnection {
 		public void run() {
 			try {
 				System.out.println("Connecting!");
-				socket = new Socket(Inet4Address.getByName(ip), 8080);
+				socket = new Socket(Inet4Address.getByName(ip), 8081);
 				out = new OutputStreamWriter(socket.getOutputStream());
-				in = new InputStreamReader(socket.getInputStream());
-				BufferedReader reader = new BufferedReader(in);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
 				JSONObject output = new JSONObject();
 				output.put("id", 0);
 				output.put("action", "start");
 				send(output);
-				socket.close();
-
 				//ServerSocket receiver = new ServerSocket(8081);
 				//Socket recSocket;
 				while(gameActive){
-					synchronized(this){
-						wait(2000);
-						socket = new Socket(Inet4Address.getByName(ip), 8080);
-						out = new OutputStreamWriter(socket.getOutputStream());
-						in = new InputStreamReader(socket.getInputStream());
-						reader = new BufferedReader(in);
-
-						output = new JSONObject();
-						output.put("id", 0);
-						output.put("action", "update");
-						send(output);
-
-						String message = reader.readLine();
-						if(!message.isEmpty()){
-							onMessage(message);
-						}
-						socket.close();
+					//System.out.println("reading..");
+					String message = "";
+					if(reader.ready()){
+						message = reader.readLine();
+					}
+					//System.out.println("here");
+					if(!message.isEmpty()){
+						//onMessage(message);
+						System.out.println(message);
 					}
 				}
+
 
 				closeConnection();
 

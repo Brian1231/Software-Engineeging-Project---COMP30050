@@ -20,6 +20,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,23 +33,23 @@ import java.util.List;
 
 public class InGameController {
 
-    // Temporary street names.
-    // To be replaced by NOC-List
-    private String[] SquareNames = {
-            "Go","Old Kent Road","Community Chest","Whitechapel Road","Income Tax", "King Cross", "The Angel Islington", "Chance", "Euston Road", "Pentonville Road", "Jail",
-            "Pall Mall","Electric Co","Whitehall","Northumberland Ave","Marylebone Station", "Bow St", "Community Chest","Marlborough St","Vine St",
-            "Free Parking","Strand","Chance", "Fleet St","Trafalgar Sq","Fenchurch St Station", "Leicester Sq", "Coventry St","Water Works", "Piccadilly","Go To Jail",
-            "Regent St","Oxford St","Community Chest","Bond St","Liverpool St Station","Chance","Park Lane","Super Tax","Mayfair"
-    };
+	// Temporary street names.
+	// To be replaced by NOC-List
+	private String[] SquareNames = {
+			"Go","Old Kent Road","Community Chest","Whitechapel Road","Income Tax", "King Cross", "The Angel Islington", "Chance", "Euston Road", "Pentonville Road", "Jail",
+			"Pall Mall","Electric Co","Whitehall","Northumberland Ave","Marylebone Station", "Bow St", "Community Chest","Marlborough St","Vine St",
+			"Free Parking","Strand","Chance", "Fleet St","Trafalgar Sq","Fenchurch St Station", "Leicester Sq", "Coventry St","Water Works", "Piccadilly","Go To Jail",
+			"Regent St","Oxford St","Community Chest","Bond St","Liverpool St Station","Chance","Park Lane","Super Tax","Mayfair"
+	};
 
     // Temporary
     private Color[] playerColours = {Color.BLUE,Color.GREEN,Color.RED, Color.ORANGE};
 
-    // Streets
-    public HBox top;
-    public HBox bottom;
-    public VBox left;
-    public VBox right;
+	// Streets
+	public HBox top;
+	public HBox bottom;
+	public VBox left;
+	public VBox right;
 
     private ArrayList<Pane> squares = new ArrayList<>();
 

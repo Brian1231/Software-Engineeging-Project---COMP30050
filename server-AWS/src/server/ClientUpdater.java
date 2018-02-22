@@ -1,8 +1,10 @@
 package server;
 
-import java.io.OutputStreamWriter;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Inet4Address;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.json.JSONException;
@@ -10,39 +12,60 @@ import org.json.JSONObject;
 
 import main.Main;
 
-public class ClientUpdater{
+public class ClientUpdater extends Thread{
 
-	private String clientIP;
+	private ServerSocket server;
+	private Socket socket;
 
-	public void setIP(String ip){
-		this.clientIP = ip;
+	public void setup() throws IOException{
+		System.out.println("Connecting to Desktop...");
+		server = new ServerSocket(8081);
+		socket = server.accept();
+		System.out.println("Connected!");
 	}
+	public void run(){
 
-	public void updateDesktop(){
-		
+		JSONObject output = null;
+		PrintWriter out = null;
+		BufferedReader reader = null;
 
-			JSONObject output = null;
+		try {
+			output = new JSONObject("{}");
+			out = new PrintWriter(socket.getOutputStream(), true);
+			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		} catch (JSONException | IOException e1) {
+			e1.printStackTrace();
+		}
 
-			try {
-				output = new JSONObject("{}");
-				output = Main.gameState.getInfo();
-			} catch (JSONException e1) {
-				e1.printStackTrace();
-			}
-			if(clientIP!=null){
-					try{
-						System.out.println("Updating Desktop...");
-						Socket socket = new Socket(Inet4Address.getByName(this.clientIP), 8080);
-						System.out.println("Desktop connected");
-						OutputStreamWriter out = new OutputStreamWriter(socket.getOutputStream());
-						PrintWriter writer = new PrintWriter(out, true);
-						writer.print(output.toString());
-						socket.close();
-					}catch(Exception e){
-						e.printStackTrace();
+		synchronized(this){
+			while(Main.serverActive){
+				try{
+					output = Main.gameState.getInfo();
+					wait(2000);
+					System.out.println("Updating Desktop...");
+
+					//Input from desktop
+					if(reader.ready()){
+						String line = reader.readLine();
+						if (!line.isEmpty()) {
+							System.out.println("Message from Desktop: " + line);
+						}
+
+						//Parse JSONObject from input
+						JSONObject obj = new JSONObject(line);
+						int id = (int) obj.get("id");
+						if(id == 0){
+							if(obj.get("action").equals("start")){
+								Main.gameState.startGame();
+							}
+						}
 					}
-				
-			
+					//Output to desktop
+					out.println(output.toString());
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }

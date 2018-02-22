@@ -1,5 +1,6 @@
 package game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +9,8 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import server.ClientUpdater;
 
 
 public class GameState {
@@ -18,13 +21,15 @@ public class GameState {
 	private boolean gameStarted;
 	private int playerTurn;
 	private Dice dice;
+	
 
-	public GameState(){
+	public GameState() throws IOException{
 		players = new ArrayList<Player>();
 		clientIPplayerIDMap = new HashMap<String, Player>();
 		gameStarted = false;
 		playerTurn = 0;
 		dice = new Dice();
+		
 	}
 
 	public boolean isStarted(){
