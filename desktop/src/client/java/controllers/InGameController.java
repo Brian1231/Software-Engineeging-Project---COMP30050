@@ -1,6 +1,7 @@
 package client.java.controllers;
 
 import client.java.NetworkConnection;
+import client.java.Player;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -23,6 +26,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 
 
 public class InGameController {
@@ -36,8 +42,8 @@ public class InGameController {
 			"Regent St","Oxford St","Community Chest","Bond St","Liverpool St Station","Chance","Park Lane","Super Tax","Mayfair"
 	};
 
-	//private ObservableList<String> players = FXCollections.observableArrayList("player1","player2","player3", "player 4");
-	private ObservableList<String> players = FXCollections.observableArrayList();
+    // Temporary
+    private Color[] playerColours = {Color.BLUE,Color.GREEN,Color.RED, Color.ORANGE};
 
 	// Streets
 	public HBox top;
@@ -45,115 +51,166 @@ public class InGameController {
 	public VBox left;
 	public VBox right;
 
-	// Networking.
-	private final static String IP = "52.48.249.220";
-	private final static int PORT = 8081;
-	private NetworkConnection connection = new NetworkConnection(IP,PORT, input -> {
-		try {
-			onUpdateReceived(input);
-		} catch (JSONException | IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	});
+    private ArrayList<Pane> squares = new ArrayList<>();
 
-	public void initialize() throws Exception{
-		drawProperty();
-		showLobbyWindow();
-		connection.startConnection();
-	}
+    // Players
+    private ObservableList<String> playerList = FXCollections.observableArrayList("player1","player2","player3", "player 4");
+    private List<Player> players;
 
-	public void closeGame() {
-		connection.gameEnd();
-	}
+    // Networking.
+    private final static String IP = "52.48.249.220";
+    private final static int PORT = 8080;
+    private NetworkConnection connection = new NetworkConnection(IP,PORT, input -> {
+        try {
+            onUpdateReceived(input);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    });
 
-	public void showLobbyWindow() throws IOException {
-		VBox lobbyRoot = new VBox();
-		Button startGameButton = new Button("Start Game");
-		ListView<String> playerList = new ListView<>(players);
+    public void initialize() throws Exception{
+        createSquares();
+        drawProperty();
+        showLobbyWindow();
+        drawPlayer(squares.get(0));
+        connection.startConnection();
+    }
 
-		lobbyRoot.getChildren().add(playerList);
-		lobbyRoot.getChildren().add(startGameButton);
+    public void closeGame() {
+        connection.gameEnd();
+    }
 
-		Scene lobbyScene = new Scene(lobbyRoot, 400,600);
-		lobbyScene.getStylesheets().add("/client/resources/css/lobby.css");
+    public void showLobbyWindow() throws IOException {
+        VBox lobbyRoot = new VBox();
+        Button startGameButton = new Button("Start Game");
+        ListView<String> playerListView = new ListView<>(playerList);
 
-		Stage lobbyStage = new Stage();
-		lobbyStage.initStyle(StageStyle.UNDECORATED);
-		lobbyStage.initModality(Modality.APPLICATION_MODAL);
-		lobbyStage.setScene(lobbyScene);
+        lobbyRoot.getChildren().add(playerListView);
+        lobbyRoot.getChildren().add(startGameButton);
 
-		startGameButton.setOnAction(e -> lobbyStage.close());
+        Scene lobbyScene = new Scene(lobbyRoot, 400,600);
+        lobbyScene.getStylesheets().add("/client/resources/css/lobby.css");
 
-		lobbyStage.show();
-	}
+        Stage lobbyStage = new Stage();
+        lobbyStage.initStyle(StageStyle.UNDECORATED);
+        lobbyStage.initModality(Modality.APPLICATION_MODAL);
+        lobbyStage.setScene(lobbyScene);
 
-	// called whenever a message/JSON is received form the server.
-	public void onUpdateReceived(JSONObject update) throws JSONException, IOException, InterruptedException{
-		Platform.runLater(() -> System.out.println("Current GameState: " + update.toString()));
-		/*Thread.sleep(1000);
-		JSONArray players = (JSONArray) update.get("players");
-		for (int i = 0; i < players.length(); i++) {
-			String player = players.getJSONObject(i).getInt("id") + "";
-			this.players.add(player);
-		}*/
-		// Extract JSON fields
-		// Update player positions
-		// Print action information
-	}
+        startGameButton.setOnAction(e -> lobbyStage.close());
 
-	// Populates the board with property. Plan to refactor a lot.
-	public void drawProperty() {
+        lobbyStage.show();
+    }
 
-		for (int i = 0; i < 11; i++) {
-			Pane squarePane = new Pane();
+    // called whenever a message/JSON is received form the server.
+    public void onUpdateReceived(JSONObject update) throws JSONException {
+        Platform.runLater(() -> {
+            try {
+                System.out.println("Current GameState: " + update.toString());
 
-			squarePane.setStyle("-fx-background-color: #F2F4F4;" + "-fx-border-color: #34495E;");
+                int playerTurn = update.getInt("player_turn");
+                //String actionInfo = update.getString("action_info");
 
-			squarePane.setMinSize(50, 75);
-			squarePane.setPrefSize(60, 100);
+                JSONArray playerObjects = update.getJSONArray("players");
+                List<Player> plyrs = new ArrayList<>();
+                for(int i=0;i<playerObjects.length();i++){
+                    int balance = playerObjects.getJSONObject(i).getInt("balance");
+                    int id = playerObjects.getJSONObject(i).getInt("id");
+                    int position = playerObjects.getJSONObject(i).getInt("position");
+                    plyrs.add(new Player(balance,id,position));
+                }
 
-			HBox.setHgrow(squarePane, Priority.ALWAYS);
+            } catch (JSONException e) { e.printStackTrace(); }
+        });
 
-			Label name = new Label(SquareNames[10 - i]);
-			name.setPrefWidth(60);
-			name.setWrapText(true);
-			name.setStyle("-fx-text-fill: #34495E;");
+        // Extract JSON fields
+        // Update player positions
+        // Print action information
+    }
 
-			name.layoutXProperty().bind(squarePane.widthProperty().subtract(name.widthProperty()).divide(2));
+    // Populates the board with property. Plan to refactor a lot.
+    public void drawProperty() {
 
-			squarePane.getChildren().add(name);
-			bottom.getChildren().add(squarePane);
-		}
+        for (int i = 10; i >= 0; i--) {
 
-		for (int i = 0; i < 8; i++) {
-			Pane squarePane = new Pane();
+            squares.get(i).setMinSize(50, 75);
+            squares.get(i).setPrefSize(60, 100);
 
-			squarePane.setStyle("-fx-background-color: #F2F4F4;" + "-fx-border-color: #34495E;");
+            bottom.getChildren().add(squares.get(i));
+        }
 
-			squarePane.setMinSize(75, 50);
-			squarePane.setPrefSize(100, 60);
+        for (int i = 19; i >= 11; i--) {
 
-			VBox.setVgrow(squarePane, Priority.ALWAYS);
+            squares.get(i).setMinSize(75, 50);
+            squares.get(i).setPrefSize(100, 60);
 
-			Label name = new Label(SquareNames[21 - i]);
-			name.setRotate(90.0);
-			name.setPrefWidth(60);
-			name.setWrapText(true);
-			name.setStyle("-fx-text-fill: #34495E;");
+            left.getChildren().add(squares.get(i));
+        }
 
-			name.layoutYProperty().bind(squarePane.heightProperty().subtract(name.heightProperty()).divide(2));
+        for (int i = 20; i < 31; i++) {
 
+            squares.get(i).setMinSize(50, 75);
+            squares.get(i).setPrefSize(60, 100);
 
-			squarePane.getChildren().add(name);
-			left.getChildren().add(squarePane);
-		}
-	}
+            top.getChildren().add(squares.get(i));
+        }
 
-	// Draws players in their current positions.
-	public void drawPlayers() {
+        for (int i = 31; i < 40; i++) {
 
-	}
+            squares.get(i).setMinSize(75, 50);
+            squares.get(i).setPrefSize(100, 60);
+
+            right.getChildren().add(squares.get(i));
+        }
+    }
+
+    public void createSquares(){
+        for(int i = 0;i<40;i++){
+            Pane squarePane = new Pane();
+            squarePane.setStyle("-fx-background-color: #F2F4F4;" + "-fx-border-color: #34495E;");
+
+            VBox.setVgrow(squarePane, Priority.ALWAYS);
+            HBox.setHgrow(squarePane, Priority.ALWAYS);
+
+            Label name = new Label(SquareNames[i]);
+            //name.setRotate(90.0);
+            name.setPrefWidth(60);
+            name.setWrapText(true);
+            name.setStyle("-fx-text-fill: #34495E;" + "-fx-font-size: 7pt;");
+
+            name.layoutYProperty().bind(squarePane.heightProperty().subtract(name.heightProperty()).divide(2));
+            name.layoutXProperty().bind(squarePane.widthProperty().subtract(name.widthProperty()).divide(2));
+
+            squarePane.getChildren().add(name);
+            squares.add(squarePane);
+        }
+    }
+
+    // Draws players in their current positions.
+    public void drawPlayer(Pane square) {
+        Circle player = new Circle(30.0, 30.0, 10.0);
+        player.setFill(Color.BLUE);
+
+        square.getChildren().add(player);
+    }
+
+    public void addPlayer(Player player){
+        if(!players.contains(player)) {
+            players.add(player);
+        }
+        else{
+            System.out.println("Tried to add player who is already in the game.");
+        }
+    }
+
+    public void updatePlayerData(List<Player> updatedPlayers){
+
+        for(int i=0; i< updatedPlayers.size(); i++ ){
+
+            players.get(i).setBalance(updatedPlayers.get(i).getBalance());
+            players.get(i).setPosition(updatedPlayers.get(i).getPosition());
+
+        }
+    }
 }
 
 
