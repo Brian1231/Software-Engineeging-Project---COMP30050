@@ -1,9 +1,12 @@
 package client.java;
 
+import javafx.scene.paint.Color;
+
 public class Player {
     private int balance;
     private int id;
     private int position;
+    private Color color;
 
     public Player(int balance, int id, int position) {
         this.balance = balance;
