@@ -1,15 +1,10 @@
-package pw.jcollado.segamecontroller.listProperties
+package pw.jcollado.segamecontroller.listPropertiesActivity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
-import android.view.View
 import kotlinx.android.synthetic.main.activity_list_properties.*
-import kotlinx.android.synthetic.main.property_card.*
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.toast
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.model.Property
 import pw.jcollado.segamecontroller.utils.CardsAdapter
@@ -32,7 +27,7 @@ class ListPropertiesActivity : AppCompatActivity() {
         val items = arrayListOf(property, property2, property3)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = CardsAdapter(items, { buildButton(it) }, { mortgageButton(it)})
+        recyclerView.adapter = CardsAdapter(items, { buildButton(it) })
 
     }
     fun buildButton(item: Property){
@@ -40,20 +35,7 @@ class ListPropertiesActivity : AppCompatActivity() {
         recyclerView.adapter.notifyDataSetChanged()
 
     }
-    fun mortgageButton(item: Property){
-        if (item.isMortgaged){
-            unmortgageProperyView(item)
-        }else{
-            mortgageProperyView(item)
 
-        }
-        item.mortgage()
-
-        recyclerView.adapter.notifyDataSetChanged()
-
-        //toast("Mortgage Clicked")
-
-    }
 
     private fun setActionBar() {
         val actionBar = supportActionBar
@@ -77,18 +59,6 @@ class ListPropertiesActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun mortgageProperyView(item: Property){
-        thumbnail.alpha = 0.3F
-        thumbnail.backgroundColor = ContextCompat.getColor(this,R.color.grey)
-        mortgageText.visibility = View.VISIBLE
-        mortgageText.text = "MORTGAGED FOR ${item.mortgageValue} $"
-    }
-    private fun unmortgageProperyView(item: Property){
-        thumbnail.alpha = 1F
-        thumbnail.backgroundColor = ContextCompat.getColor(this,R.color.white)
 
-        mortgageText.visibility = View.INVISIBLE
-
-    }
 
 }
