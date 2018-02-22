@@ -26,8 +26,10 @@ class ListPropertiesActivity : AppCompatActivity() {
 
     private fun initAdapter() {
         val property = Property(0,"Marvin Gardens",150)
+        val property2 = Property(1,"Dublin",150)
+        val property3 = Property(2,"Cork",150)
 
-        val items = arrayListOf(property, property, property, property)
+        val items = arrayListOf(property, property2, property3)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = CardsAdapter(items, { buildButton(it) }, { mortgageButton(it)})
