@@ -15,6 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -49,7 +51,7 @@ public class InGameController {
     public VBox left;
     public VBox right;
 
-    private ArrayList<Pane> squares;
+    private ArrayList<Pane> squares = new ArrayList<>();
 
     // Networking.
     private final static String IP = "52.48.249.220";
@@ -63,9 +65,11 @@ public class InGameController {
     });
 
     public void initialize() throws Exception{
+        createSquares();
         drawProperty();
         showLobbyWindow();
-        connection.startConnection();
+        drawPlayer(squares.get(0));
+        //connection.startConnection();
     }
 
     public void closeGame() {
@@ -122,101 +126,67 @@ public class InGameController {
     // Populates the board with property. Plan to refactor a lot.
     public void drawProperty() {
 
-        for (int i = 0; i < 11; i++) {
-            Pane squarePane = new Pane();
+        for (int i = 10; i >= 0; i--) {
 
-            squarePane.setStyle("-fx-background-color: #F2F4F4;" + "-fx-border-color: #34495E;");
+            squares.get(i).setMinSize(50, 75);
+            squares.get(i).setPrefSize(60, 100);
 
-            squarePane.setMinSize(50, 75);
-            squarePane.setPrefSize(60, 100);
-
-            HBox.setHgrow(squarePane, Priority.ALWAYS);
-
-            Label name = new Label(SquareNames[10 - i]);
-            name.setPrefWidth(60);
-            name.setWrapText(true);
-            name.setStyle("-fx-text-fill: #34495E;");
-
-            name.layoutXProperty().bind(squarePane.widthProperty().subtract(name.widthProperty()).divide(2));
-
-            squarePane.getChildren().add(name);
-            bottom.getChildren().add(squarePane);
+            bottom.getChildren().add(squares.get(i));
         }
 
-        for (int i = 0; i < 8; i++) {
-            Pane squarePane = new Pane();
+        for (int i = 19; i >= 11; i--) {
 
-            squarePane.setStyle("-fx-background-color: #F2F4F4;" + "-fx-border-color: #34495E;");
+            squares.get(i).setMinSize(75, 50);
+            squares.get(i).setPrefSize(100, 60);
 
-            squarePane.setMinSize(75, 50);
-            squarePane.setPrefSize(100, 60);
-
-            VBox.setVgrow(squarePane, Priority.ALWAYS);
-
-            Label name = new Label(SquareNames[19 - i]);
-            name.setRotate(90.0);
-            name.setPrefWidth(60);
-            name.setWrapText(true);
-            name.setStyle("-fx-text-fill: #34495E;");
-
-            name.layoutYProperty().bind(squarePane.heightProperty().subtract(name.heightProperty()).divide(2));
-
-
-            squarePane.getChildren().add(name);
-            left.getChildren().add(squarePane);
+            left.getChildren().add(squares.get(i));
         }
 
         for (int i = 20; i < 31; i++) {
-            Pane squarePane = new Pane();
 
-            squarePane.setStyle("-fx-background-color: #F2F4F4;" + "-fx-border-color: #34495E;");
+            squares.get(i).setMinSize(50, 75);
+            squares.get(i).setPrefSize(60, 100);
 
-            squarePane.setMinSize(50, 75);
-            squarePane.setPrefSize(60, 100);
-
-            HBox.setHgrow(squarePane, Priority.ALWAYS);
-
-            Label name = new Label(SquareNames[i]);
-            name.setPrefWidth(60);
-            name.setWrapText(true);
-            name.setStyle("-fx-text-fill: #34495E;");
-
-            name.layoutXProperty().bind(squarePane.widthProperty().subtract(name.widthProperty()).divide(2));
-
-            squarePane.getChildren().add(name);
-            top.getChildren().add(squarePane);
+            top.getChildren().add(squares.get(i));
         }
 
         for (int i = 31; i < 40; i++) {
-            Pane squarePane = new Pane();
 
-            squarePane.setStyle("-fx-background-color: #F2F4F4;" + "-fx-border-color: #34495E;");
+            squares.get(i).setMinSize(75, 50);
+            squares.get(i).setPrefSize(100, 60);
 
-            squarePane.setMinSize(75, 50);
-            squarePane.setPrefSize(100, 60);
-
-            VBox.setVgrow(squarePane, Priority.ALWAYS);
-
-            Label name = new Label(SquareNames[i]);
-            name.setRotate(90.0);
-            name.setPrefWidth(60);
-            name.setWrapText(true);
-            name.setStyle("-fx-text-fill: #34495E;");
-
-            name.layoutYProperty().bind(squarePane.heightProperty().subtract(name.heightProperty()).divide(2));
-
-
-            squarePane.getChildren().add(name);
-            right.getChildren().add(squarePane);
+            right.getChildren().add(squares.get(i));
         }
     }
 
+    public void createSquares(){
+        for(int i = 0;i<40;i++){
+            Pane squarePane = new Pane();
+            squarePane.setStyle("-fx-background-color: #F2F4F4;" + "-fx-border-color: #34495E;");
 
+            VBox.setVgrow(squarePane, Priority.ALWAYS);
+            HBox.setHgrow(squarePane, Priority.ALWAYS);
 
+            Label name = new Label(SquareNames[i]);
+            //name.setRotate(90.0);
+            name.setPrefWidth(60);
+            name.setWrapText(true);
+            name.setStyle("-fx-text-fill: #34495E;" + "-fx-font-size: 7pt;");
+
+            name.layoutYProperty().bind(squarePane.heightProperty().subtract(name.heightProperty()).divide(2));
+            name.layoutXProperty().bind(squarePane.widthProperty().subtract(name.widthProperty()).divide(2));
+
+            squarePane.getChildren().add(name);
+            squares.add(squarePane);
+        }
+    }
 
     // Draws players in their current positions.
-    public void drawPlayers() {
+    public void drawPlayer(Pane square) {
+        Circle player = new Circle(30.0, 30.0, 10.0);
+        player.setFill(Color.BLUE);
 
+        square.getChildren().add(player);
     }
 }
 
