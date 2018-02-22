@@ -75,7 +75,7 @@ public class NetworkConnection {
 
                 while(gameActive){
                     String message = reader.readLine();
-                    if(!message.isEmpty()){
+                    if(message != null){
                         onMessage(message);
                     }
                 }

@@ -27,7 +27,7 @@ public class WelcomeScreenController {
 
         InGameController gameController = loader.getController();
         gameStage.setOnCloseRequest(e -> gameController.closeGame());
-
+        gameStage.setMaximized(true);
 
         gameStage.show();
     }
