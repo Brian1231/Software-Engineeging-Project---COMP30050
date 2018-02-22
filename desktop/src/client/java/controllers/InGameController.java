@@ -79,7 +79,8 @@ public class InGameController {
 
     // called whenever a message/JSON is received form the server.
     public void onUpdateReceived(JSONObject update){
-        Platform.runLater(() -> System.out.println("message from controller!: " + update.toString()));
+        Platform.runLater(() -> System.out.println("Current GameState: " + update.toString()));
+        //players = update.get("players");
         // Extract JSON fields
         // Update player positions
         // Print action information

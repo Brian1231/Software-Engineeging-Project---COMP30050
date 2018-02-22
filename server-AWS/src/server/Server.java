@@ -18,9 +18,11 @@ public class Server {
 
 	private ServerSocket server;
 	private Socket socket;
+	public ClientUpdater clientUpdater;
 
 	public Server(int PORT) throws IOException{
 		server = new ServerSocket(PORT);
+		clientUpdater = new ClientUpdater();
 	}
 
 	public void close() throws IOException{
@@ -32,8 +34,6 @@ public class Server {
 		System.out.println("Listening for connection on port " + server.getLocalPort() + " ...");
 		socket = server.accept();
 		String response = "null";
-
-
 
 		//Read input from client
 		InputStreamReader isr = new InputStreamReader(socket.getInputStream());
@@ -47,11 +47,12 @@ public class Server {
 		JSONObject obj = new JSONObject(line);
 		int id = (int) obj.get("id");
 		JSONObject phoneResponse = new JSONObject();
+		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
 		switch (id){
 		//New player
 		case -1:
 			//Add player for new ip
-			String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
+			
 			int newPlayerID = gamestate.addPlayer(client_ip);
 			phoneResponse.put("id", newPlayerID);
 			if(newPlayerID != -1){
@@ -62,12 +63,19 @@ public class Server {
 			}
 			gamestate.startGame();
 			response = phoneResponse.toString();
+			//clientUpdater.updateClient(gamestate.getInfo());
 			break;
 			//Desktop app
 		case 0:
+			clientUpdater.setIP(client_ip);
 			if(obj.get("action").equals("start")){
 				gamestate.startGame();
+				
 			}
+			/*if(obj.get("action").equals("update")){
+				//clientUpdater.updateDesktop();
+				
+			}*/
 			response = gamestate.getInfo().toString();
 			break;
 		case -10:
@@ -82,10 +90,7 @@ public class Server {
 			JSONObject res = gamestate.getInfo();
 			res.put("action_info", actionInfo);
 			response = res.toString();
-
-
-			//	response = gamestate.getInfo().toString();
-
+			
 			break;
 		}
 		System.out.println();
@@ -97,9 +102,10 @@ public class Server {
 	public void send(String message) throws IOException{
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		out.println(message);
+		socket.close();
 	}
 
-	public void sendToDesktop(JSONObject obj){
-
-	}
+	/*public void updateDesktop() throws JSONException{
+		//clientUpdater.updateClient(Main.gameState.getInfo());
+	}*/
 }
