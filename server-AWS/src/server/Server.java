@@ -22,7 +22,11 @@ public class Server {
 
 	public Server(int PORT) throws IOException{
 		server = new ServerSocket(PORT);
-		clientUpdater = new ClientUpdater();
+		//Thread to update desktop
+				clientUpdater = new ClientUpdater();
+				clientUpdater.setup();
+				clientUpdater.start();
+		//clientUpdater = new ClientUpdater();
 	}
 
 	public void close() throws IOException{
@@ -40,7 +44,7 @@ public class Server {
 		BufferedReader reader = new BufferedReader(isr);
 		String line = reader.readLine();
 		if (!line.isEmpty()) {
-			System.out.println("Message from client: " + line);
+			System.out.println("Message from Phone: " + line);
 		}
 
 		//Parse JSONObject from input
@@ -48,6 +52,7 @@ public class Server {
 		int id = (int) obj.get("id");
 		JSONObject phoneResponse = new JSONObject();
 		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
+		String lastAction = "New Game";
 		switch (id){
 		//New player
 		case -1:
@@ -66,18 +71,13 @@ public class Server {
 			//clientUpdater.updateClient(gamestate.getInfo());
 			break;
 			//Desktop app
-		case 0:
-			clientUpdater.setIP(client_ip);
-			if(obj.get("action").equals("start")){
-				gamestate.startGame();
-				
-			}
+		//case 0:
+			
 			/*if(obj.get("action").equals("update")){
 				//clientUpdater.updateDesktop();
-				
 			}*/
-			response = gamestate.getInfo().toString();
-			break;
+			//response = gamestate.getInfo().put("action_info", lastAction).toString();
+			//break;
 		case -10:
 			server.close();
 			Main.serverActive = false;
@@ -87,13 +87,12 @@ public class Server {
 		default:
 			String action = (String) obj.get("action");
 			String actionInfo = gamestate.playerAction(id, action);
+			lastAction = actionInfo;
 			JSONObject res = gamestate.getInfo();
 			res.put("action_info", actionInfo);
 			response = res.toString();
-			
 			break;
 		}
-		System.out.println();
 
 		return response;
 

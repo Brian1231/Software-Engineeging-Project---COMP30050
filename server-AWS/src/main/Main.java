@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.json.JSONException;
 
 import game.GameState;
+import server.ClientUpdater;
 import server.Server;
 
 public class Main {
@@ -18,9 +19,7 @@ public class Main {
 		
 			//Used to listen for input from players
 			Server server = new Server(PORT);
-
-			//Thread to update desktop
-			//server.clientUpdater.start();
+			
 			
 			//Contains all information about current game state
 			gameState = new GameState();
