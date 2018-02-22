@@ -97,7 +97,7 @@ public class InGameController {
     public void onUpdateReceived(JSONObject update) throws JSONException {
         Platform.runLater(() -> {
             try {
-                System.out.println("message from controller!: " + update.toString());
+                System.out.println("Current GameState: " + update.toString());
 
                 int playerTurn = update.getInt("player_turn");
                 //String actionInfo = update.getString("action_info");
@@ -212,7 +212,7 @@ public class InGameController {
     }
 
 
-    
+
 
     // Draws players in their current positions.
     public void drawPlayers() {
