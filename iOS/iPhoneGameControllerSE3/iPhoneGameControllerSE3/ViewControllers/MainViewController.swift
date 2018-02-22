@@ -10,16 +10,14 @@ import UIKit
 
 class ViewController: UIViewController {
 	
-	
-	
+	var pictures = [String]()
+
 	@IBOutlet weak var cardView: UIImageView!
-	@IBOutlet weak var locationInfo: UILabel!
+	@IBOutlet weak var location: UILabel!
 	@IBOutlet weak var bankBalanceInfo: UILabel!
 	@IBOutlet weak var bankBalance: UILabel!
-	@IBOutlet weak var numberOfPropertiesInfo: UILabel!
-	@IBOutlet weak var numberOfProperties: UILabel!
-	
-	var pictures = [String]()
+	@IBOutlet weak var numPropertiesInfo: UILabel!
+	@IBOutlet weak var numProperties: UILabel!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -36,13 +34,14 @@ class ViewController: UIViewController {
 		}
 	}
 	
-	var text = "Default message"
 	
 	//MARK: Buttons
 	@IBAction func rollButton(_ sender: UIButton) {
+		var text = "Default message"
 		cardView.image = UIImage(named: pictures[0])
 		print("roll " + " \(pictures[0])")
 		//		submit(image: cardView.image!)
+		
 		
 		
 		
@@ -57,27 +56,27 @@ class ViewController: UIViewController {
 		// 3. Grab the value from the text field, and print it when the user clicks OK.
 		alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
 			let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
-			self.text = (textField?.text)!
+			text = (textField?.text)!
 			print("Text field: \(String(describing: textField?.text))")
 		}))
 		
 		// 4. Present the alert.
 		self.present(alert, animated: true, completion: nil)
+		submit(sender: text)
 	}
 	@IBAction func buyButton(_ sender: UIButton) {
 		cardView.image = UIImage(named: pictures[1])
 		print("buy " + " \(pictures[1])")
-		submit(sender: text)
 	}
 	@IBAction func sellButton(_ sender: Any) {
 		cardView.image = UIImage(named: pictures[2])
 		print("sell " + " \(pictures[2])")
 	}
-	@IBAction func tradeButton(_ sender: Any) {
+	@IBAction func buildButton(_ sender: Any) {
 		cardView.image = UIImage(named: pictures[3])
 		print("trade " + " \(pictures[3])")
 	}
-	@IBAction func drawCardButton(_ sender: Any) {
+	@IBAction func demolishButton(_ sender: Any) {
 		cardView.image = UIImage(named: pictures[4])
 		print("drawCard " + " \(pictures[4])")
 	}
