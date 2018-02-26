@@ -1,9 +1,8 @@
 # SEProject
 ## Desktop-to-Server JSON:
 "id": int (0 means desktop) <br />
-"player_turn":int <br />
 "game_started": boolean <br />
-"action": String (Used to start game if value is "Start")
+"action": String ("start"-> starts game)
 
 
 ## Server-to-Desktop JSON:
@@ -19,7 +18,7 @@
 
 ## Phone-to-Server JSON:
 "id": int  (1 means new player)<br />
-"action": String <br />
+"action": String <br /> ("roll"-> rolls dice)
 "args": String
 
 ## Server-to-Phone JSON:
