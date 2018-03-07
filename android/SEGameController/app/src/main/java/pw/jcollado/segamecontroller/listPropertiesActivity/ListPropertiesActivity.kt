@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_list_properties.*
+import org.jetbrains.anko.toast
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.model.Property
 import pw.jcollado.segamecontroller.utils.CardsAdapter
@@ -34,6 +35,7 @@ class ListPropertiesActivity : AppCompatActivity() {
         item.build()
         recyclerView.adapter.notifyDataSetChanged()
 
+
     }
 
 
@@ -50,7 +52,7 @@ class ListPropertiesActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.getItemId()) {
+        when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
                 return true

@@ -1,26 +1,24 @@
 package pw.jcollado.segamecontroller.mainActivity
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
-import pw.jcollado.segamecontroller.model.Connections
-import pw.jcollado.segamecontroller.connections.AsyncResponse
-import pw.jcollado.segamecontroller.connections.*
 import pw.jcollado.segamecontroller.R
+import pw.jcollado.segamecontroller.connections.AsyncResponse
 import pw.jcollado.segamecontroller.listPropertiesActivity.ListPropertiesActivity
+import pw.jcollado.segamecontroller.model.App
+import pw.jcollado.segamecontroller.model.preferences
 
 
-class MainActivity : AppCompatActivity(), AsyncResponse {
+class MainActivity : App(), AsyncResponse {
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initUI()
         setActionBar()
 
 
@@ -56,15 +54,6 @@ class MainActivity : AppCompatActivity(), AsyncResponse {
         handleResponse(output)
     }
 
-    private fun initUI(){
-
-
-
-    }
-    fun requestToServer(request: String){
-        ClientThread(this@MainActivity).execute(request, Connections.IP.value, Connections.PORT.value)
-    }
-
     private fun setActionBar() {
         val actionBar = supportActionBar
         if (actionBar != null) {
@@ -72,7 +61,7 @@ class MainActivity : AppCompatActivity(), AsyncResponse {
             actionBar.setDisplayShowTitleEnabled(true)
             actionBar.setHomeButtonEnabled(false)
             actionBar.setDisplayHomeAsUpEnabled(false)
-            actionBar.title = getString(R.string.main_screen)
+            actionBar.title = preferences.playerID
 
         }
 

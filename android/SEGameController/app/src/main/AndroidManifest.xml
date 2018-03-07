@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".listPropertiesActivity.ListPropertiesActivity" />
-        <activity android:name=".joinActivity.joinActivity">
+        <activity android:name=".JoinActivity.JoinActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
