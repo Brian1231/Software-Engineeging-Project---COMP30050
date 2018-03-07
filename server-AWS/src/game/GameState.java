@@ -10,9 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import server.ClientUpdater;
-
-
 public class GameState {
 
 	Random rand = new Random();
