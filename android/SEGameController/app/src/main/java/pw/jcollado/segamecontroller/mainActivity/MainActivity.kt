@@ -9,7 +9,9 @@ import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.connections.AsyncResponse
 import pw.jcollado.segamecontroller.listPropertiesActivity.ListPropertiesActivity
 import pw.jcollado.segamecontroller.model.App
+import pw.jcollado.segamecontroller.model.Request
 import pw.jcollado.segamecontroller.model.preferences
+import pw.jcollado.segamecontroller.utils.requestToServer
 
 
 class MainActivity : App(), AsyncResponse {
@@ -24,6 +26,10 @@ class MainActivity : App(), AsyncResponse {
 
     }
 
+
+    fun onRoll(){
+        requestToServer(Request("roll","").toJSONString())
+    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_main, menu)
