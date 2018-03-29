@@ -1,6 +1,9 @@
 package pw.jcollado.segamecontroller.JoinActivity
 
 import android.os.Bundle
+import android.util.Log
+import com.beust.klaxon.JsonObject
+import com.beust.klaxon.Klaxon
 import kotlinx.android.synthetic.main.activity_join.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.startActivity
@@ -11,6 +14,10 @@ import pw.jcollado.segamecontroller.mainActivity.MainActivity
 import pw.jcollado.segamecontroller.model.App
 import pw.jcollado.segamecontroller.model.Request
 import pw.jcollado.segamecontroller.model.preferences
+import pw.jcollado.segamecontroller.utils.requestToServer
+import org.json.JSONObject
+
+
 
 
 class JoinActivity : App(), AsyncResponse {
@@ -29,19 +36,27 @@ class JoinActivity : App(), AsyncResponse {
     }
 
     private fun joinServer(){
-        val joinGameRequest = Request("-1","Hi")
+        val joinGameRequest = Request(-1,"Hi")
 
         idTextView.text = joinGameRequest.toJSONString()
-        startActivity<MainActivity>()
+
+        requestToServer(joinGameRequest.toJSONString())
+        //startActivity<MainActivity>()
 
     }
 
-    private fun saveUserID(id: String){
-        preferences.playerID = id
-    }
+
 
     override fun processFinish(output: String?) {
         handleResponse(output)
+    }
+    private fun getResponseID(response: String){
+        val jsonObj = JsonObject()
+
+        var responseRequest = Klaxon().
+    }
+    private fun saveUserID(id: String){
+        preferences.playerID = id
     }
 
     private fun handleResponse(response: String?) {
@@ -49,7 +64,8 @@ class JoinActivity : App(), AsyncResponse {
         when (response) {
             null -> response?.let { toast(it) }
             "" -> toast(response)
-            else -> saveUserID(response)
+            else ->  getResponseID(response)
+
         }
     }
 }
