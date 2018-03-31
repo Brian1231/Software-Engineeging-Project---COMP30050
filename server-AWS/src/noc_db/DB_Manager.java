@@ -18,7 +18,6 @@ public class DB_Manager {
 			Statement stmt  = conn.createStatement();
 			ResultSet rs    = stmt.executeQuery(sql);
 
-
 			// loop through the result set
 			while (rs.next()) {
 				System.out.println(

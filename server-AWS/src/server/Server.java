@@ -1,4 +1,4 @@
-package server;
+/*package server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,14 +20,18 @@ public class Server {
 	private ServerSocket server;
 	private Socket socket;
 	public ClientUpdater clientUpdater;
+	public PortAllocator portAllocator;
+	//private HashMap<String, Integer> playerIPtoPort;
 
 	public Server(int PORT) throws IOException{
-		server = new ServerSocket(PORT);
+		//server = new ServerSocket(PORT);
 		//Thread to update desktop
 		clientUpdater = new ClientUpdater();
-		clientUpdater.setup();
+		clientUpdater.setup(8000);
 		clientUpdater.start();
-		//clientUpdater = new ClientUpdater();
+		//playerIPtoPort = new HashMap<String, Integer>();
+		portAllocator = new PortAllocator(PORT);
+		portAllocator.start();
 	}
 
 	public void close() throws IOException{
@@ -108,7 +113,8 @@ public class Server {
 			socket.close();
 		}
 
-		/*public void updateDesktop() throws JSONException{
+		public void updateDesktop() throws JSONException{
 		//clientUpdater.updateClient(Main.gameState.getInfo());
-	}*/
 	}
+	}
+*/

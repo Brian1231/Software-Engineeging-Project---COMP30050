@@ -18,19 +18,24 @@ public class GameState {
 	private boolean gameStarted;
 	private int playerTurn;
 	private Dice dice;
-	
+	private boolean isActive;
+
 
 	public GameState() throws IOException{
 		players = new ArrayList<Player>();
 		clientIPplayerIDMap = new HashMap<String, Player>();
 		gameStarted = false;
+		isActive = true;
 		playerTurn = 0;
 		dice = new Dice();
-		
+
 	}
 
 	public boolean isStarted(){
 		return this.gameStarted;
+	}
+	public boolean isActive(){
+		return this.isActive;
 	}
 
 	public void startGame(){
@@ -108,6 +113,18 @@ public class GameState {
 		info.put("players", jsonPlayers);
 		info.put("player_turn", this.playerTurn);
 		info.put("game_started", this.gameStarted);
+		//info.put("action_info", "Something happened!");
+		return info;
+
+	}
+
+	public JSONObject getPlayerInfo(int id) throws JSONException{
+		JSONObject info = new JSONObject();
+		for(Player p : this.players){
+			if(p.getID() == id){
+				info = p.getInfo();
+			}
+		}
 		//info.put("action_info", "Something happened!");
 		return info;
 
