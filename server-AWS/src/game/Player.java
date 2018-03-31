@@ -1,14 +1,20 @@
 package game;
 
 import org.json.JSONException;
-import org.json.JSONObject;;
+import org.json.JSONObject;
 
-public class Player {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Player implements Playable {
 
 	private int id;
 	private int balance;
 	private int position;
 	private String ip;
+	private String type;
+	private int netWorth;
+	private List<String> ownedProperties = new ArrayList<>();
 	
 	public Player(int playerId, String ipAddr){
 		id = playerId;
@@ -17,14 +23,17 @@ public class Player {
 		ip = ipAddr;
 	}
 	
+	@Override
 	public String toString(){
 		return "ID: " + this.id;
 	}
 	
+	@Override
 	public String getIp(){
 		return this.ip;
 	}
 	
+	@Override
 	public JSONObject getInfo() throws JSONException{
 		JSONObject info = new JSONObject();
 		
@@ -35,15 +44,65 @@ public class Player {
 		
 	}
 	
+	@Override
 	public int getPos(){
 		return this.position;
 	}
 	
+	@Override
 	public int getID(){
 		return this.id;
 	}
-	
+
+	@Override
 	public void moveForward(int spaces){
 		this.position = (this.position + spaces)%40;
+	}
+
+
+
+
+	// do we need a string version of IDs? player name maybe?
+
+	@Override
+	public String getId() {
+		return String.valueOf(this.id);
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = Integer.parseInt(id);
+	}
+
+
+
+	@Override
+	public int getNetWorth() {
+		return netWorth;
+	}
+
+	@Override
+	public void setNetWorth(int netWorth) {
+		this.netWorth = netWorth;
+	}
+
+	@Override
+	public void payMoney(int paid) {
+		this.netWorth -= paid;
+	}
+
+	@Override
+	public void receiveMoney(int received) {
+		this.netWorth += received;
+	}
+
+	@Override
+	public List<String> getOwnedProperties() {
+		return ownedProperties;
+	}
+
+	@Override
+	public void addNewPropertyBought(String id) {
+		ownedProperties.add(id);
 	}
 }

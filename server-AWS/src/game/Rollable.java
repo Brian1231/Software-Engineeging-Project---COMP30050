@@ -2,5 +2,8 @@ package game;
 
 public interface Rollable {
 
-	public int roll();
+	int roll();
+
+	// additional roll method for use with multiple die or diff number of sides on the die - portal dice maybe??
+	int rollDice(int numDice, int numSides);
 }

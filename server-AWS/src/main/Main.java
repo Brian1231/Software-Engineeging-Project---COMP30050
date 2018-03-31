@@ -33,15 +33,15 @@ public class Main {
 			//Creates a new player object in gamestate for each new player
 			portAllocator = new PortAllocator(MAINPORT);
 			portAllocator.start();
-			
-			/**
-			 * 
-			 * Now have threads for each player all accessing Main.gamestate to update game
-			 * 
-			 * Also have ClientUpdater on separate thread to update desktop
-			 * 
-			 * 
-			 * */
-		
+
+			/*
+
+			  Now have threads for each player all accessing Main.gamestate to update game
+
+			  Also have ClientUpdater on separate thread to update desktop
+
+
+			  */
+
 	}
 }
