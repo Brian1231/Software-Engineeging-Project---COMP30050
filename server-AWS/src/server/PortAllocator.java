@@ -34,14 +34,14 @@ public class PortAllocator extends Thread{
 
 	public void run(){
 		while(Main.gameState.isActive()){
-			System.out.println("Listening on for incoming connections Port "+this.port+" ...");
+			System.out.println("Listening for incoming connections on Port "+this.port+" ...");
 			try {
 				socket = server.accept();
 			} catch (IOException e2) {
 				e2.printStackTrace();
 			}
 
-			System.out.println("Connected Port "+this.port);
+			System.out.println("New Connection on Port "+this.port);
 
 			synchronized(this){
 				try {
@@ -54,12 +54,13 @@ public class PortAllocator extends Thread{
 						System.out.println("Message from Phone: " + line);
 					}
 
-					this.playerPortCount++;
-
 					String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
 					int playerID = Main.gameState.addPlayer(client_ip);
-
-					playerConnections.add(new PlayerConnection(playerID, this.playerPortCount));
+					
+					if(playerID != -1){
+						this.playerPortCount++;
+						playerConnections.add(new PlayerConnection(playerID, this.playerPortCount));
+					}
 
 					for(PlayerConnection pc : playerConnections){
 						if(!pc.isAlive()){

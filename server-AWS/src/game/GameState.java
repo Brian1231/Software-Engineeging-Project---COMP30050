@@ -26,7 +26,7 @@ public class GameState {
 		clientIPplayerIDMap = new HashMap<String, Player>();
 		gameStarted = false;
 		isActive = true;
-		playerTurn = 0;
+		playerTurn = 1;
 		dice = new Dice();
 
 	}
@@ -75,7 +75,7 @@ public class GameState {
 		if(this.playerTurn == id){
 			//Increment player turn
 			this.playerTurn ++;
-			if(this.playerTurn == this.players.size()) this.playerTurn=0;
+			if(this.playerTurn > this.players.size()) this.playerTurn=1;
 
 			//Get player from id
 			Player player = null;
@@ -118,6 +118,9 @@ public class GameState {
 
 	}
 
+	/** 
+	 * Returns player state in JSON format
+	 */
 	public JSONObject getPlayerInfo(int id) throws JSONException{
 		JSONObject info = new JSONObject();
 		for(Player p : this.players){
@@ -125,7 +128,6 @@ public class GameState {
 				info = p.getInfo();
 			}
 		}
-		//info.put("action_info", "Something happened!");
 		return info;
 
 	}
