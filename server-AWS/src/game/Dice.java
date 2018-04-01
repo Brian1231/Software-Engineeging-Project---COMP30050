@@ -2,6 +2,8 @@ package game;
 
 import java.util.Random;
 
+import game_interfaces.Rollable;
+
 public class Dice implements Rollable{
 
 	Random rand = new Random();

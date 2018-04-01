@@ -3,6 +3,8 @@ package game;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import game_interfaces.Playable;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package game;
+package game_interfaces;
 
 import org.json.JSONException;
 import org.json.JSONObject;

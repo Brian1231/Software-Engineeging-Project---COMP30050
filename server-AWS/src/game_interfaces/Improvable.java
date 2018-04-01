@@ -1,4 +1,4 @@
-package game;
+package game_interfaces;
 
 public interface Improvable extends Ownable {
 

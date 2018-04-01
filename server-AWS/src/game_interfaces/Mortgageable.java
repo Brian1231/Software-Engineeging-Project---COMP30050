@@ -1,4 +1,4 @@
-package game;
+package game_interfaces;
 
 public interface Mortgageable extends Ownable {
     // get and set Mortgage amount
