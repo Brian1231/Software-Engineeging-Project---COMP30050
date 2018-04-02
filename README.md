@@ -1,26 +1,41 @@
 # SEProject
-## Desktop-to-Server JSON:
-"id": int (0 means desktop) <br />
+## Desktop-to-Server JSON on port 8000:
+"id": int (0 for desktop) <br />
 "game_started": boolean <br />
-"action": String ("start"-> starts game)
-
+"action": String ("start"-> starts game) <br />
 
 ## Server-to-Desktop JSON:
 "player_turn":int <br />
 "game_started": boolean <br />
 "players": JSONArray of JSONObjects for players <br />
-"action_info": String
+"locations": JSONArray of JSONObjects for locations <br />
+"action_info": String <br />
 
 ### JSONObject player:
-"balance": int <br />
 "id": int <br />
+"balance": int <br />
 "position": int (0 to 39) <br />
 
-## Phone-to-Server JSON:
-"id": int  (1 means new player)<br />
-"action": String <br /> ("roll"-> rolls dice)
-"args": String
+### JSONObject location:
+"id": String <br />
+"price": int <br />
+"location": int (0 to 39) <br />
 
-## Server-to-Phone JSON:
-"id":int <br />
-"action": String <br />
+## Phone-to-Server 
+### Initial Phone-to-Server JSON on port 8080:
+"id": int (-1 means new player)<br />
+
+### Phone-to-Server JSON:
+"id": int <br />
+"action": String ("roll"-> rolls dice) <br />
+"args": String <br />
+
+## Server-to-Phone:
+## Initial Response from port 8080 JSON:
+"id": int (Player id)<br />
+"port": int (Port listening for player connection) <br />
+
+### Server-to-Phone JSON:
+"id": int <br />
+"balance": int <br />
+"position": int (0 to 39) <br />
