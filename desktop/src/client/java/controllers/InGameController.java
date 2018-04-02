@@ -27,7 +27,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -55,8 +54,8 @@ public class InGameController {
     private ArrayList<Pane> squares = new ArrayList<>();
 
     // Players
-    private HashMap<Integer,Player> players = new HashMap();
     private ObservableList<String> playerList = FXCollections.observableArrayList("player1","player2","player3", "player 4");
+    private List<Player> players;
 
     // Networking.
     private final static String IP = "52.48.249.220";
@@ -69,37 +68,12 @@ public class InGameController {
         }
     });
 
-    public void addPlayer(Player player){
-        if(!players.containsKey(player.getId())) {
-            players.put(player.getId(), player);
-        }
-        else{
-            System.out.println("Tried to add player who is already in the game.");
-        }
-    }
-
-    public void updatePlayerData(List<Player> updatedPlayers){
-
-        for(int i=0; i< updatedPlayers.size(); i++ ){
-            Player updatedPlayer = updatedPlayers.get(i);
-            if(players.containsKey(updatedPlayer.getId())){
-                Player player = players.get(updatedPlayer.getId());
-                player.setPosition(updatedPlayer.getPosition());
-                player.setBalance(updatedPlayer.getBalance());
-            }
-            else{
-                System.out.println("Adding player");
-                addPlayer(updatedPlayer);
-            }
-        }
-    }
-
     public void initialize() throws Exception{
         createSquares();
         drawProperty();
         showLobbyWindow();
         drawPlayer(squares.get(0));
-        //connection.startConnection();
+        connection.startConnection();
     }
 
     public void closeGame() {
@@ -133,9 +107,8 @@ public class InGameController {
             try {
                 System.out.println("Current GameState: " + update.toString());
 
-                // Extract JSON fields
                 int playerTurn = update.getInt("player_turn");
-                String actionInfo = update.getString("action_info");
+                //String actionInfo = update.getString("action_info");
 
                 JSONArray playerObjects = update.getJSONArray("players");
                 List<Player> plyrs = new ArrayList<>();
@@ -146,13 +119,12 @@ public class InGameController {
                     plyrs.add(new Player(balance,id,position));
                 }
 
-                // Update player Info
-                updatePlayerData(plyrs);
-
-                // Print action information
-
             } catch (JSONException e) { e.printStackTrace(); }
         });
+
+        // Extract JSON fields
+        // Update player positions
+        // Print action information
     }
 
     // Populates the board with property. Plan to refactor a lot.
@@ -221,6 +193,24 @@ public class InGameController {
         square.getChildren().add(player);
     }
 
+    public void addPlayer(Player player){
+        if(!players.contains(player)) {
+            players.add(player);
+        }
+        else{
+            System.out.println("Tried to add player who is already in the game.");
+        }
+    }
+
+    public void updatePlayerData(List<Player> updatedPlayers){
+
+        for(int i=0; i< updatedPlayers.size(); i++ ){
+
+            players.get(i).setBalance(updatedPlayers.get(i).getBalance());
+            players.get(i).setPosition(updatedPlayers.get(i).getPosition());
+
+        }
+    }
 }
 
 

@@ -68,10 +68,10 @@ public class NetworkConnection {
 				out = new OutputStreamWriter(socket.getOutputStream());
 				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-				JSONObject startGame = new JSONObject();
-				startGame.put("id", 0);
-				startGame.put("action", "start");
-				send(startGame);
+				JSONObject output = new JSONObject();
+				output.put("id", 0);
+				output.put("action", "start");
+				send(output);
 				//ServerSocket receiver = new ServerSocket(8081);
 				//Socket recSocket;
 				while(gameActive){
@@ -81,16 +81,11 @@ public class NetworkConnection {
 						message = reader.readLine();
 					}
 					//System.out.println("here");
-					if(!message.isEmpty() && message !=null){
-						onMessage(message);
+					if(!message.isEmpty()){
+						//onMessage(message);
 						System.out.println(message);
 					}
 				}
-
-				JSONObject endGame = new JSONObject();
-				endGame.put("id", 0);
-				endGame.put("action", "end");
-				send(endGame);
 
 				closeConnection();
 
