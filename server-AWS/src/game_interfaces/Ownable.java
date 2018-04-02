@@ -8,7 +8,7 @@ public interface Ownable extends Identifiable {
 
     // all ownable tiles have a price
     int getPrice();
-    int setPrice();
+    void setPrice(int price);
 
     // all ownable tiles are in groups
     int getNumInGroup();

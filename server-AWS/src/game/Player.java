@@ -3,12 +3,13 @@ package game;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import game_interfaces.JSONable;
 import game_interfaces.Playable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player implements Playable {
+public class Player implements Playable, JSONable {
 
 	private int id;
 	private int balance;
