@@ -21,55 +21,63 @@ public class ClientUpdater extends Thread{
 	public void updateActionInfo(String s){
 		this.actionInfo = s;
 	}
-	public void setup() throws IOException{
+	public void setup(int port) throws IOException{
 		System.out.println("Connecting to Desktop...");
-		server = new ServerSocket(8081);
+		server = new ServerSocket(port);
 		socket = server.accept();
 		System.out.println("Connected!");
 	}
-	public void run(){
 
+	public void updateDesktop(){
 		JSONObject output = null;
 		PrintWriter out = null;
+		try {
+			output = new JSONObject("{}");
+			output = Main.gameState.getInfo();
+			output.put("action_info", this.actionInfo);
+			out = new PrintWriter(socket.getOutputStream(), true);
+		} catch (JSONException | IOException e1) {
+			e1.printStackTrace();
+		}
+		//Output to desktop
+		out.println(output.toString());
+	}
+
+	public void run(){
 		BufferedReader reader = null;
 
 		try {
-			output = new JSONObject("{}");
-			out = new PrintWriter(socket.getOutputStream(), true);
+
+			//out = new PrintWriter(socket.getOutputStream(), true);
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		} catch (JSONException | IOException e1) {
+		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 
 		synchronized(this){
-			while(Main.serverActive){
-				try{
-					output = Main.gameState.getInfo();
-					output.put("action_info", this.actionInfo);
-					wait(1000);
-					
-					//Input from desktop
-					if(reader.ready()){
-						String line = reader.readLine();
-						if (!line.isEmpty()) {
-							System.out.println("Message from Desktop: " + line);
-						}
 
-						//Parse JSONObject from input
-						JSONObject obj = new JSONObject(line);
-						int id = (int) obj.get("id");
-						if(id == 0){
-							if(obj.get("action").equals("start")){
-								Main.gameState.startGame();
-							}
+			try{
+				//Input from desktop
+				if(reader.ready()){
+					String line = reader.readLine();
+					if (!line.isEmpty()) {
+						System.out.println("Message from Desktop: " + line);
+					}
+
+					//Parse JSONObject from input
+					JSONObject obj = new JSONObject(line);
+					int id = (int) obj.get("id");
+					if(id == 0){
+						if(obj.get("action").equals("start")){
+							Main.gameState.startGame();
 						}
 					}
-					//Output to desktop
-					out.println(output.toString());
-				}catch(Exception e){
-					e.printStackTrace();
 				}
+
+			}catch(Exception e){
+				e.printStackTrace();
 			}
+
 		}
 	}
 }

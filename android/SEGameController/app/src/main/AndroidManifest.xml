@@ -15,10 +15,16 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+            </intent-filter>
+        </activity>
+        <activity android:name=".listPropertiesActivity.ListPropertiesActivity" />
+        <activity android:name=".JoinActivity.JoinActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".listProperties.ListPropertiesActivity"></activity>
     </application>
 
 </manifest>

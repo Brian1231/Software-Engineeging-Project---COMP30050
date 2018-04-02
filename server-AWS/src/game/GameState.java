@@ -10,9 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import server.ClientUpdater;
-
-
 public class GameState {
 
 	Random rand = new Random();
@@ -21,19 +18,24 @@ public class GameState {
 	private boolean gameStarted;
 	private int playerTurn;
 	private Dice dice;
-	
+	private boolean isActive;
+
 
 	public GameState() throws IOException{
 		players = new ArrayList<Player>();
 		clientIPplayerIDMap = new HashMap<String, Player>();
 		gameStarted = false;
-		playerTurn = 0;
+		isActive = true;
+		playerTurn = 1;
 		dice = new Dice();
-		
+
 	}
 
 	public boolean isStarted(){
 		return this.gameStarted;
+	}
+	public boolean isActive(){
+		return this.isActive;
 	}
 
 	public void startGame(){
@@ -73,7 +75,7 @@ public class GameState {
 		if(this.playerTurn == id){
 			//Increment player turn
 			this.playerTurn ++;
-			if(this.playerTurn == this.players.size()) this.playerTurn=0;
+			if(this.playerTurn > this.players.size()) this.playerTurn=1;
 
 			//Get player from id
 			Player player = null;
@@ -112,6 +114,20 @@ public class GameState {
 		info.put("player_turn", this.playerTurn);
 		info.put("game_started", this.gameStarted);
 		//info.put("action_info", "Something happened!");
+		return info;
+
+	}
+
+	/** 
+	 * Returns player state in JSON format
+	 */
+	public JSONObject getPlayerInfo(int id) throws JSONException{
+		JSONObject info = new JSONObject();
+		for(Player p : this.players){
+			if(p.getID() == id){
+				info = p.getInfo();
+			}
+		}
 		return info;
 
 	}
