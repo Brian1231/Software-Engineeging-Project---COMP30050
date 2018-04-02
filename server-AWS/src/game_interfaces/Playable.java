@@ -14,7 +14,6 @@ public interface Playable extends Identifiable {
 
     int getPos();
 
-
     // do we want ID as string or int??
     int getID();
 

@@ -14,8 +14,7 @@ public class Player implements Playable {
 	private int balance;
 	private int position;
 	private String ip;
-	private String type;
-	private int netWorth;
+	//private String type;
 	private List<String> ownedProperties = new ArrayList<>();
 	
 	public Player(int playerId, String ipAddr){
@@ -80,22 +79,22 @@ public class Player implements Playable {
 
 	@Override
 	public int getNetWorth() {
-		return netWorth;
+		return balance;// + value of properties
 	}
 
 	@Override
 	public void setNetWorth(int netWorth) {
-		this.netWorth = netWorth;
+		this.balance = netWorth;
 	}
 
 	@Override
 	public void payMoney(int paid) {
-		this.netWorth -= paid;
+		this.balance -= paid;
 	}
 
 	@Override
 	public void receiveMoney(int received) {
-		this.netWorth += received;
+		this.balance += received;
 	}
 
 	@Override

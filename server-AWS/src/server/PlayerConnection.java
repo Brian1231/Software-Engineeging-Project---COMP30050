@@ -83,7 +83,6 @@ public class PlayerConnection extends Thread{
 					e1.printStackTrace();
 				}
 			}
-
 		}
 	}
 
