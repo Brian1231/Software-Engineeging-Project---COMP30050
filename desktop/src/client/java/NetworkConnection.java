@@ -64,7 +64,7 @@ public class NetworkConnection {
 		public void run() {
 			try {
 				System.out.println("Connecting!");
-				socket = new Socket(Inet4Address.getByName(ip), 8081);
+				socket = new Socket(Inet4Address.getByName(ip), 8000);
 				out = new OutputStreamWriter(socket.getOutputStream());
 				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 

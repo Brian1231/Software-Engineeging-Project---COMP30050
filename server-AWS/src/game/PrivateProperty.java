@@ -18,10 +18,10 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 		this.location = location;
 		this.price = price;
 	}
+	
 	@Override
 	public Playable getOwner() {
-
-		return this.getOwner();
+		return this.owner;
 	}
 
 	@Override
@@ -62,10 +62,10 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 		// TODO Auto-generated method stub
 
 	}
+	
 	@Override
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info = new JSONObject();
-
 		info.put("id", this.getId());
 		info.put("price", this.price);
 		info.put("location", this.location);

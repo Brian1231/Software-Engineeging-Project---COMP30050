@@ -59,7 +59,7 @@ public class InGameController {
 
     // Networking.
     private final static String IP = "52.48.249.220";
-    private final static int PORT = 8080;
+    private final static int PORT = 8000;
     private NetworkConnection connection = new NetworkConnection(IP,PORT, input -> {
         try {
             onUpdateReceived(input);

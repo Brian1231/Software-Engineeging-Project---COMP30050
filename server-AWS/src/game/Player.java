@@ -76,8 +76,6 @@ public class Player implements Playable, JSONable {
 		this.id = Integer.parseInt(id);
 	}
 
-
-
 	@Override
 	public int getNetWorth() {
 		return balance;// + value of properties
