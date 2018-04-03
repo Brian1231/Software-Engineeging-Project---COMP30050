@@ -13,7 +13,7 @@ class Prefs (context: Context) {
     val PLAYER_ID = "PlayerID"
     val prefs: SharedPreferences = context.defaultSharedPreferences
 
-    var playerID: String
-        get() = prefs.getString(PLAYER_ID, "-1")
-        set(value) = prefs.edit().putString(PLAYER_ID, value).apply()
+    var playerID: Int
+        get() = prefs.getInt(PLAYER_ID, -1)
+        set(value) = prefs.edit().putInt(PLAYER_ID, value).apply()
 }
