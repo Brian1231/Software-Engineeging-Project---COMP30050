@@ -87,7 +87,6 @@ public class NetworkConnection {
 					}
 				}
 
-
 				closeConnection();
 
 			}catch(Exception e){e.printStackTrace();}

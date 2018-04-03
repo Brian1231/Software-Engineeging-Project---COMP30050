@@ -10,27 +10,40 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class GameState {
+import game_interfaces.JSONable;
+
+public class GameState implements JSONable {
 
 	Random rand = new Random();
 	private ArrayList<Player> players;
+	private ArrayList<NamedLocation> locations;
 	private Map<String, Player> clientIPplayerIDMap;
 	private boolean gameStarted;
 	private int playerTurn;
 	private Dice dice;
-	
+	private boolean isActive;
+
 
 	public GameState() throws IOException{
 		players = new ArrayList<Player>();
+		locations = new ArrayList<NamedLocation>();
 		clientIPplayerIDMap = new HashMap<String, Player>();
 		gameStarted = false;
-		playerTurn = 0;
+		isActive = true;
+		playerTurn = 1;
 		dice = new Dice();
 		
+		for(int i=0;i<40;i++){
+			locations.add(new PrivateProperty(i, "Name of Property from NOC", 200));
+		}
+
 	}
 
 	public boolean isStarted(){
 		return this.gameStarted;
+	}
+	public boolean isActive(){
+		return this.isActive;
 	}
 
 	public void startGame(){
@@ -70,7 +83,7 @@ public class GameState {
 		if(this.playerTurn == id){
 			//Increment player turn
 			this.playerTurn ++;
-			if(this.playerTurn == this.players.size()) this.playerTurn=0;
+			if(this.playerTurn > this.players.size()) this.playerTurn=1;
 
 			//Get player from id
 			Player player = null;
@@ -105,10 +118,31 @@ public class GameState {
 		for(Player p : this.players){
 			jsonPlayers.put(p.getInfo());
 		}
+		
+		JSONArray jsonLocations = new JSONArray();
+		for(NamedLocation l : this.locations){
+			jsonLocations.put(l.getInfo());
+		}
+		
 		info.put("players", jsonPlayers);
+		info.put("locations", jsonLocations);
 		info.put("player_turn", this.playerTurn);
 		info.put("game_started", this.gameStarted);
 		//info.put("action_info", "Something happened!");
+		return info;
+
+	}
+
+	/** 
+	 * Returns player state in JSON format
+	 */
+	public JSONObject getPlayerInfo(int id) throws JSONException{
+		JSONObject info = new JSONObject();
+		for(Player p : this.players){
+			if(p.getID() == id){
+				info = p.getInfo();
+			}
+		}
 		return info;
 
 	}

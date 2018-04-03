@@ -21,9 +21,9 @@ public class ClientUpdater extends Thread{
 	public void updateActionInfo(String s){
 		this.actionInfo = s;
 	}
-	public void setup() throws IOException{
+	public void setup(int port) throws IOException{
 		System.out.println("Connecting to Desktop...");
-		server = new ServerSocket(8081);
+		server = new ServerSocket(port);
 		socket = server.accept();
 		System.out.println("Connected!");
 	}
