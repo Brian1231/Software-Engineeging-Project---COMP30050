@@ -1,8 +1,6 @@
 package client.java.controllers;
 
-import client.java.NetworkConnection;
-import client.java.Player;
-import client.java.ResizableCanvas;
+import client.java.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,7 +38,8 @@ public class InGameController {
 			"Regent St","Oxford St","Community Chest","Bond St","Liverpool St Station","Chance","Park Lane","Super Tax","Mayfair"
 	};
 
-	public ResizableCanvas boardCanvas = new ResizableCanvas();
+	public BoardCanvas boardCanvas = new BoardCanvas();
+    public PlayerCanvas playerCanvas = new PlayerCanvas();
 
     // Players
     private ObservableList<String> playerList = FXCollections.observableArrayList();
@@ -130,12 +129,18 @@ public class InGameController {
     }
 
     public void drawInfinty(){
-        rootPane.setCenter(boardCanvas);
+        StackPane layers = new StackPane();
+        layers.getChildren().add(boardCanvas);
+        layers.getChildren().add(playerCanvas);
 
+        rootPane.setCenter(layers);
         boardCanvas.widthProperty().bind(rootPane.widthProperty());
         boardCanvas.heightProperty().bind(rootPane.heightProperty());
+        playerCanvas.widthProperty().bind(rootPane.widthProperty());
+        playerCanvas.heightProperty().bind(rootPane.heightProperty());
 
         boardCanvas.draw();
+        playerCanvas.draw();
     }
 
     public void addPlayer(Player player){
