@@ -38,6 +38,8 @@ public class PlayerConnection extends Thread{
 			e2.printStackTrace();
 		}
 
+		Main.clientUpdater.updateActionInfo("New Player Connected!");
+		Main.clientUpdater.updateDesktop();
 		System.out.println("Connected Player to Port " +  + this.port);
 
 		while(Main.gameState.isActive()){

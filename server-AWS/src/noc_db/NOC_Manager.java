@@ -1,36 +1,57 @@
-/*package noc_db;
+package noc_db;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.sun.org.apache.bcel.internal.util.ClassLoader;
 
 public class NOC_Manager {
 
-	private HashMap<String, String> superlatives;
-
+	ArrayList<Superlative_noc> superlatives;
+	ArrayList<Character_noc> characters;
 	public NOC_Manager(){
-
+		this.superlatives = new ArrayList<Superlative_noc>();
+		this.characters = new ArrayList<Character_noc>();
 	}
 
 	public void setup() throws IOException{
-		BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\user\\EclipseWorkspace\\SEProject\\server-AWS\\src\\noc_db\\TSV Lists\\superlatives.txt"));
-		String line = br.readLine();
 
+		BufferedReader br = new BufferedReader(
+				new InputStreamReader( ClassLoader.getSystemResourceAsStream("superlatives.txt"))
+				);
+		String line = br.readLine();
 		while (line != null) {
-			String[] data = line.split("\t");
-			if(data.length == 2){
-				superlatives.put(data[0], data[1]);
-				//System.out.println(data[0] + " , " + data[1]);
-			}
+			String data[] = line.split("\t");
+			superlatives.add(new Superlative_noc(data[0], data[1]));
 			line = br.readLine();
 		}
-
-		for(String s : superlatives.keySet()){
-			System.out.println(s);
+		br.close();
+		
+		br = new BufferedReader(
+				new InputStreamReader( ClassLoader.getSystemResourceAsStream("Veale's The NOC List.txt"))
+				);
+		line = br.readLine();
+		while (line != null) {
+			String data[] = line.split("\t");
+			characters.add(new Character_noc(data));
+			//System.out.println(line);
+			line = br.readLine();
 		}
-
 		br.close();
 	}
+	
+	public void printCharacterbyGender(String g){
+		for(Character_noc c : this.characters){
+			if(c.getGender().equals(g)){
+				System.out.println(c.getName());
+			}
+		}
+	}
 }
-*/
