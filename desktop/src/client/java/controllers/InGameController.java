@@ -2,19 +2,21 @@ package client.java.controllers;
 
 import client.java.NetworkConnection;
 import client.java.Player;
+import client.java.ResizableCanvas;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
@@ -33,6 +35,9 @@ import java.util.List;
 
 public class InGameController {
 
+    @FXML
+    public BorderPane rootPane;
+
 	// Temporary street names.
 	// To be replaced by NOC-List
 	private String[] SquareNames = {
@@ -42,24 +47,15 @@ public class InGameController {
 			"Regent St","Oxford St","Community Chest","Bond St","Liverpool St Station","Chance","Park Lane","Super Tax","Mayfair"
 	};
 
-    // Temporary
-    private Color[] playerColours = {Color.BLUE,Color.GREEN,Color.RED, Color.ORANGE};
-
-	// Streets
-	public HBox top;
-	public HBox bottom;
-	public VBox left;
-	public VBox right;
-
-    private ArrayList<Pane> squares = new ArrayList<>();
+	public ResizableCanvas boardCanvas = new ResizableCanvas();
 
     // Players
-    private ObservableList<String> playerList = FXCollections.observableArrayList("player1","player2","player3", "player 4");
+    private ObservableList<String> playerList = FXCollections.observableArrayList();
     private List<Player> players;
 
     // Networking.
     private final static String IP = "52.48.249.220";
-    private final static int PORT = 8080;
+    private final static int PORT = 8000;
     private NetworkConnection connection = new NetworkConnection(IP,PORT, input -> {
         try {
             onUpdateReceived(input);
@@ -68,12 +64,18 @@ public class InGameController {
         }
     });
 
-    public void initialize() throws Exception{
-        createSquares();
-        drawProperty();
-        showLobbyWindow();
-        drawPlayer(squares.get(0));
-        connection.startConnection();
+    public void initialize() {
+        drawInfinty();
+        try {
+            showLobbyWindow();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            connection.startConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void closeGame() {
@@ -108,7 +110,7 @@ public class InGameController {
                 System.out.println("Current GameState: " + update.toString());
 
                 int playerTurn = update.getInt("player_turn");
-                //String actionInfo = update.getString("action_info");
+                String actionInfo = update.getString("action_info");
 
                 JSONArray playerObjects = update.getJSONArray("players");
                 List<Player> plyrs = new ArrayList<>();
@@ -116,8 +118,15 @@ public class InGameController {
                     int balance = playerObjects.getJSONObject(i).getInt("balance");
                     int id = playerObjects.getJSONObject(i).getInt("id");
                     int position = playerObjects.getJSONObject(i).getInt("position");
-                    plyrs.add(new Player(balance,id,position));
+                    plyrs.add(new Player(balance,id,position,Color.WHITE));
                 }
+
+                ArrayList<String> names = new ArrayList<>();
+                for(Player p : plyrs){
+                    String n = "Player " + p.getId();
+                    names.add(n);
+                }
+                playerList.setAll(names);
 
             } catch (JSONException e) { e.printStackTrace(); }
         });
@@ -127,6 +136,16 @@ public class InGameController {
         // Print action information
     }
 
+    public void drawInfinty(){
+        rootPane.setCenter(boardCanvas);
+
+        boardCanvas.widthProperty().bind(rootPane.widthProperty());
+        boardCanvas.heightProperty().bind(rootPane.heightProperty());
+
+        boardCanvas.draw();
+    }
+
+    /*
     // Populates the board with property. Plan to refactor a lot.
     public void drawProperty() {
 
@@ -163,6 +182,7 @@ public class InGameController {
         }
     }
 
+
     public void createSquares(){
         for(int i = 0;i<40;i++){
             Pane squarePane = new Pane();
@@ -192,7 +212,7 @@ public class InGameController {
 
         square.getChildren().add(player);
     }
-
+     */
     public void addPlayer(Player player){
         if(!players.contains(player)) {
             players.add(player);
@@ -211,6 +231,7 @@ public class InGameController {
 
         }
     }
+
 }
 
 

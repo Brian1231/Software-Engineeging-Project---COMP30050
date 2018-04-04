@@ -8,10 +8,11 @@ public class Player {
     private int position;
     private Color color;
 
-    public Player(int balance, int id, int position) {
+    public Player(int balance, int id, int position, Color colour) {
         this.balance = balance;
         this.id = id;
         this.position = position;
+        this.color = colour;
     }
 
     @Override
@@ -54,5 +55,11 @@ public class Player {
         this.position = position;
     }
 
+    public Color getColor() {
+        return color;
+    }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }
