@@ -40,7 +40,9 @@ public class PortAllocator extends Thread{
 			} catch (IOException e2) {
 				e2.printStackTrace();
 			}
-
+			
+			Main.clientUpdater.updateActionInfo("New Player Connected!");
+			Main.clientUpdater.updateDesktop();
 			System.out.println("New Connection on Port "+this.port);
 
 			synchronized(this){

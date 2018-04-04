@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.connections.AsyncResponse
@@ -22,12 +23,13 @@ class MainActivity : App(), AsyncResponse {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setActionBar()
+        rollButton.onClick { onRoll() }
 
     }
 
 
     fun onRoll() {
-        requestToServer(Request("roll", "").toJSONString())
+        requestToServer(Request(0, "roll").toJSONString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -10,10 +10,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class GameState {
+import game_interfaces.JSONable;
+
+public class GameState implements JSONable {
 
 	Random rand = new Random();
 	private ArrayList<Player> players;
+	private ArrayList<NamedLocation> locations;
 	private Map<String, Player> clientIPplayerIDMap;
 	private boolean gameStarted;
 	private int playerTurn;
@@ -23,11 +26,16 @@ public class GameState {
 
 	public GameState() throws IOException{
 		players = new ArrayList<Player>();
+		locations = new ArrayList<NamedLocation>();
 		clientIPplayerIDMap = new HashMap<String, Player>();
 		gameStarted = false;
 		isActive = true;
 		playerTurn = 1;
 		dice = new Dice();
+		
+		for(int i=0;i<40;i++){
+			locations.add(new PrivateProperty(i, "Name of Property from NOC", 200));
+		}
 
 	}
 
@@ -110,7 +118,14 @@ public class GameState {
 		for(Player p : this.players){
 			jsonPlayers.put(p.getInfo());
 		}
+		
+		JSONArray jsonLocations = new JSONArray();
+		for(NamedLocation l : this.locations){
+			jsonLocations.put(l.getInfo());
+		}
+		
 		info.put("players", jsonPlayers);
+		info.put("locations", jsonLocations);
 		info.put("player_turn", this.playerTurn);
 		info.put("game_started", this.gameStarted);
 		//info.put("action_info", "Something happened!");

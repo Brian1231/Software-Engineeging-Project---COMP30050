@@ -91,6 +91,7 @@ public class PlayerConnection extends Thread{
 		PrintWriter out = null;
 		try {
 			output = Main.gameState.getPlayerInfo(this.playerID);
+			//output = Main.gameState.getInfo();
 			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (JSONException | IOException e1) {
 			e1.printStackTrace();
