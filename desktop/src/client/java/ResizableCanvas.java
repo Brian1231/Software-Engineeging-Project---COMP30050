@@ -2,14 +2,6 @@ package client.java;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Path;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 public class ResizableCanvas extends Canvas {
 

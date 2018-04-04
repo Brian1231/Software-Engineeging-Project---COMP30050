@@ -1,6 +1,5 @@
 package client.java.controllers;
 
-import client.java.NetworkConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

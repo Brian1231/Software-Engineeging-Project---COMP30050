@@ -4,18 +4,20 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerCanvas extends ResizableCanvas {
 
     final double PI = 3.14159265359;
 
+    // test code
     Player player1 = new Player(2000, 1, 30, Color.WHITE);
     Player player2 = new Player(2000, 2, 13, Color.RED);
+
     ArrayList<Player> players = new ArrayList<>();
 
-
-
     public PlayerCanvas() {
+        //test Code
         players.add(player1);
         players.add(player2);
         // Redraw canvas when size changes.
@@ -48,5 +50,9 @@ public class PlayerCanvas extends ResizableCanvas {
             g.setFill(player.getColor());
             g.fillOval(x + (width/2) -10,y + (height/2)-10, 20,20);
         }
+    }
+
+    public void updatePlayers(List<Player> players){
+
     }
 }

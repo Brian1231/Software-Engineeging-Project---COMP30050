@@ -6,7 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
 
 public class BoardCanvas extends ResizableCanvas {
 
@@ -51,7 +50,7 @@ public class BoardCanvas extends ResizableCanvas {
             double x = (width/3*Math.sqrt(2)*Math.cos(t))/(Math.pow(Math.sin(t),2)+1);
             double y = (width/2.4*Math.sqrt(2)*Math.cos(t)*Math.sin(t))/(Math.pow(Math.sin(t),2)+1);
 
-            String s = "::" + count;
+            String s = "#" + count;
 
             gc.setFill(Color.BLACK);
             gc.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);

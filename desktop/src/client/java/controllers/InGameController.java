@@ -29,6 +29,9 @@ public class InGameController {
     @FXML
     public BorderPane rootPane;
 
+    public BoardCanvas boardCanvas = new BoardCanvas();
+    public PlayerCanvas playerCanvas = new PlayerCanvas();
+
 	// Temporary street names.
 	// To be replaced by NOC-List
 	private String[] SquareNames = {
@@ -37,9 +40,6 @@ public class InGameController {
 			"Free Parking","Strand","Chance", "Fleet St","Trafalgar Sq","Fenchurch St Station", "Leicester Sq", "Coventry St","Water Works", "Piccadilly","Go To Jail",
 			"Regent St","Oxford St","Community Chest","Bond St","Liverpool St Station","Chance","Park Lane","Super Tax","Mayfair"
 	};
-
-	public BoardCanvas boardCanvas = new BoardCanvas();
-    public PlayerCanvas playerCanvas = new PlayerCanvas();
 
     // Players
     private ObservableList<String> playerList = FXCollections.observableArrayList();
@@ -57,7 +57,7 @@ public class InGameController {
     });
 
     public void initialize() {
-        drawInfinty();
+        setUpBoard();
         try {
             showLobbyWindow();
         } catch (IOException e) {
@@ -128,7 +128,7 @@ public class InGameController {
         // Print action information
     }
 
-    public void drawInfinty(){
+    public void setUpBoard(){
         StackPane layers = new StackPane();
         layers.getChildren().add(boardCanvas);
         layers.getChildren().add(playerCanvas);
