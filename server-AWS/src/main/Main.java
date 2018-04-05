@@ -35,12 +35,17 @@ public class Main {
 				noc = new NOC_Manager();
 				noc.setup();
 				//noc.printCharacterbyGender("male");
-				System.out.println(new ChanceTemplate(noc.getRandomChar()));
-				System.out.println(new ChanceTemplate(noc.getRandomChar()));
-				System.out.println(new ChanceTemplate(noc.getRandomChar()));
-				System.out.println(new ChanceTemplate(noc.getRandomChar()));
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template2());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template2());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template2());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
 				
-				/*//Thread for desktop connection
+				//Thread for desktop connection
 				clientUpdater = new ClientUpdater();
 				clientUpdater.setup(DESKTOPPORT);
 				clientUpdater.start();
@@ -50,7 +55,7 @@ public class Main {
 				//Creates a new player object in gamestate for each new player
 				portAllocator = new PortAllocator(MAINPORT);
 				portAllocator.start();
-				isActive = true;*/
+				isActive = true;
 		/*	}
 		}*/
 
