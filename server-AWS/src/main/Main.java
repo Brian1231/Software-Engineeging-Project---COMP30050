@@ -5,6 +5,7 @@ import java.net.InetAddress;
 
 import org.json.JSONException;
 
+import game.ChanceTemplate;
 import game.GameState;
 import noc_db.NOC_Manager;
 import server.ClientUpdater;
@@ -18,6 +19,7 @@ public class Main {
 	public static GameState gameState;
 	public static ClientUpdater clientUpdater;
 	public static PortAllocator portAllocator;
+	public static NOC_Manager noc;
 	public static boolean isActive;
 
 	public static void main(String[] args) throws IOException, JSONException {
@@ -30,12 +32,15 @@ public class Main {
 				//Contains all information about current game state
 				gameState = new GameState();
 				
-				NOC_Manager noc = new NOC_Manager();
+				noc = new NOC_Manager();
 				noc.setup();
 				//noc.printCharacterbyGender("male");
-				noc.printRandomChar();
+				System.out.println(new ChanceTemplate(noc.getRandomChar()));
+				System.out.println(new ChanceTemplate(noc.getRandomChar()));
+				System.out.println(new ChanceTemplate(noc.getRandomChar()));
+				System.out.println(new ChanceTemplate(noc.getRandomChar()));
 				
-				//Thread for desktop connection
+				/*//Thread for desktop connection
 				clientUpdater = new ClientUpdater();
 				clientUpdater.setup(DESKTOPPORT);
 				clientUpdater.start();
@@ -45,7 +50,7 @@ public class Main {
 				//Creates a new player object in gamestate for each new player
 				portAllocator = new PortAllocator(MAINPORT);
 				portAllocator.start();
-				isActive = true;
+				isActive = true;*/
 		/*	}
 		}*/
 

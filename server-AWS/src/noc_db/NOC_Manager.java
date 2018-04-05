@@ -13,13 +13,18 @@ public class NOC_Manager {
 	Random random = new Random();
 	ArrayList<Superlative_noc> superlatives;
 	ArrayList<Character_noc> characters;
+	ArrayList<Weapon_noc> weapons;
+	
 	public NOC_Manager(){
 		this.superlatives = new ArrayList<Superlative_noc>();
 		this.characters = new ArrayList<Character_noc>();
+		this.weapons = new ArrayList<Weapon_noc>();
 	}
 
+	//Populate NOC List
 	public void setup() throws IOException{
 
+		/////////////////SUPERLATIVES//////////////////////
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader(ClassLoader.getSystemResourceAsStream("superlatives.txt"))
 				);
@@ -32,6 +37,7 @@ public class NOC_Manager {
 		}
 		br.close();
 
+/////////////////Characters//////////////////////
 		br = new BufferedReader(
 				new InputStreamReader(ClassLoader.getSystemResourceAsStream("Veale's The NOC List.txt"))
 				);
@@ -40,6 +46,20 @@ public class NOC_Manager {
 		while (line != null) {
 			String data[] = line.split("\t");
 			characters.add(new Character_noc(data));
+			//System.out.println(line);
+			line = br.readLine();
+		}
+		br.close();
+		
+/////////////////Weapons//////////////////////
+		br = new BufferedReader(
+				new InputStreamReader(ClassLoader.getSystemResourceAsStream("Veale's weapon arsenal.txt"))
+				);
+		line = br.readLine();
+		line = br.readLine();
+		while (line != null) {
+			String data[] = line.split("\t");
+			weapons.add(new Weapon_noc(data));
 			//System.out.println(line);
 			line = br.readLine();
 		}
@@ -54,8 +74,30 @@ public class NOC_Manager {
 		}
 	}
 	
-	public void printRandomChar(){
+	public Character_noc getRandomChar(){
 		int i = random.nextInt(characters.size());
-		System.out.println(characters.get(i));
+		return characters.get(i);
+	}
+	
+	public Character_noc getOpponent(Character_noc ch){
+		String opp = ch.getName();
+		for(Character_noc other: this.characters){
+			if(other.getOpponent().equals(opp)){
+				return other;
+			}
+		}
+		return this.getRandomChar();
+	}
+	
+	public Weapon_noc getRandomWeapon(){
+		int i = random.nextInt(weapons.size());
+		return weapons.get(i);
+	}
+	
+	public Weapon_noc getWeapon(String w){
+		for(Weapon_noc weap : this.weapons){
+			if(weap.getWeapon().equals(w)) return weap;
+		}
+		return this.getRandomWeapon();
 	}
 }

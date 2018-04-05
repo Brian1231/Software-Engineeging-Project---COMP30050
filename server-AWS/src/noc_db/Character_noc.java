@@ -1,5 +1,7 @@
 package noc_db;
 
+import java.util.Random;
+
 public class Character_noc {
 
 	private String character;
@@ -27,6 +29,8 @@ public class Character_noc {
 	private String FictionalWorld;
 	private String Category;
 
+	private Random random = new Random();
+	
 	public Character_noc(String[] info){
 		this.character = info[0];
 		this.canName = info[1];
@@ -89,6 +93,18 @@ public class Character_noc {
 
 	public String getName(){
 		return this.character;
+	}
+	
+	public String getOpponent(){
+		return this.Opponent;
+	}
+	public String getWeapon(){
+		return this.WeaponofChoice;
+	}
+	
+	public String getActivity(){
+		String[] activities = this.TypicalActivity.split(", ");
+		return activities[random.nextInt(activities.length)];
 	}
 
 }
