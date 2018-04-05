@@ -29,7 +29,7 @@ class MainActivity : App(), AsyncResponse {
 
 
     fun onRoll() {
-        requestToServer(Request(preferences.playerID, "roll").toJSONString())
+        //requestToServer(Request(preferences.playerID, "roll"))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

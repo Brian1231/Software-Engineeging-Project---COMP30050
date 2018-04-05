@@ -9,29 +9,42 @@ import com.squareup.moshi.Moshi
 /**
  * Created by jcolladosp on 07/03/2018.
  */
-data class Request(val id: Int,val action: String){
-    fun toJSONString(): String {
 
-        return RequestFunctions().toJSONString(this)
+data class Request(val id: Int,val action: String)
 
-    }
 
+data class PortRequest(val id: Int,val port: Int){
 
 }
 
+
+
+
+
 class RequestFunctions{
 
-    private val moshi = Moshi.Builder()
+     val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
-    private val jsonAdapter = moshi.adapter(Request::class.java)
+    val jsonAdapter = moshi.adapter(Request::class.java)
+    val jsonAdapterPort = moshi.adapter(PortRequest::class.java)
 
-    fun toJSONString(request: Request): String {
+    fun requestToJSONString(request: Request): String {
 
-        return jsonAdapter.toJson(request)
+        return RequestFunctions().jsonAdapter.toJson(request)
 
     }
-    fun fromJSONString(json: String): Request? {
-        return jsonAdapter.fromJson(json)
+    fun requestFromJSONString(json: String): Request? {
+        return RequestFunctions().jsonAdapter.fromJson(json)
     }
+
+    open fun portToJSONString(portRequest: PortRequest): String {
+
+        return RequestFunctions().jsonAdapterPort.toJson(portRequest)
+
+    }
+    open fun portFromJSONString(json: String): PortRequest? {
+        return RequestFunctions().jsonAdapterPort.fromJson(json)
+    }
+
 }

@@ -11,10 +11,7 @@ import org.jetbrains.anko.toast
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.connections.AsyncResponse
 import pw.jcollado.segamecontroller.mainActivity.MainActivity
-import pw.jcollado.segamecontroller.model.App
-import pw.jcollado.segamecontroller.model.Request
-import pw.jcollado.segamecontroller.model.RequestFunctions
-import pw.jcollado.segamecontroller.model.preferences
+import pw.jcollado.segamecontroller.model.*
 import pw.jcollado.segamecontroller.utils.requestToServer
 
 
@@ -38,10 +35,9 @@ class JoinActivity : App(), AsyncResponse {
     private fun joinServer(){
         val username  = userNameED.text.toString()
         val joinGameRequest = Request(-1,username)
-
-        idTextView.text = joinGameRequest.toJSONString()
-
-        requestToServer(joinGameRequest.toJSONString())
+        val jsonStringRequest = RequestFunctions().requestToJSONString(joinGameRequest)
+        idTextView.text = jsonStringRequest
+        requestToServer(jsonStringRequest)
 
     }
 
@@ -50,14 +46,22 @@ class JoinActivity : App(), AsyncResponse {
 
     private fun getResponseID(response: String){
         Log.i("lol",response)
-        val responseRequest = RequestFunctions().fromJSONString(response)
+        val responseRequest = RequestFunctions().portFromJSONString(response)
         responseRequest?.id?.let { saveUserID(it) }
+        responseRequest?.port?.let { savePort(it) }
+
         idTextView.text = response
         //startActivity<MainActivity>()
 
     }
+    private fun openConnectionWithNewPort(){
+        requestToServer(Request)
+    }
     private fun saveUserID(id: Int){
         preferences.playerID = id
+    }
+    private fun savePort(port: Int){
+        preferences.port = port
     }
 
     override fun processFinish(output: String?) {
