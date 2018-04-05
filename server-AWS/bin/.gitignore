@@ -1,2 +1,7 @@
-/noc_db/
+/game/
+/game_interfaces/
 /main/
+/noc_db/
+/noc_files/
+/server/
+/tests/

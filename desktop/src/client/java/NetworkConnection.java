@@ -53,7 +53,6 @@ public class NetworkConnection {
 		gameActive = false;
 	}
 
-
 	// Thread which listens to the socket for game updates.
 	private class ConnectionThread extends Thread {
 
@@ -64,32 +63,20 @@ public class NetworkConnection {
 		public void run() {
 			try {
 				System.out.println("Connecting!");
-				socket = new Socket(Inet4Address.getByName(ip), 8081);
+				socket = new Socket(Inet4Address.getByName(ip), port);
 				out = new OutputStreamWriter(socket.getOutputStream());
 				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-				JSONObject output = new JSONObject();
-				output.put("id", 0);
-				output.put("action", "start");
-				send(output);
-				//ServerSocket receiver = new ServerSocket(8081);
-				//Socket recSocket;
 				while(gameActive){
-					//System.out.println("reading..");
 					String message = "";
-					if(reader.ready()){
+					if(reader.ready()) {
 						message = reader.readLine();
 					}
-					//System.out.println("here");
 					if(!message.isEmpty()){
-						//onMessage(message);
-						System.out.println(message);
+						onMessage(message);
 					}
 				}
-
-
 				closeConnection();
-
 			}catch(Exception e){e.printStackTrace();}
 		}
 

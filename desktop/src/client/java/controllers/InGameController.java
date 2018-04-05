@@ -1,22 +1,16 @@
 package client.java.controllers;
 
-import client.java.NetworkConnection;
-import client.java.Player;
+import client.java.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -33,33 +27,18 @@ import java.util.List;
 
 public class InGameController {
 
-	// Temporary street names.
-	// To be replaced by NOC-List
-	private String[] SquareNames = {
-			"Go","Old Kent Road","Community Chest","Whitechapel Road","Income Tax", "King Cross", "The Angel Islington", "Chance", "Euston Road", "Pentonville Road", "Jail",
-			"Pall Mall","Electric Co","Whitehall","Northumberland Ave","Marylebone Station", "Bow St", "Community Chest","Marlborough St","Vine St",
-			"Free Parking","Strand","Chance", "Fleet St","Trafalgar Sq","Fenchurch St Station", "Leicester Sq", "Coventry St","Water Works", "Piccadilly","Go To Jail",
-			"Regent St","Oxford St","Community Chest","Bond St","Liverpool St Station","Chance","Park Lane","Super Tax","Mayfair"
-	};
+    @FXML
+    public BorderPane rootPane;
 
-    // Temporary
-    private Color[] playerColours = {Color.BLUE,Color.GREEN,Color.RED, Color.ORANGE};
-
-	// Streets
-	public HBox top;
-	public HBox bottom;
-	public VBox left;
-	public VBox right;
-
-    private ArrayList<Pane> squares = new ArrayList<>();
+    public BoardCanvas boardCanvas = new BoardCanvas();
+    public PlayerCanvas playerCanvas = new PlayerCanvas();
 
     // Players
-    private ObservableList<String> playerList = FXCollections.observableArrayList("player1","player2","player3", "player 4");
-    private List<Player> players;
+    private ObservableList<String> playerList = FXCollections.observableArrayList();
 
     // Networking.
     private final static String IP = "52.48.249.220";
-    private final static int PORT = 8080;
+    private final static int PORT = 8000;
     private NetworkConnection connection = new NetworkConnection(IP,PORT, input -> {
         try {
             onUpdateReceived(input);
@@ -68,18 +47,23 @@ public class InGameController {
         }
     });
 
-    public void initialize() throws Exception{
-        createSquares();
-        drawProperty();
-        showLobbyWindow();
-        drawPlayer(squares.get(0));
-        connection.startConnection();
+    public void initialize() {
+        setUpBoard();
+        try {
+            showLobbyWindow();
+            connection.startConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void closeGame() {
         connection.gameEnd();
     }
 
+    // Player lobby code
     public void showLobbyWindow() throws IOException {
         VBox lobbyRoot = new VBox();
         Button startGameButton = new Button("Start Game");
@@ -96,19 +80,32 @@ public class InGameController {
         lobbyStage.initModality(Modality.APPLICATION_MODAL);
         lobbyStage.setScene(lobbyScene);
 
-        startGameButton.setOnAction(e -> lobbyStage.close());
-
+        startGameButton.setOnAction((ActionEvent e) ->
+        {
+            try {
+                JSONObject output = new JSONObject();
+                output.put("id", 0);
+                output.put("action", "start");
+                connection.send(output);
+                lobbyStage.close();
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+                                    );
         lobbyStage.show();
     }
 
-    // called whenever a message/JSON is received form the server.
+    // Called whenever a message/JSON is received form the server.
     public void onUpdateReceived(JSONObject update) throws JSONException {
         Platform.runLater(() -> {
             try {
                 System.out.println("Current GameState: " + update.toString());
 
                 int playerTurn = update.getInt("player_turn");
-                //String actionInfo = update.getString("action_info");
+                String actionInfo = update.getString("action_info");
 
                 JSONArray playerObjects = update.getJSONArray("players");
                 List<Player> plyrs = new ArrayList<>();
@@ -116,8 +113,19 @@ public class InGameController {
                     int balance = playerObjects.getJSONObject(i).getInt("balance");
                     int id = playerObjects.getJSONObject(i).getInt("id");
                     int position = playerObjects.getJSONObject(i).getInt("position");
-                    plyrs.add(new Player(balance,id,position));
+                    plyrs.add(new Player(balance,id,position,Color.WHITE));
                 }
+
+                // redraw players according to new player positions
+                playerCanvas.updatePlayers(plyrs);
+
+                // Update lobby list According to new players
+                ArrayList<String> names = new ArrayList<>();
+                for(Player p : plyrs){
+                    String n = "Player " + p.getId();
+                    names.add(n);
+                }
+                playerList.setAll(names);
 
             } catch (JSONException e) { e.printStackTrace(); }
         });
@@ -127,90 +135,21 @@ public class InGameController {
         // Print action information
     }
 
-    // Populates the board with property. Plan to refactor a lot.
-    public void drawProperty() {
+    public void setUpBoard(){
+        StackPane layers = new StackPane();
+        layers.getChildren().add(boardCanvas);
+        layers.getChildren().add(playerCanvas);
 
-        for (int i = 10; i >= 0; i--) {
+        rootPane.setCenter(layers);
+        boardCanvas.widthProperty().bind(rootPane.widthProperty());
+        boardCanvas.heightProperty().bind(rootPane.heightProperty());
+        playerCanvas.widthProperty().bind(rootPane.widthProperty());
+        playerCanvas.heightProperty().bind(rootPane.heightProperty());
 
-            squares.get(i).setMinSize(50, 75);
-            squares.get(i).setPrefSize(60, 100);
-
-            bottom.getChildren().add(squares.get(i));
-        }
-
-        for (int i = 19; i >= 11; i--) {
-
-            squares.get(i).setMinSize(75, 50);
-            squares.get(i).setPrefSize(100, 60);
-
-            left.getChildren().add(squares.get(i));
-        }
-
-        for (int i = 20; i < 31; i++) {
-
-            squares.get(i).setMinSize(50, 75);
-            squares.get(i).setPrefSize(60, 100);
-
-            top.getChildren().add(squares.get(i));
-        }
-
-        for (int i = 31; i < 40; i++) {
-
-            squares.get(i).setMinSize(75, 50);
-            squares.get(i).setPrefSize(100, 60);
-
-            right.getChildren().add(squares.get(i));
-        }
+        boardCanvas.draw();
+        playerCanvas.draw();
     }
 
-    public void createSquares(){
-        for(int i = 0;i<40;i++){
-            Pane squarePane = new Pane();
-            squarePane.setStyle("-fx-background-color: #F2F4F4;" + "-fx-border-color: #34495E;");
-
-            VBox.setVgrow(squarePane, Priority.ALWAYS);
-            HBox.setHgrow(squarePane, Priority.ALWAYS);
-
-            Label name = new Label(SquareNames[i]);
-            //name.setRotate(90.0);
-            name.setPrefWidth(60);
-            name.setWrapText(true);
-            name.setStyle("-fx-text-fill: #34495E;" + "-fx-font-size: 7pt;");
-
-            name.layoutYProperty().bind(squarePane.heightProperty().subtract(name.heightProperty()).divide(2));
-            name.layoutXProperty().bind(squarePane.widthProperty().subtract(name.widthProperty()).divide(2));
-
-            squarePane.getChildren().add(name);
-            squares.add(squarePane);
-        }
-    }
-
-    // Draws players in their current positions.
-    public void drawPlayer(Pane square) {
-        Circle player = new Circle(30.0, 30.0, 10.0);
-        player.setFill(Color.BLUE);
-
-        square.getChildren().add(player);
-    }
-
-    public void addPlayer(Player player){
-        if(!players.contains(player)) {
-            players.add(player);
-        }
-        else{
-            System.out.println("Tried to add player who is already in the game.");
-        }
-    }
-
-    public void updatePlayerData(List<Player> updatedPlayers){
-
-        for(int i=0; i< updatedPlayers.size(); i++ ){
-
-            players.get(i).setBalance(updatedPlayers.get(i).getBalance());
-            players.get(i).setPosition(updatedPlayers.get(i).getPosition());
-
-        }
-    }
 }
 
 

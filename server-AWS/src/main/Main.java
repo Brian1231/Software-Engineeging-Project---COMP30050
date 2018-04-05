@@ -1,41 +1,76 @@
 package main;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 import org.json.JSONException;
 
+import game.ChanceTemplate;
 import game.GameState;
-import noc_db.DB_Manager;
-import server.Server;
+import noc_db.NOC_Manager;
+import server.ClientUpdater;
+import server.PortAllocator;
 
 public class Main {
 
+
+	public static final int MAINPORT = 8080;
+	public static final int DESKTOPPORT = 8000;
 	public static GameState gameState;
-	public static DB_Manager dbm;
-	public static boolean serverActive = true;
-	public static final int PORT = 8080;
+	public static ClientUpdater clientUpdater;
+	public static PortAllocator portAllocator;
+	public static NOC_Manager noc;
+	public static boolean isActive;
 
 	public static void main(String[] args) throws IOException, JSONException {
+		isActive = false;
 
-		
-			//Used to listen for input from players
-			Server server = new Server(PORT);
-			
-			//Contains all information about current game state
-			gameState = new GameState();
-			
-			//Used to access NOC database
-			/*dbm = new DB_Manager();
-			dbm.connect();*/
-			
-			while (serverActive){
-				String response = server.listen(gameState);
+		System.out.println(InetAddress.getLocalHost().getHostAddress());
+
+		while(true){
+			if(!isActive){
+				//Contains all information about current game state
+				gameState = new GameState();
 				
-				server.send(response);
-				if(response.equals("Done")){
-					serverActive = false;
-				}
+				noc = new NOC_Manager();
+				noc.setup();
+				
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template2());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template2());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template2());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template4());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template4());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template4());
+				
+				//Thread for desktop connection
+				clientUpdater = new ClientUpdater();
+				clientUpdater.setup(DESKTOPPORT);
+				clientUpdater.start();
+
+				//Thread used to allocate phone connections to an available port
+				//Creates a new PlayerConnection thread for each new player
+				//Creates a new player object in gamestate for each new player
+				portAllocator = new PortAllocator(MAINPORT);
+				portAllocator.start();
+				isActive = true;
 			}
-		
+		}
+
+
+		/*
+
+			  Now have threads for each player all accessing Main.gamestate to update game
+
+			  Also have ClientUpdater on separate thread to update desktop
+
+
+		 */
+
 	}
 }
