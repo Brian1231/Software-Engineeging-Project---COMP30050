@@ -1,6 +1,8 @@
 package pw.jcollado.segamecontroller.JoinActivity
 
 import android.os.Bundle
+import android.util.Log
+import android.util.Log.i
 
 import kotlinx.android.synthetic.main.activity_join.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -34,7 +36,8 @@ class JoinActivity : App(), AsyncResponse {
     }
 
     private fun joinServer(){
-        val joinGameRequest = Request(-1,"Hi")
+        val username  = userNameED.text.toString()
+        val joinGameRequest = Request(-1,username)
 
         idTextView.text = joinGameRequest.toJSONString()
 
@@ -46,6 +49,7 @@ class JoinActivity : App(), AsyncResponse {
 
 
     private fun getResponseID(response: String){
+        Log.i("lol",response)
         val responseRequest = RequestFunctions().fromJSONString(response)
         responseRequest?.id?.let { saveUserID(it) }
         idTextView.text = response
