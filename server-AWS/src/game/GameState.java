@@ -33,7 +33,7 @@ public class GameState implements JSONable {
 		isActive = true;
 		playerTurn = 1;
 		dice = new Dice();
-		
+
 		for(int i=0;i<40;i++){
 			locations.add(new PrivateProperty(i, "Name of Property from NOC", 200));
 		}
@@ -82,10 +82,6 @@ public class GameState implements JSONable {
 
 		//Check if its the correct players turn
 		if(this.playerTurn == id){
-			//Increment player turn
-			this.playerTurn ++;
-			if(this.playerTurn > this.players.size()) this.playerTurn=1;
-
 			//Get player from id
 			Player player = null;
 			for(Player p : this.players){
@@ -100,6 +96,13 @@ public class GameState implements JSONable {
 				int spaces = dice.roll();
 				player.moveForward(spaces);
 				return "Player " + id + " rolled " + spaces + ".";
+			case "done":
+				//Increment player turn
+				this.playerTurn++;
+				if(this.playerTurn > this.players.size()) {
+					this.playerTurn=1;
+				}
+				return "Player " + id + " finished their turn.";
 			default:
 				return "Player " + id + " did nothing.";
 			}	
@@ -119,12 +122,10 @@ public class GameState implements JSONable {
 		for(Player p : this.players){
 			jsonPlayers.put(p.getInfo());
 		}
-		
 		JSONArray jsonLocations = new JSONArray();
 		for(NamedLocation l : this.locations){
 			jsonLocations.put(l.getInfo());
 		}
-		
 		info.put("players", jsonPlayers);
 		info.put("locations", jsonLocations);
 		info.put("player_turn", this.playerTurn);
@@ -132,6 +133,34 @@ public class GameState implements JSONable {
 		//info.put("action_info", "Something happened!");
 		return info;
 
+	}
+
+	public JSONObject getInfoPlayers() throws JSONException{
+		JSONObject info = new JSONObject();
+
+		JSONArray jsonPlayers = new JSONArray();
+		for(Player p : this.players){
+			jsonPlayers.put(p.getInfo());
+		}
+
+		info.put("players", jsonPlayers);
+		info.put("player_turn", this.playerTurn);
+		info.put("game_started", this.gameStarted);
+		return info;
+	}
+
+	public JSONObject getInfoBoard() throws JSONException{
+		JSONObject info = new JSONObject();
+
+		JSONArray jsonLocations = new JSONArray();
+		for(NamedLocation l : this.locations){
+			jsonLocations.put(l.getInfo());
+		}
+
+		info.put("locations", jsonLocations);
+		info.put("player_turn", this.playerTurn);
+		info.put("game_started", this.gameStarted);
+		return info;
 	}
 
 	/** 
@@ -147,10 +176,11 @@ public class GameState implements JSONable {
 		return info;
 
 	}
-	
+
 	public void endGame(){
 		Main.clientUpdater.updateActionInfo("Game Over");
-		Main.clientUpdater.updateDesktop();
+		Main.clientUpdater.updateDesktopPlayers();
+		Main.clientUpdater.updateDesktopBoard();
 		Main.portAllocator.endGame();
 		Main.isActive = false;
 	}

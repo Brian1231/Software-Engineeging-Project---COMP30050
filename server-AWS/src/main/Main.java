@@ -38,7 +38,9 @@ public class Main {
 				clientUpdater = new ClientUpdater();
 				clientUpdater.setup(DESKTOPPORT);
 				clientUpdater.start();
-
+				clientUpdater.updateActionInfo("Connected");
+				clientUpdater.updateDesktopBoard();
+				
 				//Thread used to allocate phone connections to an available port
 				//Creates a new PlayerConnection thread for each new player
 				//Creates a new player object in gamestate for each new player
