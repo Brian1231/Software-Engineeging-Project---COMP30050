@@ -43,7 +43,7 @@ public class BoardCanvas extends ResizableCanvas {
 
         gc.setStroke(Color.GOLD);
         int count = 0;
-        System.out.println(width/3);
+
         for(double t = -PI+0.15707963267; t<=PI; t+=0.15707963267){
             count+=1;
 

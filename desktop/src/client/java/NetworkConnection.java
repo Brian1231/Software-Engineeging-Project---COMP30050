@@ -67,7 +67,6 @@ public class NetworkConnection {
 				out = new OutputStreamWriter(socket.getOutputStream());
 				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-
 				while(gameActive){
 					String message = "";
 					if(reader.ready()) {

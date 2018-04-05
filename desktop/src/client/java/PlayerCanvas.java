@@ -62,10 +62,14 @@ public class PlayerCanvas extends ResizableCanvas {
     }
 
     public void updatePlayerData(Player player){
+
+        System.out.println("updating player data!");
         if(players.contains(player)){
             int index = players.indexOf(player);
             players.get(index).setBalance(player.getBalance());
             players.get(index).setPosition(player.getPosition());
         }
+
+        draw();
     }
 }

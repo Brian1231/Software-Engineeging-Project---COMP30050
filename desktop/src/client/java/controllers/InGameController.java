@@ -33,18 +33,8 @@ public class InGameController {
     public BoardCanvas boardCanvas = new BoardCanvas();
     public PlayerCanvas playerCanvas = new PlayerCanvas();
 
-	// Temporary street names.
-	// To be replaced by NOC-List
-	/*private String[] SquareNames = {
-			"Go","Old Kent Road","Community Chest","Whitechapel Road","Income Tax", "King Cross", "The Angel Islington", "Chance", "Euston Road", "Pentonville Road", "Jail",
-			"Pall Mall","Electric Co","Whitehall","Northumberland Ave","Marylebone Station", "Bow St", "Community Chest","Marlborough St","Vine St",
-			"Free Parking","Strand","Chance", "Fleet St","Trafalgar Sq","Fenchurch St Station", "Leicester Sq", "Coventry St","Water Works", "Piccadilly","Go To Jail",
-			"Regent St","Oxford St","Community Chest","Bond St","Liverpool St Station","Chance","Park Lane","Super Tax","Mayfair"
-	};*/
-
     // Players
     private ObservableList<String> playerList = FXCollections.observableArrayList();
-    private List<Player> players;
 
     // Networking.
     private final static String IP = "52.48.249.220";
@@ -125,7 +115,6 @@ public class InGameController {
                     plyrs.add(new Player(balance,id,position,Color.WHITE));
                 }
                 playerCanvas.updatePlayers(plyrs);
-                playerCanvas.draw();
 
                 ArrayList<String> names = new ArrayList<>();
                 for(Player p : plyrs){
@@ -155,25 +144,6 @@ public class InGameController {
 
         boardCanvas.draw();
         playerCanvas.draw();
-    }
-
-    public void addPlayer(Player player){
-        if(!players.contains(player)) {
-            players.add(player);
-        }
-        else{
-            System.out.println("Tried to add player who is already in the game.");
-        }
-    }
-
-    public void updatePlayerData(List<Player> updatedPlayers){
-
-        for(int i=0; i< updatedPlayers.size(); i++ ){
-
-            players.get(i).setBalance(updatedPlayers.get(i).getBalance());
-            players.get(i).setPosition(updatedPlayers.get(i).getPosition());
-
-        }
     }
 
 }
