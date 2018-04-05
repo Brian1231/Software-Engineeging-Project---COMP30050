@@ -67,10 +67,6 @@ public class NetworkConnection {
 				out = new OutputStreamWriter(socket.getOutputStream());
 				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-				JSONObject output = new JSONObject();
-				output.put("id", 0);
-				output.put("action", "start");
-				send(output);
 
 				while(gameActive){
 					String message = "";
