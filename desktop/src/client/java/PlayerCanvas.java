@@ -25,7 +25,7 @@ public class PlayerCanvas extends ResizableCanvas {
         GraphicsContext gc = getGraphicsContext2D();
         gc.clearRect(0, 0, width, height);
 
-        drawPlayers(gc, width, height );
+        drawPlayers(gc, width, height);
     }
 
     public void drawPlayers(GraphicsContext g, double width, double height){
@@ -48,13 +48,15 @@ public class PlayerCanvas extends ResizableCanvas {
     public void updatePlayers(List<Player> players){
         for(Player p : players){
             if(!players.contains(p)) {
+                System.out.println("/n Adding new player");
                 addPlayer(p);
             }
             else{
+                System.out.println("/n Updating player: " + p.getId());
                 updatePlayerData(p);
             }
         }
-
+        draw();
     }
 
     public void addPlayer(Player player){
@@ -69,7 +71,11 @@ public class PlayerCanvas extends ResizableCanvas {
             players.get(index).setBalance(player.getBalance());
             players.get(index).setPosition(player.getPosition());
         }
+    }
 
-        draw();
+    public void removePlayer(Player player){
+        if(players.contains(player)){
+            players.remove(player);
+        }
     }
 }

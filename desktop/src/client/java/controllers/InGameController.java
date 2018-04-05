@@ -63,6 +63,7 @@ public class InGameController {
         connection.gameEnd();
     }
 
+    // Player lobby code
     public void showLobbyWindow() throws IOException {
         VBox lobbyRoot = new VBox();
         Button startGameButton = new Button("Start Game");
@@ -97,7 +98,7 @@ public class InGameController {
         lobbyStage.show();
     }
 
-    // called whenever a message/JSON is received form the server.
+    // Called whenever a message/JSON is received form the server.
     public void onUpdateReceived(JSONObject update) throws JSONException {
         Platform.runLater(() -> {
             try {
@@ -114,8 +115,11 @@ public class InGameController {
                     int position = playerObjects.getJSONObject(i).getInt("position");
                     plyrs.add(new Player(balance,id,position,Color.WHITE));
                 }
+
+                // redraw players according to new player positions
                 playerCanvas.updatePlayers(plyrs);
 
+                // Update lobby list According to new players
                 ArrayList<String> names = new ArrayList<>();
                 for(Player p : plyrs){
                     String n = "Player " + p.getId();
