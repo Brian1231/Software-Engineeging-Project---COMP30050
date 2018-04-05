@@ -4,6 +4,7 @@ import client.java.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -90,8 +91,21 @@ public class InGameController {
         lobbyStage.initModality(Modality.APPLICATION_MODAL);
         lobbyStage.setScene(lobbyScene);
 
-        startGameButton.setOnAction(e -> lobbyStage.close());
-
+        startGameButton.setOnAction((ActionEvent e) ->
+        {
+            try {
+                JSONObject output = new JSONObject();
+                output.put("id", 0);
+                output.put("action", "start");
+                connection.send(output);
+                lobbyStage.close();
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+                                    );
         lobbyStage.show();
     }
 
