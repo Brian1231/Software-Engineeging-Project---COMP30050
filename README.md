@@ -27,7 +27,7 @@
 
 ### Phone-to-Server JSON:
 "id": int <br />
-"action": String ("roll"-> rolls dice) <br />
+"action": String ("roll"-> rolls dice)("done"-> increments player turn) <br />
 "args": String <br />
 
 ## Server-to-Phone:
