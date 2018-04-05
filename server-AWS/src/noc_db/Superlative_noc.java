@@ -9,4 +9,12 @@ public class Superlative_noc {
 		this.root = r;
 		this.superlative = s;
 	}
+	
+	public String getSuperlative(){
+		return this.superlative;
+	}
+	
+	public String getRoot(){
+		return this.root;
+	}
 }

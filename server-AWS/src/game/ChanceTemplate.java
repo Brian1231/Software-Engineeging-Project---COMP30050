@@ -31,9 +31,7 @@ public class ChanceTemplate {
 
 	public String template1(){
 		StringBuilder sb = new StringBuilder();
-		//sb.append("You are approached by " + char1.getName() + ". ");
 		sb.append(char1.getName() + " appears " + vehicle.getAffordance() + " " + vehicle.getDeterminer() + " " + vehicle.getVehicle()+ ". ");
-
 		sb.append(pronoun + " says that " + pronoun.toLowerCase() + " is tired of " + char1.getActivity() + " and wants some action. ");
 		sb.append(pronoun + " starts " + weapon.getAffordanceWithTarget("you") + " " + weapon.getDeterminer() + " " + weapon.getWeapon() + ".");
 		return sb.toString(); 
@@ -41,14 +39,11 @@ public class ChanceTemplate {
 
 	public String template2(){
 		StringBuilder sb = new StringBuilder();
-		//sb.append("You are approached by " + char1.getName() + ". ");
 		String clothes = char1.getWearing();
 		if(clothes.length()!=0)
 			sb.append(char1.getName() + " appears wearing a " + char1.getWearing() + ". ");
 		else 		
 			sb.append(char1.getName() + " appears " + vehicle.getAffordance() + " " + vehicle.getDeterminer() + " " + vehicle.getVehicle()+ ". ");
-
-
 		sb.append(pronoun + " says that " + pronoun.toLowerCase() + " just lost a fight to " + opp.getName() + " and wants revenge. ");
 		sb.append(pronoun + " starts " + weapon.getAffordanceWithTarget("you") + " " + weapon.getDeterminer() + " " + weapon.getWeapon() + ".");
 		return sb.toString(); 
@@ -56,7 +51,6 @@ public class ChanceTemplate {
 	
 	public String template3(){
 		StringBuilder sb = new StringBuilder();
-		//sb.append("You are approached by " + char1.getName() + ". ");
 		String clothes = char1.getWearing();
 		if(clothes.length()!=0)
 			sb.append(char1.getName() + " appears wearing a " + char1.getWearing() + ". ");
@@ -70,5 +64,15 @@ public class ChanceTemplate {
 		sb.append("You tell "+ them.toLowerCase() + " to shutup. ");
 		sb.append(pronoun + " gets mad and starts " + weapon.getAffordanceWithTarget("you") + " " + weapon.getDeterminer() + " " + weapon.getWeapon() + ".");
 		return sb.toString(); 
+	}
+	
+	public String template4(){
+		StringBuilder sb = new StringBuilder();
+		String act = char1.getActivity();
+		String setting = Main.noc.getActivitySetting(act);
+		sb.append("You see " + char1.getName() + " exiting a " + setting + ". ");
+		sb.append(pronoun + " begins happily telling you about much " + pronoun.toLowerCase() + " loves " + act + ". ");
+		sb.append(pronoun + " decides to give you a gift.");
+		return sb.toString();
 	}
 }

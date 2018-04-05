@@ -23,27 +23,30 @@ public class Main {
 	public static boolean isActive;
 
 	public static void main(String[] args) throws IOException, JSONException {
-		//isActive = false;
+		isActive = false;
 
 		System.out.println(InetAddress.getLocalHost().getHostAddress());
 
-		/*while(true){
-			if(!isActive){*/
+		while(true){
+			if(!isActive){
 				//Contains all information about current game state
 				gameState = new GameState();
 				
 				noc = new NOC_Manager();
 				noc.setup();
-				//noc.printCharacterbyGender("male");
+				
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
 				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
 				System.out.println(new ChanceTemplate(noc.getRandomChar()).template2());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template2());
 				System.out.println(new ChanceTemplate(noc.getRandomChar()).template2());
 				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template2());
 				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template4());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template4());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template4());
 				
 				//Thread for desktop connection
 				clientUpdater = new ClientUpdater();
@@ -56,8 +59,8 @@ public class Main {
 				portAllocator = new PortAllocator(MAINPORT);
 				portAllocator.start();
 				isActive = true;
-		/*	}
-		}*/
+			}
+		}
 
 
 		/*

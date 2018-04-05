@@ -15,12 +15,14 @@ public class NOC_Manager {
 	ArrayList<Character_noc> characters;
 	ArrayList<Weapon_noc> weapons;
 	ArrayList<Vehicle_noc> vehicles;
+	ArrayList<Activity_noc> activities;
 
 	public NOC_Manager(){
 		this.superlatives = new ArrayList<Superlative_noc>();
 		this.characters = new ArrayList<Character_noc>();
 		this.weapons = new ArrayList<Weapon_noc>();
 		this.vehicles = new ArrayList<Vehicle_noc>();
+		this.activities = new ArrayList<Activity_noc>();
 	}
 
 	//Populate NOC List
@@ -80,6 +82,19 @@ public class NOC_Manager {
 			line = br.readLine();
 		}
 		br.close();
+
+		/////////////////Activities//////////////////////
+		br = new BufferedReader(
+				new InputStreamReader(ClassLoader.getSystemResourceAsStream("Veale's Typical Activities.txt"))
+				);
+		line = br.readLine();
+		line = br.readLine();
+		while (line != null) {
+			String data[] = line.split("\t");
+			this.activities.add(new Activity_noc(data));
+			line = br.readLine();
+		}
+		br.close();
 	}
 
 	public void printCharacterbyGender(String g){
@@ -116,7 +131,7 @@ public class NOC_Manager {
 		}
 		return this.getRandomWeapon();
 	}
-	
+
 	public Vehicle_noc getRandomVehicle(){
 		int i = random.nextInt(vehicles.size());
 		return vehicles.get(i);
@@ -127,5 +142,18 @@ public class NOC_Manager {
 			if(vehicle.getVehicle().equals(w)) return vehicle;
 		}
 		return this.getRandomVehicle();
+	}
+
+	public Activity_noc getRandomActivity(){
+		int i = random.nextInt(activities.size());
+		return activities.get(i);
+	}
+
+	public String getActivitySetting(String act){
+		for(Activity_noc activity: this.activities){
+			if(activity.getActivity().equals(act)) return activity.getSetting();
+		}
+		return "field";
+
 	}
 }

@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import game_interfaces.JSONable;
+import main.Main;
 
 public class GameState implements JSONable {
 
@@ -21,7 +22,7 @@ public class GameState implements JSONable {
 	private boolean gameStarted;
 	private int playerTurn;
 	private Dice dice;
-	private boolean isActive;
+	public boolean isActive;
 
 
 	public GameState() throws IOException{
@@ -145,5 +146,12 @@ public class GameState implements JSONable {
 		}
 		return info;
 
+	}
+	
+	public void endGame(){
+		Main.clientUpdater.updateActionInfo("Game Over");
+		Main.clientUpdater.updateDesktop();
+		Main.portAllocator.endGame();
+		Main.isActive = false;
 	}
 }
