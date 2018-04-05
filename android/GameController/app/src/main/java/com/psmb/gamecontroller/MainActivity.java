@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         setContentView(R.layout.activity_main);
         sendButton = (Button) findViewById(R.id.sendButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
+        thread = new ClientThread(MainActivity.this);
     }
 
     protected void onStart() {
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 String ip = etip.getText().toString();
                 EditText etport = (EditText) findViewById(R.id.portText);
                 String port = etport.getText().toString();
-                thread = new ClientThread(MainActivity.this);
+
 
                 thread.execute(message,ip, port);
             }
