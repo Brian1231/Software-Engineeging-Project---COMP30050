@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
-            android:text="192.168.0.0"
+            android:text="52.48.249.220"
             android:ems="10" />
     </LinearLayout>
 
@@ -47,7 +47,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
-            android:text="50000"
+            android:text="8080"
             android:ems="10" />
     </LinearLayout>
     <!-- Message -->>
@@ -69,7 +69,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
-            android:text="Message to send to server"
+            android:text=""
             android:ems="10" />
     </LinearLayout>
 

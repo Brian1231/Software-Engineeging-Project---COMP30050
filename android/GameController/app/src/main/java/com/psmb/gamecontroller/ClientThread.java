@@ -60,11 +60,11 @@ class ClientThread extends AsyncTask <String, Void, String> {
             }
             //Close Socket
             finally {
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                try {
+////                    socket.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
             }
         }
         else{
