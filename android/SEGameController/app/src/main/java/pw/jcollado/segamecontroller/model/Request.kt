@@ -10,13 +10,31 @@ import com.squareup.moshi.Moshi
  * Created by jcolladosp on 07/03/2018.
  */
 
-data class Request(val id: Int,val action: String)
+data class Request(val id: Int,val action: String){
+    fun toJSONString(): String {
+
+        return RequestFunctions().jsonAdapter.toJson(this)
+
+    }
+}
 
 
 data class PortRequest(val id: Int,val port: Int){
+    fun toJSONString(): String {
+
+        return RequestFunctions().jsonAdapterPort.toJson(this)
+
+    }
 
 }
+data class PlayerRequest(val id: Int,val balance: Int,val position: Int){
+    fun toJSONString(): String {
 
+        return RequestFunctions().jsonAdapterPlayer.toJson(this)
+
+    }
+
+}
 
 
 
@@ -28,23 +46,19 @@ class RequestFunctions{
             .build()
     val jsonAdapter = moshi.adapter(Request::class.java)
     val jsonAdapterPort = moshi.adapter(PortRequest::class.java)
+    val jsonAdapterPlayer = moshi.adapter(PlayerRequest::class.java)
 
-    fun requestToJSONString(request: Request): String {
 
-        return RequestFunctions().jsonAdapter.toJson(request)
-
-    }
     fun requestFromJSONString(json: String): Request? {
-        return RequestFunctions().jsonAdapter.fromJson(json)
+        return jsonAdapter.fromJson(json)
     }
 
-    open fun portToJSONString(portRequest: PortRequest): String {
 
-        return RequestFunctions().jsonAdapterPort.toJson(portRequest)
-
-    }
     open fun portFromJSONString(json: String): PortRequest? {
-        return RequestFunctions().jsonAdapterPort.fromJson(json)
+        return jsonAdapterPort.fromJson(json)
+    }
+    open fun playerFromJSONString(json: String): PlayerRequest? {
+        return jsonAdapterPlayer.fromJson(json)
     }
 
 }

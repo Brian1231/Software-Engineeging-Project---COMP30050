@@ -23,6 +23,7 @@ class JoinActivity : App(), AsyncResponse {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join)
         setupUI()
+        savePort(8080)
 
     }
 
@@ -35,8 +36,9 @@ class JoinActivity : App(), AsyncResponse {
     private fun joinServer(){
         val username  = userNameED.text.toString()
         val joinGameRequest = Request(-1,username)
-        val jsonStringRequest = RequestFunctions().requestToJSONString(joinGameRequest)
+        val jsonStringRequest = joinGameRequest.toJSONString()
         idTextView.text = jsonStringRequest
+        preferences.username = username
         requestToServer(jsonStringRequest)
 
     }
@@ -46,16 +48,24 @@ class JoinActivity : App(), AsyncResponse {
 
     private fun getResponseID(response: String){
         Log.i("lol",response)
-        val responseRequest = RequestFunctions().portFromJSONString(response)
-        responseRequest?.id?.let { saveUserID(it) }
-        responseRequest?.port?.let { savePort(it) }
+        if(response.contains("port")){
+            val responseRequest = RequestFunctions().portFromJSONString(response)
+            responseRequest?.id?.let { saveUserID(it) }
+            responseRequest?.port?.let { savePort(it) }
+            openConnectionWithNewPort()
+        }
+        else{
+            val responseRequest = RequestFunctions().playerFromJSONString(response)
+            idTextView.text = response
+            startActivity<MainActivity>()
+        }
 
-        idTextView.text = response
-        //startActivity<MainActivity>()
+
+
 
     }
     private fun openConnectionWithNewPort(){
-        requestToServer(Request)
+        requestToServer((Request(preferences.playerID,"hi")).toJSONString())
     }
     private fun saveUserID(id: Int){
         preferences.playerID = id

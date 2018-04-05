@@ -45,7 +45,7 @@ public class ClientThread extends AsyncTask <String, Void, String> {
                 PrintWriter out = new PrintWriter(new BufferedWriter(
                         new OutputStreamWriter(socket.getOutputStream())),
                         true);
-                out.println(message);
+                System.out.println(message);
                 System.out.println("Sent");
 
                 //Receive
