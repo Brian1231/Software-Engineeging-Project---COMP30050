@@ -87,6 +87,7 @@ public class Character_noc {
 		sb.append("PositiveTalkingPoints : " + this.PositiveTalkingPoints +"\n");
 		return sb.toString();
 	}
+	
 	public String getGender(){
 		return this.gender;
 	}
@@ -95,16 +96,38 @@ public class Character_noc {
 		return this.character;
 	}
 	
-	public String getOpponent(){
-		return this.Opponent;
+	public String getWearing(){
+		return this.SeenWearing;
 	}
+	
+	public String getOpponent(){
+		String[] opponents = this.Opponent.split(", ");
+		return opponents[random.nextInt(opponents.length)].trim();
+	}
+	
 	public String getWeapon(){
-		return this.WeaponofChoice;
+		String[] weapons = this.WeaponofChoice.split(", ");
+		return weapons[random.nextInt(weapons.length)].trim();
+	}
+	
+	public String getVehicle(){
+		String[] vehicles = this.VehicleofChoice.split(", ");
+		return vehicles[random.nextInt(vehicles.length)].trim();
 	}
 	
 	public String getActivity(){
 		String[] activities = this.TypicalActivity.split(", ");
-		return activities[random.nextInt(activities.length)];
+		return activities[random.nextInt(activities.length)].trim();
+	}
+	
+	public String[] getPositives(){
+		String[] positives = this.PositiveTalkingPoints.split(", ");
+		return positives;
+	}
+	
+	public String[] getNegatives(){
+		String[] negatives = this.NegativeTalkingPoints.split(", ");
+		return negatives;
 	}
 
 }
