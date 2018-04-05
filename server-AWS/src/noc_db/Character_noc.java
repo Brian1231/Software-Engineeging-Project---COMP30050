@@ -15,14 +15,17 @@ public class Character_noc {
 	private String VehicleofChoice;
 	private String WeaponofChoice;
 	private String SeenWearing;
-	private String DomainsGenres;
+	private String Domains;
+	private String Genres;
 	private String FictiveStatus;
 	private String PortrayedBy;
-	private String CreatorCreation;
 	private String GroupAffiliation;
-	private String FictionalWorldCategory;
 	private String NegativeTalkingPoints;
 	private String PositiveTalkingPoints;
+	private String Creator;
+	private String Creation;
+	private String FictionalWorld;
+	private String Category;
 
 	public Character_noc(String[] info){
 		this.character = info[0];
@@ -38,21 +41,54 @@ public class Character_noc {
 		this.VehicleofChoice = info[10];
 		this.WeaponofChoice = info[11];
 		this.SeenWearing = info[12];
-		this.DomainsGenres = info[13];
-		this.FictiveStatus = info[14];
-		this.PortrayedBy = info[15];
-		this.CreatorCreation = info[16];
-		this.GroupAffiliation = info[17];
-		this.FictionalWorldCategory = info[18];
-		this.NegativeTalkingPoints = info[19];
-		this.PositiveTalkingPoints = info[20];
+		this.Domains = info[13];
+		this.Genres = info[14];
+		this.FictiveStatus = info[15];
+		this.PortrayedBy = info[16];
+		this.Creator = info[17];
+		this.Creation = info[18];
+		this.GroupAffiliation = info[19];
+		this.FictionalWorld = info[20];
+		this.Category = info[21];
+		this.NegativeTalkingPoints = info[22];
+		if(info.length==24)
+		this.PositiveTalkingPoints = info[23];
 	}
-	
+
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("Character : " + this.character +"\n");
+		sb.append("Canonical Name : " + this.canName +"\n");
+		sb.append("Gender : " +  this.gender +"\n");
+		sb.append("Addr 1 : " + this. addr1 +"\n");
+		sb.append("Addr 2 : " + this. addr2 +"\n");
+		sb.append("Addr 3: " + this. addr3 +"\n");
+		sb.append("Politics : " + this. politics +"\n");	
+		sb.append("Marital Status : " + this. maritalStatus +"\n");
+		sb.append("Opponent : " + this. Opponent +"\n");
+		sb.append("TypicalActivity : " +  this.TypicalActivity +"\n");
+		sb.append("VehicleofChoice : " +  this.VehicleofChoice +"\n");
+		sb.append("WeaponofChoice : " + this. WeaponofChoice +"\n");
+		sb.append("SeenWearing : " + this. SeenWearing +"\n");
+		sb.append("Domains : " + this. Domains +"\n");
+		sb.append("Genres : " + this.Genres +"\n");
+		sb.append("FictiveStatus : " + this. FictiveStatus +"\n");
+		sb.append("PortrayedBy : " + this.PortrayedBy +"\n");
+		sb.append("Creator :" + this.Creator + "\n");
+	    sb.append("Creation : " + this.Creation + "\n");
+		sb.append("GroupAffiliation : " + this.GroupAffiliation +"\n");
+		sb.append("FictionalWorld :" + this.FictionalWorld + "\n");
+		sb.append("Category : " + this.Category +"\n");
+		sb.append("NegativeTalkingPoints : " + this. NegativeTalkingPoints +"\n");
+		sb.append("PositiveTalkingPoints : " + this.PositiveTalkingPoints +"\n");
+		return sb.toString();
+	}
 	public String getGender(){
 		return this.gender;
 	}
-	
+
 	public String getName(){
 		return this.character;
 	}
+
 }

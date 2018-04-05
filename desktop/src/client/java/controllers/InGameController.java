@@ -34,12 +34,12 @@ public class InGameController {
 
 	// Temporary street names.
 	// To be replaced by NOC-List
-	private String[] SquareNames = {
+	/*private String[] SquareNames = {
 			"Go","Old Kent Road","Community Chest","Whitechapel Road","Income Tax", "King Cross", "The Angel Islington", "Chance", "Euston Road", "Pentonville Road", "Jail",
 			"Pall Mall","Electric Co","Whitehall","Northumberland Ave","Marylebone Station", "Bow St", "Community Chest","Marlborough St","Vine St",
 			"Free Parking","Strand","Chance", "Fleet St","Trafalgar Sq","Fenchurch St Station", "Leicester Sq", "Coventry St","Water Works", "Piccadilly","Go To Jail",
 			"Regent St","Oxford St","Community Chest","Bond St","Liverpool St Station","Chance","Park Lane","Super Tax","Mayfair"
-	};
+	};*/
 
     // Players
     private ObservableList<String> playerList = FXCollections.observableArrayList();

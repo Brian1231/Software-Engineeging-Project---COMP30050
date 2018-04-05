@@ -32,7 +32,8 @@ public class Main {
 				
 				NOC_Manager noc = new NOC_Manager();
 				noc.setup();
-				noc.printCharacterbyGender("male");
+				//noc.printCharacterbyGender("male");
+				noc.printRandomChar();
 				
 				//Thread for desktop connection
 				clientUpdater = new ClientUpdater();
