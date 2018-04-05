@@ -2,6 +2,7 @@ package noc_db;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
@@ -28,10 +29,12 @@ public class NOC_Manager {
 	//Populate NOC List
 	public void setup() throws IOException{
 
+		getClass().getClassLoader();
 		/////////////////SUPERLATIVES//////////////////////
-		BufferedReader br = new BufferedReader(
-				new InputStreamReader(ClassLoader.getSystemResourceAsStream("superlatives.txt"))
-				);
+		InputStream in = ClassLoader.getSystemResourceAsStream("noc_files/superlatives.txt");
+		InputStreamReader isr = new InputStreamReader(in);
+		BufferedReader br = new BufferedReader(isr);
+				
 		String line = br.readLine();
 		line = br.readLine();
 		while (line != null) {
@@ -42,9 +45,10 @@ public class NOC_Manager {
 		br.close();
 
 		/////////////////Characters//////////////////////
-		br = new BufferedReader(
-				new InputStreamReader(ClassLoader.getSystemResourceAsStream("Veale's The NOC List.txt"))
-				);
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's The NOC List.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+
 		line = br.readLine();
 		line = br.readLine();
 		while (line != null) {
@@ -56,9 +60,10 @@ public class NOC_Manager {
 		br.close();
 
 		/////////////////Weapons//////////////////////
-		br = new BufferedReader(
-				new InputStreamReader(ClassLoader.getSystemResourceAsStream("Veale's weapon arsenal.txt"))
-				);
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's weapon arsenal.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+	
 		line = br.readLine();
 		line = br.readLine();
 		while (line != null) {
@@ -70,9 +75,10 @@ public class NOC_Manager {
 		br.close();
 
 		/////////////////Vehicles//////////////////////
-		br = new BufferedReader(
-				new InputStreamReader(ClassLoader.getSystemResourceAsStream("Veale's vehicle fleet.txt"))
-				);
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's vehicle fleet.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+		
 		line = br.readLine();
 		line = br.readLine();
 		while (line != null) {
@@ -84,9 +90,10 @@ public class NOC_Manager {
 		br.close();
 
 		/////////////////Activities//////////////////////
-		br = new BufferedReader(
-				new InputStreamReader(ClassLoader.getSystemResourceAsStream("Veale's Typical Activities.txt"))
-				);
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's Typical Activities.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+	
 		line = br.readLine();
 		line = br.readLine();
 		while (line != null) {

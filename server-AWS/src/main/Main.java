@@ -5,7 +5,6 @@ import java.net.InetAddress;
 
 import org.json.JSONException;
 
-import game.ChanceTemplate;
 import game.GameState;
 import noc_db.NOC_Manager;
 import server.ClientUpdater;
@@ -34,19 +33,6 @@ public class Main {
 				
 				noc = new NOC_Manager();
 				noc.setup();
-				
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template1());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template2());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template2());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template2());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template4());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template4());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template4());
 				
 				//Thread for desktop connection
 				clientUpdater = new ClientUpdater();
