@@ -61,11 +61,9 @@ public class InGameController {
         setUpBoard();
         try {
             showLobbyWindow();
+            connection.startConnection();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        try {
-            connection.startConnection();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -126,6 +124,8 @@ public class InGameController {
                     int position = playerObjects.getJSONObject(i).getInt("position");
                     plyrs.add(new Player(balance,id,position,Color.WHITE));
                 }
+                playerCanvas.updatePlayers(plyrs);
+                playerCanvas.draw();
 
                 ArrayList<String> names = new ArrayList<>();
                 for(Player p : plyrs){

@@ -10,16 +10,9 @@ public class PlayerCanvas extends ResizableCanvas {
 
     final double PI = 3.14159265359;
 
-    // test code
-    Player player1 = new Player(2000, 1, 30, Color.WHITE);
-    Player player2 = new Player(2000, 2, 13, Color.RED);
-
     ArrayList<Player> players = new ArrayList<>();
 
     public PlayerCanvas() {
-        //test Code
-        players.add(player1);
-        players.add(player2);
         // Redraw canvas when size changes.
         widthProperty().addListener(evt -> draw());
         heightProperty().addListener(evt -> draw());
@@ -32,10 +25,10 @@ public class PlayerCanvas extends ResizableCanvas {
         GraphicsContext gc = getGraphicsContext2D();
         gc.clearRect(0, 0, width, height);
 
-        drawPlayers(gc, players, width, height );
+        drawPlayers(gc, width, height );
     }
 
-    public void drawPlayers(GraphicsContext g, ArrayList<Player> players, double width, double height){
+    public void drawPlayers(GraphicsContext g, double width, double height){
 
         double r = 0.15707963267;
 
@@ -53,6 +46,26 @@ public class PlayerCanvas extends ResizableCanvas {
     }
 
     public void updatePlayers(List<Player> players){
+        for(Player p : players){
+            if(!players.contains(p)) {
+                addPlayer(p);
+            }
+            else{
+                updatePlayerData(p);
+            }
+        }
 
+    }
+
+    public void addPlayer(Player player){
+        players.add(player);
+    }
+
+    public void updatePlayerData(Player player){
+        if(players.contains(player)){
+            int index = players.indexOf(player);
+            players.get(index).setBalance(player.getBalance());
+            players.get(index).setPosition(player.getPosition());
+        }
     }
 }
