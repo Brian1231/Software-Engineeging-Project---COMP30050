@@ -12,9 +12,10 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class ClientThread extends AsyncTask <String, Void, String> {
+public class ClientThread extends AsyncTask<String, Void, String> {
 
     private static Socket socket;
+    //private static final int SERVER_PORT = 50000;
 
     private AsyncResponse mCallback;
 
