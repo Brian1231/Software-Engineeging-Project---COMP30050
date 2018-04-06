@@ -7,7 +7,7 @@ import game_interfaces.Rentable;
 public class RentalProperty extends PrivateProperty implements Rentable, Mortgageable {
 
 	private boolean isMortgaged = false;
-	private int rentAmount;
+	private int[] rentAmounts;
 
 	public RentalProperty(int location, String name, int price) {
 		super(location, name, price);
@@ -42,12 +42,17 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 	}
 
 	@Override
-	public int getRentAmount() {
-		return rentAmount;
+	public int getBaseRentAmount() {
+		return rentAmounts[0];
 	}
 
 	@Override
-	public void setRentAmount(int rentAmount) {
-		this.rentAmount = rentAmount;
+	public void setRentAmounts(int[] rentAmounts) {
+		this.rentAmounts = rentAmounts;
+	}
+
+	@Override
+	public int[] getAllRentAmounts() {
+		return rentAmounts;
 	}
 }
