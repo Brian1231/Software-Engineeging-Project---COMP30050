@@ -34,7 +34,7 @@ public class ChanceTemplate {
 
 	public String template1(){
 		StringBuilder sb = new StringBuilder();
-		sb.append(char1.getName() + " appears " + vehicle.getAffordance() + " " + vehicle.getDeterminer() + " " + vehicle.getVehicle()+ ". ");
+		sb.append(char1.getName()).append(" appears ").append(vehicle.getAffordance()).append(" ").append(vehicle.getDeterminer()).append(" ").append(vehicle.getVehicle()).append(". ");
 		sb.append(pronoun + " says that " + pronoun.toLowerCase() + " is tired of " + char1.getActivity() + " and wants some action. ");
 		sb.append(pronoun + " starts " + weapon.getAffordanceWithTarget("you") + " " + weapon.getDeterminer() + " " + weapon.getWeapon() + ".");
 		return sb.toString(); 

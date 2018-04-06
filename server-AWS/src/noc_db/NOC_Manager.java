@@ -41,7 +41,6 @@ public class NOC_Manager {
 		BufferedReader br = new BufferedReader(isr);
 
 		String line = br.readLine();
-		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
 			superlatives.add(new Superlative_noc(data[0], data[1]));
@@ -54,7 +53,6 @@ public class NOC_Manager {
 		isr = new InputStreamReader(in);
 		br = new BufferedReader(isr);
 
-		line = br.readLine();
 		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
@@ -70,7 +68,6 @@ public class NOC_Manager {
 		br = new BufferedReader(isr);
 
 		line = br.readLine();
-		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
 			weapons.add(new Weapon_noc(data));
@@ -84,7 +81,6 @@ public class NOC_Manager {
 		isr = new InputStreamReader(in);
 		br = new BufferedReader(isr);
 
-		line = br.readLine();
 		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
@@ -100,7 +96,6 @@ public class NOC_Manager {
 		br = new BufferedReader(isr);
 
 		line = br.readLine();
-		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
 			this.activities.add(new Activity_noc(data));
@@ -113,7 +108,6 @@ public class NOC_Manager {
 		isr = new InputStreamReader(in);
 		br = new BufferedReader(isr);
 
-		line = br.readLine();
 		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
@@ -128,7 +122,6 @@ public class NOC_Manager {
 		br = new BufferedReader(isr);
 
 		line = br.readLine();
-		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
 			this.locations.add(new Location_noc(data));
@@ -141,7 +134,6 @@ public class NOC_Manager {
 		isr = new InputStreamReader(in);
 		br = new BufferedReader(isr);
 
-		line = br.readLine();
 		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
