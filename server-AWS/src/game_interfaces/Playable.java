@@ -1,9 +1,10 @@
 package game_interfaces;
 
+import game.PrivateProperty;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface Playable extends Identifiable {
     String toString();
@@ -28,8 +29,11 @@ public interface Playable extends Identifiable {
     void receiveMoney(int received);
 
     // returns list of ID of owned properties
-    List<String> getOwnedProperties();
+    ArrayList<PrivateProperty> getOwnedProperties();
 
     // add new property to list of properties owned
-    void addNewPropertyBought(String id);
+    void addNewPropertyBought(PrivateProperty property);
+
+    // remove property player sold
+    void removePropertySold(PrivateProperty property);
 }

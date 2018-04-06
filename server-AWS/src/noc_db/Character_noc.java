@@ -14,8 +14,8 @@ public class Character_noc {
 	private String maritalStatus;
 	private String Opponent;
 	private String TypicalActivity;
-	private String VehicleofChoice;
-	private String WeaponofChoice;
+	private String VehicleOfChoice;
+	private String WeaponOfChoice;
 	private String SeenWearing;
 	private String Domains;
 	private String Genres;
@@ -42,8 +42,8 @@ public class Character_noc {
 		this.maritalStatus = info[7];
 		this.Opponent = info[8];
 		this.TypicalActivity = info[9];
-		this.VehicleofChoice = info[10];
-		this.WeaponofChoice = info[11];
+		this.VehicleOfChoice = info[10];
+		this.WeaponOfChoice = info[11];
 		this.SeenWearing = info[12];
 		this.Domains = info[13];
 		this.Genres = info[14];
@@ -71,8 +71,8 @@ public class Character_noc {
 		sb.append("Marital Status : " + this. maritalStatus +"\n");
 		sb.append("Opponent : " + this. Opponent +"\n");
 		sb.append("TypicalActivity : " +  this.TypicalActivity +"\n");
-		sb.append("VehicleofChoice : " +  this.VehicleofChoice +"\n");
-		sb.append("WeaponofChoice : " + this. WeaponofChoice +"\n");
+		sb.append("VehicleOfChoice : " +  this.VehicleOfChoice +"\n");
+		sb.append("WeaponOfChoice : " + this. WeaponOfChoice +"\n");
 		sb.append("SeenWearing : " + this. SeenWearing +"\n");
 		sb.append("Domains : " + this. Domains +"\n");
 		sb.append("Genres : " + this.Genres +"\n");
@@ -97,7 +97,8 @@ public class Character_noc {
 	}
 	
 	public String getWearing(){
-		return this.SeenWearing;
+		String[] clothes = this.SeenWearing.split(", ");
+		return clothes[random.nextInt(clothes.length)].trim();
 	}
 	
 	public String getOpponent(){
@@ -106,12 +107,12 @@ public class Character_noc {
 	}
 	
 	public String getWeapon(){
-		String[] weapons = this.WeaponofChoice.split(", ");
+		String[] weapons = this.WeaponOfChoice.split(", ");
 		return weapons[random.nextInt(weapons.length)].trim();
 	}
 	
 	public String getVehicle(){
-		String[] vehicles = this.VehicleofChoice.split(", ");
+		String[] vehicles = this.VehicleOfChoice.split(", ");
 		return vehicles[random.nextInt(vehicles.length)].trim();
 	}
 	
@@ -121,13 +122,11 @@ public class Character_noc {
 	}
 	
 	public String[] getPositives(){
-		String[] positives = this.PositiveTalkingPoints.split(", ");
-		return positives;
+		return this.PositiveTalkingPoints.split(", ");
 	}
 	
 	public String[] getNegatives(){
-		String[] negatives = this.NegativeTalkingPoints.split(", ");
-		return negatives;
+		return this.NegativeTalkingPoints.split(", ");
 	}
 
 }

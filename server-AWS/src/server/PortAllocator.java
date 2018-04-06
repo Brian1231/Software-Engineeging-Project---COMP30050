@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,11 +20,13 @@ public class PortAllocator extends Thread{
 	private Socket socket;
 	private int port;
 	private int playerPortCount;
+	private int playerCount=1;
 	private ArrayList<PlayerConnection> playerConnections;
+	private HashMap<Integer, String> idIpMap = new HashMap<Integer, String> ();
 
 	public PortAllocator(int portNum){
 		this.port = portNum;
-		playerPortCount = this.port;
+		playerPortCount = this.port +1;
 		try {
 			server = new ServerSocket(this.port);
 		} catch (IOException e) {
@@ -55,11 +58,20 @@ public class PortAllocator extends Thread{
 					}
 
 					String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
-					int playerID = Main.gameState.addPlayer(client_ip);
-					
-					if(playerID != -1){
+
+					if(!idIpMap.values().contains(client_ip)){
+						idIpMap.put(this.playerCount, client_ip);//Maybe not needed, Just array of ip's could do
+						
+						playerConnections.add(new PlayerConnection(this.playerCount, this.playerPortCount));
+						
+						PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+						JSONObject response = new JSONObject();
+						response.put("id", playerCount);
+						response.put("port", this.playerPortCount);
+						out.println(response.toString());
+						
+						this.playerCount++;
 						this.playerPortCount++;
-						playerConnections.add(new PlayerConnection(playerID, this.playerPortCount));
 					}
 
 					for(PlayerConnection pc : playerConnections){
@@ -67,13 +79,6 @@ public class PortAllocator extends Thread{
 							pc.start();
 						}
 					}
-
-					PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-					JSONObject response = new JSONObject();
-					response.put("id", playerID);
-					response.put("port", this.playerPortCount);
-					out.println(response.toString());
-
 
 				}catch (IOException | JSONException e) {
 					e.printStackTrace();

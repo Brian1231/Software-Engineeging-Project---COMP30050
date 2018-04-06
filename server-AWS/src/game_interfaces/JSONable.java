@@ -5,5 +5,5 @@ import org.json.JSONObject;
 
 public interface JSONable {
 
-	public JSONObject getInfo() throws JSONException;
+	JSONObject getInfo() throws JSONException;
 }

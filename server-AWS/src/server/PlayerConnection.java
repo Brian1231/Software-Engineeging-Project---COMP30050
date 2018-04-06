@@ -38,13 +38,16 @@ public class PlayerConnection extends Thread{
 			e2.printStackTrace();
 		}
 
-		Main.clientUpdater.updateActionInfo("New Player Connected!");
-		Main.clientUpdater.updateDesktop();
+		
 		System.out.println("Connected Player to Port " +  + this.port);
+		
+		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
+		Main.gameState.addPlayer(client_ip);
+		Main.clientUpdater.updateActionInfo("New Player Connected!");
+		Main.clientUpdater.updateDesktopPlayers();
 
 		while(Main.gameState.isActive()){
 			synchronized(this){
-
 
 				BufferedReader reader = null;
 
@@ -72,7 +75,7 @@ public class PlayerConnection extends Thread{
 
 							//Update Desktop
 							Main.clientUpdater.updateActionInfo(actionInfo);
-							Main.clientUpdater.updateDesktop();
+							Main.clientUpdater.updateDesktopPlayers();
 							
 							//Update Player
 							this.updatePlayer();

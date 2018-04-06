@@ -45,8 +45,8 @@ public class PlayerCanvas extends ResizableCanvas {
         }
     }
 
-    public void updatePlayers(List<Player> players){
-        for(Player p : players){
+    public void updatePlayers(List<Player> plyrs){
+        for(Player p : plyrs){
             if(!players.contains(p)) {
                 System.out.println("/n Adding new player");
                 addPlayer(p);

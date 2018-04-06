@@ -1,6 +1,6 @@
 package tests;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -11,11 +11,11 @@ public class PlayerTest {
 	@Test
 	public void testCreatePlayer() {
 		Player player = new Player(1, "1.1.1.1");
-		
-		assertTrue(player.getID() == 1);
-		assertTrue(player.getIp().equals("1.1.1.1"));
-		assertTrue(player.getNetWorth() == 1000);
-		assertTrue(player.getPos() == 0);
+
+		assertEquals(1, player.getID());
+		assertEquals("1.1.1.1", player.getIp());
+		assertEquals(1000, player.getNetWorth());
+		assertEquals(0, player.getPos());
 	}
 	
 	@Test
@@ -23,8 +23,8 @@ public class PlayerTest {
 		Player player = new Player(1, "1.1.1.1");
 		
 		player.payMoney(500);
-		assertTrue(player.getNetWorth() == 500);
+		assertEquals(500, player.getNetWorth());
 		player.receiveMoney(1000);
-		assertTrue(player.getNetWorth() == 1500);
+		assertEquals(1500, player.getNetWorth());
 	}
 }

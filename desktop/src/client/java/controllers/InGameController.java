@@ -103,21 +103,30 @@ public class InGameController {
         Platform.runLater(() -> {
             try {
                 System.out.println("Current GameState: " + update.toString());
-
+                List<Player> plyrs = new ArrayList<>();
                 int playerTurn = update.getInt("player_turn");
                 String actionInfo = update.getString("action_info");
 
-                JSONArray playerObjects = update.getJSONArray("players");
-                List<Player> plyrs = new ArrayList<>();
-                for(int i=0;i<playerObjects.length();i++){
-                    int balance = playerObjects.getJSONObject(i).getInt("balance");
-                    int id = playerObjects.getJSONObject(i).getInt("id");
-                    int position = playerObjects.getJSONObject(i).getInt("position");
-                    plyrs.add(new Player(balance,id,position,Color.WHITE));
+                System.out.println("PlayerTurn: " + playerTurn);
+
+                // Redraw players according to new player positions
+                if(update.has("players")){
+                    JSONArray playerObjects = update.getJSONArray("players");
+
+                    for(int i=0;i<playerObjects.length();i++){
+                        int balance = playerObjects.getJSONObject(i).getInt("balance");
+                        int id = playerObjects.getJSONObject(i).getInt("id");
+                        int position = playerObjects.getJSONObject(i).getInt("position");
+                        plyrs.add(new Player(balance,id,position,Color.WHITE));
+                    }
+                    playerCanvas.updatePlayers(plyrs);
                 }
 
-                // redraw players according to new player positions
-                playerCanvas.updatePlayers(plyrs);
+
+                // Debugging
+                for(Player p : plyrs){
+                    System.out.println("\n Player " + p.getId() + " Position: "  + p.getPosition() + "\n");
+                }
 
                 // Update lobby list According to new players
                 ArrayList<String> names = new ArrayList<>();

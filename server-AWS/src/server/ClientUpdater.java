@@ -28,12 +28,27 @@ public class ClientUpdater extends Thread{
 		System.out.println("Connected!");
 	}
 
-	public void updateDesktop(){
+	public void updateDesktopBoard(){
 		JSONObject output = null;
 		PrintWriter out = null;
 		try {
 			output = new JSONObject("{}");
-			output = Main.gameState.getInfo();
+			output = Main.gameState.getInfoBoard();
+			output.put("action_info", this.actionInfo);
+			out = new PrintWriter(socket.getOutputStream(), true);
+		} catch (JSONException | IOException e1) {
+			e1.printStackTrace();
+		}
+		//Output to desktop
+		out.println(output.toString());
+	}
+
+	public void updateDesktopPlayers(){
+		JSONObject output = null;
+		PrintWriter out = null;
+		try {
+			output = new JSONObject("{}");
+			output = Main.gameState.getInfoPlayers();
 			output.put("action_info", this.actionInfo);
 			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (JSONException | IOException e1) {
@@ -54,30 +69,31 @@ public class ClientUpdater extends Thread{
 			e1.printStackTrace();
 		}
 
-		synchronized(this){
+		while(Main.gameState.isActive){
+			synchronized(this){
 
-			try{
-				//Input from desktop
-				if(reader.ready()){
-					String line = reader.readLine();
-					if (!line.isEmpty()) {
-						System.out.println("Message from Desktop: " + line);
-					}
+				try{
+					//Input from desktop
+					if(reader.ready()){
+						String line = reader.readLine();
+						if (!line.isEmpty()) {
+							System.out.println("Message from Desktop: " + line);
+						}
 
-					//Parse JSONObject from input
-					JSONObject obj = new JSONObject(line);
-					int id = (int) obj.get("id");
-					if(id == 0){
-						if(obj.get("action").equals("start")){
-							Main.gameState.startGame();
+						//Parse JSONObject from input
+						JSONObject obj = new JSONObject(line);
+						int id = (int) obj.get("id");
+						if(id == 0){
+							if(obj.get("action").equals("start")){
+								Main.gameState.startGame();
+							}
 						}
 					}
+
+				}catch(Exception e){
+					e.printStackTrace();
 				}
-
-			}catch(Exception e){
-				e.printStackTrace();
 			}
-
 		}
 	}
 }

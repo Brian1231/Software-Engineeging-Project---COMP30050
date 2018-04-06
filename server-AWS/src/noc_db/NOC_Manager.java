@@ -2,6 +2,7 @@ package noc_db;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,6 +17,9 @@ public class NOC_Manager {
 	ArrayList<Weapon_noc> weapons;
 	ArrayList<Vehicle_noc> vehicles;
 	ArrayList<Activity_noc> activities;
+	ArrayList<World_noc> worlds;
+	ArrayList<Location_noc> locations;
+	ArrayList<Clothes_noc> clothes;
 
 	public NOC_Manager(){
 		this.superlatives = new ArrayList<Superlative_noc>();
@@ -23,17 +27,20 @@ public class NOC_Manager {
 		this.weapons = new ArrayList<Weapon_noc>();
 		this.vehicles = new ArrayList<Vehicle_noc>();
 		this.activities = new ArrayList<Activity_noc>();
+		this.worlds = new ArrayList<World_noc>();
+		this.locations = new ArrayList<Location_noc>();
+		this.clothes = new ArrayList<Clothes_noc>();
 	}
 
 	//Populate NOC List
 	public void setup() throws IOException{
 
 		/////////////////SUPERLATIVES//////////////////////
-		BufferedReader br = new BufferedReader(
-				new InputStreamReader(ClassLoader.getSystemResourceAsStream("superlatives.txt"))
-				);
+		InputStream in = ClassLoader.getSystemResourceAsStream("noc_files/superlatives.txt");
+		InputStreamReader isr = new InputStreamReader(in);
+		BufferedReader br = new BufferedReader(isr);
+
 		String line = br.readLine();
-		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
 			superlatives.add(new Superlative_noc(data[0], data[1]));
@@ -42,10 +49,10 @@ public class NOC_Manager {
 		br.close();
 
 		/////////////////Characters//////////////////////
-		br = new BufferedReader(
-				new InputStreamReader(ClassLoader.getSystemResourceAsStream("Veale's The NOC List.txt"))
-				);
-		line = br.readLine();
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's The NOC List.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+
 		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
@@ -56,10 +63,10 @@ public class NOC_Manager {
 		br.close();
 
 		/////////////////Weapons//////////////////////
-		br = new BufferedReader(
-				new InputStreamReader(ClassLoader.getSystemResourceAsStream("Veale's weapon arsenal.txt"))
-				);
-		line = br.readLine();
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's weapon arsenal.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+
 		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
@@ -70,10 +77,10 @@ public class NOC_Manager {
 		br.close();
 
 		/////////////////Vehicles//////////////////////
-		br = new BufferedReader(
-				new InputStreamReader(ClassLoader.getSystemResourceAsStream("Veale's vehicle fleet.txt"))
-				);
-		line = br.readLine();
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's vehicle fleet.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+
 		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
@@ -84,14 +91,53 @@ public class NOC_Manager {
 		br.close();
 
 		/////////////////Activities//////////////////////
-		br = new BufferedReader(
-				new InputStreamReader(ClassLoader.getSystemResourceAsStream("Veale's Typical Activities.txt"))
-				);
-		line = br.readLine();
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's Typical Activities.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+
 		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
 			this.activities.add(new Activity_noc(data));
+			line = br.readLine();
+		}
+		br.close();
+
+		/////////////////FICTIONAL WORLDS//////////////////////
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's fictional worlds.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+
+		line = br.readLine();
+		while (line != null) {
+			String data[] = line.split("\t");
+			this.worlds.add(new World_noc(data));
+			line = br.readLine();
+		}
+		br.close();
+
+		/////////////////Locations//////////////////////
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's location listing.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+
+		line = br.readLine();
+		while (line != null) {
+			String data[] = line.split("\t");
+			this.locations.add(new Location_noc(data));
+			line = br.readLine();
+		}
+		br.close();
+
+		/////////////////Clothing//////////////////////
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's clothing line.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+
+		line = br.readLine();
+		while (line != null) {
+			String data[] = line.split("\t");
+			this.clothes.add(new Clothes_noc(data));
 			line = br.readLine();
 		}
 		br.close();
@@ -156,4 +202,42 @@ public class NOC_Manager {
 		return "field";
 
 	}
+
+	public World_noc getRandomWorld(){
+		int i = random.nextInt(worlds.size());
+		return worlds.get(i);
+	}
+
+	public String getLocationDeterminer(String l){
+		for(Location_noc loc : this.locations){
+			if(loc.getLocation().equals(l)){
+				String res = loc.getDeterminer();
+				if(!res.equals("")) res = " " + res;
+				return res;
+			}
+		}
+		return "";
+	}
+	
+	public String getClothingDeterminer(String c){
+		for(Clothes_noc clo : this.clothes){
+			if(clo.getClothings().contains(c)){
+				String res = clo.getDeterminer();
+				if(!res.equals("")) res = " " + res;
+				return res;
+			}
+		}
+		return "a";
+	}
+	
+	public String getClothingCovering(String c){
+		for(Clothes_noc clo : this.clothes){
+			if(clo.getClothes().equals(c)){
+				return clo.getCovering();
+			}
+		}
+		return "";
+	}
+
+
 }

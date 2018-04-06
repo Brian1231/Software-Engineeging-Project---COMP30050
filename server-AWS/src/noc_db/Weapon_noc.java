@@ -27,7 +27,10 @@ public class Weapon_noc {
 	}
 
 	public String getDeterminer(){
-		return this.determiner;
+		if(this.determiner.equals("")) 
+			return this.determiner;
+		else
+			return " " + this.determiner;
 	}
 
 	public String getWeapon(){
