@@ -29,7 +29,7 @@ class MainActivity : App(), AsyncResponse {
 
 
     fun onRoll() {
-        requestToServer(Request(0, "roll").toJSONString())
+        requestToServer(Request(preferences.playerID, "roll").toJSONString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -69,7 +69,7 @@ class MainActivity : App(), AsyncResponse {
             actionBar.setDisplayShowTitleEnabled(true)
             actionBar.setHomeButtonEnabled(false)
             actionBar.setDisplayHomeAsUpEnabled(false)
-            actionBar.title = preferences.playerID
+            actionBar.title = preferences.username
 
         }
 

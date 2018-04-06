@@ -11,7 +11,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
     Button sendButton;
     Button cancelButton;
-    ClientThread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +18,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         setContentView(R.layout.activity_main);
         sendButton = (Button) findViewById(R.id.sendButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
-        thread = new ClientThread(MainActivity.this);
     }
 
     protected void onStart() {
@@ -37,22 +35,11 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 String port = etport.getText().toString();
 
 
-                thread.execute(message,ip, port);
+                new ClientThread(MainActivity.this).execute(message,ip, port);
             }
         });
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                thread.cancel(true);
-                /*EditText et = (EditText) findViewById(R.id.messageText);
-                et.setText("");
-                EditText etip = (EditText) findViewById(R.id.ipText);
-                etip.setText("");
-                TextView restext = (TextView) findViewById(R.id.responseText);
-                restext.setText("");*/
-            }
-        });
+
     }
 
     @Override

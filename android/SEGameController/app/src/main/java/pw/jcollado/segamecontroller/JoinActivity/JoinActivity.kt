@@ -2,8 +2,8 @@ package pw.jcollado.segamecontroller.JoinActivity
 
 import android.os.Bundle
 import android.util.Log
-import com.beust.klaxon.JsonObject
-import com.beust.klaxon.Klaxon
+import android.util.Log.i
+
 import kotlinx.android.synthetic.main.activity_join.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.startActivity
@@ -11,11 +11,8 @@ import org.jetbrains.anko.toast
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.connections.AsyncResponse
 import pw.jcollado.segamecontroller.mainActivity.MainActivity
-import pw.jcollado.segamecontroller.model.App
-import pw.jcollado.segamecontroller.model.Request
-import pw.jcollado.segamecontroller.model.preferences
+import pw.jcollado.segamecontroller.model.*
 import pw.jcollado.segamecontroller.utils.requestToServer
-import org.json.JSONObject
 
 
 
@@ -26,37 +23,59 @@ class JoinActivity : App(), AsyncResponse {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join)
         setupUI()
+        savePort(8080)
 
     }
 
     private fun setupUI(){
         joinButton.onClick { joinServer() }
-        idTextView.text = preferences.playerID
+        idTextView.text = preferences.playerID.toString()
 
     }
 
     private fun joinServer(){
-        val joinGameRequest = Request(-1,"Hi")
-
-        idTextView.text = joinGameRequest.toJSONString()
-
-        requestToServer(joinGameRequest.toJSONString())
-        //startActivity<MainActivity>()
+        val username  = userNameED.text.toString()
+        val joinGameRequest = Request(-1,username)
+        val jsonStringRequest = joinGameRequest.toJSONString()
+        idTextView.text = jsonStringRequest
+        preferences.username = username
+        requestToServer(jsonStringRequest)
 
     }
 
 
+
+
+    private fun getResponseID(response: String){
+        Log.i("lol",response)
+        if(response.contains("port")){
+            val responseRequest = RequestFunctions().portFromJSONString(response)
+            responseRequest?.id?.let { saveUserID(it) }
+            responseRequest?.port?.let { savePort(it) }
+            openConnectionWithNewPort()
+        }
+        else{
+            val responseRequest = RequestFunctions().playerFromJSONString(response)
+            idTextView.text = response
+            startActivity<MainActivity>()
+        }
+
+
+
+
+    }
+    private fun openConnectionWithNewPort(){
+        requestToServer((Request(preferences.playerID,"hi")).toJSONString())
+    }
+    private fun saveUserID(id: Int){
+        preferences.playerID = id
+    }
+    private fun savePort(port: Int){
+        preferences.port = port
+    }
 
     override fun processFinish(output: String?) {
         handleResponse(output)
-    }
-    private fun getResponseID(response: String){
-        val jsonObj = JsonObject()
-
-        var responseRequest = Klaxon().
-    }
-    private fun saveUserID(id: String){
-        preferences.playerID = id
     }
 
     private fun handleResponse(response: String?) {
