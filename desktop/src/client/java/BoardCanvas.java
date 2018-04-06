@@ -24,12 +24,16 @@ public class BoardCanvas extends ResizableCanvas {
         GraphicsContext gc = getGraphicsContext2D();
         gc.clearRect(0, 0, width, height);
 
-        gc.setFill(Color.BLACK);
-
         Image background = new Image("/client/resources/images/space.jpg");
         gc.drawImage(background,0,0,width,height);
 
-        PixelWriter pw = gc.getPixelWriter();
+        drawInfinityShape(gc,width,height);
+        drawPropertyTiles(gc,width,height);
+    }
+
+
+    public void drawInfinityShape(GraphicsContext g, double width,double height){
+        PixelWriter pw = g.getPixelWriter();
 
         for(double t = -PI; t<PI; t+=0.001){
             double x = (width/3*Math.sqrt(2)*Math.cos(t))/(Math.pow(Math.sin(t),2)+1);
@@ -40,10 +44,10 @@ public class BoardCanvas extends ResizableCanvas {
 
             pw.setColor(pixel_x,pixel_y, Color.GOLD);
         }
+    }
 
-        gc.setStroke(Color.GOLD);
+    public void drawPropertyTiles(GraphicsContext g, double width,double height){
         int count = 0;
-
         for(double t = -PI+0.15707963267; t<=PI; t+=0.15707963267){
             count+=1;
 
@@ -52,12 +56,13 @@ public class BoardCanvas extends ResizableCanvas {
 
             String s = "#" + count;
 
-            gc.setFill(Color.BLACK);
-            gc.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
-            gc.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
+            g.setFill(Color.BLACK);
+            g.setStroke(Color.GOLD);
+            g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
+            g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
 
-            gc.setFill(Color.WHITE);
-            gc.fillText(s,x + (width/2),y + (height/2));
+            g.setFill(Color.WHITE);
+            g.fillText(s,x + (width/2),y + (height/2));
         }
     }
 }
