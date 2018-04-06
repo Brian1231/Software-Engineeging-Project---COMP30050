@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17cb8539-ad0e-4391-a71d-680c989611bf" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/ConalONeill.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../desktop/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../desktop/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/game/InvestmentProperty.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/game/RentalProperty.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/ChanceTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/ChanceTemplate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game_interfaces/JSONable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game_interfaces/JSONable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/noc_db/Character_noc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/noc_db/Character_noc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/noc_db/Location_noc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/noc_db/Location_noc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/noc_db/NOC_Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/noc_db/NOC_Manager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/PlayerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/PlayerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game_interfaces/Mortgageable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game_interfaces/Mortgageable.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,42 +17,101 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/Main.java">
+      <file leaf-file-name="PortAllocator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/server/PortAllocator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+            <state relative-caret-position="935">
+              <caret line="77" column="24" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NamedLocation.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/game/NamedLocation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#269#311#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlayerTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/tests/PlayerTest.java">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+            <state relative-caret-position="443">
+              <caret line="64" column="49" lean-forward="true" selection-start-line="64" selection-start-column="49" selection-end-line="64" selection-end-column="49" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="World_noc.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/noc_db/World_noc.java">
+      <file leaf-file-name="TaxSquare.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/game/TaxSquare.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="13" column="36" selection-start-line="13" selection-start-column="36" selection-end-line="13" selection-end-column="36" />
+            <state relative-caret-position="285">
+              <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#228#229#0" expanded="true" />
+                <element signature="e#246#247#0" expanded="true" />
+                <element signature="e#313#314#0" expanded="true" />
+                <element signature="e#354#355#0" expanded="true" />
+                <element signature="e#504#505#0" expanded="true" />
+                <element signature="e#539#540#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Location_noc.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/noc_db/Location_noc.java">
+      <file leaf-file-name="RentalProperty.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/game/RentalProperty.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="11" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
+            <state relative-caret-position="405">
+              <caret line="27" column="5" lean-forward="true" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#333#334#0" expanded="true" />
+                <element signature="e#368#369#0" expanded="true" />
+                <element signature="e#922#923#0" expanded="true" />
+                <element signature="e#949#950#0" expanded="true" />
+                <element signature="e#987#988#0" expanded="true" />
+                <element signature="e#1022#1023#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientUpdater.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/server/ClientUpdater.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="30" column="37" lean-forward="true" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InvestmentProperty.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/game/InvestmentProperty.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
+              <folding>
+                <element signature="e#196#197#0" expanded="true" />
+                <element signature="e#231#232#0" expanded="true" />
+                <element signature="e#169#170#0" expanded="true" />
+                <element signature="e#184#185#0" expanded="true" />
+                <element signature="e#225#226#0" expanded="true" />
+                <element signature="e#240#241#0" expanded="true" />
+                <element signature="e#394#395#0" expanded="true" />
+                <element signature="e#409#410#0" expanded="true" />
+                <element signature="e#512#513#0" expanded="true" />
+                <element signature="e#527#528#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -67,64 +119,38 @@
       <file leaf-file-name="PlayerConnection.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/server/PlayerConnection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="104" column="27" selection-start-line="104" selection-start-column="27" selection-end-line="104" selection-end-column="27" />
+            <state relative-caret-position="345">
+              <caret line="33" column="8" selection-start-line="33" selection-start-column="8" selection-end-line="38" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JSONable.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/game_interfaces/JSONable.java">
+      <file leaf-file-name="Mortgageable.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/game_interfaces/Mortgageable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
+            <state relative-caret-position="105">
+              <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NOC_Manager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/noc_db/NOC_Manager.java">
+      <file leaf-file-name="Taxable.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/game_interfaces/Taxable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-200">
-              <caret line="135" selection-start-line="135" selection-end-line="135" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Character_noc.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/noc_db/Character_noc.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="77" column="51" lean-forward="true" selection-start-line="77" selection-start-column="51" selection-end-line="77" selection-end-column="51" />
-              <folding>
-                <element signature="e#3836#3837#0" expanded="true" />
-                <element signature="e#3888#3889#0" expanded="true" />
-                <element signature="e#3923#3924#0" expanded="true" />
-                <element signature="e#3975#3976#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GameState.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/game/GameState.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="98" column="18" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChanceTemplate.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/game/ChanceTemplate.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="68" column="35" selection-start-line="68" selection-start-column="35" selection-end-line="68" selection-end-column="35" />
+            <state relative-caret-position="165">
+              <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -139,6 +165,13 @@
         <option value="$PROJECT_DIR$/src/noc_db/World_noc.java" />
         <option value="$PROJECT_DIR$/src/noc_db/NOC_Manager.java" />
         <option value="$PROJECT_DIR$/src/noc_db/Character_noc.java" />
+        <option value="$PROJECT_DIR$/src/game_interfaces/Playable.java" />
+        <option value="$PROJECT_DIR$/src/game/Player.java" />
+        <option value="$PROJECT_DIR$/src/game_interfaces/Taxable.java" />
+        <option value="$PROJECT_DIR$/src/game/TaxSquare.java" />
+        <option value="$PROJECT_DIR$/src/game/RentalProperty.java" />
+        <option value="$PROJECT_DIR$/src/game_interfaces/Mortgageable.java" />
+        <option value="$PROJECT_DIR$/src/game/InvestmentProperty.java" />
       </list>
     </option>
   </component>
@@ -151,7 +184,7 @@
   <component name="ProjectFrameBounds" fullScreen="true">
     <option name="y" value="22" />
     <option name="width" value="1680" />
-    <option name="height" value="965" />
+    <option name="height" value="977" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -183,19 +216,13 @@
               <item name="server-AWS" type="b2602c69:ProjectViewProjectNode" />
               <item name="server-AWS" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="game_interfaces" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="server-AWS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server-AWS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="server-AWS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server-AWS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="noc_db" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="server-AWS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server-AWS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="noc_files" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="server-AWS" type="b2602c69:ProjectViewProjectNode" />
@@ -315,12 +342,27 @@
       <workItem from="1522888796842" duration="478000" />
       <workItem from="1522939257063" duration="7504000" />
       <workItem from="1522972252033" duration="247000" />
-      <workItem from="1523009937831" duration="1198000" />
+      <workItem from="1523009937831" duration="6541000" />
     </task>
+    <task id="LOCAL-00001" summary="spelling typos and code inspection cleanup">
+      <created>1523011218546</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1523011218547</updated>
+    </task>
+    <task id="LOCAL-00002" summary="taxable square, player &amp; interfaces updates">
+      <created>1523015724614</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1523015724614</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1208000" />
+    <option name="totallyTimeSpent" value="6551000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -328,20 +370,20 @@
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" />
+      <window_info anchor="bottom" id="Messages" weight="0.32983193" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.3289941" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50061053" side_tool="true" weight="0.32983193" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4993895" weight="0.32983193" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25885227" />
-      <window_info active="true" anchor="bottom" id="Inspection Results" visible="true" weight="0.3130252" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25885227" />
+      <window_info anchor="bottom" id="Inspection Results" weight="0.3130252" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -367,6 +409,9 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
+    <MESSAGE value="spelling typos and code inspection cleanup" />
+    <MESSAGE value="taxable square, player &amp; interfaces updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="taxable square, player &amp; interfaces updates" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/server/PortAllocator.java">
@@ -483,31 +528,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/game/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1095">
-          <caret line="105" column="32" selection-start-line="105" selection-start-column="32" selection-end-line="105" selection-end-column="32" />
-          <folding>
-            <element signature="e#1788#1789#0" expanded="true" />
-            <element signature="e#1818#1819#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/ClientUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1260">
-          <caret line="96" column="9" selection-start-line="96" selection-start-column="9" selection-end-line="96" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/PortAllocator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="539">
-          <caret line="77" column="24" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/noc_db/Activity_noc.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -519,20 +539,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/noc_db/Location_noc.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="11" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/game_interfaces/JSONable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -550,49 +556,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#269#311#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tests/PlayerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/noc_db/World_noc.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="13" column="36" selection-start-line="13" selection-start-column="36" selection-end-line="13" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/game/GameState.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="318">
           <caret line="98" column="18" selection-start-line="98" selection-start-column="18" selection-end-line="98" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/server/PlayerConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="104" column="27" selection-start-line="104" selection-start-column="27" selection-end-line="104" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/noc_db/NOC_Manager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-200">
-          <caret line="135" selection-start-line="135" selection-end-line="135" />
         </state>
       </provider>
     </entry>
@@ -605,6 +572,203 @@
             <element signature="e#3888#3889#0" expanded="true" />
             <element signature="e#3923#3924#0" expanded="true" />
             <element signature="e#3975#3976#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/noc_db/NOC_Manager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-200">
+          <caret line="135" selection-start-line="135" selection-end-line="135" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game_interfaces/JSONable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/noc_db/Location_noc.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="11" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/noc_db/World_noc.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="13" column="36" selection-start-line="13" selection-start-column="36" selection-end-line="13" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tests/PlayerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game_interfaces/Playable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="25" column="35" lean-forward="true" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="90" column="32" lean-forward="true" selection-start-line="90" selection-start-column="32" selection-end-line="90" selection-end-column="32" />
+          <folding>
+            <element signature="e#1456#1457#0" expanded="true" />
+            <element signature="e#1486#1487#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/PrivateProperty.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="55" column="42" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game_interfaces/Identifiable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game_interfaces/Improvable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game_interfaces/Locatable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game_interfaces/Ownable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game_interfaces/Taxable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/NamedLocation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game_interfaces/Mortgageable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/TaxSquare.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#228#229#0" expanded="true" />
+            <element signature="e#246#247#0" expanded="true" />
+            <element signature="e#313#314#0" expanded="true" />
+            <element signature="e#354#355#0" expanded="true" />
+            <element signature="e#504#505#0" expanded="true" />
+            <element signature="e#539#540#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/ClientUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="30" column="37" lean-forward="true" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="64" column="49" lean-forward="true" selection-start-line="64" selection-start-column="49" selection-end-line="64" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/PlayerConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="33" column="8" selection-start-line="33" selection-start-column="8" selection-end-line="38" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/PortAllocator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="935">
+          <caret line="77" column="24" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/RentalProperty.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="5" lean-forward="true" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#333#334#0" expanded="true" />
+            <element signature="e#368#369#0" expanded="true" />
+            <element signature="e#922#923#0" expanded="true" />
+            <element signature="e#949#950#0" expanded="true" />
+            <element signature="e#987#988#0" expanded="true" />
+            <element signature="e#1022#1023#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/InvestmentProperty.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
+          <folding>
+            <element signature="e#196#197#0" expanded="true" />
+            <element signature="e#231#232#0" expanded="true" />
+            <element signature="e#169#170#0" expanded="true" />
+            <element signature="e#184#185#0" expanded="true" />
+            <element signature="e#225#226#0" expanded="true" />
+            <element signature="e#240#241#0" expanded="true" />
+            <element signature="e#394#395#0" expanded="true" />
+            <element signature="e#409#410#0" expanded="true" />
+            <element signature="e#512#513#0" expanded="true" />
+            <element signature="e#527#528#0" expanded="true" />
           </folding>
         </state>
       </provider>
