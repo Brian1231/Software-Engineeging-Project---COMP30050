@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17cb8539-ad0e-4391-a71d-680c989611bf" name="Default" comment="investment implemented &amp; rental fixes">
-      <change afterPath="$PROJECT_DIR$/src/game/Station.java" afterDir="false" />
+    <list default="true" id="17cb8539-ad0e-4391-a71d-680c989611bf" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/game/Utility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/InvestmentProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/InvestmentProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/RentalProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/RentalProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game_interfaces/Mortgageable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game_interfaces/Mortgageable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Station.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Station.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -57,11 +55,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RentalProperty.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RentalProperty.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/game/RentalProperty.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="665">
-              <caret line="58" column="66" selection-start-line="58" selection-start-column="66" selection-end-line="58" selection-end-column="66" />
+            <state relative-caret-position="345">
+              <caret line="23" column="13" lean-forward="true" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#333#334#0" expanded="true" />
@@ -79,6 +77,18 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Utility.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/game/Utility.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="33" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="ClientUpdater.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/server/ClientUpdater.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -91,7 +101,7 @@
       <file leaf-file-name="InvestmentProperty.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/game/InvestmentProperty.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="785">
+            <state relative-caret-position="740">
               <caret line="135" column="70" selection-start-line="135" selection-start-column="70" selection-end-line="135" selection-end-column="70" />
               <folding>
                 <element signature="e#169#170#0" expanded="true" />
@@ -114,8 +124,8 @@
       <file leaf-file-name="Station.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/game/Station.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" selection-start-line="26" selection-end-line="27" selection-end-column="21" />
+            <state relative-caret-position="315">
+              <caret line="21" column="39" lean-forward="true" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -169,9 +179,10 @@
         <option value="$PROJECT_DIR$/src/game/TaxSquare.java" />
         <option value="$PROJECT_DIR$/src/game_interfaces/Rentable.java" />
         <option value="$PROJECT_DIR$/src/game_interfaces/Mortgageable.java" />
-        <option value="$PROJECT_DIR$/src/game/Station.java" />
         <option value="$PROJECT_DIR$/src/game/InvestmentProperty.java" />
         <option value="$PROJECT_DIR$/src/game/RentalProperty.java" />
+        <option value="$PROJECT_DIR$/src/game/Station.java" />
+        <option value="$PROJECT_DIR$/src/game/Utility.java" />
       </list>
     </option>
   </component>
@@ -342,7 +353,7 @@
       <workItem from="1522888796842" duration="478000" />
       <workItem from="1522939257063" duration="7504000" />
       <workItem from="1522972252033" duration="247000" />
-      <workItem from="1523009937831" duration="9068000" />
+      <workItem from="1523009937831" duration="9249000" />
     </task>
     <task id="LOCAL-00001" summary="spelling typos and code inspection cleanup">
       <created>1523011218546</created>
@@ -372,11 +383,18 @@
       <option name="project" value="LOCAL" />
       <updated>1523051481401</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="stations added and mortgage checks on rent">
+      <created>1523052827529</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1523052827529</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9078000" />
+    <option name="totallyTimeSpent" value="9259000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -427,7 +445,8 @@
     <MESSAGE value="taxable square, player &amp; interfaces updates" />
     <MESSAGE value="rental &amp; investment - mortgageable fixes" />
     <MESSAGE value="investment implemented &amp; rental fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="investment implemented &amp; rental fixes" />
+    <MESSAGE value="stations added and mortgage checks on rent" />
+    <option name="LAST_COMMIT_MESSAGE" value="stations added and mortgage checks on rent" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/server/PortAllocator.java">
@@ -700,22 +719,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/game/TaxSquare.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#228#229#0" expanded="true" />
-            <element signature="e#246#247#0" expanded="true" />
-            <element signature="e#313#314#0" expanded="true" />
-            <element signature="e#354#355#0" expanded="true" />
-            <element signature="e#504#505#0" expanded="true" />
-            <element signature="e#539#540#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/server/ClientUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -770,17 +773,53 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/game/Station.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" selection-start-line="26" selection-end-line="27" selection-end-column="21" />
+        <state relative-caret-position="315">
+          <caret line="21" column="39" lean-forward="true" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/TaxSquare.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#228#229#0" expanded="true" />
+            <element signature="e#246#247#0" expanded="true" />
+            <element signature="e#313#314#0" expanded="true" />
+            <element signature="e#354#355#0" expanded="true" />
+            <element signature="e#504#505#0" expanded="true" />
+            <element signature="e#539#540#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/RentalProperty.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="13" lean-forward="true" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#333#334#0" expanded="true" />
+            <element signature="e#368#369#0" expanded="true" />
+            <element signature="e#1034#1035#0" expanded="true" />
+            <element signature="e#1053#1054#0" expanded="true" />
+            <element signature="e#1128#1129#0" expanded="true" />
+            <element signature="e#1167#1168#0" expanded="true" />
+            <element signature="e#1105#1106#0" expanded="true" />
+            <element signature="e#1116#1117#0" expanded="true" />
+            <element signature="e#1398#1399#0" expanded="true" />
+            <element signature="e#1423#1424#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/game/InvestmentProperty.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="785">
+        <state relative-caret-position="740">
           <caret line="135" column="70" selection-start-line="135" selection-start-column="70" selection-end-line="135" selection-end-column="70" />
           <folding>
             <element signature="e#169#170#0" expanded="true" />
@@ -799,22 +838,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/game/RentalProperty.java">
+    <entry file="file://$PROJECT_DIR$/src/game/Utility.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="58" column="66" selection-start-line="58" selection-start-column="66" selection-end-line="58" selection-end-column="66" />
+        <state relative-caret-position="150">
+          <caret line="10" column="33" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#333#334#0" expanded="true" />
-            <element signature="e#368#369#0" expanded="true" />
-            <element signature="e#1034#1035#0" expanded="true" />
-            <element signature="e#1053#1054#0" expanded="true" />
-            <element signature="e#1128#1129#0" expanded="true" />
-            <element signature="e#1167#1168#0" expanded="true" />
-            <element signature="e#1105#1106#0" expanded="true" />
-            <element signature="e#1116#1117#0" expanded="true" />
-            <element signature="e#1398#1399#0" expanded="true" />
-            <element signature="e#1423#1424#0" expanded="true" />
           </folding>
         </state>
       </provider>

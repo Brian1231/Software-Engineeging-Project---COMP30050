@@ -16,13 +16,13 @@ public class Station extends RentalProperty {
 		if (!this.getMortgageStatus()) {
 			ArrayList<PrivateProperty> properties = player.getOwnedProperties();
 
-			int numStationsOwned = -1;
+			int numStationsOwned = 0;
 			for (PrivateProperty p : properties) {
 				if (p.getType().equals(this.getType())) {
 					numStationsOwned++;
 				}
 			}
-			return super.getAllRentAmounts()[numStationsOwned];
+			return this.getAllRentAmounts()[numStationsOwned];
 		} else {
 			System.out.println("Cant claim rent on station that is mortgaged");
 			return 0;
