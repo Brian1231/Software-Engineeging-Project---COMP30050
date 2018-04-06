@@ -12,9 +12,10 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class ClientThread extends AsyncTask <String, Void, String> {
+public class ClientThread extends AsyncTask<String, Void, String> {
 
     private static Socket socket;
+    //private static final int SERVER_PORT = 50000;
 
     private AsyncResponse mCallback;
 
@@ -45,7 +46,7 @@ public class ClientThread extends AsyncTask <String, Void, String> {
                 PrintWriter out = new PrintWriter(new BufferedWriter(
                         new OutputStreamWriter(socket.getOutputStream())),
                         true);
-                System.out.println(message);
+                out.println(message);
                 System.out.println("Sent");
 
                 //Receive
