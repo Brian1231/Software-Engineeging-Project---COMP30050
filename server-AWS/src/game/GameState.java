@@ -26,7 +26,7 @@ public class GameState implements JSONable {
 	public boolean isActive;
 
 
-	public GameState() throws IOException{
+	public GameState() {
 		players = new ArrayList<Player>();
 		locations = new ArrayList<NamedLocation>();
 		clientIPplayerIDMap = new HashMap<String, Player>();

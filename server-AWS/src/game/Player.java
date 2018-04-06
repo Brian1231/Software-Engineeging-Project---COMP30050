@@ -15,8 +15,7 @@ public class Player implements Playable, JSONable {
 	private int balance;
 	private int position;
 	private String ip;
-	//private String type;
-	private List<String> ownedProperties = new ArrayList<>();
+	private ArrayList<PrivateProperty> ownedProperties = new ArrayList<>();
 	
 	public Player(int playerId, String ipAddr){
 		id = playerId;
@@ -78,7 +77,13 @@ public class Player implements Playable, JSONable {
 
 	@Override
 	public int getNetWorth() {
-		return balance;// + value of properties
+		int worth = balance;
+		// add on price of all owned properties
+		for (PrivateProperty p: ownedProperties
+		     ) {
+			worth += p.getPrice();
+		}
+		return worth;
 	}
 
 	@Override
@@ -97,12 +102,21 @@ public class Player implements Playable, JSONable {
 	}
 
 	@Override
-	public List<String> getOwnedProperties() {
+	public ArrayList<PrivateProperty> getOwnedProperties() {
 		return ownedProperties;
 	}
 
 	@Override
-	public void addNewPropertyBought(String id) {
-		ownedProperties.add(id);
+	public void addNewPropertyBought(PrivateProperty property) {
+		ownedProperties.add(property);
+		// pay money out
+		payMoney(property.getPrice());
+	}
+
+	@Override
+	public void removePropertySold(PrivateProperty property) {
+		ownedProperties.remove(property);
+		// receive money in
+		receiveMoney(property.getPrice());
 	}
 }

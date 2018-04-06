@@ -18,10 +18,12 @@ public class Location_noc {
 		this.preposition = info[3];
 		this.size = info[4];
 		this.ambience = info[5];
-		if(info.length > 6)
-		this.interactions = info[6];
-		if(info.length > 7)
-		this.props = info[7];
+		if(info.length > 6) {
+			this.interactions = info[6];
+		}
+		if(info.length > 7) {
+			this.props = info[7];
+		}
 	}
 	
 	public String getLocation(){
