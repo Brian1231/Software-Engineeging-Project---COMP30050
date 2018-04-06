@@ -1,6 +1,5 @@
 package game;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +38,6 @@ public class GameState implements JSONable {
 			World_noc rand = Main.noc.getRandomWorld();
 			locations.add(new PrivateProperty(i, rand.getWorld(), 200 + i*20));
 		}
-
 	}
 
 	public boolean isStarted(){

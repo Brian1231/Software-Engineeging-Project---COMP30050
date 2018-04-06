@@ -11,7 +11,6 @@ import noc_db.NOC_Manager;
 import server.ClientUpdater;
 import server.PortAllocator;
 
-@SuppressWarnings("InfiniteLoopStatement")
 public class Main {
 
 

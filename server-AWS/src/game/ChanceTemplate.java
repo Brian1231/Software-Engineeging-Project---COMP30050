@@ -83,7 +83,7 @@ public class ChanceTemplate {
 		String setting = Main.noc.getActivitySetting(act);
 		String settingDeterminer = Main.noc.getLocationDeterminer(setting);
 		sb.append("You see " + char1.getName() + " exiting" + settingDeterminer + " " + setting + ". ");
-		sb.append(pronoun + " begins happily telling you about much " + pronoun.toLowerCase() + " loves " + act + ". ");
+		sb.append(pronoun + " begins happily telling you about how much " + pronoun.toLowerCase() + " loves " + act + ". ");
 		sb.append(pronoun + " decides to give you a gift.");
 		return sb.toString();
 	}

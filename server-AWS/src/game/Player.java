@@ -7,7 +7,6 @@ import game_interfaces.JSONable;
 import game_interfaces.Playable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Player implements Playable, JSONable {
 
