@@ -5,6 +5,7 @@ import java.net.InetAddress;
 
 import org.json.JSONException;
 
+import game.ChanceTemplate;
 import game.GameState;
 import noc_db.NOC_Manager;
 import server.ClientUpdater;
@@ -28,12 +29,22 @@ public class Main {
 
 		while(true){
 			if(!isActive){
+				//Create and populate noc list
+				noc = new NOC_Manager();
+				noc.setup();
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				
 				//Contains all information about current game state
 				gameState = new GameState();
 				
-				noc = new NOC_Manager();
-				noc.setup();
-				
+				System.out.println(gameState.getInfoBoard());
 				//Thread for desktop connection
 				clientUpdater = new ClientUpdater();
 				clientUpdater.setup(DESKTOPPORT);

@@ -49,7 +49,6 @@ public class PlayerConnection extends Thread{
 		while(Main.gameState.isActive()){
 			synchronized(this){
 
-
 				BufferedReader reader = null;
 
 				try {

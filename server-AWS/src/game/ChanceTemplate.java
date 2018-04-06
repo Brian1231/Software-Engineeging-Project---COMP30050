@@ -13,6 +13,7 @@ public class ChanceTemplate {
 	Character_noc opp;
 	String pronoun;
 	String them;
+	String possesion;
 
 	public ChanceTemplate(Character_noc a){
 		this.char1 = a;
@@ -22,10 +23,12 @@ public class ChanceTemplate {
 		if(char1.getGender().equals("male")) {
 			this.pronoun = "He";
 			this.them = "Him";
+			this.possesion = "His";
 		}
 		else {
 			this.pronoun = "She";
 			this.them = "Her";
+			this.possesion = "Her";
 		}
 	}
 
@@ -48,12 +51,18 @@ public class ChanceTemplate {
 		sb.append(pronoun + " starts " + weapon.getAffordanceWithTarget("you") + " " + weapon.getDeterminer() + " " + weapon.getWeapon() + ".");
 		return sb.toString(); 
 	}
-	
+
 	public String template3(){
 		StringBuilder sb = new StringBuilder();
 		String clothes = char1.getWearing();
-		if(clothes.length()!=0)
-			sb.append(char1.getName() + " appears wearing a " + char1.getWearing() + ". ");
+		String clothesDet = Main.noc.getClothingDeterminer(clothes);
+		String clothesCover = Main.noc.getClothingCovering(clothes);
+		if(clothes.length()!=0){
+			if(!clothesCover.equals(""))
+				sb.append(char1.getName() + " appears with " + clothesDet + " " + char1.getWearing() + " covering " + possesion.toLowerCase() + " " + clothesCover + ". ");
+			else
+				sb.append(char1.getName() + " appears wearing " + clothesDet + " " + char1.getWearing() + ". ");
+		}
 		else 		
 			sb.append(char1.getName() + " appears " + vehicle.getAffordance() + " " + vehicle.getDeterminer() + " " + vehicle.getVehicle()+ ". ");
 
@@ -65,12 +74,13 @@ public class ChanceTemplate {
 		sb.append(pronoun + " gets mad and starts " + weapon.getAffordanceWithTarget("you") + " " + weapon.getDeterminer() + " " + weapon.getWeapon() + ".");
 		return sb.toString(); 
 	}
-	
+
 	public String template4(){
 		StringBuilder sb = new StringBuilder();
 		String act = char1.getActivity();
 		String setting = Main.noc.getActivitySetting(act);
-		sb.append("You see " + char1.getName() + " exiting a " + setting + ". ");
+		String settingDeterminer = Main.noc.getLocationDeterminer(setting);
+		sb.append("You see " + char1.getName() + " exiting " + settingDeterminer + " " + setting + ". ");
 		sb.append(pronoun + " begins happily telling you about much " + pronoun.toLowerCase() + " loves " + act + ". ");
 		sb.append(pronoun + " decides to give you a gift.");
 		return sb.toString();

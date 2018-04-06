@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import game_interfaces.JSONable;
 import main.Main;
+import noc_db.World_noc;
 
 public class GameState implements JSONable {
 
@@ -34,8 +35,9 @@ public class GameState implements JSONable {
 		playerTurn = 1;
 		dice = new Dice();
 
-		for(int i=0;i<40;i++){
-			locations.add(new PrivateProperty(i, "Name of Property from NOC", 200));
+		for(int i=0;i<39;i++){
+			World_noc rand = Main.noc.getRandomWorld();
+			locations.add(new PrivateProperty(i, rand.getWorld(), 200 + i*20));
 		}
 
 	}

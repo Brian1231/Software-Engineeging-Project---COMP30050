@@ -17,6 +17,9 @@ public class NOC_Manager {
 	ArrayList<Weapon_noc> weapons;
 	ArrayList<Vehicle_noc> vehicles;
 	ArrayList<Activity_noc> activities;
+	ArrayList<World_noc> worlds;
+	ArrayList<Location_noc> locations;
+	ArrayList<Clothes_noc> clothes;
 
 	public NOC_Manager(){
 		this.superlatives = new ArrayList<Superlative_noc>();
@@ -24,17 +27,19 @@ public class NOC_Manager {
 		this.weapons = new ArrayList<Weapon_noc>();
 		this.vehicles = new ArrayList<Vehicle_noc>();
 		this.activities = new ArrayList<Activity_noc>();
+		this.worlds = new ArrayList<World_noc>();
+		this.locations = new ArrayList<Location_noc>();
+		this.clothes = new ArrayList<Clothes_noc>();
 	}
 
 	//Populate NOC List
 	public void setup() throws IOException{
 
-		getClass().getClassLoader();
 		/////////////////SUPERLATIVES//////////////////////
 		InputStream in = ClassLoader.getSystemResourceAsStream("noc_files/superlatives.txt");
 		InputStreamReader isr = new InputStreamReader(in);
 		BufferedReader br = new BufferedReader(isr);
-				
+
 		String line = br.readLine();
 		line = br.readLine();
 		while (line != null) {
@@ -63,7 +68,7 @@ public class NOC_Manager {
 		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's weapon arsenal.txt");
 		isr = new InputStreamReader(in);
 		br = new BufferedReader(isr);
-	
+
 		line = br.readLine();
 		line = br.readLine();
 		while (line != null) {
@@ -78,7 +83,7 @@ public class NOC_Manager {
 		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's vehicle fleet.txt");
 		isr = new InputStreamReader(in);
 		br = new BufferedReader(isr);
-		
+
 		line = br.readLine();
 		line = br.readLine();
 		while (line != null) {
@@ -93,12 +98,54 @@ public class NOC_Manager {
 		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's Typical Activities.txt");
 		isr = new InputStreamReader(in);
 		br = new BufferedReader(isr);
-	
+
 		line = br.readLine();
 		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
 			this.activities.add(new Activity_noc(data));
+			line = br.readLine();
+		}
+		br.close();
+
+		/////////////////FICTIONAL WORLDS//////////////////////
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's fictional worlds.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+
+		line = br.readLine();
+		line = br.readLine();
+		while (line != null) {
+			String data[] = line.split("\t");
+			this.worlds.add(new World_noc(data));
+			line = br.readLine();
+		}
+		br.close();
+
+		/////////////////Locations//////////////////////
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's location listing.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+
+		line = br.readLine();
+		line = br.readLine();
+		while (line != null) {
+			String data[] = line.split("\t");
+			this.locations.add(new Location_noc(data));
+			line = br.readLine();
+		}
+		br.close();
+
+		/////////////////Clothing//////////////////////
+		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's clothing line.txt");
+		isr = new InputStreamReader(in);
+		br = new BufferedReader(isr);
+
+		line = br.readLine();
+		line = br.readLine();
+		while (line != null) {
+			String data[] = line.split("\t");
+			this.clothes.add(new Clothes_noc(data));
 			line = br.readLine();
 		}
 		br.close();
@@ -163,4 +210,38 @@ public class NOC_Manager {
 		return "field";
 
 	}
+
+	public World_noc getRandomWorld(){
+		int i = random.nextInt(worlds.size());
+		return worlds.get(i);
+	}
+
+	public String getLocationDeterminer(String l){
+		for(Location_noc loc : this.locations){
+			if(loc.getLocation().equals(l)){
+				return loc.getDeterminer();
+			}
+		}
+		return "";
+	}
+	
+	public String getClothingDeterminer(String c){
+		for(Clothes_noc clo : this.clothes){
+			if(clo.getClothes().equals(c)){
+				return clo.getDeterminer();
+			}
+		}
+		return "";
+	}
+	
+	public String getClothingCovering(String c){
+		for(Clothes_noc clo : this.clothes){
+			if(clo.getClothes().equals(c)){
+				return clo.getCovering();
+			}
+		}
+		return "";
+	}
+
+
 }
