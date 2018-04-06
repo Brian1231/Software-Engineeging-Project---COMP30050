@@ -12,7 +12,7 @@ public class BoardCanvas extends ResizableCanvas {
     final double PI = 3.14159265359;
 
     public BoardCanvas() {
-        // Redraw canvas when size changes.
+        // Redraw canvas when size changes
         widthProperty().addListener(evt -> draw());
         heightProperty().addListener(evt -> draw());
     }
