@@ -32,14 +32,29 @@ public class Main {
 				//Create and populate noc list
 				noc = new NOC_Manager();
 				noc.setup();
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
-				System.out.println(new ChanceTemplate(noc.getRandomChar()).template3());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				System.out.println(new ChanceTemplate(noc.getRandomChar()).getRandomTemplate());
+				
 				
 				//Contains all information about current game state
 				gameState = new GameState();

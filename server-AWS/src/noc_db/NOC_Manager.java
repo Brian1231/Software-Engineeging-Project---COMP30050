@@ -219,7 +219,9 @@ public class NOC_Manager {
 	public String getLocationDeterminer(String l){
 		for(Location_noc loc : this.locations){
 			if(loc.getLocation().equals(l)){
-				return loc.getDeterminer();
+				String res = loc.getDeterminer();
+				if(!res.equals("")) res = " " + res;
+				return res;
 			}
 		}
 		return "";
@@ -227,11 +229,13 @@ public class NOC_Manager {
 	
 	public String getClothingDeterminer(String c){
 		for(Clothes_noc clo : this.clothes){
-			if(clo.getClothes().equals(c)){
-				return clo.getDeterminer();
+			if(clo.getClothings().contains(c)){
+				String res = clo.getDeterminer();
+				if(!res.equals("")) res = " " + res;
+				return res;
 			}
 		}
-		return "";
+		return "a";
 	}
 	
 	public String getClothingCovering(String c){

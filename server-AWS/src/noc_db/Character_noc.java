@@ -97,7 +97,8 @@ public class Character_noc {
 	}
 	
 	public String getWearing(){
-		return this.SeenWearing;
+		String[] clothes = this.SeenWearing.split(", ");
+		return clothes[random.nextInt(clothes.length)].trim();
 	}
 	
 	public String getOpponent(){
