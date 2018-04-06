@@ -23,14 +23,14 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 
 	@Override
 	public void mortgage(Playable player) {
-		isMortgaged = true;
 		player.receiveMoney(getMortgageAmount());
+		setMortgageStatus(true);
 	}
 
 	@Override
 	public void redeem(Playable player) {
-		isMortgaged = false;
 		player.payMoney(getRedeemAmount());
+		setMortgageStatus(false);
 	}
 
 	@Override
@@ -42,8 +42,23 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 	}
 
 	@Override
+	public boolean getMortgageStatus() {
+		return isMortgaged;
+	}
+
+	@Override
+	public void setMortgageStatus(boolean mortgageStatus) {
+		this.isMortgaged = mortgageStatus;
+	}
+
+	@Override
 	public int getBaseRentAmount() {
-		return rentAmounts[0];
+		if (!this.getMortgageStatus()) {
+			return rentAmounts[0];
+		} else {
+			System.out.println("Cant claim rent on rental property that is mortgaged");
+			return 0;
+		}
 	}
 
 	@Override

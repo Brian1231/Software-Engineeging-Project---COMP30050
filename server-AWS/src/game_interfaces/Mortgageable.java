@@ -12,4 +12,8 @@ public interface Mortgageable extends Ownable {
 
     // get redeem amount
     int getRedeemAmount();
+
+    // get and set mortgage status
+    boolean getMortgageStatus();
+    void setMortgageStatus(boolean mortgageStatus);
 }
