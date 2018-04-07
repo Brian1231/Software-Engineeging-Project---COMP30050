@@ -30,7 +30,7 @@ public class PlayerConnection extends Thread{
 		}
 	}
 
-	public void run(){
+	public void setup(){
 		System.out.println("Opening connection for Player" +this.playerID+" on Port " + this.port + " ...");
 		try {
 			socket = server.accept();
@@ -45,18 +45,20 @@ public class PlayerConnection extends Thread{
 		Main.gameState.addPlayer(client_ip);
 		Main.clientUpdater.updateActionInfo("New Player Connected!");
 		Main.clientUpdater.updateDesktopPlayers();
+	}
+	public void run(){
+		
+		BufferedReader reader = null;
 
+		try {
+
+			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		while(Main.gameState.isActive()){
 			synchronized(this){
-
-				BufferedReader reader = null;
-
-				try {
-
-					reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				
 				try {
 
 					if(reader.ready()){

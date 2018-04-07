@@ -76,6 +76,7 @@ public class PortAllocator extends Thread{
 
 					for(PlayerConnection pc : playerConnections){
 						if(!pc.isAlive()){
+							pc.setup();
 							pc.start();
 						}
 					}
