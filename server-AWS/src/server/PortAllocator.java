@@ -1,8 +1,10 @@
 package server;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -43,44 +45,53 @@ public class PortAllocator extends Thread{
 			} catch (IOException e2) {
 				e2.printStackTrace();
 			}
-			
+
 			System.out.println("New Connection on Port "+this.port);
 
 			synchronized(this){
 				try {
-
 					//Read input from client
-					InputStreamReader isr = new InputStreamReader(socket.getInputStream());
-					BufferedReader reader = new BufferedReader(isr);
-					String line = reader.readLine();
-					if (!line.isEmpty()) {
-						System.out.println("Message from Phone: " + line);
-					}
+					System.out.println("here1");
+					BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+					System.out.println("here2");
+					boolean hasRead = false;
+					while(!hasRead){
+						if(reader.ready()){
+							hasRead = true;
+							System.out.println("here3");
+							String line = reader.readLine();
+							System.out.println("here");
+							if (!line.isEmpty()) {
+								System.out.println("here4");
+								System.out.println("Message from Phone: " + line);
+							}
+							System.out.println("here5");
+							String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
 
-					String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
+							if(!idIpMap.values().contains(client_ip)){
+								idIpMap.put(this.playerCount, client_ip);//Maybe not needed, Just array of ip's could do
 
-					if(!idIpMap.values().contains(client_ip)){
-						idIpMap.put(this.playerCount, client_ip);//Maybe not needed, Just array of ip's could do
-						
-						playerConnections.add(new PlayerConnection(this.playerCount, this.playerPortCount));
-						
-						PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-						JSONObject response = new JSONObject();
-						response.put("id", playerCount);
-						response.put("port", this.playerPortCount);
-						out.println(response.toString());
-						
-						this.playerCount++;
-						this.playerPortCount++;
-					}
+								playerConnections.add(new PlayerConnection(this.playerCount, this.playerPortCount));
 
-					for(PlayerConnection pc : playerConnections){
-						if(!pc.isAlive()){
-							pc.setup();
-							pc.start();
+								BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+								JSONObject response = new JSONObject();
+								response.put("id", playerCount);
+								response.put("port", this.playerPortCount);
+								out.write(response.toString()+ "\n");
+								out.flush();
+
+								this.playerCount++;
+								this.playerPortCount++;
+							}
+
+							for(PlayerConnection pc : playerConnections){
+								if(!pc.isAlive()){
+									pc.setup();
+									pc.start();
+								}
+							}
 						}
 					}
-
 				}catch (IOException | JSONException e) {
 					e.printStackTrace();
 				}

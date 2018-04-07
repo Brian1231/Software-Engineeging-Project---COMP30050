@@ -17,7 +17,7 @@ public class Main {
 	public static final int MAINPORT = 8080;
 	public static final int DESKTOPPORT = 8000;
 	public static GameState gameState;
-	public static ClientUpdater clientUpdater;
+	//public static ClientUpdater clientUpdater;
 	public static PortAllocator portAllocator;
 	public static NOC_Manager noc;
 	public static boolean isActive;
@@ -36,13 +36,12 @@ public class Main {
 				//Contains all information about current game state
 				gameState = new GameState();
 				
-				System.out.println(gameState.getInfoBoard());
 				//Thread for desktop connection
-				clientUpdater = new ClientUpdater();
+				/*clientUpdater = new ClientUpdater();
 				clientUpdater.setup(DESKTOPPORT);
 				clientUpdater.start();
 				clientUpdater.updateActionInfo("Connected");
-				clientUpdater.updateDesktopBoard();
+				clientUpdater.updateDesktopBoard();*/
 				
 				//Thread used to allocate phone connections to an available port
 				//Creates a new PlayerConnection thread for each new player

@@ -178,9 +178,9 @@ public class GameState implements JSONable {
 	}
 
 	public void endGame(){
-		Main.clientUpdater.updateActionInfo("Game Over");
-		Main.clientUpdater.updateDesktopPlayers();
-		Main.clientUpdater.updateDesktopBoard();
+//		Main.clientUpdater.updateActionInfo("Game Over");
+//		Main.clientUpdater.updateDesktopPlayers();
+//		Main.clientUpdater.updateDesktopBoard();
 		Main.portAllocator.endGame();
 		Main.isActive = false;
 	}

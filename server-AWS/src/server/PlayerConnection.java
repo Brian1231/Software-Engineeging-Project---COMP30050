@@ -1,8 +1,10 @@
 package server;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,6 +21,7 @@ public class PlayerConnection extends Thread{
 	private Socket socket;
 	private int port;
 	private int playerID;
+	BufferedWriter out; 
 
 	public PlayerConnection(int id, int portNum){
 		this.port = portNum;
@@ -34,6 +37,8 @@ public class PlayerConnection extends Thread{
 		System.out.println("Opening connection for Player" +this.playerID+" on Port " + this.port + " ...");
 		try {
 			socket = server.accept();
+			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+
 		} catch (IOException e2) {
 			e2.printStackTrace();
 		}
@@ -43,13 +48,12 @@ public class PlayerConnection extends Thread{
 		
 		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
 		Main.gameState.addPlayer(client_ip);
-		Main.clientUpdater.updateActionInfo("New Player Connected!");
-		Main.clientUpdater.updateDesktopPlayers();
+		/*Main.clientUpdater.updateActionInfo("New Player Connected!");
+		Main.clientUpdater.updateDesktopPlayers();*/
 	}
 	public void run(){
 		
 		BufferedReader reader = null;
-
 		try {
 
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -76,8 +80,8 @@ public class PlayerConnection extends Thread{
 							String actionInfo = Main.gameState.playerAction(id, action);
 
 							//Update Desktop
-							Main.clientUpdater.updateActionInfo(actionInfo);
-							Main.clientUpdater.updateDesktopPlayers();
+							/*Main.clientUpdater.updateActionInfo(actionInfo);
+							Main.clientUpdater.updateDesktopPlayers();*/
 							
 							//Update Player
 							this.updatePlayer();
@@ -95,16 +99,16 @@ public class PlayerConnection extends Thread{
 
 	public void updatePlayer(){
 		JSONObject output = null;
-		PrintWriter out = null;
 		try {
 			output = Main.gameState.getPlayerInfo(this.playerID);
+			out.write(output.toString()+ "\n");
+			out.flush();
 			//output = Main.gameState.getInfo();
-			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (JSONException | IOException e1) {
 			e1.printStackTrace();
 		}
 		//Output to desktop
-		out.println(output.toString());
+		
 	}
 }
 

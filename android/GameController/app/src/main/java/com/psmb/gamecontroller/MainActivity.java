@@ -2,15 +2,19 @@ package com.psmb.gamecontroller;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
+//import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements AsyncResponse {
+public class MainActivity extends Activity{
 
     Button sendButton;
     Button cancelButton;
+    ServerConnectionThread thread;
+    ServerConnectionThread gamethread;
+    String res = "Nothing yet.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,32 +27,27 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     protected void onStart() {
         super.onStart();
         //thread.delegate = this;
+        thread = new ServerConnectionThread(this, 8080);
+        thread.start();
+        EditText et = (EditText) findViewById(R.id.messageText);
+        thread.setMessage(et.getText().toString());
+//        thread.send();
+        String s = "";
         sendButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
                 EditText et = (EditText) findViewById(R.id.messageText);
-                String message = et.getText().toString();
-                EditText etip = (EditText) findViewById(R.id.ipText);
-                String ip = etip.getText().toString();
-                EditText etport = (EditText) findViewById(R.id.portText);
-                String port = etport.getText().toString();
-
-
-                new ClientThread(MainActivity.this).execute(message,ip, port);
+                if(gamethread!= null) {
+                    gamethread.setMessage(et.getText().toString());
+                }
             }
         });
-
-
-    }
-
-    @Override
-    public void processFinish(String output){
-        handleResponse(output);
     }
 
     public void handleResponse(String s){
         TextView restext = (TextView) findViewById(R.id.responseText);
+        System.out.println(s);
         if(s == null) {
             restext.setText("null");
         }else{
@@ -56,6 +55,13 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 restext.setText("Blank response!");
             } else {
                 restext.setText(s);
+                if(thread.isAlive()) {
+                    thread.kill();
+                    gamethread = new ServerConnectionThread(this, 8081);
+                    gamethread.start();
+                    EditText et = (EditText) findViewById(R.id.messageText);
+                    gamethread.setMessage(et.getText().toString());
+                }
             }
         }
     }

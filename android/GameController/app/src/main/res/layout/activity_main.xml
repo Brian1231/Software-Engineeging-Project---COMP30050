@@ -5,51 +5,6 @@
     android:layout_marginLeft="40dp"
     android:orientation="vertical" >
 
-    <!-- Port -->>
-    <LinearLayout
-        android:layout_marginTop="60dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:textSize="18sp"
-            android:text="IP" />
-
-        <EditText
-            android:id="@+id/ipText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.75"
-            android:text="52.48.249.220"
-            android:ems="10" />
-    </LinearLayout>
-
-    <!-- Port -->
-    <LinearLayout
-        android:layout_marginTop="30dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:textSize="18sp"
-            android:text="Port" />
-
-        <EditText
-            android:id="@+id/portText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.75"
-            android:text="8080"
-            android:ems="10" />
-    </LinearLayout>
     <!-- Message -->>
     <LinearLayout
         android:layout_marginTop="30dp"
@@ -69,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
-            android:text=""
+            android:text="{&quot;id&quot;:1,&quot;action&quot;:&quot;roll&quot;}"
             android:ems="10" />
     </LinearLayout>
 
