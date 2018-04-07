@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -48,8 +47,8 @@ public class PlayerConnection extends Thread{
 		
 		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
 		Main.gameState.addPlayer(client_ip);
-		/*Main.clientUpdater.updateActionInfo("New Player Connected!");
-		Main.clientUpdater.updateDesktopPlayers();*/
+		Main.clientUpdater.updateActionInfo("New Player Connected!");
+		Main.clientUpdater.updateDesktopPlayers();
 	}
 	public void run(){
 		
@@ -80,8 +79,8 @@ public class PlayerConnection extends Thread{
 							String actionInfo = Main.gameState.playerAction(id, action);
 
 							//Update Desktop
-							/*Main.clientUpdater.updateActionInfo(actionInfo);
-							Main.clientUpdater.updateDesktopPlayers();*/
+							Main.clientUpdater.updateActionInfo(actionInfo);
+							Main.clientUpdater.updateDesktopPlayers();
 							
 							//Update Player
 							this.updatePlayer();

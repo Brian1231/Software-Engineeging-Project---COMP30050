@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -51,21 +50,15 @@ public class PortAllocator extends Thread{
 			synchronized(this){
 				try {
 					//Read input from client
-					System.out.println("here1");
 					BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-					System.out.println("here2");
 					boolean hasRead = false;
 					while(!hasRead){
 						if(reader.ready()){
 							hasRead = true;
-							System.out.println("here3");
 							String line = reader.readLine();
-							System.out.println("here");
 							if (!line.isEmpty()) {
-								System.out.println("here4");
 								System.out.println("Message from Phone: " + line);
 							}
-							System.out.println("here5");
 							String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
 
 							if(!idIpMap.values().contains(client_ip)){
