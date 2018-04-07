@@ -42,7 +42,7 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 	}
 
 	@Override
-	public boolean getMortgageStatus() {
+	public boolean isMortgaged() {
 		return isMortgaged;
 	}
 
@@ -53,7 +53,7 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 
 	@Override
 	public int getBaseRentAmount() {
-		if (!this.getMortgageStatus()) {
+		if (!this.isMortgaged()) {
 			return rentAmounts[0];
 		} else {
 			System.out.println("Cant claim rent on rental property that is mortgaged");

@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Inet4Address;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.function.Consumer;
 
@@ -58,7 +57,7 @@ public class NetworkConnection {
 
 		private Socket socket;
 		private OutputStreamWriter out;
-		private InputStreamReader in;
+		//private InputStreamReader in;
 
 		public void run() {
 			try {

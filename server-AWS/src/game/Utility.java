@@ -12,7 +12,7 @@ public class Utility extends RentalProperty {
 	}
 
 	public int getRentalAmount(Playable player, int diceRoll) {
-		if (!this.getMortgageStatus()) {
+		if (!this.isMortgaged()) {
 			ArrayList<PrivateProperty> properties = player.getOwnedProperties();
 
 			int numUtilitiesOwned = 0;

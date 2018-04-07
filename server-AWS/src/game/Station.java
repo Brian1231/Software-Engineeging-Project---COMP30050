@@ -13,7 +13,7 @@ public class Station extends RentalProperty {
 	}
 
 	public int getRentalAmount(Playable player) {
-		if (!this.getMortgageStatus()) {
+		if (!this.isMortgaged()) {
 			ArrayList<PrivateProperty> properties = player.getOwnedProperties();
 
 			int numStationsOwned = 0;

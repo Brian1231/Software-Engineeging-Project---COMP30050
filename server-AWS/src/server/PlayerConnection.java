@@ -75,8 +75,9 @@ public class PlayerConnection extends Thread{
 						int id = (int) obj.get("id");
 						if(id == this.playerID){
 							String action = (String) obj.get("action");
+							String[] args = (String[]) ((String) obj.get("args")).split(",");
 							//Update Main.gamestate based on phone input and this.playerID
-							String actionInfo = Main.gameState.playerAction(id, action);
+							String actionInfo = Main.gameState.playerAction(id, action, args);
 
 							//Update Desktop
 							Main.clientUpdater.updateActionInfo(actionInfo);

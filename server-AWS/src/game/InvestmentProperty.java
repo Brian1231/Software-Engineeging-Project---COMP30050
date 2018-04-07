@@ -130,7 +130,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable {
 	}
 
 	public int getRentalAmount() {
-		if (!this.getMortgageStatus()) {
+		if (!this.isMortgaged()) {
 			return this.getAllRentAmounts()[numHotels+numHouses];
 		} else {
 			System.out.println("Cant claim rent on investment property that is mortgaged");

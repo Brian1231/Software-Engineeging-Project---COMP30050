@@ -69,6 +69,7 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 		info.put("id", this.getId());
 		info.put("price", this.price);
 		info.put("location", this.location);
+		info.put("owner", this.owner.getID());
 		return info;
 	}
 

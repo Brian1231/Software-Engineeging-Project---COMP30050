@@ -5,14 +5,12 @@ import java.net.InetAddress;
 
 import org.json.JSONException;
 
-import game.ChanceTemplate;
 import game.GameState;
 import noc_db.NOC_Manager;
 import server.ClientUpdater;
 import server.PortAllocator;
 
 public class Main {
-
 
 	public static final int MAINPORT = 8080;
 	public static final int DESKTOPPORT = 8000;

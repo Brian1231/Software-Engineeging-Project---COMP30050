@@ -34,8 +34,11 @@ public class GameState implements JSONable {
 		playerTurn = 1;
 		dice = new Dice();
 
+		//int numberOfChance = rand.nextInt(3) + 2; //2 - 4
+
 		for(int i=0;i<39;i++){
 			World_noc rand = Main.noc.getRandomWorld();
+
 			locations.add(new PrivateProperty(i, rand.getWorld(), 200 + i*20));
 		}
 	}
@@ -78,7 +81,7 @@ public class GameState implements JSONable {
 	/** 
 	 * Returns result of player action
 	 */
-	public String playerAction(int id, String action){
+	public String playerAction(int id, String action, String[] args){
 
 		//Check if its the correct players turn
 		if(this.playerTurn == id){
@@ -93,9 +96,53 @@ public class GameState implements JSONable {
 			//Do player action
 			switch(action){
 			case "roll":
-				int spaces = dice.roll();
-				player.moveForward(spaces);
-				return "Player " + id + " rolled " + spaces + ".";
+				if(!player.hasRolled()){
+					int spaces = dice.roll();
+					player.moveForward(spaces);
+					player.useRoll();
+					return "Player " + id + " rolled " + spaces + ".";
+				}
+				else{
+					return "Player " + id + " has already rolled this turn.";
+				}
+			case "buy":
+				int playerPosition = player.getPos();
+				NamedLocation tile = this.locations.get(playerPosition);
+				if(tile instanceof PrivateProperty){
+					PrivateProperty prop = (PrivateProperty) tile;
+					if(!((prop).getOwner() == null)){
+						if(player.getBalance() >= prop.getPrice()){
+							(prop).setOwner(player);
+							player.addNewPropertyBought(prop);
+							player.payMoney(prop.getPrice());
+							return "Player " + id + " bought " + prop.getId() + " for " + prop.getPrice() + ".";
+						}
+						return prop.getId() + " is already owned by " + prop.getOwner().getId() + ".";
+					}
+					return prop.getId() + " is already owned by " + prop.getOwner().getId() + ".";
+				}
+				return "You can't buy this.";
+			case "sell":
+				int locationNumber = Integer.parseInt(args[0]);
+				PrivateProperty property = (PrivateProperty) this.locations.get(locationNumber);
+					if((property).getOwner().equals(player)){
+						if(property instanceof RentalProperty){
+							RentalProperty rental = (RentalProperty) property;
+							if(!rental.isMortgaged()){
+								property.setOwner(null);
+								player.removePropertySold(property);
+								player.receiveMoney(property.getPrice());
+								return "Player " + id + " sold " + property.getId() + " for " + property.getPrice() + ".";
+							}
+							return "You can't sell a mortgaged property.";
+						}
+						property.setOwner(null);
+						player.removePropertySold(property);
+						player.receiveMoney(property.getPrice());
+						return "Player " + id + " sold " + property.getId() + " for " + property.getPrice() + ".";
+					}
+					return "You don't own that property.";
+				
 			case "done":
 				//Increment player turn
 				this.playerTurn++;

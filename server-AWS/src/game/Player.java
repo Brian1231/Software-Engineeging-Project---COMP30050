@@ -15,12 +15,14 @@ public class Player implements Playable, JSONable {
 	private int position;
 	private String ip;
 	private ArrayList<PrivateProperty> ownedProperties = new ArrayList<>();
+	private boolean hasRolled;
 	
 	public Player(int playerId, String ipAddr){
 		id = playerId;
 		balance = 1000;
 		position = 0;
 		ip = ipAddr;
+		hasRolled = false;
 	}
 	
 	@Override
@@ -31,6 +33,18 @@ public class Player implements Playable, JSONable {
 	@Override
 	public String getIp(){
 		return this.ip;
+	}
+	
+	public boolean hasRolled(){
+		return this.hasRolled;
+	}
+	
+	public void resetRoll(){
+		this.hasRolled = false;
+	}
+	
+	public void useRoll(){
+		this.hasRolled = true;
 	}
 	
 	@Override
@@ -52,6 +66,10 @@ public class Player implements Playable, JSONable {
 	@Override
 	public int getID(){
 		return this.id;
+	}
+	
+	public int getBalance(){
+		return this.balance;
 	}
 
 	@Override
