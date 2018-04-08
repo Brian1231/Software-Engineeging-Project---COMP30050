@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import game_interfaces.JSONable;
 import game_interfaces.Playable;
+import noc_db.Character_noc;
 
 import java.util.ArrayList;
 
@@ -16,13 +17,15 @@ public class Player implements Playable, JSONable {
 	private String ip;
 	private ArrayList<PrivateProperty> ownedProperties = new ArrayList<>();
 	private boolean hasRolled;
+	private Character_noc character;
 	
-	public Player(int playerId, String ipAddr){
+	public Player(int playerId, String ipAddr, Character_noc ch){
 		id = playerId;
 		balance = 1000;
 		position = 0;
 		ip = ipAddr;
 		hasRolled = false;
+		this.character = ch;
 	}
 	
 	@Override
@@ -54,6 +57,7 @@ public class Player implements Playable, JSONable {
 		info.put("id", this.id);
 		info.put("balance", this.balance);
 		info.put("position", this.position);
+		info.put("character", this.character.getName());
 		return info;
 		
 	}
