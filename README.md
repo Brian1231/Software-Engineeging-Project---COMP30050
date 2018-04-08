@@ -20,6 +20,7 @@
 "id": String <br />
 "price": int <br />
 "location": int (0 to 39) <br />
+"owner": int (player id) <br />
 
 ## Phone-to-Server 
 ### Initial Phone-to-Server JSON on port 8080:
@@ -27,7 +28,11 @@
 
 ### Phone-to-Server JSON:
 "id": int <br />
-"action": String ("roll"-> rolls dice)("done"-> increments player turn) <br />
+"action": String<br />
+("roll"-> rolls dice)<br />
+("done"-> increments player turn) <br />
+("buy"-> attempt to buy tile at player position) <br />
+("sell"-> attempt to sell tile at position args[0]) <br />
 "args": String <br />
 
 ## Server-to-Phone:
