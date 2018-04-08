@@ -15,6 +15,7 @@
 "id": int <br />
 "balance": int <br />
 "position": int (0 to 39) <br />
+"character": String <br />
 
 ### JSONObject location:
 "id": String <br />
@@ -33,7 +34,7 @@
 ("done"-> increments player turn) <br />
 ("buy"-> attempt to buy tile at player position) <br />
 ("sell"-> attempt to sell tile at position args[0]) <br />
-"args": String <br />
+"args": Strings separated with "," <br />
 
 ## Server-to-Phone:
 ## Initial Response from port 8080 JSON:
