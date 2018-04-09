@@ -16,6 +16,22 @@ public class Location {
         this.ownerID = owner;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!Location.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        final Location other = (Location) obj;
+
+        if (!this.name.equals(other.name)){
+            return false;
+        }
+        return true;
+    }
+
     public int getRent() {
         return rent;
     }

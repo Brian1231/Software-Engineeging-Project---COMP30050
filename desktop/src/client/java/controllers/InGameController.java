@@ -132,6 +132,7 @@ public class InGameController {
                         int owner = locationObjects.getJSONObject(i).getInt("owner");
                         locs.add(new Location(id,position,price,0,owner));
                     }
+                    boardCanvas.updateLocations(locs);
                 }
 
                 // Update lobby list According to new players

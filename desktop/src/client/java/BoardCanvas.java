@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class BoardCanvas extends ResizableCanvas {
@@ -88,4 +89,30 @@ public class BoardCanvas extends ResizableCanvas {
         g.setFill(Color.WHITE);
         g.fillText(s,x + (width/2)-40,y + (height/2));
     }
+
+    public void updateLocations(List<Location> locs){
+        for(Location l : locs){
+            if(!locations.contains(l)) {
+                addLocation(l);
+            }
+            else{
+                updateLocationData(l);
+            }
+        }
+        draw();
+    }
+
+    public void addLocation(Location location){
+        locations.add(location);
+    }
+
+    public void updateLocationData(Location location){
+        if(locations.contains(location)){
+            int index = locations.indexOf(location);
+            locations.get(index).setName(location.getName());
+            locations.get(index).setRent(location.getRent());
+            // etc
+        }
+    }
+
 }
