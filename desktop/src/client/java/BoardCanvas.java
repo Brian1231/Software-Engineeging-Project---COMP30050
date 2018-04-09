@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 
+import java.awt.*;
+
 
 public class BoardCanvas extends ResizableCanvas {
 
@@ -64,5 +66,24 @@ public class BoardCanvas extends ResizableCanvas {
             g.setFill(Color.WHITE);
             g.fillText(s,x + (width/2),y + (height/2));
         }
+
+        // Redraw centre tile so that its not overlapped
+        double t = PI/2;
+
+        double x = (width/3*Math.sqrt(2)*Math.cos(t))/(Math.pow(Math.sin(t),2)+1);
+        double y = (width/2.4*Math.sqrt(2)*Math.cos(t)*Math.sin(t))/(Math.pow(Math.sin(t),2)+1);
+
+        String s = "The Center";
+
+        g.setFill(Color.BLACK);
+        g.setStroke(Color.BLUE);
+
+        g.setLineWidth(2);
+        g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
+        g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
+
+        g.setLineWidth(1);
+        g.setFill(Color.WHITE);
+        g.fillText(s,x + (width/2)-40,y + (height/2));
     }
 }

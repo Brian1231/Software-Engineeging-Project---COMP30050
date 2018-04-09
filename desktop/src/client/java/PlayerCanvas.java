@@ -5,12 +5,13 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class PlayerCanvas extends ResizableCanvas {
 
     final double PI = 3.14159265359;
-
     ArrayList<Player> players = new ArrayList<>();
+
 
     public PlayerCanvas() {
         // Redraw canvas when size changes.
@@ -30,29 +31,54 @@ public class PlayerCanvas extends ResizableCanvas {
 
     public void drawPlayers(GraphicsContext g, double width, double height){
 
-        double r = 0.15707963267;
+        final double STEP = 0.15707963267;
 
         for(Player player : players){
             int position = player.getPosition();
+            double baseOffset = 30;
+            double offsetX;
+            double offsetY;
 
-            double t = -PI + r*position;
+            switch(player.getId()){
+                case 1:     offsetX = baseOffset;
+                            offsetY = baseOffset;
+                            break;
+                case 2:     offsetX = baseOffset;
+                            offsetY = -baseOffset;
+                            break;
+                case 3:     offsetX = -baseOffset;
+                            offsetY = -baseOffset;
+                            break;
+                case 4:     offsetX = -baseOffset;
+                            offsetY = baseOffset;
+                            break;
+                default:    offsetX = baseOffset;
+                            offsetY = baseOffset;
+            }
+
+            double t = -PI + STEP*position;
 
             double x = (width/3*Math.sqrt(2)*Math.cos(t))/(Math.pow(Math.sin(t),2)+1);
             double y = (width/2.4*Math.sqrt(2)*Math.cos(t)*Math.sin(t))/(Math.pow(Math.sin(t),2)+1);
 
+            double playerX = x + (width/2) -10 + offsetX;
+            double playerY = y + (height/2)-10 + offsetY;
+
             g.setFill(player.getColor());
-            g.fillOval(x + (width/2) -10,y + (height/2)-10, 20,20);
+            g.fillOval(playerX,playerY,20,20);
+
+            // Payer ID numbers for testing
+            g.setStroke(Color.RED);
+            g.strokeText(Integer.toString(player.getId()),playerX+5,playerY+15);
         }
     }
 
     public void updatePlayers(List<Player> plyrs){
         for(Player p : plyrs){
             if(!players.contains(p)) {
-                System.out.println("/n Adding new player");
                 addPlayer(p);
             }
             else{
-                System.out.println("/n Updating player: " + p.getId());
                 updatePlayerData(p);
             }
         }
@@ -64,8 +90,6 @@ public class PlayerCanvas extends ResizableCanvas {
     }
 
     public void updatePlayerData(Player player){
-
-        System.out.println("updating player data!");
         if(players.contains(player)){
             int index = players.indexOf(player);
             players.get(index).setBalance(player.getBalance());
