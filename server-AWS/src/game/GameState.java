@@ -37,13 +37,61 @@ public class GameState implements JSONable {
 		playerTurn = 1;
 		dice = new Dice();
 
-		//int numberOfChance = rand.nextInt(3) + 2; //2 - 4
+		// Tiles generation & setup
+		ArrayList<NamedLocation> properties = new ArrayList<NamedLocation>();
+		ArrayList<World_noc> usedWorlds = new ArrayList<World_noc>();
+		World_noc rand;
 
-		for(int i=0;i<39;i++){
-			World_noc rand = Main.noc.getRandomWorld();
-
-			locations.add(new PrivateProperty(i, rand.getWorld(), 200 + i*20));
+		//Investment Properties
+		int[] rents = {100, 200, 300, 400};
+		for(int i=0;i<24;i++){
+			rand = Main.noc.getRandomWorld();
+			while(usedWorlds.contains(rand)) rand = Main.noc.getRandomWorld();
+			properties.add(new InvestmentProperty(i, rand.getWorld(), 200 + i*20, rents));
+			usedWorlds.add(rand);
 		}
+
+		//3 Tax squares
+		for(int i=0;i<3;i++){
+			rand = Main.noc.getRandomWorld();
+			while(usedWorlds.contains(rand)) rand = Main.noc.getRandomWorld();
+			properties.add(new TaxSquare(rand.getWorld()));
+			usedWorlds.add(rand);
+		}
+
+		//Stations
+		for(int i=0;i<4;i++){
+			rand = Main.noc.getRandomWorld();
+			while(usedWorlds.contains(rand)) rand = Main.noc.getRandomWorld();
+			properties.add(new Station(i, rand.getWorld(), 200 + i*20, rents));
+			usedWorlds.add(rand);
+		}
+
+		//Utilities
+		for(int i=0;i<2;i++){
+			rand = Main.noc.getRandomWorld();
+			while(usedWorlds.contains(rand)) rand = Main.noc.getRandomWorld();
+			properties.add(new Utility(i, rand.getWorld(), 200 + i*20));
+			usedWorlds.add(rand);
+		}
+
+		//Chance Squares
+		for(int i=0;i<3;i++){
+			properties.add(new ChanceSquare("Interdimensional TV"));
+		}
+
+		//Shuffle Tiles
+		Random random = new Random();
+		while(!properties.isEmpty()){
+			locations.add(properties.remove(random.nextInt(properties.size())));
+		}
+		
+		//Other tiles
+		locations.add(0, new SpecialSquare("Go"));
+		locations.add(10, new SpecialSquare("Go to Intergalactic Prison!"));
+		locations.add(29, new SpecialSquare("Intergalactic Prison"));
+
+
 	}
 
 	public boolean isStarted(){
@@ -52,13 +100,13 @@ public class GameState implements JSONable {
 	public boolean isActive(){
 		return this.isActive;
 	}
-	
+
 	public boolean isPlayerCharacter(Character_noc ch){
 		return this.playerCharacters.contains(ch);
 	}
 
 	public void startGame(){
-		gameStarted = true;
+		this.gameStarted = true;
 		if(this.players.size() == 0 ){
 			playerTurn = rand.nextInt(this.players.size()+1) + 1;
 		}
@@ -74,7 +122,7 @@ public class GameState implements JSONable {
 	public int addPlayer(String client_ip){
 		int newID = players.size()+1;
 		if(!clientIPplayerIDMap.containsKey(client_ip)){
-			
+
 			//Get random unused character
 			Character_noc ch = Main.noc.getRandomChar();
 			while(this.isPlayerCharacter(ch)){
@@ -98,7 +146,7 @@ public class GameState implements JSONable {
 	public String playerAction(int id, String action, String[] args){
 
 		//Check if its the correct players turn
-		if(this.playerTurn == id){
+		if(this.playerTurn == id && this.gameStarted){
 			//Get player from id
 			Player player = null;
 			for(Player p : this.players){
@@ -124,23 +172,24 @@ public class GameState implements JSONable {
 				NamedLocation tile = this.locations.get(playerPosition);
 				if(tile instanceof PrivateProperty){
 					PrivateProperty prop = (PrivateProperty) tile;
-					if(prop.getOwner() != null){
+					if(!prop.isOwned()){
 						if(player.getBalance() >= prop.getPrice()){
 							(prop).setOwner(player);
 							player.addNewPropertyBought(prop);
 							player.payMoney(prop.getPrice());
+							player.useBuy();
 							return "Player " + id + " bought " + prop.getId() + " for " + prop.getPrice() + ".";
 						}
-						return prop.getId() + " is already owned by " + prop.getOwner().getId() + ".";
+						return "You can't afford this property.";
 					}
-					// remove getOwner() as its null from check
 					return prop.getId() + " is already owned by " + prop.getOwner().getId() + ".";
 				}
 				return "You can't buy this.";
 			case "sell":
 				int locationNumber = Integer.parseInt(args[0]);
 				PrivateProperty property = (PrivateProperty) this.locations.get(locationNumber);
-					if((property).getOwner().equals(player)){
+				if(property.isOwned()){
+					if(property.getOwner().equals(player)){
 						if(property instanceof RentalProperty){
 							RentalProperty rental = (RentalProperty) property;
 							if(!rental.isMortgaged()){
@@ -157,8 +206,27 @@ public class GameState implements JSONable {
 						return "Player " + id + " sold " + property.getId() + " for " + property.getPrice() + ".";
 					}
 					return "You don't own that property.";
-				
+				}
+				return "That property is unowned.";
+
+			case "boost":
+				if(player.hasRolled()){
+					if(!player.hasBought()){
+						if(!player.hasBoosted()){
+							if(player.getFuel() > 0){
+								return player.useBoost();
+							}
+							return "Your vehicle is out of fuel!";
+						}
+						return "You've already used your vehicle this turn!";
+					}
+					return "You can't use your vehicle after buying a property!";
+				}
+				return "You must roll before using your vehicle.";
 			case "done":
+				player.resetRoll();
+				player.resetBought();
+				player.resetBoost();
 				//Increment player turn
 				this.playerTurn++;
 				if(this.playerTurn > this.players.size()) {
