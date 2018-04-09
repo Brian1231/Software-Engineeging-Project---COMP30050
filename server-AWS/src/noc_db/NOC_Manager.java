@@ -20,6 +20,8 @@ public class NOC_Manager {
 	ArrayList<World_noc> worlds;
 	ArrayList<Location_noc> locations;
 	ArrayList<Clothes_noc> clothes;
+	ArrayList<World_noc> usedWorlds = new ArrayList<World_noc>();
+	World_noc randomWorld;
 
 	public NOC_Manager(){
 		this.superlatives = new ArrayList<Superlative_noc>();
@@ -204,8 +206,12 @@ public class NOC_Manager {
 	}
 
 	public World_noc getRandomWorld(){
-		int i = random.nextInt(worlds.size());
-		return worlds.get(i);
+		randomWorld = worlds.get( random.nextInt( worlds.size() ) );
+		while(usedWorlds.contains(randomWorld)) {
+			randomWorld = worlds.get( random.nextInt( worlds.size() ) );
+		}
+		usedWorlds.add(randomWorld);
+		return randomWorld;
 	}
 
 	public String getLocationDeterminer(String l){

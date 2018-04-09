@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17cb8539-ad0e-4391-a71d-680c989611bf" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../android/GameController/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/../android/GameController/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../android/GameController/app/src/main/java/com/psmb/gamecontroller/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../android/GameController/app/src/main/java/com/psmb/gamecontroller/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../android/GameController/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../android/GameController/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../desktop/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../desktop/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/ConalONeill.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/ConalONeill.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/noc_db/NOC_Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/noc_db/NOC_Manager.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,19 +39,42 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameState.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GameState.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/game/GameState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="135" column="63" selection-start-line="135" selection-start-column="63" selection-end-line="135" selection-end-column="63" />
+            <state relative-caret-position="295">
+              <caret line="46" column="52" selection-start-line="46" selection-start-column="52" selection-end-line="46" selection-end-column="52" />
               <folding>
-                <element signature="e#1200#1201#0" expanded="true" />
-                <element signature="e#1230#1231#0" expanded="true" />
-                <element signature="e#1258#1259#0" expanded="true" />
-                <element signature="e#1285#1286#0" expanded="true" />
-                <element signature="e#1340#1341#0" expanded="true" />
-                <element signature="e#1388#1389#0" expanded="true" />
+                <element signature="e#1049#1064#0" expanded="true" />
+                <element signature="e#2671#2672#0" expanded="true" />
+                <element signature="e#2701#2702#0" expanded="true" />
+                <element signature="e#2729#2730#0" expanded="true" />
+                <element signature="e#2756#2757#0" expanded="true" />
+                <element signature="e#2810#2811#0" expanded="true" />
+                <element signature="e#2858#2859#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NOC_Manager.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/noc_db/NOC_Manager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="52">
+              <caret line="170" column="40" lean-forward="true" selection-start-line="170" selection-start-column="40" selection-end-line="170" selection-end-column="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#660#671#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SpecialSquare.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/game/SpecialSquare.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -71,8 +94,8 @@
       <file leaf-file-name="PrivateProperty.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/game/PrivateProperty.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="608">
-              <caret line="55" column="42" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
+            <state relative-caret-position="893">
+              <caret line="66" column="42" selection-start-line="66" selection-start-column="42" selection-end-line="66" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -111,7 +134,6 @@
         <option value="$PROJECT_DIR$/src/main/Main.java" />
         <option value="$PROJECT_DIR$/src/tests/PlayerTest.java" />
         <option value="$PROJECT_DIR$/src/noc_db/World_noc.java" />
-        <option value="$PROJECT_DIR$/src/noc_db/NOC_Manager.java" />
         <option value="$PROJECT_DIR$/src/noc_db/Character_noc.java" />
         <option value="$PROJECT_DIR$/src/game_interfaces/Playable.java" />
         <option value="$PROJECT_DIR$/src/game/Player.java" />
@@ -126,6 +148,7 @@
         <option value="$PROJECT_DIR$/src/server/PlayerConnection.java" />
         <option value="$PROJECT_DIR$/src/server/PortAllocator.java" />
         <option value="$PROJECT_DIR$/src/game/GameState.java" />
+        <option value="$PROJECT_DIR$/src/noc_db/NOC_Manager.java" />
       </list>
     </option>
   </component>
@@ -136,9 +159,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="y" value="22" />
     <option name="width" value="1680" />
-    <option name="height" value="965" />
+    <option name="height" value="1050" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -171,6 +193,12 @@
               <item name="server-AWS" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="server-AWS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server-AWS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="noc_db" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="server-AWS" type="b2602c69:ProjectViewProjectNode" />
@@ -294,7 +322,7 @@
       <workItem from="1522888796842" duration="478000" />
       <workItem from="1522939257063" duration="7504000" />
       <workItem from="1522972252033" duration="247000" />
-      <workItem from="1523009937831" duration="13413000" />
+      <workItem from="1523009937831" duration="16333000" />
     </task>
     <task id="LOCAL-00001" summary="spelling typos and code inspection cleanup">
       <created>1523011218546</created>
@@ -349,7 +377,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13423000" />
+    <option name="totallyTimeSpent" value="16343000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -561,13 +589,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/noc_db/NOC_Manager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-200">
-          <caret line="135" selection-start-line="135" selection-end-line="135" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/game_interfaces/JSONable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -765,22 +786,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/game/PrivateProperty.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="55" column="42" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
+        <state relative-caret-position="893">
+          <caret line="66" column="42" selection-start-line="66" selection-start-column="42" selection-end-line="66" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/SpecialSquare.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/game/GameState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="135" column="63" selection-start-line="135" selection-start-column="63" selection-end-line="135" selection-end-column="63" />
+        <state relative-caret-position="295">
+          <caret line="46" column="52" selection-start-line="46" selection-start-column="52" selection-end-line="46" selection-end-column="52" />
           <folding>
-            <element signature="e#1200#1201#0" expanded="true" />
-            <element signature="e#1230#1231#0" expanded="true" />
-            <element signature="e#1258#1259#0" expanded="true" />
-            <element signature="e#1285#1286#0" expanded="true" />
-            <element signature="e#1340#1341#0" expanded="true" />
-            <element signature="e#1388#1389#0" expanded="true" />
+            <element signature="e#1049#1064#0" expanded="true" />
+            <element signature="e#2671#2672#0" expanded="true" />
+            <element signature="e#2701#2702#0" expanded="true" />
+            <element signature="e#2729#2730#0" expanded="true" />
+            <element signature="e#2756#2757#0" expanded="true" />
+            <element signature="e#2810#2811#0" expanded="true" />
+            <element signature="e#2858#2859#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/noc_db/NOC_Manager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="170" column="40" lean-forward="true" selection-start-line="170" selection-start-column="40" selection-end-line="170" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#660#671#0" expanded="true" />
           </folding>
         </state>
       </provider>

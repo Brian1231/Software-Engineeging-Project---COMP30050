@@ -39,40 +39,31 @@ public class GameState implements JSONable {
 
 		// Tiles generation & setup
 		ArrayList<NamedLocation> properties = new ArrayList<NamedLocation>();
-		ArrayList<World_noc> usedWorlds = new ArrayList<World_noc>();
-		World_noc rand;
+		World_noc randomWorld;
 
 		//Investment Properties
 		int[] rents = {100, 200, 300, 400};
 		for(int i=0;i<24;i++){
-			rand = Main.noc.getRandomWorld();
-			while(usedWorlds.contains(rand)) rand = Main.noc.getRandomWorld();
-			properties.add(new InvestmentProperty(i, rand.getWorld(), 200 + i*20, rents));
-			usedWorlds.add(rand);
+			randomWorld = Main.noc.getRandomWorld();
+			properties.add(new InvestmentProperty(i, randomWorld.getWorld(), 200 + i*20, rents));
 		}
 
 		//3 Tax squares
 		for(int i=0;i<3;i++){
-			rand = Main.noc.getRandomWorld();
-			while(usedWorlds.contains(rand)) rand = Main.noc.getRandomWorld();
-			properties.add(new TaxSquare(rand.getWorld()));
-			usedWorlds.add(rand);
+			randomWorld = Main.noc.getRandomWorld();
+			properties.add(new TaxSquare(randomWorld.getWorld()));
 		}
 
 		//Stations
 		for(int i=0;i<4;i++){
-			rand = Main.noc.getRandomWorld();
-			while(usedWorlds.contains(rand)) rand = Main.noc.getRandomWorld();
-			properties.add(new Station(i, rand.getWorld(), 200 + i*20, rents));
-			usedWorlds.add(rand);
+			randomWorld = Main.noc.getRandomWorld();
+			properties.add(new Station(i, randomWorld.getWorld(), 200 + i*20, rents));
 		}
 
 		//Utilities
 		for(int i=0;i<2;i++){
-			rand = Main.noc.getRandomWorld();
-			while(usedWorlds.contains(rand)) rand = Main.noc.getRandomWorld();
-			properties.add(new Utility(i, rand.getWorld(), 200 + i*20));
-			usedWorlds.add(rand);
+			randomWorld = Main.noc.getRandomWorld();
+			properties.add(new Utility(i, randomWorld.getWorld(), 200 + i*20));
 		}
 
 		//Chance Squares
