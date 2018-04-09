@@ -16,6 +16,7 @@
 "balance": int <br />
 "position": int (0 to 39) <br />
 "character": String <br />
+"fuel": int (fuel amount 0-3) <br />
 
 ### JSONObject location:
 "id": String <br />
@@ -46,3 +47,6 @@
 "id": int <br />
 "balance": int <br />
 "position": int (0 to 39) <br />
+"properties": JSONArray of JSONObjects for owned properties <br />
+"character": String <br />
+"fuel": int (fuel amount 0-3) <br />
