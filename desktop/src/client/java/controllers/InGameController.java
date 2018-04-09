@@ -108,8 +108,8 @@ public class InGameController {
                 int playerTurn = update.getInt("player_turn");
                 String actionInfo = update.getString("action_info");
 
-                List<Player> plyrs = new ArrayList<>();
                 // Redraw players according to new player positions
+                List<Player> plyrs = new ArrayList<>();
                 if(update.has("players")){
                     JSONArray playerObjects = update.getJSONArray("players");
 
@@ -121,8 +121,9 @@ public class InGameController {
                     }
                     playerCanvas.updatePlayers(plyrs);
                 }
-                List<Location> locs = new ArrayList<>();
+
                 // Redraw locations according to new Location information.
+                List<Location> locs = new ArrayList<>();
                 if(update.has("locations")){
                     JSONArray locationObjects = update.getJSONArray("locations");
                     for(int i=0;i<locationObjects.length();i++){
@@ -145,10 +146,6 @@ public class InGameController {
 
             } catch (JSONException e) { e.printStackTrace(); }
         });
-
-        // Extract JSON fields
-        // Update player positions
-        // Print action information
     }
 
     public void setUpBoard(){

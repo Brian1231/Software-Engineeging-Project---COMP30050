@@ -1,5 +1,7 @@
 package client.java;
 
+import javafx.scene.paint.Color;
+
 public class Location {
 
     private String name;
@@ -7,6 +9,7 @@ public class Location {
     private int price;
     private int rent;
     private int ownerID;
+    private Color colour = Color.GOLD;
 
     public Location(String name, int position, int price, int rent, int owner) {
         this.name = name;
@@ -26,7 +29,7 @@ public class Location {
         }
         final Location other = (Location) obj;
 
-        if (!this.name.equals(other.name)){
+        if (this.position != other.position){
             return false;
         }
         return true;
@@ -56,4 +59,27 @@ public class Location {
         this.name = name;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(int ownerID) {
+        this.ownerID = ownerID;
+    }
+
+    public Color getColour() {
+        return colour;
+    }
+
+    public void setColour(Color colour) {
+        this.colour = colour;
+    }
 }

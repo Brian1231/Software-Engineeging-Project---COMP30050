@@ -1,19 +1,23 @@
 package client.java;
 
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class PlayerCanvas extends ResizableCanvas {
 
-    final double PI = 3.14159265359;
     ArrayList<Player> players = new ArrayList<>();
 
-
     public PlayerCanvas() {
+        // Test code
+        //players.add(new Player(2000, 1,0,Color.WHITE));
+        //players.add(new Player(2000, 2,10,Color.WHITE));
+        //players.add(new Player(2000, 3,30,Color.WHITE));
+        //players.add(new Player(2000, 4,40,Color.WHITE));
+
         // Redraw canvas when size changes.
         widthProperty().addListener(evt -> draw());
         heightProperty().addListener(evt -> draw());
@@ -29,40 +33,18 @@ public class PlayerCanvas extends ResizableCanvas {
         drawPlayers(gc, width, height);
     }
 
+    // Draws players at their current location.
     public void drawPlayers(GraphicsContext g, double width, double height){
-
-        final double STEP = 0.15707963267;
 
         for(Player player : players){
             int position = player.getPosition();
-            double baseOffset = 30;
-            double offsetX;
-            double offsetY;
+            double t = -PI/2 + step*position;
 
-            switch(player.getId()){
-                case 1:     offsetX = baseOffset;
-                            offsetY = baseOffset;
-                            break;
-                case 2:     offsetX = baseOffset;
-                            offsetY = -baseOffset;
-                            break;
-                case 3:     offsetX = -baseOffset;
-                            offsetY = -baseOffset;
-                            break;
-                case 4:     offsetX = -baseOffset;
-                            offsetY = baseOffset;
-                            break;
-                default:    offsetX = baseOffset;
-                            offsetY = baseOffset;
-            }
+            Point2D point = lemniscate(t);
+            Point2D offset = playerOffset(player);
 
-            double t = -PI + STEP*position;
-
-            double x = (width/3*Math.sqrt(2)*Math.cos(t))/(Math.pow(Math.sin(t),2)+1);
-            double y = (width/2.4*Math.sqrt(2)*Math.cos(t)*Math.sin(t))/(Math.pow(Math.sin(t),2)+1);
-
-            double playerX = x + (width/2) -10 + offsetX;
-            double playerY = y + (height/2)-10 + offsetY;
+            double playerX = point.getX() + (width/2) -10 + offset.getX();
+            double playerY = point.getY() + (height/2)-10 + offset.getY();
 
             g.setFill(player.getColor());
             g.fillOval(playerX,playerY,20,20);
@@ -73,6 +55,33 @@ public class PlayerCanvas extends ResizableCanvas {
         }
     }
 
+    // Calculates each players x,y offset so they don't draw on top of each other.
+    public Point2D playerOffset(Player player){
+        double baseOffset = 30;
+        double offsetX;
+        double offsetY;
+
+        switch(player.getId()){
+            case 1:     offsetX = baseOffset;
+                        offsetY = baseOffset;
+                        break;
+            case 2:     offsetX = baseOffset;
+                        offsetY = -baseOffset;
+                        break;
+            case 3:     offsetX = -baseOffset;
+                        offsetY = -baseOffset;
+                        break;
+            case 4:     offsetX = -baseOffset;
+                        offsetY = baseOffset;
+                        break;
+            default:    offsetX = baseOffset;
+                        offsetY = baseOffset;
+        }
+
+        return new Point2D(offsetX,offsetY);
+    }
+
+    // Updates players from server.
     public void updatePlayers(List<Player> plyrs){
         for(Player p : plyrs){
             if(!players.contains(p)) {
@@ -85,10 +94,12 @@ public class PlayerCanvas extends ResizableCanvas {
         draw();
     }
 
+    // Adds new player to player list.
     public void addPlayer(Player player){
         players.add(player);
     }
 
+    // Updates player on player list
     public void updatePlayerData(Player player){
         if(players.contains(player)){
             int index = players.indexOf(player);
@@ -97,6 +108,7 @@ public class PlayerCanvas extends ResizableCanvas {
         }
     }
 
+    // Removes player from the draw loop. (quits game etc)
     public void removePlayer(Player player){
         if(players.contains(player)){
             players.remove(player);
