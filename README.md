@@ -46,3 +46,5 @@
 "id": int <br />
 "balance": int <br />
 "position": int (0 to 39) <br />
+"properties": JSONArray of JSONObjects for owned properties <br />
+"character": String <br />
