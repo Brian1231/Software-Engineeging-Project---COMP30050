@@ -6,7 +6,9 @@ import org.json.JSONObject;
 
 import game_interfaces.JSONable;
 import game_interfaces.Playable;
+import main.Main;
 import noc_db.Character_noc;
+import noc_db.Vehicle_noc;
 
 import java.util.ArrayList;
 
@@ -17,16 +19,25 @@ public class Player implements Playable, JSONable {
 	private int position;
 	private String ip;
 	private ArrayList<PrivateProperty> ownedProperties = new ArrayList<>();
-	private boolean hasRolled;
+	
 	private Character_noc character;
+	private Vehicle_noc vehicle;
+	private int fuel;
+	private boolean hasRolled;
+	private boolean hasBought;
+	private boolean hasBoosted;
 	
 	public Player(int playerId, String ipAddr, Character_noc ch){
-		id = playerId;
-		balance = 1000;
-		position = 0;
-		ip = ipAddr;
-		hasRolled = false;
+		this.id = playerId;
+		this.balance = 1000;
+		this.position = 0;
+		this.ip = ipAddr;
+		this.hasRolled = false;
+		this.hasBought = false;
+		this.hasBoosted = false;
+		this.fuel = 0;
 		this.character = ch;
+		this.vehicle = Main.noc.getVehicle(ch.getVehicle());
 	}
 	
 	@Override
@@ -47,8 +58,43 @@ public class Player implements Playable, JSONable {
 		this.hasRolled = false;
 	}
 	
+	public boolean hasBought(){
+		return this.hasBought;
+	}
+	
+	public void useBuy(){
+		this.hasBought = true;
+	}
+	
+	public boolean hasBoosted(){
+		return this.hasBoosted;
+	}
+	
+	public void resetBoost(){
+		this.hasBoosted = false;
+	}
+	
+	public String useBoost(){
+		this.hasBoosted = true;
+		this.fuel--;
+		this.moveForward(1);
+		return this.getId() + " travelled ahead " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle() + "."; 
+	}
+	
+	public void resetBought(){
+		this.hasBought = false;
+	}
+	
 	public void useRoll(){
 		this.hasRolled = true;
+	}
+	
+	public void topUpFuel(){
+		this.fuel = 3;
+	}
+	
+	public int getFuel(){
+		return this.fuel;
 	}
 	
 	@Override

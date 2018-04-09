@@ -52,13 +52,13 @@ public class GameState implements JSONable {
 	public boolean isActive(){
 		return this.isActive;
 	}
-	
+
 	public boolean isPlayerCharacter(Character_noc ch){
 		return this.playerCharacters.contains(ch);
 	}
 
 	public void startGame(){
-		gameStarted = true;
+		this.gameStarted = true;
 		if(this.players.size() == 0 ){
 			playerTurn = rand.nextInt(this.players.size()+1) + 1;
 		}
@@ -74,7 +74,7 @@ public class GameState implements JSONable {
 	public int addPlayer(String client_ip){
 		int newID = players.size()+1;
 		if(!clientIPplayerIDMap.containsKey(client_ip)){
-			
+
 			//Get random unused character
 			Character_noc ch = Main.noc.getRandomChar();
 			while(this.isPlayerCharacter(ch)){
@@ -98,7 +98,7 @@ public class GameState implements JSONable {
 	public String playerAction(int id, String action, String[] args){
 
 		//Check if its the correct players turn
-		if(this.playerTurn == id){
+		if(this.playerTurn == id && this.gameStarted){
 			//Get player from id
 			Player player = null;
 			for(Player p : this.players){
@@ -129,6 +129,7 @@ public class GameState implements JSONable {
 							(prop).setOwner(player);
 							player.addNewPropertyBought(prop);
 							player.payMoney(prop.getPrice());
+							player.useBuy();
 							return "Player " + id + " bought " + prop.getId() + " for " + prop.getPrice() + ".";
 						}
 						return "You can't afford this property.";
@@ -158,9 +159,26 @@ public class GameState implements JSONable {
 					}
 					return "You don't own that property.";
 				}
-				return "That property is unowned";
-				
+				return "That property is unowned.";
+
+			case "boost":
+				if(player.hasRolled()){
+					if(!player.hasBought()){
+						if(!player.hasBoosted()){
+							if(player.getFuel() > 0){
+								return player.useBoost();
+							}
+							return "Your vehicle is out of fuel!";
+						}
+						return "You've already used your vehicle this turn!";
+					}
+					return "You can't use your vehicle after buying a property!";
+				}
+				return "You must roll before using your vehicle.";
 			case "done":
+				player.resetRoll();
+				player.resetBought();
+				player.resetBoost();
 				//Increment player turn
 				this.playerTurn++;
 				if(this.playerTurn > this.players.size()) {
