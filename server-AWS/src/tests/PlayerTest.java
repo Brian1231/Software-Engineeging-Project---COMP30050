@@ -5,12 +5,14 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import game.Player;
+import noc_db.Character_noc;
 
 public class PlayerTest {
 
 	@Test
 	public void testCreatePlayer() {
-		Player player = new Player(1, "1.1.1.1");
+		String[] info = new String[24];
+		Player player = new Player(1, "1.1.1.1",new Character_noc( info));
 
 		assertEquals(1, player.getID());
 		assertEquals("1.1.1.1", player.getIp());
@@ -20,7 +22,8 @@ public class PlayerTest {
 	
 	@Test
 	public void testBalance() {
-		Player player = new Player(1, "1.1.1.1");
+		String[] info = new String[24];
+		Player player = new Player(1, "1.1.1.1",new Character_noc( info));
 		
 		player.payMoney(500);
 		assertEquals(500, player.getNetWorth());

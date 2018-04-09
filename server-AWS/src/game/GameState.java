@@ -11,12 +11,14 @@ import org.json.JSONObject;
 
 import game_interfaces.JSONable;
 import main.Main;
+import noc_db.Character_noc;
 import noc_db.World_noc;
 
 public class GameState implements JSONable {
 
 	Random rand = new Random();
 	private ArrayList<Player> players;
+	private ArrayList<Character_noc> playerCharacters;
 	private ArrayList<NamedLocation> locations;
 	private Map<String, Player> clientIPplayerIDMap;
 	private boolean gameStarted;
@@ -28,6 +30,7 @@ public class GameState implements JSONable {
 	public GameState() {
 		players = new ArrayList<Player>();
 		locations = new ArrayList<NamedLocation>();
+		playerCharacters = new ArrayList<Character_noc>();
 		clientIPplayerIDMap = new HashMap<String, Player>();
 		gameStarted = false;
 		isActive = true;
@@ -49,6 +52,10 @@ public class GameState implements JSONable {
 	public boolean isActive(){
 		return this.isActive;
 	}
+	
+	public boolean isPlayerCharacter(Character_noc ch){
+		return this.playerCharacters.contains(ch);
+	}
 
 	public void startGame(){
 		gameStarted = true;
@@ -67,7 +74,14 @@ public class GameState implements JSONable {
 	public int addPlayer(String client_ip){
 		int newID = players.size()+1;
 		if(!clientIPplayerIDMap.containsKey(client_ip)){
-			Player newPlayer = new Player(newID, client_ip);
+			
+			//Get random unused character
+			Character_noc ch = Main.noc.getRandomChar();
+			while(this.isPlayerCharacter(ch)){
+				ch = Main.noc.getRandomChar();
+			}
+			Player newPlayer = new Player(newID, client_ip, ch);
+			this.playerCharacters.add(ch);
 			players.add(newPlayer);
 			clientIPplayerIDMap.put(client_ip, newPlayer);
 			return newID;
