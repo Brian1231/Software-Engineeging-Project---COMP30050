@@ -104,12 +104,11 @@ public class InGameController {
         Platform.runLater(() -> {
             try {
                 System.out.println("Current GameState: " + update.toString());
-                List<Player> plyrs = new ArrayList<>();
+
                 int playerTurn = update.getInt("player_turn");
                 String actionInfo = update.getString("action_info");
 
-                System.out.println("PlayerTurn: " + playerTurn);
-
+                List<Player> plyrs = new ArrayList<>();
                 // Redraw players according to new player positions
                 if(update.has("players")){
                     JSONArray playerObjects = update.getJSONArray("players");
@@ -122,11 +121,17 @@ public class InGameController {
                     }
                     playerCanvas.updatePlayers(plyrs);
                 }
-
-
-                // Debugging
-                for(Player p : plyrs){
-                    System.out.println("\n Player " + p.getId() + " Position: "  + p.getPosition() + "\n");
+                List<Location> locs = new ArrayList<>();
+                // Redraw locations according to new Location information.
+                if(update.has("locations")){
+                    JSONArray locationObjects = update.getJSONArray("locations");
+                    for(int i=0;i<locationObjects.length();i++){
+                        String id = locationObjects.getJSONObject(i).getString("id");
+                        int price = locationObjects.getJSONObject(i).getInt("price");
+                        int position = locationObjects.getJSONObject(i).getInt("location");
+                        int owner = locationObjects.getJSONObject(i).getInt("owner");
+                        locs.add(new Location(id,position,price,0,owner));
+                    }
                 }
 
                 // Update lobby list According to new players

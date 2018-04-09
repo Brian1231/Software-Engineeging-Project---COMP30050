@@ -2,14 +2,18 @@ package client.java;
 
 public class Location {
 
-    private int rent;
-    private int position;
     private String name;
+    private int position;
+    private int price;
+    private int rent;
+    private int ownerID;
 
-    public Location(int rent, int position, String name) {
-        this.rent = rent;
-        this.position = position;
+    public Location(String name, int position, int price, int rent, int owner) {
         this.name = name;
+        this.position = position;
+        this.price = price;
+        this.rent = rent;
+        this.ownerID = owner;
     }
 
     public int getRent() {

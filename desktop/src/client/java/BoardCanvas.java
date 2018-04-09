@@ -7,11 +7,13 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public class BoardCanvas extends ResizableCanvas {
 
     final double PI = 3.14159265359;
+    ArrayList<Location> locations = new ArrayList<>();
 
     public BoardCanvas() {
         // Redraw canvas when size changes
