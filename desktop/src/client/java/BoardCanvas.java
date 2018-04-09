@@ -54,16 +54,18 @@ public class BoardCanvas extends ResizableCanvas {
 
     // Draws all tiles.
     public void drawTiles(GraphicsContext g){
-        int count = 0;
+        int locIndex = 0;
         for(double t = -PI/2; t<PI-step; t+=step){
-            Point2D point = lemniscate(t);
-            drawTile(point, g, locations.get(count));
-            count+=1;
+            if(Math.abs(t-PI/2) > 0.000001){    // so we don't draw two tiles in the centre.
+                Point2D point = lemniscate(t);
+                drawTile(point, g, locations.get(locIndex));
+                locIndex+=1;
+            }
         }
         for(double t = -PI; t<-PI/2-step; t+=step){
             Point2D point = lemniscate(t);
-            drawTile(point, g, locations.get(count));
-            count+=1;
+            drawTile(point, g, locations.get(locIndex));
+            locIndex+=1;
         }
         // Redraw centre tile so that its not overlapped
         double t = PI/2;
@@ -85,7 +87,7 @@ public class BoardCanvas extends ResizableCanvas {
         g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
 
         g.setFill(Color.WHITE);
-        g.fillText(location.getName(),x + (width/2),y + (height/2));
+        g.fillText(location.getName(),x + (width/2) -10,y + (height/2));
     }
 
     public void initializeLocations(){

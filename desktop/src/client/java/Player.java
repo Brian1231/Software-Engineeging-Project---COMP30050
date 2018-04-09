@@ -7,12 +7,14 @@ public class Player {
     private int id;
     private int position;
     private Color color;
+    private String character;
 
-    public Player(int balance, int id, int position, Color colour) {
+    public Player(int balance, int id, int position, Color colour, String character) {
         this.balance = balance;
         this.id = id;
         this.position = position;
         this.color = colour;
+        this.character = character;
     }
 
     @Override

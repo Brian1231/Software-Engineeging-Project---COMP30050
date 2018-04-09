@@ -7,8 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -30,8 +29,10 @@ public class InGameController {
     @FXML
     public BorderPane rootPane;
 
+    // 3 board layers.
     public BoardCanvas boardCanvas = new BoardCanvas();
     public PlayerCanvas playerCanvas = new PlayerCanvas();
+    Pane infoPane = new Pane();
 
     // Players
     private ObservableList<String> playerList = FXCollections.observableArrayList();
@@ -51,7 +52,7 @@ public class InGameController {
         setUpBoard();
         try {
             showLobbyWindow();
-            connection.startConnection();
+            //connection.startConnection();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -117,7 +118,8 @@ public class InGameController {
                         int balance = playerObjects.getJSONObject(i).getInt("balance");
                         int id = playerObjects.getJSONObject(i).getInt("id");
                         int position = playerObjects.getJSONObject(i).getInt("position");
-                        plyrs.add(new Player(balance,id,position,Color.WHITE));
+                        String character = playerObjects.getJSONObject(i).getString("character");
+                        plyrs.add(new Player(balance,id,position,Color.WHITE,character));
                     }
                     playerCanvas.updatePlayers(plyrs);
                 }
@@ -126,6 +128,7 @@ public class InGameController {
                 List<Location> locs = new ArrayList<>();
                 if(update.has("locations")){
                     JSONArray locationObjects = update.getJSONArray("locations");
+
                     for(int i=0;i<locationObjects.length();i++){
                         String id = locationObjects.getJSONObject(i).getString("id");
                         int price = locationObjects.getJSONObject(i).getInt("price");
@@ -144,14 +147,37 @@ public class InGameController {
                 }
                 playerList.setAll(names);
 
+                System.out.println("\n" + actionInfo);
             } catch (JSONException e) { e.printStackTrace(); }
         });
     }
 
     public void setUpBoard(){
+        // Drafting Player stats ------------
+        Label playerLabel = new Label("Player 1");
+        playerLabel.setTextFill(Color.WHITE);
+        playerLabel.setLayoutX(10);
+        playerLabel.setLayoutY(10);
+
+        Label balanceLabel = new Label("$2000");
+        balanceLabel.setTextFill(Color.WHITE);
+        balanceLabel.setLayoutX(10);
+        balanceLabel.setLayoutY(30);
+
+        ProgressBar fuelbar  = new ProgressBar(.5);
+        fuelbar.setLayoutX(10);
+        fuelbar.setLayoutY(50);
+        fuelbar.setPrefSize(70,3);
+
+        infoPane.getChildren().add(fuelbar);
+        infoPane.getChildren().add(playerLabel);
+        infoPane.getChildren().add(balanceLabel);
+        // -----------------------------------
+
         StackPane layers = new StackPane();
         layers.getChildren().add(boardCanvas);
         layers.getChildren().add(playerCanvas);
+        layers.getChildren().add(infoPane);
 
         rootPane.setCenter(layers);
         boardCanvas.widthProperty().bind(rootPane.widthProperty());
@@ -161,6 +187,11 @@ public class InGameController {
 
         boardCanvas.draw();
         playerCanvas.draw();
+    }
+
+
+    public void updateInfoPane(){
+
     }
 
 }
