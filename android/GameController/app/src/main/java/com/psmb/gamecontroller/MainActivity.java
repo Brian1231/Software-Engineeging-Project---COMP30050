@@ -14,42 +14,49 @@ import org.json.JSONObject;
 public class MainActivity extends Activity{
 
     Button sendButton;
-    Button cancelButton;
+    Button connectButton;
     ServerConnectionThread thread;
     ServerConnectionThread gamethread;
-    String res = "Nothing yet.";
+    int playerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sendButton = (Button) findViewById(R.id.sendButton);
-        cancelButton = (Button) findViewById(R.id.cancelButton);
+        sendButton = findViewById(R.id.sendButton);
+        connectButton = findViewById(R.id.connectButton);
     }
 
     protected void onStart() {
         super.onStart();
-        //thread.delegate = this;
         thread = new ServerConnectionThread(this, 8080);
-        thread.start();
-        EditText et = (EditText) findViewById(R.id.messageText);
-        thread.setMessage(et.getText().toString());
-//        thread.send();
-        String s = "";
+
         sendButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                EditText et = (EditText) findViewById(R.id.messageText);
+                EditText et = findViewById(R.id.messageText);
                 if(gamethread!= null) {
                     gamethread.setMessage(et.getText().toString());
                 }
             }
         });
+
+        connectButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                thread.start();
+                EditText et = (EditText) findViewById(R.id.messageText);
+                thread.setMessage(et.getText().toString());
+                thread.setMessage(et.getText().toString());
+            }
+        });
     }
 
     public void handleResponse(String s){
-        TextView restext = (TextView) findViewById(R.id.responseText);
+        TextView restext = findViewById(R.id.responseText);
         System.out.println(s);
         if(s == null) {
             restext.setText("null");
@@ -64,9 +71,12 @@ public class MainActivity extends Activity{
                         System.out.println("JSON: " + object.toString());
                         thread.kill();
                         gamethread = new ServerConnectionThread(this, (int)object.get("port"));
+                        System.out.println((int)object.get("port"));
+                        this.playerId = (int)object.get("id");
+//                        EditText et = findViewById(R.id.messageText);
+//                        et.setText("{\"id\":"+this.playerId+",\"action\":\"roll\", \"args\":\"0\"}");
                         gamethread.start();
-//                        EditText et = (EditText) findViewById(R.id.messageText);
-//                        gamethread.setMessage(et.getText().toString());
+                        gamethread.setMessage("{\"id\":"+this.playerId+",\"action\":\"connect\", \"args\":\"0\"}");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

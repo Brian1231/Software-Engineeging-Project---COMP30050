@@ -124,23 +124,23 @@ public class GameState implements JSONable {
 				NamedLocation tile = this.locations.get(playerPosition);
 				if(tile instanceof PrivateProperty){
 					PrivateProperty prop = (PrivateProperty) tile;
-					if(prop.getOwner() != null){
+					if(!prop.isOwned()){
 						if(player.getBalance() >= prop.getPrice()){
 							(prop).setOwner(player);
 							player.addNewPropertyBought(prop);
 							player.payMoney(prop.getPrice());
 							return "Player " + id + " bought " + prop.getId() + " for " + prop.getPrice() + ".";
 						}
-						return prop.getId() + " is already owned by " + prop.getOwner().getId() + ".";
+						return "You can't afford this property.";
 					}
-					// remove getOwner() as its null from check
 					return prop.getId() + " is already owned by " + prop.getOwner().getId() + ".";
 				}
 				return "You can't buy this.";
 			case "sell":
 				int locationNumber = Integer.parseInt(args[0]);
 				PrivateProperty property = (PrivateProperty) this.locations.get(locationNumber);
-					if((property).getOwner().equals(player)){
+				if(property.isOwned()){
+					if(property.getOwner().equals(player)){
 						if(property instanceof RentalProperty){
 							RentalProperty rental = (RentalProperty) property;
 							if(!rental.isMortgaged()){
@@ -157,6 +157,8 @@ public class GameState implements JSONable {
 						return "Player " + id + " sold " + property.getId() + " for " + property.getPrice() + ".";
 					}
 					return "You don't own that property.";
+				}
+				return "That property is unowned";
 				
 			case "done":
 				//Increment player turn

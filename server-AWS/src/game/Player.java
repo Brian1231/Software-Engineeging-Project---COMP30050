@@ -1,5 +1,6 @@
 package game;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,10 +55,16 @@ public class Player implements Playable, JSONable {
 	public JSONObject getInfo() throws JSONException{
 		JSONObject info = new JSONObject();
 		
+		JSONArray properties = new JSONArray();
+		for(NamedLocation l : this.ownedProperties){
+			properties.put(l.getInfo());
+		}
+		
 		info.put("id", this.id);
 		info.put("balance", this.balance);
 		info.put("position", this.position);
 		info.put("character", this.character.getName());
+		info.put("properties", properties);
 		return info;
 		
 	}
