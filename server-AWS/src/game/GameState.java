@@ -124,7 +124,7 @@ public class GameState implements JSONable {
 				NamedLocation tile = this.locations.get(playerPosition);
 				if(tile instanceof PrivateProperty){
 					PrivateProperty prop = (PrivateProperty) tile;
-					if(!((prop).getOwner() == null)){
+					if(prop.getOwner() != null){
 						if(player.getBalance() >= prop.getPrice()){
 							(prop).setOwner(player);
 							player.addNewPropertyBought(prop);
@@ -133,6 +133,7 @@ public class GameState implements JSONable {
 						}
 						return prop.getId() + " is already owned by " + prop.getOwner().getId() + ".";
 					}
+					// remove getOwner() as its null from check
 					return prop.getId() + " is already owned by " + prop.getOwner().getId() + ".";
 				}
 				return "You can't buy this.";
