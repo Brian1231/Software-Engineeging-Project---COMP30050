@@ -37,13 +37,61 @@ public class GameState implements JSONable {
 		playerTurn = 1;
 		dice = new Dice();
 
-		//int numberOfChance = rand.nextInt(3) + 2; //2 - 4
+		// Tiles generation & setup
+		ArrayList<NamedLocation> properties = new ArrayList<NamedLocation>();
+		ArrayList<World_noc> usedWorlds = new ArrayList<World_noc>();
+		World_noc rand;
 
-		for(int i=0;i<39;i++){
-			World_noc rand = Main.noc.getRandomWorld();
-
-			locations.add(new PrivateProperty(i, rand.getWorld(), 200 + i*20));
+		//Investment Properties
+		int[] rents = {100, 200, 300, 400};
+		for(int i=0;i<24;i++){
+			rand = Main.noc.getRandomWorld();
+			while(usedWorlds.contains(rand)) rand = Main.noc.getRandomWorld();
+			properties.add(new InvestmentProperty(i, rand.getWorld(), 200 + i*20, rents));
+			usedWorlds.add(rand);
 		}
+
+		//3 Tax squares
+		for(int i=0;i<3;i++){
+			rand = Main.noc.getRandomWorld();
+			while(usedWorlds.contains(rand)) rand = Main.noc.getRandomWorld();
+			properties.add(new TaxSquare(rand.getWorld()));
+			usedWorlds.add(rand);
+		}
+
+		//Stations
+		for(int i=0;i<4;i++){
+			rand = Main.noc.getRandomWorld();
+			while(usedWorlds.contains(rand)) rand = Main.noc.getRandomWorld();
+			properties.add(new Station(i, rand.getWorld(), 200 + i*20, rents));
+			usedWorlds.add(rand);
+		}
+
+		//Utilities
+		for(int i=0;i<2;i++){
+			rand = Main.noc.getRandomWorld();
+			while(usedWorlds.contains(rand)) rand = Main.noc.getRandomWorld();
+			properties.add(new Utility(i, rand.getWorld(), 200 + i*20));
+			usedWorlds.add(rand);
+		}
+
+		//Chance Squares
+		for(int i=0;i<3;i++){
+			properties.add(new ChanceSquare("Interdimensional TV"));
+		}
+
+		//Shuffle Tiles
+		Random random = new Random();
+		while(!properties.isEmpty()){
+			locations.add(properties.remove(random.nextInt(properties.size())));
+		}
+		
+		//Other tiles
+		locations.add(0, new SpecialSquare("Go"));
+		locations.add(10, new SpecialSquare("Go to Intergalactic Prison!"));
+		locations.add(29, new SpecialSquare("Intergalactic Prison"));
+
+
 	}
 
 	public boolean isStarted(){

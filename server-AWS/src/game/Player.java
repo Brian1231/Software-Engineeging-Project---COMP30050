@@ -111,6 +111,7 @@ public class Player implements Playable, JSONable {
 		info.put("position", this.position);
 		info.put("character", this.character.getName());
 		info.put("properties", properties);
+		info.put("fuel", this.fuel);
 		return info;
 		
 	}

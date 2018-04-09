@@ -2,6 +2,7 @@ package game;
 
 import game_interfaces.Playable;
 import game_interfaces.Taxable;
+import noc_db.Character_noc;
 
 public class TaxSquare extends NamedLocation implements Taxable {
 
@@ -27,6 +28,10 @@ public class TaxSquare extends NamedLocation implements Taxable {
 		this.incomePercentage = percentage;
 	}
 
+	public String getText(Character_noc ch){
+		return new TaxTemplate(ch).getRandomTemplate();
+	}
+	
 	@Override
 	public int getFlatAmount(Playable player) {
 		if(flatAmount != 0) {
