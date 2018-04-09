@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends Activity{
 
     Button sendButton;
@@ -56,11 +59,17 @@ public class MainActivity extends Activity{
             } else {
                 restext.setText(s);
                 if(thread.isAlive()) {
-                    thread.kill();
-                    gamethread = new ServerConnectionThread(this, 8081);
-                    gamethread.start();
-                    EditText et = (EditText) findViewById(R.id.messageText);
-                    gamethread.setMessage(et.getText().toString());
+                    try {
+                        JSONObject object = new JSONObject(s);
+                        System.out.println("JSON: " + object.toString());
+                        thread.kill();
+                        gamethread = new ServerConnectionThread(this, (int)object.get("port"));
+                        gamethread.start();
+//                        EditText et = (EditText) findViewById(R.id.messageText);
+//                        gamethread.setMessage(et.getText().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

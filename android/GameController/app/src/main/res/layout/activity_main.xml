@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
-            android:text="{&quot;id&quot;:1,&quot;action&quot;:&quot;roll&quot;}"
+            android:text="{&quot;id&quot;:2,&quot;action&quot;:&quot;roll&quot;,&quot;args&quot;:&quot;0&quot;}"
             android:ems="10" />
     </LinearLayout>
 
