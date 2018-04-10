@@ -48,7 +48,7 @@ public class InGameController {
         }
     });
 
-    public void initialize() {
+    public void initialize() throws IOException, JSONException {
         setUpBoard();
         try {
             showLobbyWindow();
@@ -150,11 +150,14 @@ public class InGameController {
                 playerList.setAll(names);
 
                 System.out.println("\n" + actionInfo);
-            } catch (JSONException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) { e.printStackTrace(); }
+            } catch (JSONException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         });
     }
 
-    public void setUpBoard(){
+    public void setUpBoard() throws IOException, JSONException{
         // Drafting Player stats ------------
         Label playerLabel = new Label("Player 1");
         playerLabel.setTextFill(Color.WHITE);

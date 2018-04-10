@@ -3,6 +3,10 @@ package client.java;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.io.IOException;
+
+import org.json.JSONException;
+
 import javafx.geometry.Point2D;
 
 public class ResizableCanvas extends Canvas {
@@ -12,11 +16,28 @@ public class ResizableCanvas extends Canvas {
 
     public ResizableCanvas() {
         // Redraw canvas when size changes.
-        widthProperty().addListener(evt -> draw());
-        heightProperty().addListener(evt -> draw());
+        widthProperty().addListener(evt -> {
+			try {
+				draw();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+        heightProperty().addListener(evt -> {
+			try {
+				draw();
+			} catch (IOException | JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
     }
 
-    public void draw() {
+    public void draw() throws IOException, JSONException {
         double width =  getWidth();
         double height = getHeight();
 
