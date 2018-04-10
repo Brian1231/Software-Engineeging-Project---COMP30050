@@ -35,7 +35,7 @@ public class Player implements Playable, JSONable {
 		this.hasRolled = false;
 		this.hasBought = false;
 		this.hasBoosted = false;
-		this.fuel = 0;
+		this.fuel = 1;
 		this.character = ch;
 		this.vehicle = Main.noc.getVehicle(ch.getVehicle());
 	}

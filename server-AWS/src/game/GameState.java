@@ -81,17 +81,18 @@ public class GameState implements JSONable {
 		locations.add(0, new SpecialSquare("Go"));
 		locations.add(10, new SpecialSquare("Go to Intergalactic Prison!"));
 		locations.add(29, new SpecialSquare("Intergalactic Prison"));
-		
+
 		String[] colors = {"CYAN", "GREEN", "MAGENTA", "YELLOW", "ORANGE", "BLUE", "WHITE", "PINK"};
-		int count = 0;
-		int numc = 0;
+		int colorCount = 0;
+		int colorIndex = 0;
+
 		for(int i=0;i<locations.size();i++){
 			locations.get(i).setLocation(i);
 			if(locations.get(i) instanceof InvestmentProperty){
 				InvestmentProperty prop = (InvestmentProperty)locations.get(i);
-				prop.setColor(colors[numc]);
-				count++;
-				if(count%3==0) numc++;
+				prop.setColor(colors[colorIndex]);
+				colorCount++;
+				if(colorCount%3==0) colorIndex++;
 			}
 		}
 	}
@@ -178,7 +179,6 @@ public class GameState implements JSONable {
 						if(player.getBalance() >= prop.getPrice()){
 							(prop).setOwner(player);
 							player.addNewPropertyBought(prop);
-							player.payMoney(prop.getPrice());
 							player.useBuy();
 							return "Player " + id + " bought " + prop.getId() + " for " + prop.getPrice() + ".";
 						}
@@ -199,7 +199,6 @@ public class GameState implements JSONable {
 								if(!rental.isMortgaged()){
 									property.setOwner(null);
 									player.removePropertySold(property);
-									player.receiveMoney(property.getPrice());
 									return "Player " + id + " sold " + property.getId() + " for " + property.getPrice() + ".";
 								}
 								return "You can't sell a mortgaged property.";
@@ -214,7 +213,42 @@ public class GameState implements JSONable {
 					return "That property is unowned.";
 				}
 				return "You can't sell that.";
-
+			case "mortgage":
+				locationNumber = Integer.parseInt(args[0]);
+				loc = this.locations.get(locationNumber);
+				if(loc instanceof PrivateProperty){
+					RentalProperty property = (RentalProperty) loc;
+					if(property.isOwned()){
+						if(property.getOwner().equals(player)){
+							if(!property.isMortgaged()){
+								property.mortgage(player);;
+								return "Player " + id + " mortgaged " + property.getId() + " and received " + property.getMortgageAmount() + ".";
+							}
+							return property.getId() + " is already mortgaged! ";
+						}
+						return "You don't own that property.";
+					}
+					return "That property is unowned.";
+				}
+				return "You can't mortgage that.";
+			case "redeem":
+				locationNumber = Integer.parseInt(args[0]);
+				loc = this.locations.get(locationNumber);
+				if(loc instanceof PrivateProperty){
+					RentalProperty property = (RentalProperty) loc;
+					if(property.isOwned()){
+						if(property.getOwner().equals(player)){
+							if(property.isMortgaged()){
+								property.redeem(player);;
+								return "Player " + id + " redeemed " + property.getId() + " for " + property.getRedeemAmount() + ".";
+							}
+							return property.getId() + " isn't mortgaged! ";
+						}
+						return "You don't own that property.";
+					}
+					return "That property is unowned.";
+				}
+				return "You can't redeem that.";
 			case "boost":
 				if(player.hasRolled()){
 					if(!player.hasBought()){
