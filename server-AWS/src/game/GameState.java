@@ -81,12 +81,19 @@ public class GameState implements JSONable {
 		locations.add(0, new SpecialSquare("Go"));
 		locations.add(10, new SpecialSquare("Go to Intergalactic Prison!"));
 		locations.add(29, new SpecialSquare("Intergalactic Prison"));
-
+		
+		String[] colors = {"CYAN", "GREEN", "MAGENTA", "YELLOW", "ORANGE", "BLUE", "WHITE", "PINK"};
+		int count = 0;
+		int numc = 0;
 		for(int i=0;i<locations.size();i++){
 			locations.get(i).setLocation(i);
+			if(locations.get(i) instanceof InvestmentProperty){
+				InvestmentProperty prop = (InvestmentProperty)locations.get(i);
+				prop.setColor(colors[numc]);
+				count++;
+				if(count%3==0) numc++;
+			}
 		}
-
-
 	}
 
 	public boolean isStarted(){

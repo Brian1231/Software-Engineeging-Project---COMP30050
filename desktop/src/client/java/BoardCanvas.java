@@ -93,7 +93,7 @@ public class BoardCanvas extends ResizableCanvas {
     public void initializeLocations(){
         for(int index = 0; index<40; index++){
             String initName = Integer.toString(index);
-            locations.add(new Location(initName, index, 0,0,0));
+            locations.add(new Location(initName, index, 0,0,0, Color.GOLD));
         }
     }
 
@@ -117,6 +117,7 @@ public class BoardCanvas extends ResizableCanvas {
             locations.get(index).setRent(location.getRent());
             locations.get(index).setPrice(location.getPosition());
             locations.get(index).setOwnerID(location.getOwnerID());
+            locations.get(index).setColour(location.getColour());
             // etc
         }
     }

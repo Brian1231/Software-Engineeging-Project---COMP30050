@@ -33,6 +33,7 @@ public class NamedLocation implements Identifiable, Locatable, JSONable{
 		info.put("location", this.getLocation());
 		info.put("price", 0);
 		info.put("owner", 0);
+		info.put("color", "RED");
 		return info;
 	}
 	@Override

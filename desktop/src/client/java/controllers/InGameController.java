@@ -134,7 +134,9 @@ public class InGameController {
                         int price = locationObjects.getJSONObject(i).getInt("price");
                         int position = locationObjects.getJSONObject(i).getInt("location");
                         int owner = locationObjects.getJSONObject(i).getInt("owner");
-                        locs.add(new Location(id,position,price,0,owner));
+                        String c = locationObjects.getJSONObject(i).getString("color");
+                        Color color = (Color) Color.class.getField(c).get(null);
+                        locs.add(new Location(id,position,price,0,owner, color));
                     }
                     boardCanvas.updateLocations(locs);
                 }
@@ -148,7 +150,7 @@ public class InGameController {
                 playerList.setAll(names);
 
                 System.out.println("\n" + actionInfo);
-            } catch (JSONException e) { e.printStackTrace(); }
+            } catch (JSONException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) { e.printStackTrace(); }
         });
     }
 

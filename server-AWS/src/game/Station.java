@@ -4,6 +4,9 @@ import game_interfaces.Playable;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Station extends RentalProperty {
 
 	public Station(String name, int price, int[] rentAmounts) {
@@ -28,4 +31,5 @@ public class Station extends RentalProperty {
 			return 0;
 		}
 	}
+	
 }

@@ -9,14 +9,15 @@ public class Location {
     private int price;
     private int rent;
     private int ownerID;
-    private Color colour = Color.GOLD;
+    private Color colour;
 
-    public Location(String name, int position, int price, int rent, int owner) {
+    public Location(String name, int position, int price, int rent, int owner, Color c) {
         this.name = name;
         this.position = position;
         this.price = price;
         this.rent = rent;
         this.ownerID = owner;
+        this.colour = c;
     }
 
     @Override
