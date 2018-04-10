@@ -38,6 +38,8 @@
 ("buy"-> attempt to buy tile at player position) <br />
 ("sell"-> attempt to sell tile at position args[0]) <br />
 ("boost"-> use vehicle to move ahead one tile )<br />
+("mortgage"-> attempt to mortgage tile at position args[0])<br />
+("redeem"-> attempt to un-mortgage tile at position args[0])<br />
 "args": Strings separated with "," <br />
 
 ## Server-to-Phone:
