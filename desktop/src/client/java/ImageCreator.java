@@ -58,8 +58,8 @@ public class ImageCreator {
 			BufferedImage im = (BufferedImage) image;
 			javafx.scene.image.Image i = SwingFXUtils.toFXImage(im, null);
 
-			//Display image in a JFrame
-			/*	JFrame frame = new JFrame();
+		/*	//Display image in a JFrame
+				JFrame frame = new JFrame();
 		frame.setSize(image.getWidth(frame), image.getHeight(frame));
 		JLabel label = new JLabel(new ImageIcon(image));
 		frame.add(label);

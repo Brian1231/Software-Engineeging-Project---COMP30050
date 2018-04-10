@@ -1,95 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:layout_marginLeft="40dp"
     android:orientation="vertical" >
 
     <!-- Message -->>
-    <LinearLayout
-        android:layout_marginTop="30dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_weight="0.25"
-            android:text="Message" />
+    <!--<LinearLayout-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="147dp"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:orientation="horizontal">-->
 
-        <EditText
-            android:id="@+id/messageText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.75"
-            android:text="{&quot;id&quot;:1,&quot;action&quot;:&quot;roll&quot;,&quot;args&quot;:&quot;0&quot;}"
-            android:ems="10" />
-    </LinearLayout>
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="0.25"-->
+            <!--android:text="Message"-->
+            <!--android:textSize="18sp" />-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/messageText"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="0.75"-->
+            <!--android:ems="10"-->
+            <!--android:text="{&quot;id&quot;:1,&quot;action&quot;:&quot;roll&quot;,&quot;args&quot;:&quot;0&quot;}" />-->
+    <!--</LinearLayout>-->
 
     <!-- Response Text -->
-    <LinearLayout
-        android:layout_marginTop="30dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_weight="0.45"
-            android:text="Response" />
-
-        <TextView
-            android:id="@+id/responseText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_weight="0.88"
-            android:textColor="@android:color/black"
-            android:text="No Response yet!!" />
-    </LinearLayout>
 
     <!-- Buttons -->
     <LinearLayout
-        android:layout_marginTop="30dp"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
-        <View
+        <!-- Buttons -->
 
-            android:layout_width="0dp"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25" />
+            android:layout_weight="1"
+            android:text="Response"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/responseText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="No Response yet!!"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.75"
-            android:orientation="horizontal" >
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/sendButton"
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="5"
-                android:text="Send" />
 
-            <Button
-                android:id="@+id/connectButton"
-                android:textSize="15sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="5"
-                android:text="Connect" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" >
+
+                            <Button
+                                android:id="@+id/doneButton"
+                                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                android:layout_width="wrap_content"
+                                android:layout_height="109dp"
+                                android:layout_weight="1"
+                                android:background="@android:color/holo_blue_dark"
+                                android:ems="5"
+                                android:layout_margin="2dp"
+                                android:text="Done"
+                                android:textSize="15sp" />
+
+                            <Button
+                                android:layout_margin="2dp"
+                                android:id="@+id/buyButton"
+                                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                android:layout_width="wrap_content"
+                                android:layout_height="109dp"
+                                android:background="@android:color/holo_blue_dark"
+                                android:ems="5"
+                                android:text="Buy"
+                                android:textSize="15sp" />
+
+                            <Button
+                                android:layout_margin="2dp"
+                                android:id="@+id/rollButton"
+                                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                android:layout_width="wrap_content"
+                                android:layout_height="109dp"
+                                android:background="@android:color/holo_blue_dark"
+                                android:ems="5"
+                                android:text="Roll"
+                                android:textSize="15sp" />
+
+                            <Button
+                                android:layout_margin="2dp"
+                                android:id="@+id/connectButton"
+                                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                android:layout_width="wrap_content"
+                                android:layout_height="109dp"
+                                android:background="@android:color/holo_blue_dark"
+                                android:ems="5"
+                                android:text="Connect"
+                                android:textSize="15sp" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" >
+
+                            <Button
+                                android:layout_margin="2dp"
+                                android:id="@+id/mortgageButton"
+                                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                android:layout_width="wrap_content"
+                                android:layout_height="109dp"
+                                android:background="@android:color/holo_blue_dark"
+                                android:ems="5"
+                                android:text="Mortgage"
+                                android:textSize="15sp" />
+
+                            <Button
+                                android:layout_margin="2dp"
+                                android:id="@+id/redeemButton"
+                                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                android:layout_width="wrap_content"
+                                android:layout_height="109dp"
+                                android:background="@android:color/holo_blue_dark"
+                                android:ems="5"
+                                android:text="Redeem"
+                                android:textSize="15sp" />
+
+                            <Button
+                                android:layout_margin="2dp"
+                                android:id="@+id/boostButton"
+                                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                android:layout_width="wrap_content"
+                                android:layout_height="109dp"
+                                android:background="@android:color/holo_blue_dark"
+                                android:ems="5"
+                                android:text="Boost"
+                                android:textSize="15sp" />
+
+                            <Button
+                                android:layout_margin="2dp"
+                                android:id="@+id/sellButton"
+                                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                                android:layout_width="wrap_content"
+                                android:layout_height="109dp"
+                                android:background="@android:color/holo_blue_dark"
+                                android:ems="5"
+                                android:text="Sell"
+                                android:textSize="15sp" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </TableLayout>
+
+                </LinearLayout>
+            </ScrollView>
+
+
         </LinearLayout>
 
+
     </LinearLayout>
-
-
 
 </LinearLayout>
