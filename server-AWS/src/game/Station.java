@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Station extends RentalProperty {
 
-	public Station(int location, String name, int price, int[] rentAmounts) {
-		super(location, name, price);
+	public Station(String name, int price, int[] rentAmounts) {
+		super(name, price);
 		super.setRentAmounts(rentAmounts);
 		super.setType("Station");
 	}

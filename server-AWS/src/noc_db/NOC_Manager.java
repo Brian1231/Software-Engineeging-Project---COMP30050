@@ -20,8 +20,8 @@ public class NOC_Manager {
 	ArrayList<World_noc> worlds;
 	ArrayList<Location_noc> locations;
 	ArrayList<Clothes_noc> clothes;
-	ArrayList<World_noc> usedWorlds = new ArrayList<World_noc>();
-	World_noc randomWorld;
+	ArrayList<World_noc> usedWorlds;
+	
 
 	public NOC_Manager(){
 		this.superlatives = new ArrayList<Superlative_noc>();
@@ -32,6 +32,7 @@ public class NOC_Manager {
 		this.worlds = new ArrayList<World_noc>();
 		this.locations = new ArrayList<Location_noc>();
 		this.clothes = new ArrayList<Clothes_noc>();
+		this.usedWorlds = new ArrayList<World_noc>();
 	}
 
 	//Populate NOC List
@@ -206,6 +207,7 @@ public class NOC_Manager {
 	}
 
 	public World_noc getRandomWorld(){
+		World_noc randomWorld;
 		randomWorld = worlds.get( random.nextInt( worlds.size() ) );
 		while(usedWorlds.contains(randomWorld)) {
 			randomWorld = worlds.get( random.nextInt( worlds.size() ) );

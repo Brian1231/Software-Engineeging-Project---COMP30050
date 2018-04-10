@@ -1,10 +1,11 @@
 package game;
 
+import game_interfaces.JSONable;
 import game_interfaces.Playable;
 import game_interfaces.Taxable;
 import noc_db.Character_noc;
 
-public class TaxSquare extends NamedLocation implements Taxable {
+public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 
 	int incomePercentage = 0;
 	int flatAmount = 0;

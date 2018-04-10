@@ -7,10 +7,12 @@ import org.json.JSONObject;
 
 import game_interfaces.Identifiable;
 import game_interfaces.JSONable;
+import game_interfaces.Locatable;
 
-public class NamedLocation implements Identifiable, JSONable{
+public class NamedLocation implements Identifiable, Locatable, JSONable{
 
 	private String identifier;
+	private int location;
 
 	public NamedLocation(String name){
 		this.identifier = name;
@@ -28,6 +30,17 @@ public class NamedLocation implements Identifiable, JSONable{
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info = new JSONObject();
 		info.put("id", this.getId());
+		info.put("location", this.getLocation());
+		info.put("price", 0);
+		info.put("owner", 0);
 		return info;
+	}
+	@Override
+	public int getLocation() {
+		return this.location;
+	}
+	@Override
+	public void setLocation(int location) {
+		this.location = location;		
 	}
 }

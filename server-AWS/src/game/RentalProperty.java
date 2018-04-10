@@ -9,8 +9,8 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 	private boolean isMortgaged = false;
 	private int[] rentAmounts;
 
-	public RentalProperty(int location, String name, int price) {
-		super(location, name, price);
+	public RentalProperty(String name, int price) {
+		super(name, price);
 	}
 
 	@Override

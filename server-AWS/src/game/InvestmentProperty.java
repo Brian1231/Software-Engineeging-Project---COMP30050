@@ -11,8 +11,8 @@ public class InvestmentProperty extends RentalProperty implements Improvable {
 	private int numHotels = 0;
 
 	// Must declare investment propertys with the full array of rent prices
-	public InvestmentProperty(int location, String name, int price, int[] rentalAmounts) {
-		super(location, name, price);
+	public InvestmentProperty(String name, int price, int[] rentalAmounts) {
+		super(name, price);
 		super.setRentAmounts(rentalAmounts);
 	}
 

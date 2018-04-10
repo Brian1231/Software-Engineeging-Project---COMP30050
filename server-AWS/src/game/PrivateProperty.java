@@ -11,12 +11,10 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 
 	private Player owner;
 	private int price;
-	private int location;
 	private boolean isOwned;
 
-	public PrivateProperty(int location, String name, int price){
+	public PrivateProperty(String name, int price){
 		super(name);
-		this.location = location;
 		this.price = price;
 		this.isOwned = false;
 	}
@@ -79,7 +77,7 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 		JSONObject info = new JSONObject();
 		info.put("id", this.getId());
 		info.put("price", this.price);
-		info.put("location", this.location);
+		info.put("location", this.getLocation());
 		if(this.owner != null)
 			info.put("owner", this.owner.getID());
 		else
