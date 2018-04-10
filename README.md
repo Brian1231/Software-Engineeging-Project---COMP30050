@@ -23,6 +23,8 @@
 "price": int <br />
 "location": int (0 to 39) <br />
 "owner": int (player id) <br />
+"color": String <br />
+"is_mortgaged": boolean <br />
 
 ## Phone-to-Server 
 ### Initial Phone-to-Server JSON on port 8080:
