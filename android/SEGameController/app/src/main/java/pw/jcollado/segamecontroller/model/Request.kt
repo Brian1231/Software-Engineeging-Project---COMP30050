@@ -10,7 +10,7 @@ import com.squareup.moshi.Moshi
  * Created by jcolladosp on 07/03/2018.
  */
 
-data class Request(val id: Int,val action: String){
+data class Request(val id: Int,val action: String,val args: String){
     fun toJSONString(): String {
 
         return RequestFunctions().jsonAdapter.toJson(this)

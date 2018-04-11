@@ -2,6 +2,7 @@ package pw.jcollado.segamecontroller.mainActivity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
@@ -9,6 +10,7 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.connections.AsyncResponse
+import pw.jcollado.segamecontroller.connections.ServerConnectionThread
 import pw.jcollado.segamecontroller.listPropertiesActivity.ListPropertiesActivity
 import pw.jcollado.segamecontroller.model.App
 import pw.jcollado.segamecontroller.model.Request
@@ -17,6 +19,7 @@ import pw.jcollado.segamecontroller.utils.requestToServer
 
 
 class MainActivity : App(), AsyncResponse {
+    lateinit var gamethread: ServerConnectionThread
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,12 +27,20 @@ class MainActivity : App(), AsyncResponse {
         setContentView(R.layout.activity_main)
         setActionBar()
         rollButton.onClick { onRoll() }
+        connectToNewPort()
+    }
+
+    fun connectToNewPort(){
+        val joinGameRequest = Request(preferences.playerID,"connect","0")
+        val jsonStringRequest = joinGameRequest.toJSONString()
+        gamethread = ServerConnectionThread(this, preferences.port)
+        gamethread.start()
+        gamethread.setMessage(jsonStringRequest)
 
     }
 
-
     fun onRoll() {
-        requestToServer(Request(preferences.playerID, "roll").toJSONString())
+        gamethread.setMessage(Request(preferences.playerID, "roll","0").toJSONString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -48,19 +59,20 @@ class MainActivity : App(), AsyncResponse {
             else -> super.onOptionsItemSelected(item)
         }
     }
+    fun getResponse(response: String){
+        Log.i("lol",response)
+    }
 
-    private fun handleResponse(response: String?) {
+    override fun handleResponse(response: String?) {
 
         when (response) {
             null -> response?.let { toast(it) }
             "" -> toast(response)
-            else -> balanceTitle.text = response
+            else -> getResponse(response)
         }
     }
 
-    override fun processFinish(output: String?) {
-        handleResponse(output)
-    }
+
 
     private fun setActionBar() {
         val actionBar = supportActionBar

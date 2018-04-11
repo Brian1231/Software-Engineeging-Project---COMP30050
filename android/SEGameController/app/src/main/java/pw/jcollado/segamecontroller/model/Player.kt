@@ -4,6 +4,9 @@ package pw.jcollado.segamecontroller.model
  * Created by jcolladosp on 15/02/2018.
  */
 class Player private constructor(){
+    // {"character":"John Keats","balance":1000,"fuel":1,"id":1,"position":0,"properties":[]}
+
+
     private var id: Int = -1
     private var balance: Int = 0
     private var position: Int = 0
