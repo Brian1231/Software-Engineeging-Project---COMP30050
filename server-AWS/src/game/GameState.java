@@ -170,6 +170,7 @@ public class GameState implements JSONable {
 				else{
 					return "Player " + id + " has already rolled this turn.";
 				}
+
 			case "buy":
 				int playerPosition = player.getPos();
 				NamedLocation tile = this.locations.get(playerPosition);
@@ -187,6 +188,7 @@ public class GameState implements JSONable {
 					return prop.getId() + " is already owned by " + prop.getOwner().getId() + ".";
 				}
 				return "You can't buy that.";
+
 			case "sell":
 				int locationNumber = Integer.parseInt(args[0]);
 				NamedLocation loc = this.locations.get(locationNumber);
@@ -213,6 +215,7 @@ public class GameState implements JSONable {
 					return "That property is unowned.";
 				}
 				return "You can't sell that.";
+
 			case "mortgage":
 				locationNumber = Integer.parseInt(args[0]);
 				loc = this.locations.get(locationNumber);
@@ -231,6 +234,7 @@ public class GameState implements JSONable {
 					return "That property is unowned.";
 				}
 				return "You can't mortgage that.";
+
 			case "redeem":
 				locationNumber = Integer.parseInt(args[0]);
 				loc = this.locations.get(locationNumber);
@@ -249,6 +253,7 @@ public class GameState implements JSONable {
 					return "That property is unowned.";
 				}
 				return "You can't redeem that.";
+
 			case "boost":
 				if(player.hasRolled()){
 					if(!player.hasBought()){
@@ -263,6 +268,54 @@ public class GameState implements JSONable {
 					return "You can't use your vehicle after buying a property!";
 				}
 				return "You must roll before using your vehicle.";
+
+			case "build":
+				locationNumber = Integer.parseInt(args[0]);
+				int numToBuild = Integer.parseInt(args[1]);
+				loc = this.locations.get(locationNumber);
+				if(loc instanceof InvestmentProperty) {
+					InvestmentProperty property = (InvestmentProperty) loc;
+					if(property.isOwned()){
+						if (property.getOwner().equals(player)){
+							if (!property.isMortgaged()) {
+								if(property.build(numToBuild)) {
+									return "Player " + id + " built " + numToBuild + " houses on " + property.getId() + ".";
+								}
+								else {
+									return property.getBuildDemolishError();
+								}
+							}
+							return property.getId() + " is mortgaged! ";
+						}
+						return "You don't own that property.";
+					}
+					return "That property is unowned.";
+				}
+				return " You cant build on this property";
+
+			case "demolish":
+				locationNumber = Integer.parseInt(args[0]);
+				int numToDemolish = Integer.parseInt(args[1]);
+				loc = this.locations.get(locationNumber);
+				if(loc instanceof InvestmentProperty) {
+					InvestmentProperty property = (InvestmentProperty) loc;
+					if(property.isOwned()){
+						if (property.getOwner().equals(player)){
+							if (!property.isMortgaged()) {
+								if (property.build(numToDemolish)) {
+									return "Player " + id + " demolished " + numToDemolish + " houses on " + property.getId() + ".";
+								} else {
+									return property.getBuildDemolishError();
+								}
+							}
+							return property.getId() + " is mortgaged! ";
+						}
+						return "You don't own that property.";
+					}
+					return "That property is unowned.";
+				}
+				return " You cant demolish on this property";
+
 			case "done":
 				player.resetRoll();
 				player.resetBought();
