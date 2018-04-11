@@ -4,9 +4,6 @@
     <list default="true" id="e01ccd49-246a-4112-9ff2-c46e06c809c2" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server-AWS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server-AWS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server-AWS/src/game/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server-AWS/src/game/GameState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server-AWS/src/game/InvestmentProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server-AWS/src/game/InvestmentProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server-AWS/src/game_interfaces/Improvable.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server-AWS/src/game_interfaces/Improvable.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -51,7 +48,7 @@
       <file leaf-file-name="InGameController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/client/java/controllers/InGameController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="2234">
               <caret line="163" column="35" selection-start-line="163" selection-start-column="35" selection-end-line="163" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -128,11 +125,10 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="480" />
-    <option name="y" value="832" />
-    <option name="width" value="80" />
-    <option name="height" value="22" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="22" />
+    <option name="width" value="1107" />
+    <option name="height" value="885" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -314,7 +310,7 @@
       <updated>1523020358094</updated>
       <workItem from="1523020359662" duration="340000" />
       <workItem from="1523309228904" duration="1010000" />
-      <workItem from="1523450583150" duration="431000" />
+      <workItem from="1523450583150" duration="444000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;phew&quot;">
       <created>1523022179262</created>
@@ -369,7 +365,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1781000" />
+    <option name="totallyTimeSpent" value="1794000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -381,8 +377,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="480" y="832" width="80" height="22" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="22" width="1680" height="964" extended-state="6" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49570355" weight="0.32997763" />
@@ -397,7 +392,7 @@
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49785176" weight="0.32997763" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.0" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1892552" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -757,7 +752,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/client/java/controllers/InGameController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="2234">
           <caret line="163" column="35" selection-start-line="163" selection-start-column="35" selection-end-line="163" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
