@@ -40,6 +40,8 @@
 ("boost"-> use vehicle to move ahead one tile )<br />
 ("mortgage"-> attempt to mortgage tile at position args[0])<br />
 ("redeem"-> attempt to un-mortgage tile at position args[0])<br />
+("build"-> attempt to build on tile at position args[0] with number to build args[1])<br />
+("demolish"-> attempt to demolish on tile at position args[0] with number to demolish args[1])<br />
 "args": Strings separated with "," <br />
 
 ## Server-to-Phone:

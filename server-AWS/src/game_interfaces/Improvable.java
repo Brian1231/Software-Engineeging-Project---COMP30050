@@ -7,8 +7,11 @@ public interface Improvable extends Ownable {
     int getNumHotels();
 
     // build or demolish a house/s or property/ies
-    void build(int numToBuild);
-    void demolish(int numToDemolish);
+    boolean build(int numToBuild);
+    boolean demolish(int numToDemolish);
+
+    String getBuildDemolishError();
+    void setBuildDemolishError(String error);
 
     // get and set the price of building a house
     int getHousePrice();

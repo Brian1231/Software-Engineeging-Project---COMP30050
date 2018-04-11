@@ -3,11 +3,14 @@ package client.java;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
@@ -15,12 +18,30 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sun.org.apache.bcel.internal.util.ClassLoader;
+
 import javafx.embed.swing.SwingFXUtils;
 
 public class ImageCreator {
 
 	public javafx.scene.image.Image getImage(String query) throws IOException, JSONException {
-		String key = "AIzaSyDJEYAc_d2j-WkTTA-Onl4DOLd8JeIIkAM";
+		//InputStream in = ClassLoader.getSystemResourceAsStream("worlds\\"+query+"\\");
+		//BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		//"src/client/resources/images/worlds/"+query+"/pic.jpg"
+
+		//ArrayList<File> files = new ArrayList<File>(Arrays.asList(f.listFiles()));
+		//System.out.println(files);
+		try{
+			InputStream in = ClassLoader.getSystemResourceAsStream("worlds/"+ query+"/pic.jpg");
+			InputStreamReader isr = new InputStreamReader(in);
+			BufferedReader br = new BufferedReader(isr);
+			File f = new File("src/client/resources/images/worlds/"+query+"/pic.jpg");
+			BufferedImage image = ImageIO.read(f);
+			javafx.scene.image.Image fxImage = SwingFXUtils.toFXImage(image, null);
+			return fxImage;
+		}catch(Exception e){System.out.println(e.getMessage());}
+		return null;
+		/*String key = "AIzaSyDJEYAc_d2j-WkTTA-Onl4DOLd8JeIIkAM";
 		URL url = new URL(
 				"https://www.googleapis.com/customsearch/v1?key="
 						+ key
@@ -58,12 +79,12 @@ public class ImageCreator {
 			BufferedImage im = (BufferedImage) image;
 			javafx.scene.image.Image i = SwingFXUtils.toFXImage(im, null);
 
-		/*	//Display image in a JFrame
+			//Display image in a JFrame
 				JFrame frame = new JFrame();
 		frame.setSize(image.getWidth(frame), image.getHeight(frame));
 		JLabel label = new JLabel(new ImageIcon(image));
 		frame.add(label);
-		frame.setVisible(true);*/
+		frame.setVisible(true);
 
 			in.close();
 			br.close();
@@ -73,6 +94,6 @@ public class ImageCreator {
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
-		}
+		}*/
 	}
 }

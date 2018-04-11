@@ -15,6 +15,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 	private int numHouses = 0;
 	private int numHotels = 0;
 	private String color;
+	private String buildDemolishError;
 
 	// Must declare investment propertys with the full array of rent prices
 	public InvestmentProperty(String name, int price, int[] rentalAmounts) {
@@ -34,85 +35,109 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 	}
 
 	@Override
-	public void build(int numToBuild) {
+	public boolean build(int numToBuild) {
 		switch (numToBuild) {
 			case 0:
-				System.out.println("Error, cant build 0 houses/hotels");
-				break;
+				this.setBuildDemolishError("Error, cant build 0 houses/hotels");
+				return false;
 			case 1:
 				if (numHouses == 4 && numHotels == 0) {
 					numHotels = 1;
+					return true;
 				} else if (numHouses < 4) {
 					numHouses += numToBuild;
+					return true;
 				} else {
-					System.out.println("Error, cant build that many houses/hotels");
+					this.setBuildDemolishError("Error, cant build that many houses/hotels");
+					return false;
 				}
-				break;
 			case 2:
 				if (numHouses == 3 && numHotels == 0) {
 					numHotels = 1;
 					numHouses += 1;
+					return true;
 				} else if (numHouses < 3) {
 					numHouses += numToBuild;
+					return true;
 				} else {
-					System.out.println("Error, cant build that many houses/hotels");
+					this.setBuildDemolishError("Error, cant build that many houses/hotels");
+					return false;
 				}
-				break;
 			case 3:
 				if (numHouses == 2 && numHotels == 0) {
 					numHotels = 1;
 					numHouses += 2;
+					return true;
 				} else if (numHouses < 2) {
 					numHouses += numToBuild;
+					return true;
 				} else {
-					System.out.println("Error, cant build that many houses/hotels");
+					this.setBuildDemolishError("Error, cant build that many houses/hotels");
+					return false;
 				}
-				break;
 			case 4:
 				if (numHouses == 1 && numHotels == 0) {
 					numHotels = 1;
 					numHouses += 3;
+					return true;
 				} else if (numHouses < 1) {
 					numHouses += numToBuild;
+					return true;
 				} else {
-					System.out.println("Error, cant build that many houses/hotels");
+					this.setBuildDemolishError("Error, cant build that many houses/hotels");
+					return false;
 				}
-				break;
 			case 5:
 				if (numHouses == 0 && numHotels == 0) {
 					numHotels = 1;
 					numHouses += 4;
+					return true;
 				} else {
-					System.out.println("Error, cant build that many houses/hotels");
+					this.setBuildDemolishError("Error, cant build that many houses/hotels");
+					return false;
 				}
-				break;
 			default:
-				System.out.println("Error, given wrong input");
-				break;
+				this.setBuildDemolishError("Error, given wrong input");
+				return false;
 		}
 	}
 
 	@Override
-	public void demolish(int numToDemolish) {
+	public boolean demolish(int numToDemolish) {
 		if (numToDemolish == 0) {
-			System.out.println("Error, cant demolish 0 houses/hotels");
+			this.setBuildDemolishError("Error, cant demolish 0 houses/hotels");
+			return false;
 
 		} else if (numToDemolish >= 1 && numToDemolish <=5) {
 
 			if (numHotels == 1) {
 				numHotels = 0;
 				numHouses -= numToDemolish - 1;
+				return true;
 
 			} else if (numHouses <= 4 && numToDemolish <= numHouses) {
 				numHouses -= numToDemolish;
+				return true;
 
 			} else {
-				System.out.println("Error, cant demolish that many houses/hotels");
+				this.setBuildDemolishError("Error, cant demolish that many houses/hotels");
+				return false;
 			}
 
 		} else {
-			System.out.println("Error, given wrong input");
+			this.setBuildDemolishError("Error, given wrong input");
+			return false;
 		}
+	}
+
+	@Override
+	public String getBuildDemolishError() {
+		return this.buildDemolishError;
+	}
+
+	@Override
+	public void setBuildDemolishError(String error) {
+		this.buildDemolishError = error;
 	}
 
 	@Override

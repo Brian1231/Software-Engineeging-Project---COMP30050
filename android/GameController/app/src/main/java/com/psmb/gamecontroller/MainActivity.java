@@ -21,6 +21,8 @@ public class MainActivity extends Activity{
     Button mortgageButton;
     Button redeemButton;
     Button connectButton;
+    Button buildButton;
+    Button demolishButton;
     ServerConnectionThread thread;
     ServerConnectionThread gamethread;
     String character;
@@ -41,6 +43,8 @@ public class MainActivity extends Activity{
         boostButton = findViewById(R.id.boostButton);
         mortgageButton = findViewById(R.id.mortgageButton);
         redeemButton = findViewById(R.id.redeemButton);
+        buildButton = findViewById(R.id.buildButton);
+        demolishButton = findViewById(R.id.demolishButton);
 
         connected = false;
 
@@ -159,6 +163,34 @@ public class MainActivity extends Activity{
             }
         });
 
+        buildButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                try {
+                    JSONObject obj = new JSONObject();
+                    obj.put("id", MainActivity.playerId);
+                    obj.put("action", "build");
+                    obj.put("args", "0, 0");
+                    if (gamethread != null) {
+                        gamethread.setMessage(obj.toString());
+                    }
+                }catch(Exception e){e.printStackTrace();}
+            }
+        });
+        demolishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                try {
+                    JSONObject obj = new JSONObject();
+                    obj.put("id", MainActivity.playerId);
+                    obj.put("action", "demolish");
+                    obj.put("args", "0, 0");
+                    if (gamethread != null) {
+                        gamethread.setMessage(obj.toString());
+                    }
+                }catch(Exception e){e.printStackTrace();}
+            }
+        });
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
