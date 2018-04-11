@@ -118,8 +118,8 @@ public class BoardCanvas extends ResizableCanvas {
 			}
 		}
 		else{
-			g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
-			g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
+        g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
+        g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
 		}
 
 		g.setFill(Color.WHITE);
@@ -134,7 +134,7 @@ public class BoardCanvas extends ResizableCanvas {
 	public void initializeLocations(){
 		for(int index = 0; index<40; index++){
 			String initName = Integer.toString(index);
-			locations.add(new Location(initName, index, 0,0,0, Color.GOLD));
+			locations.add(new Location(initName, index, 0,0,0, Color.GOLD, false));
 		}
 	}
 

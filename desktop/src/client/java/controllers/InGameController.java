@@ -28,11 +28,14 @@ public class InGameController {
 
     @FXML
     public BorderPane rootPane;
-
+    // Stacks each layer on top of each other.
+    private StackPane layers = new StackPane();
     // 3 board layers.
-    public BoardCanvas boardCanvas = new BoardCanvas();
-    public PlayerCanvas playerCanvas = new PlayerCanvas();
-    Pane infoPane = new Pane();
+    private BoardCanvas boardCanvas = new BoardCanvas();
+    private PlayerCanvas playerCanvas = new PlayerCanvas();
+    // infoPane will be replaced by ipane.
+    private Pane infoPane = new Pane();
+    private InformationPane ipane = new InformationPane();
 
     // Players
     private ObservableList<String> playerList = FXCollections.observableArrayList();
@@ -58,7 +61,6 @@ public class InGameController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void closeGame() {
@@ -119,7 +121,8 @@ public class InGameController {
                         int id = playerObjects.getJSONObject(i).getInt("id");
                         int position = playerObjects.getJSONObject(i).getInt("position");
                         String character = playerObjects.getJSONObject(i).getString("character");
-                        plyrs.add(new Player(balance,id,position,Color.WHITE,character));
+                        int fuel = playerObjects.getJSONObject(i).getInt("fuel");
+                        plyrs.add(new Player(balance,id,position,Color.WHITE,character,fuel));
                     }
                     playerCanvas.updatePlayers(plyrs);
                 }
@@ -136,7 +139,8 @@ public class InGameController {
                         int owner = locationObjects.getJSONObject(i).getInt("owner");
                         String c = locationObjects.getJSONObject(i).getString("color");
                         Color color = (Color) Color.class.getField(c).get(null);
-                        locs.add(new Location(id,position,price,0,owner, color));
+                        boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
+                        locs.add(new Location(id,position,price,0,owner, color, isMortgaged));
                     }
                     boardCanvas.updateLocations(locs);
                 }
@@ -149,7 +153,10 @@ public class InGameController {
                 }
                 playerList.setAll(names);
 
+
+                ipane.updateFeed(actionInfo);
                 System.out.println("\n" + actionInfo);
+
             } catch (JSONException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -179,10 +186,10 @@ public class InGameController {
         infoPane.getChildren().add(balanceLabel);
         // -----------------------------------
 
-        StackPane layers = new StackPane();
         layers.getChildren().add(boardCanvas);
         layers.getChildren().add(playerCanvas);
         layers.getChildren().add(infoPane);
+        layers.getChildren().add(ipane);
 
         rootPane.setCenter(layers);
         boardCanvas.widthProperty().bind(rootPane.widthProperty());

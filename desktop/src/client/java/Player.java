@@ -8,13 +8,15 @@ public class Player {
     private int position;
     private Color color;
     private String character;
+    private int fuel;
 
-    public Player(int balance, int id, int position, Color colour, String character) {
+    public Player(int balance, int id, int position, Color colour, String character,int fuel) {
         this.balance = balance;
         this.id = id;
         this.position = position;
         this.color = colour;
         this.character = character;
+        this.fuel = fuel;
     }
 
     @Override

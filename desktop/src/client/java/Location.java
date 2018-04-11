@@ -10,14 +10,16 @@ public class Location {
     private int rent;
     private int ownerID;
     private Color colour;
+    private boolean isMortgaged;
 
-    public Location(String name, int position, int price, int rent, int owner, Color c) {
+    public Location(String name, int position, int price, int rent, int owner, Color c,boolean isMortgaged) {
         this.name = name;
         this.position = position;
         this.price = price;
         this.rent = rent;
         this.ownerID = owner;
         this.colour = c;
+        this.isMortgaged = isMortgaged;
     }
 
     @Override
