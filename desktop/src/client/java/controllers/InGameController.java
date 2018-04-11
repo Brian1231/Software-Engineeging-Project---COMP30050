@@ -22,11 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class InGameController {
-
-    /////dsfdslhkjashnduksa
 
     @FXML
     public BorderPane rootPane;
@@ -57,7 +53,7 @@ public class InGameController {
         setUpBoard();
         try {
             showLobbyWindow();
-            connection.startConnection();
+            //connection.startConnection();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -155,7 +151,6 @@ public class InGameController {
                 }
                 playerList.setAll(names);
 
-
                 ipane.updateFeed(actionInfo);
                 System.out.println("\n" + actionInfo);
 
@@ -202,7 +197,6 @@ public class InGameController {
         boardCanvas.draw();
         playerCanvas.draw();
     }
-
 
     public void updateInfoPane(){
 

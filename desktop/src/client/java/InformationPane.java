@@ -30,13 +30,12 @@ public class InformationPane extends Pane {
         //ds.setColor(Color.WHITE);
 
         // Circle
-        eventLogger.setFill(Color.rgb(60,67,79,0.9));
-        //eventLogger.setStroke(Color.rgb(119,137,165));
-        eventLogger.radiusProperty().bind(widthProperty().divide(7));
+        eventLogger.setFill(Color.rgb(60,67,79,0));
+        eventLogger.setStroke(Color.rgb(119,137,165, 0));
+        eventLogger.radiusProperty().bind(widthProperty().divide(9));
         eventLogger.layoutXProperty().bind(widthProperty().divide(4.2));
         eventLogger.layoutYProperty().bind(heightProperty().divide(2));
         getChildren().add(eventLogger);
-
 
         // TexArea
         feed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
@@ -44,8 +43,10 @@ public class InformationPane extends Pane {
         feed.layoutXProperty().bind(eventLogger.layoutXProperty().subtract(eventLogger.radiusProperty()));
         feed.layoutYProperty().bind(heightProperty().divide(2).subtract(feed.prefHeightProperty().divide(2)));
         feed.setEditable(false);
+        feed.setWrapText(true);
 
-        feed.appendText("The text feed \n");
+        feed.appendText("Welcome to Interdimensional Panopoly!\n");
+        feed.appendText("Press the start button when all players have joined.\n");
         getChildren().add(feed);
     }
 
