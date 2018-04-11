@@ -53,4 +53,5 @@ public class InformationPane extends Pane {
         feed.appendText(s + "\n");
     }
 
+
 }
