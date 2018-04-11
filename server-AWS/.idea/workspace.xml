@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17cb8539-ad0e-4391-a71d-680c989611bf" name="Default" comment="">
+    <list default="true" id="17cb8539-ad0e-4391-a71d-680c989611bf" name="Default" comment="setup func added to playerconnection to try fix multiple message error">
       <change beforePath="$PROJECT_DIR$/../desktop/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../desktop/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/InvestmentProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/InvestmentProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game_interfaces/Improvable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game_interfaces/Improvable.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="InvestmentProperty.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="InvestmentProperty.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/game/InvestmentProperty.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="128" column="25" lean-forward="true" selection-start-line="128" selection-start-column="25" selection-end-line="128" selection-end-column="25" />
+            <state relative-caret-position="844">
+              <caret line="110" column="56" lean-forward="true" selection-start-line="110" selection-start-column="56" selection-end-line="110" selection-end-column="56" />
               <folding>
                 <element signature="e#2913#2914#0" expanded="true" />
                 <element signature="e#2931#2932#0" expanded="true" />
@@ -54,14 +51,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameState.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GameState.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/game/GameState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="297" column="62" lean-forward="true" selection-start-line="297" selection-start-column="62" selection-end-line="297" selection-end-column="62" />
+            <state relative-caret-position="1394">
+              <caret line="329" column="56" lean-forward="true" selection-start-line="329" selection-start-column="56" selection-end-line="329" selection-end-column="56" />
               <folding>
                 <element signature="e#1049#1064#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="vcs.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="440" column="66" lean-forward="true" selection-start-line="440" selection-start-column="66" selection-end-line="440" selection-end-column="66" />
             </state>
           </provider>
         </entry>
@@ -156,10 +167,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="480" />
-    <option name="y" value="832" />
-    <option name="width" value="80" />
-    <option name="height" value="22" />
+    <option name="y" value="22" />
+    <option name="width" value="1107" />
+    <option name="height" value="885" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -179,6 +189,11 @@
             <path>
               <item name="server-AWS" type="b2602c69:ProjectViewProjectNode" />
               <item name="server-AWS" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="server-AWS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server-AWS" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -186,12 +201,6 @@
               <item name="server-AWS" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="game" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="server-AWS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server-AWS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="game_interfaces" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="server-AWS" type="b2602c69:ProjectViewProjectNode" />
@@ -328,7 +337,7 @@
       <workItem from="1522939257063" duration="7504000" />
       <workItem from="1522972252033" duration="247000" />
       <workItem from="1523009937831" duration="17172000" />
-      <workItem from="1523450589939" duration="2255000" />
+      <workItem from="1523450589939" duration="3786000" />
     </task>
     <task id="LOCAL-00001" summary="spelling typos and code inspection cleanup">
       <created>1523011218546</created>
@@ -383,7 +392,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19437000" />
+    <option name="totallyTimeSpent" value="20968000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -427,6 +436,7 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
@@ -440,13 +450,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="setup func added to playerconnection to try fix multiple message error" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/game/PrivateProperty.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="64" column="42" selection-start-line="64" selection-start-column="42" selection-end-line="64" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/server/PlayerConnection.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -560,11 +563,6 @@
         <state relative-caret-position="1020">
           <caret line="80" column="9" selection-start-line="80" selection-start-column="9" selection-end-line="80" selection-end-column="9" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1166" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/noc_files/Veale's weapon arsenal.txt">
@@ -827,6 +825,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="440" column="66" lean-forward="true" selection-start-line="440" selection-start-column="66" selection-end-line="440" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/game_interfaces/Improvable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -834,25 +839,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/game/GameState.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="297" column="62" lean-forward="true" selection-start-line="297" selection-start-column="62" selection-end-line="297" selection-end-column="62" />
-          <folding>
-            <element signature="e#1049#1064#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/game/InvestmentProperty.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="128" column="25" lean-forward="true" selection-start-line="128" selection-start-column="25" selection-end-line="128" selection-end-column="25" />
+        <state relative-caret-position="844">
+          <caret line="110" column="56" lean-forward="true" selection-start-line="110" selection-start-column="56" selection-end-line="110" selection-end-column="56" />
           <folding>
             <element signature="e#2913#2914#0" expanded="true" />
             <element signature="e#2931#2932#0" expanded="true" />
             <element signature="e#3030#3031#0" expanded="true" />
             <element signature="e#3068#3069#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/GameState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1394">
+          <caret line="329" column="56" lean-forward="true" selection-start-line="329" selection-start-column="56" selection-end-line="329" selection-end-column="56" />
+          <folding>
+            <element signature="e#1049#1064#0" expanded="true" />
           </folding>
         </state>
       </provider>
