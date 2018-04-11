@@ -13,9 +13,9 @@ import pw.jcollado.segamecontroller.connections.AsyncResponse
 import pw.jcollado.segamecontroller.connections.ServerConnectionThread
 import pw.jcollado.segamecontroller.listPropertiesActivity.ListPropertiesActivity
 import pw.jcollado.segamecontroller.model.App
+import pw.jcollado.segamecontroller.model.Player
 import pw.jcollado.segamecontroller.model.Request
 import pw.jcollado.segamecontroller.model.preferences
-import pw.jcollado.segamecontroller.utils.requestToServer
 
 
 class MainActivity : App(), AsyncResponse {
@@ -61,6 +61,7 @@ class MainActivity : App(), AsyncResponse {
     }
     fun getResponse(response: String){
         Log.i("lol",response)
+
     }
 
     override fun handleResponse(response: String?) {
