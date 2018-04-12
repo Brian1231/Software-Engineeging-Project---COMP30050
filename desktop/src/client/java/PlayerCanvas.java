@@ -114,4 +114,13 @@ public class PlayerCanvas extends ResizableCanvas {
             players.remove(player);
         }
     }
+
+    public Player getPlayer(int id){
+        for(Player player: players){
+            if(player.getId() == id){
+                return player;
+            }
+        }
+        return null;
+    }
 }

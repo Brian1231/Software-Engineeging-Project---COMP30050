@@ -22,7 +22,7 @@ public class NetworkConnection {
 	private Consumer<JSONObject> onReceiveCallBack;
 
 
-	public  NetworkConnection(String ip, int port, Consumer<JSONObject> function){
+	public NetworkConnection(String ip, int port, Consumer<JSONObject> function){
 		this.ip = ip;
 		this.port = port;
 		this.onReceiveCallBack = function;

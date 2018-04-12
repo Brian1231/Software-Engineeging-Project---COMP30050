@@ -1,5 +1,6 @@
 package client.java;
 
+import client.java.controllers.InGameController;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -15,11 +16,14 @@ import org.json.JSONException;
 
 public class BoardCanvas extends ResizableCanvas {
 
-	ArrayList<Location> locations = new ArrayList<>();
+	private ArrayList<Location> locations = new ArrayList<>();
 	ImageCreator imageCreator = new ImageCreator();
+	private int currentTile;
+
 
 	public BoardCanvas() {
 		// Redraw canvas when size changes
+		currentTile = 0;
 		initializeLocations();
 		widthProperty().addListener(evt -> {
 			try {
@@ -162,5 +166,15 @@ public class BoardCanvas extends ResizableCanvas {
 			// etc
 		}
 	}
+
+	public Location getLocation(int position){
+		for(Location loc: locations){
+			if(loc.getPosition() == position){
+				return loc;
+			}
+		}
+		return null;
+	}
+
 
 }

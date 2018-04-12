@@ -22,25 +22,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class InGameController {
 
-    /////dsfdslhkjashnduksa
-
+    private Boolean gameStarted = false;
     @FXML
     public BorderPane rootPane;
     // Stacks each layer on top of each other.
     private StackPane layers = new StackPane();
-    // 3 board layers.
+    // 4 board layers.
     private BoardCanvas boardCanvas = new BoardCanvas();
     private PlayerCanvas playerCanvas = new PlayerCanvas();
+    private InformationPane ipane = new InformationPane();
     // infoPane will be replaced by ipane.
     private Pane infoPane = new Pane();
-    private InformationPane ipane = new InformationPane();
 
     // Players
     private ObservableList<String> playerList = FXCollections.observableArrayList();
+    private int playerTurn;
 
     // Networking.
     private final static String IP = "52.48.249.220";
@@ -93,6 +91,7 @@ public class InGameController {
                 output.put("id", 0);
                 output.put("action", "start");
                 connection.send(output);
+                gameStarted = true;
                 lobbyStage.close();
             } catch (JSONException e1) {
                 e1.printStackTrace();
@@ -110,7 +109,8 @@ public class InGameController {
             try {
                 System.out.println("Current GameState: " + update.toString());
 
-                int playerTurn = update.getInt("player_turn");
+                playerTurn = update.getInt("player_turn");
+
                 String actionInfo = update.getString("action_info");
 
                 // Redraw players according to new player positions
@@ -155,9 +155,13 @@ public class InGameController {
                 }
                 playerList.setAll(names);
 
-
                 ipane.updateFeed(actionInfo);
-                System.out.println("\n" + actionInfo);
+
+                if(gameStarted == true){
+                    Location locToDisplay = boardCanvas.getLocation(playerCanvas.getPlayer(playerTurn).getPosition());
+                    ipane.updateLocationInfo(locToDisplay);
+                }
+
 
             } catch (JSONException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -188,6 +192,7 @@ public class InGameController {
         infoPane.getChildren().add(balanceLabel);
         // -----------------------------------
 
+
         layers.getChildren().add(boardCanvas);
         layers.getChildren().add(playerCanvas);
         layers.getChildren().add(infoPane);
@@ -201,11 +206,6 @@ public class InGameController {
 
         boardCanvas.draw();
         playerCanvas.draw();
-    }
-
-
-    public void updateInfoPane(){
-
     }
 
 }
