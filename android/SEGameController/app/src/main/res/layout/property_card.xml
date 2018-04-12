@@ -19,15 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/thumbnail"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/album_cover_height"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:scaleType="fitCenter"
-                card_view:srcCompat="@drawable/marvin_gardens" />
-
             <TextView
                 android:id="@+id/mortgageText"
                 android:layout_width="wrap_content"
@@ -45,7 +36,6 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/thumbnail"
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
                 android:paddingTop="@dimen/album_title_padding"
@@ -64,12 +54,23 @@
                 android:text="3 houses"
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/priceTx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/houses"
+                android:paddingBottom="@dimen/songs_count_padding_bottom"
+                android:paddingLeft="@dimen/album_title_padding"
+                android:paddingRight="@dimen/album_title_padding"
+                android:text="Price"
+                android:textSize="14sp" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="false"
                 android:layout_alignWithParentIfMissing="false"
-                android:layout_below="@+id/houses"
+                android:layout_below="@+id/mortgageText"
                 android:orientation="horizontal">
 
                 <Button

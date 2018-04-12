@@ -47,10 +47,15 @@ class RequestFunctions{
     val jsonAdapter = moshi.adapter(Request::class.java)
     val jsonAdapterPort = moshi.adapter(PortRequest::class.java)
     val jsonAdapterPlayer = moshi.adapter(PlayerRequest::class.java)
+    val jsonAdapterProperty = moshi.adapter(Property::class.java)
 
 
     fun requestFromJSONString(json: String): Request? {
         return jsonAdapter.fromJson(json)
+    }
+
+    fun propertyFromJSONString(json: String): Property? {
+        return jsonAdapterProperty.fromJson(json)
     }
 
 

@@ -1,5 +1,6 @@
 package pw.jcollado.segamecontroller.model
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import pw.jcollado.segamecontroller.utils.Prefs
@@ -11,7 +12,7 @@ val preferences: Prefs by lazy {
     App.prefs!!
 }
 
-open class App : AppCompatActivity() {
+abstract class App : AppCompatActivity() {
 
 
     companion object {
@@ -22,4 +23,5 @@ open class App : AppCompatActivity() {
         prefs = Prefs(applicationContext)
         super.onCreate(savedInstanceState)
     }
+
 }

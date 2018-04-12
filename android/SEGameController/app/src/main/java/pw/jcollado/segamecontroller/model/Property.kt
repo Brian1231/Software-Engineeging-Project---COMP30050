@@ -1,16 +1,27 @@
 package pw.jcollado.segamecontroller.model
 
+import com.squareup.moshi.KotlinJsonAdapterFactory
+import com.squareup.moshi.Moshi
+
 
 /**
  * Created by jcolladosp on 13/02/2018.
  */
 
-data class Property(val id: Int, val title: String, var mortgageValue: Int) {
-    var canBuild: Boolean = true
-    var isMortgaged: Boolean = false
-    var hotel: Boolean = false
-    var houses: Int = 0
+data class Property(val id: String,val location: String,val price: Int,val color: String,var is_mortgaged: Boolean,
+                    var owner: Int) {
 
+
+
+    fun toJSONString(): String {
+
+        return RequestFunctions().jsonAdapterProperty.toJson(this)
+
+    }
+
+
+
+    /*
     fun build() {
         if (canBuild) {
             when (houses) {
@@ -22,13 +33,15 @@ data class Property(val id: Int, val title: String, var mortgageValue: Int) {
             }
         }
     }
+    */
+
 
     fun mortgage() {
-        if (isMortgaged) {
-            isMortgaged = false
+        if (is_mortgaged) {
+            is_mortgaged = false
             //code to unmortgage
         } else {
-            isMortgaged = true
+            is_mortgaged = true
             //code to isMortgaged
         }
     }

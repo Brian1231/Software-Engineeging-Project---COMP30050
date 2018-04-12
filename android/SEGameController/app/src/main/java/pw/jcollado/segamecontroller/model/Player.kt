@@ -15,27 +15,8 @@ object Player {
      var position: Int = 0
      var fuel: Int = 0
      var id: Int = 0
-     var properties: List<String> = ArrayList()
+     var properties: ArrayList<Property> = ArrayList()
 
-    val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
-    val jsonAdapter = moshi.adapter(Player::class.java)
 
-    open fun getInstance(): Player {
-        return this
-
-    }
-
-    fun fromJSONString(json: String): Player? {
-        var aux = jsonAdapter.fromJson(json) as Player
-        character = aux.character
-        return aux
-    }
-    fun toJSONString(): String {
-
-        return jsonAdapter.toJson(this)
-
-    }
 
 }
