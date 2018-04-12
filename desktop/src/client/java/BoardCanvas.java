@@ -1,6 +1,7 @@
 package client.java;
 
 import client.java.controllers.InGameController;
+import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -114,30 +115,29 @@ public class BoardCanvas extends ResizableCanvas {
 		g.setFill(Color.BLACK);
 		g.setStroke(location.getColour());
 
-		if(!isNumeric(location.getName())){
-			try{
+		//Platform.runLater(() -> {
+			if (!isNumeric(location.getName())) {
+				try {
 
-				Image image = new Image(
-						"/client/resources/images/worlds/"+location.getName().trim()+".jpg"
-						);
-				if(image != null){
-					Pane p = (Pane) getParent();
-					Circle circle = new Circle( x + (width/2),y + (height/2),width/30 - 6); 
-					circle.setStroke(location.getColour());
-					circle.setFill(new ImagePattern(image));
-					p.getChildren().add(circle);
+					Image image = new Image(
+							"/client/resources/images/worlds/" + location.getName().trim().replace(":", "") + ".jpg");
+					if (image != null) {
+						Pane p = (Pane) getParent();
+						Circle circle = new Circle(x + (width / 2), y + (height / 2), width / 30 - 6);
+						circle.setStroke(location.getColour());
+						circle.setFill(new ImagePattern(image));
+						p.getChildren().add(circle);
+					}
+				} catch (Exception e) {
+					System.out.println(location.getName());
+					g.fillOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
+					g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
 				}
-			}catch(Exception e){
-				System.out.println(location.getName());
-				g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
-				g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
-			}
-		}
-		else{
-			g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
-			g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
-		}
-
+			} else {
+				g.fillOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
+				g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
+			} 
+		//}//);
 		g.setFill(Color.WHITE);
 		g.fillText(location.getName(),x + (width/2) - 20,y + (height/2));
 	}
