@@ -145,6 +145,7 @@ public class InGameController {
                         locs.add(new Location(id,position,price,0,owner, color, isMortgaged));
                     }
                     boardCanvas.updateLocations(locs);
+                    BoardCanvas.locationsSetProperty.setValue(true);
                 }
 
                 // Update lobby list According to new players
