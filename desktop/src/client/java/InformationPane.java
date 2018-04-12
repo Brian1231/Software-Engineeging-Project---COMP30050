@@ -1,5 +1,6 @@
 package client.java;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -60,6 +61,11 @@ public class InformationPane extends Pane {
         tileCost.setTextFill(Color.WHITE);
         getChildren().add(tileCost);
 
+        // Start game button
+        Button startButton = new Button("START GAME");
+        startButton.layoutXProperty().bind(widthProperty().divide(2).subtract(startButton.widthProperty().divide(2)));
+        startButton.layoutYProperty().bind(heightProperty().subtract(80));
+        getChildren().add(startButton);
     }
 
     public void updateFeed(String s){
