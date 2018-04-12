@@ -55,7 +55,7 @@ public class InGameController {
         setUpBoard();
         try {
             showLobbyWindow();
-            //connection.startConnection();
+            connection.startConnection();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
