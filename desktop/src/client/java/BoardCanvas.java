@@ -5,7 +5,10 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +20,6 @@ import org.json.JSONException;
 public class BoardCanvas extends ResizableCanvas {
 
 	private ArrayList<Location> locations = new ArrayList<>();
-	ImageCreator imageCreator = new ImageCreator();
 	private int currentTile;
 
 
@@ -113,17 +115,27 @@ public class BoardCanvas extends ResizableCanvas {
 		g.setStroke(location.getColour());
 
 		if(!isNumeric(location.getName())){
-			Image image = imageCreator.getImage(location.getName());
-			if(image != null)
-				g.drawImage(image, x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
-			else{
+			try{
+
+				Image image = new Image(
+						"/client/resources/images/worlds/"+location.getName().trim()+".jpg"
+						);
+				if(image != null){
+					Pane p = (Pane) getParent();
+					Circle circle = new Circle( x + (width/2),y + (height/2),width/30 - 6); 
+					circle.setStroke(location.getColour());
+					circle.setFill(new ImagePattern(image));
+					p.getChildren().add(circle);
+				}
+			}catch(Exception e){
+				System.out.println(location.getName());
 				g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
 				g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
 			}
 		}
 		else{
-        g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
-        g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
+			g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
+			g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
 		}
 
 		g.setFill(Color.WHITE);

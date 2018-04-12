@@ -55,7 +55,7 @@ public class InGameController {
         setUpBoard();
         try {
             showLobbyWindow();
-            //connection.startConnection();
+            connection.startConnection();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -192,8 +192,11 @@ public class InGameController {
         infoPane.getChildren().add(balanceLabel);
         // -----------------------------------
 
-
-        layers.getChildren().add(boardCanvas);
+        Pane boardWrapper = new Pane();
+        boardWrapper.getChildren().add(boardCanvas);
+        layers.getChildren().add(boardWrapper);
+        
+        //layers.getChildren().add(boardCanvas);
         layers.getChildren().add(playerCanvas);
         layers.getChildren().add(infoPane);
         layers.getChildren().add(ipane);
