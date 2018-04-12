@@ -8,13 +8,13 @@
 
 #newGameButton{
 -fx-border-color: #e88e27;
--fx-background-color: rgb(255,255,255,0.2);
+-fx-background-color: rgba(255,255,255,0.2);
 -fx-font-size: 30px;
 -fx-text-fill: #e88e27;
 }
 
 #newGameButton:hover{
--fx-background-color: rgb(255,255,255,0.5);
+-fx-background-color: rgba(255,255,255,0.5);
 }
 
 #heading{
