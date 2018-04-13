@@ -1,5 +1,6 @@
 package game;
 
+import game_interfaces.Colourable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +13,7 @@ import noc_db.Vehicle_noc;
 
 import java.util.ArrayList;
 
-public class Player implements Playable, JSONable {
+public class Player implements Playable, JSONable, Colourable {
 
 	private int id;
 	private int balance;
@@ -26,6 +27,7 @@ public class Player implements Playable, JSONable {
 	private boolean hasRolled;
 	private boolean hasBought;
 	private boolean hasBoosted;
+	private String colour;
 	
 	public Player(int playerId, String ipAddr, Character_noc ch){
 		this.id = playerId;
@@ -193,5 +195,15 @@ public class Player implements Playable, JSONable {
 		ownedProperties.remove(property);
 		// receive money in
 		receiveMoney(property.getPrice());
+	}
+
+	@Override
+	public void setColour(String colour) {
+		this.colour = colour;
+	}
+
+	@Override
+	public String getColour() {
+		return colour;
 	}
 }
