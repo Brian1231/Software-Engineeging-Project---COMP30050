@@ -4,11 +4,14 @@ import com.sun.org.apache.xalan.internal.utils.XMLSecurityPropertyManager;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
+
+import java.util.ArrayList;
 
 
 public class InformationPane extends Pane {
@@ -19,6 +22,10 @@ public class InformationPane extends Pane {
     private Circle tileInfo  = new Circle();
     private Label tileName = new Label("Name of current Tile");
     private Label tileCost = new Label("$200");
+
+    ArrayList<Label> playerNameLabels = new ArrayList();
+    ArrayList<ProgressBar> playerFuelBars = new ArrayList();
+    ArrayList<Label> playerBalanceLabels = new ArrayList<>();
 
     public InformationPane(){
         //Title
@@ -75,6 +82,11 @@ public class InformationPane extends Pane {
         tileName.setText(loc.getName());
         tileInfo.setStroke(loc.getColour());
         tileCost.setText("$" + Integer.toString(loc.getPrice()));
+    }
+
+
+    public void updatePlayerInfo(){
+
     }
 
 }

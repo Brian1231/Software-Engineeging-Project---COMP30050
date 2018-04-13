@@ -21,13 +21,11 @@ import org.json.JSONException;
 
 public class BoardCanvas extends ResizableCanvas {
 
-	private ArrayList<Location> locations = new ArrayList<>();
 	private int currentTile;
 
 	public BoardCanvas() {
 		// Redraw canvas when size changes
 		currentTile = 0;
-		initializeLocations();
 		widthProperty().addListener(evt -> {
 			try {
 				draw();
@@ -89,19 +87,19 @@ public class BoardCanvas extends ResizableCanvas {
 		for(double t = -PI/2; t<PI-step; t+=step){
 			if(Math.abs(t-PI/2) > 0.000001){    // so we don't draw two tiles in the centre.
 				Point2D point = lemniscate(t);
-				drawTile(point, g, locations.get(locIndex));
+				drawTile(point, g, Game.locations.get(locIndex));
 				locIndex+=1;
 			}
 		}
 		for(double t = -PI; t<-PI/2-step; t+=step){
 			Point2D point = lemniscate(t);
-			drawTile(point, g, locations.get(locIndex));
+			drawTile(point, g, Game.locations.get(locIndex));
 			locIndex+=1;
 		}
 		// Redraw centre tile so that its not overlapped
 		double t = PI/2;
 		Point2D boardCenter = lemniscate(t);
-		drawTile(boardCenter,g,locations.get(0));
+		drawTile(boardCenter,g,Game.locations.get(0));
 	}
 
 	// Draws individual tiles.
@@ -114,7 +112,7 @@ public class BoardCanvas extends ResizableCanvas {
 
 		g.setFill(Color.BLACK);
 		g.setStroke(location.getColour());
-
+		/*
 		if(!isNumeric(location.getName())){
 			try{
 
@@ -138,9 +136,12 @@ public class BoardCanvas extends ResizableCanvas {
 			g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
 			g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
 		}
-
+		*/
+		g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
+		g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
 		g.setFill(Color.WHITE);
 		g.fillText(location.getName(),x + (width/2) - 20,y + (height/2));
+
 	}
 
 	public static boolean isNumeric(String str)  {  
@@ -148,46 +149,5 @@ public class BoardCanvas extends ResizableCanvas {
 		catch(NumberFormatException nfe) { return false;  
 		}  return true;  
 	}
-	public void initializeLocations(){
-		for(int index = 0; index<40; index++){
-			String initName = Integer.toString(index);
-			locations.add(new Location(initName, index, 0,0,0, Color.GOLD, false));
-		}
-	}
-
-	// Adds new updated location to location list.
-	public void updateLocations(List<Location> locs) throws IOException, JSONException{
-		for(Location l : locs){
-			if(locations.contains(l)) {
-				updateLocationData(l);
-			}
-			else{
-				System.out.println("Couldn't find that location.");
-			}
-		}
-		draw();
-	}
-
-	public void updateLocationData(Location location){
-		if(locations.contains(location)){
-			int index = locations.indexOf(location);
-			locations.get(index).setName(location.getName());
-			locations.get(index).setRent(location.getRent());
-			locations.get(index).setPrice(location.getPosition());
-			locations.get(index).setOwnerID(location.getOwnerID());
-			locations.get(index).setColour(location.getColour());
-			// etc
-		}
-	}
-
-	public Location getLocation(int position){
-		for(Location loc: locations){
-			if(loc.getPosition() == position){
-				return loc;
-			}
-		}
-		return null;
-	}
-
 
 }

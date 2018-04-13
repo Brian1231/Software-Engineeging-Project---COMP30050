@@ -52,10 +52,11 @@ public class InGameController {
     });
 
     public void initialize() throws IOException, JSONException {
+        Game.initializeLocations();
         setUpBoard();
         try {
             showLobbyWindow();
-            connection.startConnection();
+            //connection.startConnection();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -126,7 +127,8 @@ public class InGameController {
                         int fuel = playerObjects.getJSONObject(i).getInt("fuel");
                         plyrs.add(new Player(balance,id,position,Color.WHITE,character,fuel));
                     }
-                    playerCanvas.updatePlayers(plyrs);
+                    Game.updatePlayers(plyrs);
+                    playerCanvas.draw();
                 }
 
                 // Redraw locations according to new Location information.
@@ -144,7 +146,8 @@ public class InGameController {
                         boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
                         locs.add(new Location(id,position,price,0,owner, color, isMortgaged));
                     }
-                    boardCanvas.updateLocations(locs);
+                    Game.updateLocations(locs);
+                    boardCanvas.draw();
                 }
 
                 // Update lobby list According to new players
@@ -158,7 +161,7 @@ public class InGameController {
                 ipane.updateFeed(actionInfo);
 
                 if(gameStarted == true){
-                    Location locToDisplay = boardCanvas.getLocation(playerCanvas.getPlayer(playerTurn).getPosition());
+                    Location locToDisplay = Game.getLocation(Game.players.get(playerTurn).getPosition());
                     ipane.updateLocationInfo(locToDisplay);
                 }
 
@@ -187,7 +190,7 @@ public class InGameController {
         fuelbar.setLayoutY(50);
         fuelbar.setPrefSize(70,3);
 
-//        infoPane.getChildren().add(fuelbar);
+//      infoPane.getChildren().add(fuelbar);
         infoPane.getChildren().add(playerLabel);
         infoPane.getChildren().add(balanceLabel);
         // -----------------------------------
