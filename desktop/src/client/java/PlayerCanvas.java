@@ -27,9 +27,10 @@ public class PlayerCanvas extends ResizableCanvas {
 
     // Draws players at their current location.
     public void drawPlayers(GraphicsContext g, double width, double height){
-
+    	
         for(Player player : Game.players){
             int position = player.getPosition();
+            if(position>19&&position<39)position++;
             double t = -PI/2 + step*position;
 
             Point2D point = lemniscate(t);

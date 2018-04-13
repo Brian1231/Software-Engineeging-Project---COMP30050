@@ -1,13 +1,14 @@
 package game;
 
+import java.util.ArrayList;
+
 public class PlayerActions {
 
-	public String roll(Player player, Dice dice, int id) {
+	public String roll(Player player, Dice dice, int id, ArrayList<NamedLocation> locations) {
 		if(!player.hasRolled()){
 			int spaces = dice.roll();
-			player.moveForward(spaces);
 			player.useRoll();
-			return "Player " + id + " rolled " + spaces + ".";
+			return player.moveForward(spaces) +" and arrived at "+ locations.get(player.getPos()).getId()+".";
 		}
 		else{
 			return "Player " + id + " has already rolled this turn.";
@@ -99,20 +100,20 @@ public class PlayerActions {
 	}
 
 
-	public String boost(Player player) {
-		if (player.hasRolled()) {
+	public String boost(Player player, ArrayList<NamedLocation> locations) {
+		/*if (player.hasRolled()) {
 			if (!player.hasBought()) {
 				if (!player.hasBoosted()) {
-					if (player.getFuel() > 0) {
-						return player.useBoost();
-					}
+					if (player.getFuel() > 0) {*/
+						return player.useBoost()  +" and arrived at "+ locations.get(player.getPos()).getId()+".";
+	/*				}
 					return "Your vehicle is out of fuel!";
 				}
 				return "You've already used your vehicle this turn!";
 			}
 			return "You can't use your vehicle after buying a property!";
 		}
-		return "You must roll before using your vehicle.";
+		return "You must roll before using your vehicle.";*/
 	}
 
 	public String build(Player player, NamedLocation loc, int numToBuild, int id) {

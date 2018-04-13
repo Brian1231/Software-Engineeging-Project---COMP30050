@@ -162,7 +162,7 @@ public class GameState implements JSONable {
 			switch (action) {
 				case "roll":
 
-					return playerActions.roll(player, dice, id);
+					return playerActions.roll(player, dice, id, this.locations);
 
 				case "buy":
 
@@ -183,7 +183,7 @@ public class GameState implements JSONable {
 
 				case "boost":
 
-					return playerActions.boost(player);
+					return playerActions.boost(player, this.locations);
 
 				case "build":
 
