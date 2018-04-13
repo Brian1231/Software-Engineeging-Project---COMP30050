@@ -12,7 +12,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		RentalPropertyTest.class,
 		PrivatePropertyTest.class,
 		StationTest.class,
-		InvestmentPropertyTest.class
+		InvestmentPropertyTest.class,
+		UtilityTest.class
 })
 
 public class TestSuite {
