@@ -233,9 +233,6 @@ public class InGameController {
         playerCanvas.widthProperty().bind(rootPane.widthProperty());
         playerCanvas.heightProperty().bind(rootPane.heightProperty());
 
-
-
-
         boardCanvas.draw();
         playerCanvas.draw();
     }

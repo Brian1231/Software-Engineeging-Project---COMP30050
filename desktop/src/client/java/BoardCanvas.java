@@ -100,7 +100,6 @@ public class BoardCanvas extends ResizableCanvas {
 			if (Math.abs(t - PI / 2) > 0.000001) {    // so we don't draw two tiles in the centre.
 				Point2D point = lemniscate(t);
 				drawTile(point, g, Game.locations.get(locIndex));
-				locIndex += 1;
 				drawTile(point, g, Game.locations.get(locIndex));
 				locIndex+=1;
 			}
@@ -126,17 +125,14 @@ public class BoardCanvas extends ResizableCanvas {
 
 		g.setFill(Color.BLACK);
 		g.setStroke(location.getColour());
-		/*
-		if(!isNumeric(location.getName())){
-			try{
 
 		g.fillOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
 		g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
 
 		g.setFill(Color.WHITE);
 		g.fillText(location.getName(), x + (width / 2) - 20, y + (height / 2));
-		*/
 	}
+
 /*
 	private void drawTileImages() {
 
