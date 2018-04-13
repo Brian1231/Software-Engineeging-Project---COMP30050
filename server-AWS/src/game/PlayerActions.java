@@ -101,19 +101,19 @@ public class PlayerActions {
 
 
 	public String boost(Player player, ArrayList<NamedLocation> locations) {
-		/*if (player.hasRolled()) {
+		if (player.hasRolled()) {
 			if (!player.hasBought()) {
 				if (!player.hasBoosted()) {
-					if (player.getFuel() > 0) {*/
-						return player.useBoost()  +" and arrived at "+ locations.get(player.getPos()).getId()+".";
-	/*				}
+					if (player.getFuel() > 0) {
+						return player.useBoost()  +" and landed on "+ locations.get(player.getPos()).getId()+".";
+					}
 					return "Your vehicle is out of fuel!";
 				}
 				return "You've already used your vehicle this turn!";
 			}
 			return "You can't use your vehicle after buying a property!";
 		}
-		return "You must roll before using your vehicle.";*/
+		return "You must roll before using your vehicle.";
 	}
 
 	public String build(Player player, NamedLocation loc, int numToBuild, int id) {

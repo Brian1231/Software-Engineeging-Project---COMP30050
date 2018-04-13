@@ -128,8 +128,8 @@ public class Player implements Playable, JSONable, Colourable {
 	}
 
 	public String useBoost(){
-		/*this.hasBoosted = true;
-		this.fuel--;*/
+		this.hasBoosted = true;
+		this.fuel--;
 		return this.moveForward(1); 
 	}
 	

@@ -55,7 +55,7 @@ public class InGameController {
         Game.initializeLocations();
         setUpBoard();
         try {
-            showLobbyWindow();
+           // showLobbyWindow();
             connection.startConnection();
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,7 +70,7 @@ public class InGameController {
     }
 
     // Player lobby code
-    public void showLobbyWindow() throws IOException {
+   /* public void showLobbyWindow() throws IOException {
         VBox lobbyRoot = new VBox();
         Button startGameButton = new Button("Start Game");
         ListView<String> playerListView = new ListView<>(playerList);
@@ -103,7 +103,7 @@ public class InGameController {
         }
                                     );
         lobbyStage.show();
-    }
+    }*/
 
     // Called whenever a message/JSON is received form the server.
     public void onUpdateReceived(JSONObject update) throws JSONException {
