@@ -18,8 +18,8 @@ import pw.jcollado.segamecontroller.utils.closeLoadingDialog
 import pw.jcollado.segamecontroller.utils.loadDialog
 
 
-class JoinActivity : App(), AsyncResponse {
-    lateinit var gamethread: ServerConnectionThread
+open class JoinActivity : App(), AsyncResponse {
+    open lateinit var gamethread: ServerConnectionThread
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,9 @@ class JoinActivity : App(), AsyncResponse {
     }
 
     private fun joinServer(){
-     //   loadDialog(this,getString(R.string.connecting))
+        runOnUiThread {
+            loadDialog(this, getString(R.string.connecting))
+        }
 
         val username  = userNameED.text.toString()
         val joinGameRequest = Request(-1,"connect","0")
@@ -59,12 +61,15 @@ class JoinActivity : App(), AsyncResponse {
 
 
     private fun getResponseID(response: String){
+
         Log.i("lol",response)
         if(response.contains("port")){
             val responseRequest = RequestFunctions().portFromJSONString(response)
             responseRequest?.id?.let { saveUserID(it) }
             responseRequest?.port?.let { savePort(it) }
-            //closeLoadingDialog()
+            runOnUiThread {
+                closeLoadingDialog()
+            }
             gamethread.kill()
             startActivity<MainActivity>()
 

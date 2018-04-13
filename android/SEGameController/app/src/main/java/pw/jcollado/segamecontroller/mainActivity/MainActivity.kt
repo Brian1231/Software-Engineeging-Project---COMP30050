@@ -17,10 +17,7 @@ import org.json.JSONArray
 import pw.jcollado.segamecontroller.model.*
 
 
-class MainActivity : App(), AsyncResponse {
-    lateinit var gamethread: ServerConnectionThread
-
-
+class MainActivity : App() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,23 +32,22 @@ class MainActivity : App(), AsyncResponse {
     }
 
     private fun onFinish() {
-        gamethread.setMessage(Request(preferences.playerID, "done","0").toJSONString())
+        setMessageToServer(Request(preferences.playerID, "done","0").toJSONString())
     }
 
     fun connectToNewPort(){
         val joinGameRequest = Request(preferences.playerID,"connect","0")
         val jsonStringRequest = joinGameRequest.toJSONString()
-        gamethread = ServerConnectionThread(this, preferences.port)
-        gamethread.start()
-        gamethread.setMessage(jsonStringRequest)
+        startServer(this)
+        setMessageToServer(jsonStringRequest)
 
     }
 
     fun onRoll() {
-        gamethread.setMessage(Request(preferences.playerID, "roll","0").toJSONString())
+        setMessageToServer(Request(preferences.playerID, "roll","0").toJSONString())
     }
     fun onBuy() {
-        gamethread.setMessage(Request(preferences.playerID, "buy","0").toJSONString())
+        setMessageToServer(Request(preferences.playerID, "buy","0").toJSONString())
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
@@ -69,49 +65,19 @@ class MainActivity : App(), AsyncResponse {
             else -> super.onOptionsItemSelected(item)
         }
     }
-    fun getResponse(response: String){
-        Log.i("response",response)
-        parseResponsetoPlayer(response)
 
 
-    }
-    fun parseResponsetoPlayer(response: String){
-        val responseJSON = JSONObject(response)
 
-        Player.character = responseJSON.getString("character")
-        Player.balance = responseJSON.getInt("balance")
-        Player.fuel = responseJSON.getInt("fuel")
-        Player.id = responseJSON.getInt("id")
-        Player.position = responseJSON.getInt("position")
+    override fun updateGameState(){
+        runOnUiThread {
 
-        if (!Player.properties.isEmpty()) {
-            Player.properties.clear()
-        }
-
-        val jArray = responseJSON.getJSONArray("properties") as JSONArray
-        if (jArray != null) {
-            for (i in 0 until jArray.length()) {
-                RequestFunctions().propertyFromJSONString(jArray.getString(i))?.let { Player.properties.add(it) }
-            }
-        }
-
-        updateGameState()
-
-    }
-    fun updateGameState(){
-        supportActionBar?.title = Player.character
-        balanceTX.text = "${Player.balance} $"
-        positionTX.text = Player.position.toString()
-    }
-
-    override fun handleResponse(response: String?) {
-
-        when (response) {
-            null -> response?.let { toast(it) }
-            "" -> toast(response)
-            else -> getResponse(response)
+            supportActionBar?.title = Player.character
+            balanceTX.text = "${Player.balance} ${'$'}"
+            positionTX.text = Player.position.toString()
         }
     }
+
+
 
 
 
@@ -122,3 +88,4 @@ class MainActivity : App(), AsyncResponse {
 
     }
 }
+

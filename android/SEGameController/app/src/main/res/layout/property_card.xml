@@ -5,6 +5,7 @@
     android:id="@+id/linearLY"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
     android:background="@drawable/border">
 
     <android.support.v7.widget.CardView
@@ -30,10 +31,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/album_cover_height"
                     android:layout_marginTop="8dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:scaleType="fitCenter"
-                    card_view:srcCompat="@drawable/marvin_gardens" />
+                    app:srcCompat="@drawable/placeholder" />
 
                 <TextView
                     android:id="@+id/priceTx"

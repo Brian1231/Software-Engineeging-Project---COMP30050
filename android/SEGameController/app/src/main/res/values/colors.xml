@@ -25,5 +25,7 @@
     <color name="BLUE">#0000FF</color>
     <color name="PINK">#FFC0CB</color>
     <color name="CYAN">#00FFFF</color>
+    <color name="GRAY">#808080</color>
+
 
 </resources>

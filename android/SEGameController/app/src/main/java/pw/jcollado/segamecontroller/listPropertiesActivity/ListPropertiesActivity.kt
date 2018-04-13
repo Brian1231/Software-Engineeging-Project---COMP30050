@@ -8,11 +8,12 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_list_properties.*
 import org.jetbrains.anko.toast
 import pw.jcollado.segamecontroller.R
+import pw.jcollado.segamecontroller.model.App
 import pw.jcollado.segamecontroller.model.Player
 import pw.jcollado.segamecontroller.model.Property
 import pw.jcollado.segamecontroller.utils.CardsAdapter
 
-class ListPropertiesActivity : AppCompatActivity() {
+class ListPropertiesActivity : App() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,16 +31,10 @@ class ListPropertiesActivity : AppCompatActivity() {
         else {
 
             recyclerView.layoutManager = LinearLayoutManager(this)
-            recyclerView.adapter = CardsAdapter(Player.properties, { buildButton(it) })
+            recyclerView.adapter = CardsAdapter(Player.properties)
             no_propertiesTX.visibility = View.GONE
 
         }
-    }
-    fun buildButton(item: Property){
-       // item.build()
-        recyclerView.adapter.notifyDataSetChanged()
-
-
     }
 
 
