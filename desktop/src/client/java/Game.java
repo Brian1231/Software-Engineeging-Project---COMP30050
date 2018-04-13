@@ -12,7 +12,7 @@ public class Game {
     public static ArrayList<Location> locations = new ArrayList<>();
     public static ArrayList<Player> players = new ArrayList<>();
 
-//Player Methods
+// Player Methods
     // Updates players from server.
     public static void updatePlayers(List<Player> plyrs){
         for(Player p : plyrs){
@@ -55,7 +55,7 @@ public class Game {
         return null;
     }
 
-//Location Methods
+// Location Methods
     public static void initializeLocations(){
         for(int index = 0; index<40; index++){
             String initName = Integer.toString(index);
