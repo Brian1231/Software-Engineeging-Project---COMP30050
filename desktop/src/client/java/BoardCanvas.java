@@ -1,6 +1,8 @@
 package client.java;
 
 import client.java.controllers.InGameController;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -21,7 +23,6 @@ public class BoardCanvas extends ResizableCanvas {
 
 	private ArrayList<Location> locations = new ArrayList<>();
 	private int currentTile;
-
 
 	public BoardCanvas() {
 		// Redraw canvas when size changes

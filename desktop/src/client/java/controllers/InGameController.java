@@ -61,6 +61,7 @@ public class InGameController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public void closeGame() {
@@ -92,7 +93,6 @@ public class InGameController {
                 output.put("action", "start");
                 connection.send(output);
                 gameStarted = true;
-                lobbyStage.close();
             } catch (JSONException e1) {
                 e1.printStackTrace();
             } catch (Exception e1) {
@@ -187,13 +187,34 @@ public class InGameController {
         fuelbar.setLayoutY(50);
         fuelbar.setPrefSize(70,3);
 
-        infoPane.getChildren().add(fuelbar);
+//        infoPane.getChildren().add(fuelbar);
         infoPane.getChildren().add(playerLabel);
         infoPane.getChildren().add(balanceLabel);
         // -----------------------------------
 
         Pane boardWrapper = new Pane();
         boardWrapper.getChildren().add(boardCanvas);
+        // Start game button
+        Button startButton = new Button("START GAME");
+        startButton.layoutXProperty().bind(boardWrapper.widthProperty().divide(2).subtract(startButton.widthProperty().divide(2)));
+        startButton.layoutYProperty().bind(boardWrapper.heightProperty().subtract(80));
+        startButton.setOnAction(e -> {
+                    try {
+                        JSONObject output = new JSONObject();
+                        output.put("id", 0);
+                        output.put("action", "start");
+                        connection.send(output);
+                        gameStarted = true;
+
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+        );
+
+        ipane.getChildren().add(startButton);
         layers.getChildren().add(boardWrapper);
         
         //layers.getChildren().add(boardCanvas);
@@ -206,6 +227,9 @@ public class InGameController {
         boardCanvas.heightProperty().bind(rootPane.heightProperty());
         playerCanvas.widthProperty().bind(rootPane.widthProperty());
         playerCanvas.heightProperty().bind(rootPane.heightProperty());
+
+
+
 
         boardCanvas.draw();
         playerCanvas.draw();
