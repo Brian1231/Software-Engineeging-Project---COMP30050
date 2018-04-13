@@ -20,7 +20,9 @@ public interface Playable extends Identifiable {
 
     String getId();
 
-    void moveForward(int spaces);
+    String moveForward(int spaces);
+    
+    String getCharName();
 
     int getNetWorth();
     void setNetWorth(int netWorth);

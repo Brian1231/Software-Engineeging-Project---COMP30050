@@ -1,7 +1,5 @@
 package game;
 
-import game_interfaces.Playable;
-
 import java.util.ArrayList;
 
 public class Utility extends RentalProperty {
@@ -11,9 +9,9 @@ public class Utility extends RentalProperty {
 		super.setType("Utility");
 	}
 
-	public int getRentalAmount(Playable player, int diceRoll) {
-		if (!this.isMortgaged()) {
-			ArrayList<PrivateProperty> properties = player.getOwnedProperties();
+	public int getRentalAmount(int diceRoll) {
+		if (!this.isMortgaged() && this.isOwned()) {
+			ArrayList<PrivateProperty> properties = this.getOwner().getOwnedProperties();
 
 			int numUtilitiesOwned = 0;
 			for (PrivateProperty p : properties) {

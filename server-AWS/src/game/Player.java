@@ -20,94 +20,95 @@ public class Player implements Playable, JSONable, Colourable {
 	private int position;
 	private String ip;
 	private ArrayList<PrivateProperty> ownedProperties = new ArrayList<>();
-	
+
 	private Character_noc character;
 	private Vehicle_noc vehicle;
 	private int fuel;
+	private int debt;
+	private Playable playerOwed;
 	private boolean hasRolled;
 	private boolean hasBought;
 	private boolean hasBoosted;
+	private boolean isOnGo;
+	private boolean isInDebt;
 	private String colour;
 	
 	public Player(int playerId, String ipAddr, Character_noc ch, Vehicle_noc vehicle){
 		this.id = playerId;
 		this.balance = 1000;
 		this.position = 0;
+		this.debt = 0;
 		this.ip = ipAddr;
 		this.hasRolled = false;
 		this.hasBought = false;
 		this.hasBoosted = false;
+		this.isOnGo = false;
+		this.isInDebt = false;
+		this.playerOwed = null;
 		this.fuel = 1;
 		this.character = ch;
 		this.vehicle = vehicle;
 	}
-	
+
 	@Override
 	public String toString(){
 		return "ID: " + this.id;
 	}
-	
+
 	@Override
 	public String getIp(){
 		return this.ip;
 	}
-	
+
 	public boolean hasRolled(){
 		return this.hasRolled;
 	}
-	
+
 	public void resetRoll(){
 		this.hasRolled = false;
 	}
-	
+
 	public boolean hasBought(){
 		return this.hasBought;
 	}
-	
+
 	public void useBuy(){
 		this.hasBought = true;
 	}
-	
+
 	public boolean hasBoosted(){
 		return this.hasBoosted;
 	}
-	
+
 	public void resetBoost(){
 		this.hasBoosted = false;
 	}
-	
-	public String useBoost(){
-		this.hasBoosted = true;
-		this.fuel--;
-		this.moveForward(1);
-		return this.getId() + " travelled ahead " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle() + "."; 
-	}
-	
+
 	public void resetBought(){
 		this.hasBought = false;
 	}
-	
+
 	public void useRoll(){
 		this.hasRolled = true;
 	}
-	
+
 	public void topUpFuel(){
 		this.fuel = 3;
 	}
-	
+
 	public int getFuel(){
 		return this.fuel;
 	}
-	
+
 	@Override
 	public JSONObject getInfo() throws JSONException{
 		JSONObject info = new JSONObject();
-		
+
 		JSONArray properties = new JSONArray();
 		for(NamedLocation l : this.ownedProperties){
 			properties.put(l.getInfo());
 		}
-		
+
 		info.put("id", this.id);
 		info.put("balance", this.balance);
 		info.put("position", this.position);
@@ -115,32 +116,60 @@ public class Player implements Playable, JSONable, Colourable {
 		info.put("properties", properties);
 		info.put("fuel", this.fuel);
 		return info;
-		
+
 	}
-	
+
 	@Override
 	public int getPos(){
 		return this.position;
 	}
-	
+
 	@Override
 	public int getID(){
 		return this.id;
 	}
-	
+
 	public int getBalance(){
 		return this.balance;
 	}
 
-	@Override
-	public void moveForward(int spaces){
-		this.position = (this.position + spaces)%40;
+	public String useBoost(){
+		this.hasBoosted = true;
+		this.fuel--;
+		return this.moveForward(1); 
 	}
 
+	@Override
+	public String moveForward(int spaces){
+		int oldPos = this.position;
+		if(this.isOnGo){
+			this.position = 19;
+			this.isOnGo = false;
+			this.position = (this.position + spaces)%39;
+			return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 
+		}
+		else{
+			this.position = (this.position + spaces)%39;
 
+			//If we land on go going backwards
+			if(this.position == 20) {
+				this.position = 0;
+				this.isOnGo = true;
+			}
 
-	// do we need a string version of IDs? player name maybe?
+			if(oldPos<20 && this.position>20){
+				this.position--;
+			}
+
+			return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
+		}
+	}
+
+	@Override
+	public String getCharName() {
+		return this.character.getName();
+	}
 
 	@Override
 	public String getId() {
@@ -157,7 +186,7 @@ public class Player implements Playable, JSONable, Colourable {
 		int worth = balance;
 		// add on price of all owned properties
 		for (PrivateProperty p: ownedProperties
-		     ) {
+				) {
 			worth += p.getPrice();
 		}
 		return worth;
@@ -205,5 +234,26 @@ public class Player implements Playable, JSONable, Colourable {
 	@Override
 	public String getColour() {
 		return colour;
+	}
+
+	public boolean isInDebt(){
+		return this.isInDebt;
+	}
+
+	public void setDebt(int amount, Playable player){
+		this.playerOwed = player;
+		this.debt = amount;
+		this.isInDebt = true;
+	}
+
+	public String payDebt(){
+		if(this.balance >= this.debt){
+			this.playerOwed.receiveMoney(this.debt);
+			this.payMoney(debt);
+			this.debt = 0;
+			this.isInDebt = false;
+			return this.getCharName() + " paid " + this.playerOwed.getCharName() + " " + debt + ".";
+		}
+		return "You don't have enough money to pay your debt!";
 	}
 }

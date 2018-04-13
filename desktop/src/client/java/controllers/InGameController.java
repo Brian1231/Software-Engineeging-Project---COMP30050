@@ -4,15 +4,12 @@ import client.java.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
+
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,9 +29,7 @@ public class InGameController {
     // 4 board layers.
     private BoardCanvas boardCanvas = new BoardCanvas();
     private PlayerCanvas playerCanvas = new PlayerCanvas();
-    private InformationPane ipane = new InformationPane();
-    // infoPane will be replaced by ipane.
-    private Pane infoPane = new Pane();
+    private InformationPane infoPane = new InformationPane();
 
     // Players
     private ObservableList<String> playerList = FXCollections.observableArrayList();
@@ -54,55 +49,18 @@ public class InGameController {
     public void initialize() throws IOException, JSONException {
         Game.initializeLocations();
         setUpBoard();
+
         try {
-            showLobbyWindow();
             connection.startConnection();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void closeGame() {
         connection.gameEnd();
-    }
-
-    // Player lobby code
-    public void showLobbyWindow() throws IOException {
-        VBox lobbyRoot = new VBox();
-        Button startGameButton = new Button("Start Game");
-        ListView<String> playerListView = new ListView<>(playerList);
-
-        lobbyRoot.getChildren().add(playerListView);
-        lobbyRoot.getChildren().add(startGameButton);
-
-        Scene lobbyScene = new Scene(lobbyRoot, 400,600);
-        lobbyScene.getStylesheets().add("/client/resources/css/lobby.css");
-
-        Stage lobbyStage = new Stage();
-        lobbyStage.initStyle(StageStyle.UNDECORATED);
-        lobbyStage.initModality(Modality.APPLICATION_MODAL);
-        lobbyStage.setScene(lobbyScene);
-
-        startGameButton.setOnAction((ActionEvent e) ->
-        {
-            try {
-                JSONObject output = new JSONObject();
-                output.put("id", 0);
-                output.put("action", "start");
-                connection.send(output);
-                gameStarted = true;
-                lobbyStage.close();
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        }
-                                    );
-        lobbyStage.show();
     }
 
     // Called whenever a message/JSON is received form the server.
@@ -121,7 +79,8 @@ public class InGameController {
                     JSONArray playerObjects = update.getJSONArray("players");
 
                     for(int i=0;i<playerObjects.length();i++){
-                        int balance = playerObjects.getJSONObject(i).getInt("balance");
+                        int b = playerObjects.getJSONObject(i).getInt("balance");
+                        String balance = Integer.toString(b);
                         int id = playerObjects.getJSONObject(i).getInt("id");
                         int position = playerObjects.getJSONObject(i).getInt("position");
                         String character = playerObjects.getJSONObject(i).getString("character");
@@ -148,6 +107,7 @@ public class InGameController {
                         locs.add(new Location(id,position,price,0,owner, color, isMortgaged));
                     }
                     Game.updateLocations(locs);
+
                     boardCanvas.draw();
                     BoardCanvas.locationsSetProperty.setValue(true);
                 }
@@ -160,11 +120,11 @@ public class InGameController {
                 }
                 playerList.setAll(names);
 
-                ipane.updateFeed(actionInfo);
+                infoPane.updateFeed(actionInfo);
 
                 if(gameStarted == true){
                     Location locToDisplay = Game.getLocation(Game.players.get(playerTurn).getPosition());
-                    ipane.updateLocationInfo(locToDisplay);
+                    infoPane.updateLocationInfo(locToDisplay);
                 }
 
 
@@ -176,26 +136,6 @@ public class InGameController {
     }
 
     public void setUpBoard() throws IOException, JSONException{
-        // Drafting Player stats ------------
-        Label playerLabel = new Label("Player 1");
-        playerLabel.setTextFill(Color.WHITE);
-        playerLabel.setLayoutX(10);
-        playerLabel.setLayoutY(10);
-
-        Label balanceLabel = new Label("$2000");
-        balanceLabel.setTextFill(Color.WHITE);
-        balanceLabel.setLayoutX(10);
-        balanceLabel.setLayoutY(30);
-
-        ProgressBar fuelbar  = new ProgressBar(.5);
-        fuelbar.setLayoutX(10);
-        fuelbar.setLayoutY(50);
-        fuelbar.setPrefSize(70,3);
-
-        infoPane.getChildren().add(fuelbar);
-        infoPane.getChildren().add(playerLabel);
-        infoPane.getChildren().add(balanceLabel);
-        // -----------------------------------
 
         Pane boardWrapper = new Pane();
         boardWrapper.getChildren().add(boardCanvas);
@@ -210,22 +150,20 @@ public class InGameController {
                         output.put("action", "start");
                         connection.send(output);
                         gameStarted = true;
-
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
+
                 }
         );
 
-        ipane.getChildren().add(startButton);
+        infoPane.getChildren().add(startButton);
         layers.getChildren().add(boardWrapper);
-        
-        //layers.getChildren().add(boardCanvas);
+
         layers.getChildren().add(playerCanvas);
         layers.getChildren().add(infoPane);
-        layers.getChildren().add(ipane);
 
         rootPane.setCenter(layers);
         boardCanvas.widthProperty().bind(rootPane.widthProperty());
@@ -235,6 +173,7 @@ public class InGameController {
 
         boardCanvas.draw();
         playerCanvas.draw();
+        infoPane.addPlayerInfo();
     }
 
 }

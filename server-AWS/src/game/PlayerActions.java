@@ -1,13 +1,16 @@
 package game;
 
+import java.util.ArrayList;
+
 public class PlayerActions {
 
-	public String roll(Player player, Dice dice, int id) {
+	public String roll(Player player, Dice dice, int id, ArrayList<NamedLocation> locations) {
 		if(!player.hasRolled()){
 			int spaces = dice.roll();
-			player.moveForward(spaces);
 			player.useRoll();
-			return "Player " + id + " rolled " + spaces + ".";
+			String res = player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".";
+			res += landedOn(player, locations.get(player.getPos()), spaces);
+			return res;
 		}
 		else{
 			return "Player " + id + " has already rolled this turn.";
@@ -98,13 +101,14 @@ public class PlayerActions {
 		return "You can't redeem that.";
 	}
 
-
-	public String boost(Player player) {
+	public String boost(Player player, ArrayList<NamedLocation> locations) {
 		if (player.hasRolled()) {
 			if (!player.hasBought()) {
 				if (!player.hasBoosted()) {
 					if (player.getFuel() > 0) {
-						return player.useBoost();
+						String res = player.useBoost()  +" and landed on "+ locations.get(player.getPos()).getId()+".";
+						res += landedOn(player, locations.get(player.getPos()), 1);
+						return res;
 					}
 					return "Your vehicle is out of fuel!";
 				}
@@ -162,5 +166,35 @@ public class PlayerActions {
 		player.resetRoll();
 		player.resetBought();
 		player.resetBoost();
+
+	}
+	
+	private String landedOn(Player player, NamedLocation location, int spaces){
+		if(location instanceof PrivateProperty){
+			PrivateProperty property = (PrivateProperty) location;
+			if(property.isOwned()){
+				String res = "\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ". It can be purchased for $" + property.getPrice() + ".";
+				if(property instanceof InvestmentProperty){
+					InvestmentProperty p = (InvestmentProperty) property;
+					player.setDebt(p.getBaseRentAmount(), property.getOwner());
+					return res;
+				}
+				else if(property instanceof Station){
+					//Station
+					Station s = (Station) property;
+					player.setDebt(s.getRentalAmount(), property.getOwner());
+					return res;
+				}
+				else{
+					//Utility
+					Utility u = (Utility) property;
+					player.setDebt(u.getRentalAmount(spaces), property.getOwner());
+					return res;
+				}
+
+			}
+			return "\n"+ property.getId() + " is unowned. It can be purchased for $" + property.getPrice() + ".";
+		}
+		return "";
 	}
 }
