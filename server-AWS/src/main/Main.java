@@ -20,7 +20,7 @@ public class Main {
 	public static NOC_Manager noc;
 	public static boolean isActive;
 
-	public static void main(String[] args) throws IOException, JSONException {
+	public static void main(String[] args) throws IOException {
 		isActive = false;
 
 		System.out.println(InetAddress.getLocalHost().getHostAddress());

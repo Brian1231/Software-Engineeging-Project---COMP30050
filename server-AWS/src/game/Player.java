@@ -1,5 +1,6 @@
 package game;
 
+import game_interfaces.Colourable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +13,7 @@ import noc_db.Vehicle_noc;
 
 import java.util.ArrayList;
 
-public class Player implements Playable, JSONable {
+public class Player implements Playable, JSONable, Colourable {
 
 	private int id;
 	private int balance;
@@ -26,6 +27,8 @@ public class Player implements Playable, JSONable {
 	private boolean hasRolled;
 	private boolean hasBought;
 	private boolean hasBoosted;
+	private boolean isOnGo;
+	private String colour;
 	
 	public Player(int playerId, String ipAddr, Character_noc ch){
 		this.id = playerId;
@@ -35,6 +38,7 @@ public class Player implements Playable, JSONable {
 		this.hasRolled = false;
 		this.hasBought = false;
 		this.hasBoosted = false;
+		this.isOnGo = false;
 		this.fuel = 1;
 		this.character = ch;
 		this.vehicle = Main.noc.getVehicle(ch.getVehicle());
@@ -72,13 +76,6 @@ public class Player implements Playable, JSONable {
 	
 	public void resetBoost(){
 		this.hasBoosted = false;
-	}
-	
-	public String useBoost(){
-		this.hasBoosted = true;
-		this.fuel--;
-		this.moveForward(1);
-		return this.getId() + " travelled ahead " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle() + "."; 
 	}
 	
 	public void resetBought(){
@@ -130,9 +127,37 @@ public class Player implements Playable, JSONable {
 		return this.balance;
 	}
 
+	public String useBoost(){
+		this.hasBoosted = true;
+		this.fuel--;
+		return this.moveForward(1); 
+	}
+	
 	@Override
-	public void moveForward(int spaces){
-		this.position = (this.position + spaces)%40;
+	public String moveForward(int spaces){
+		int oldPos = this.position;
+		if(this.isOnGo){
+			this.position = 19;
+			this.isOnGo = false;
+			this.position = (this.position + spaces)%39;
+			return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
+
+		}
+		else{
+			this.position = (this.position + spaces)%39;
+
+			//If we land on go going backwards
+			if(this.position == 20) {
+				this.position = 0;
+				this.isOnGo = true;
+			}
+
+			if(oldPos<20 && this.position>20){
+				this.position--;
+			}
+
+			return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
+		}
 	}
 
 
@@ -193,5 +218,15 @@ public class Player implements Playable, JSONable {
 		ownedProperties.remove(property);
 		// receive money in
 		receiveMoney(property.getPrice());
+	}
+
+	@Override
+	public void setColour(String colour) {
+		this.colour = colour;
+	}
+
+	@Override
+	public String getColour() {
+		return colour;
 	}
 }
