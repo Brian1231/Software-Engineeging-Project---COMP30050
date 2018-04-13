@@ -1,12 +1,14 @@
 package client.java;
 
-import com.sun.org.apache.xalan.internal.utils.XMLSecurityPropertyManager;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.StringProperty;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
+
 import javafx.scene.control.TextArea;
+
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.Shadow;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
@@ -19,15 +21,11 @@ public class InformationPane extends Pane {
     private Label title = new Label("Panopoly");
     private Circle eventLogger = new Circle();
     private TextArea feed = new TextArea();
-    private Circle tileInfo  = new Circle();
+    private Circle tileInfo = new Circle();
     private Label tileName = new Label("Name of current Tile");
     private Label tileCost = new Label("$200");
 
-    ArrayList<Label> playerNameLabels = new ArrayList();
-    ArrayList<ProgressBar> playerFuelBars = new ArrayList();
-    ArrayList<Label> playerBalanceLabels = new ArrayList<>();
-
-    public InformationPane(){
+    public InformationPane() {
         //Title
         title.setTextFill(Color.rgb(232, 142, 39));
         title.setStyle("-fx-font-size: 50px;");
@@ -35,8 +33,8 @@ public class InformationPane extends Pane {
         getChildren().add(title);
 
         // Circle text Area (currently invisible)
-        eventLogger.setFill(Color.rgb(60,67,79,0));
-        eventLogger.setStroke(Color.rgb(119,137,165, 0));
+        eventLogger.setFill(Color.rgb(60, 67, 79, 0));
+        eventLogger.setStroke(Color.rgb(119, 137, 165, 0));
         eventLogger.radiusProperty().bind(widthProperty().divide(9));
         eventLogger.layoutXProperty().bind(widthProperty().divide(4.2));
         eventLogger.layoutYProperty().bind(heightProperty().divide(2));
@@ -53,40 +51,63 @@ public class InformationPane extends Pane {
         feed.appendText("Press the start button when all players have joined.\n");
         getChildren().add(feed);
 
+        Glow g = new Glow(10);
+        Shadow s = new Shadow(3, Color.RED);
+
         // Current players location info
         tileInfo.layoutXProperty().bind(widthProperty().subtract(widthProperty().divide(4.2)));
         tileInfo.layoutYProperty().bind(heightProperty().divide(2));
         tileInfo.setFill(Color.BLACK);
         tileInfo.setStroke(Color.GOLD);
         tileInfo.radiusProperty().bind(widthProperty().divide(9));
+        tileInfo.setEffect(g);
         getChildren().add(tileInfo);
-            // Tile name
+        // Tile name
         tileName.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileName.widthProperty().divide(2)));
         tileName.layoutYProperty().bind(tileInfo.layoutYProperty().subtract(tileInfo.radiusProperty().divide(2)));
         tileName.setTextFill(Color.WHITE);
         getChildren().add(tileName);
-            // Tile Cost
+        // Tile Cost
         tileCost.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileCost.widthProperty().divide(2)));
         tileCost.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2)));
         tileCost.setTextFill(Color.WHITE);
         getChildren().add(tileCost);
 
+        /*
+        BorderPane playerInfoLayout = new BorderPane();
+        HBox top = new HBox();
+        VBox bottom = new VBox();
 
+        playerInfoLayout.setTop(top);
+        playerInfoLayout.setBottom(bottom);
+
+        getChildren().add(playerInfoLayout);
+        */
     }
 
-    public void updateFeed(String s){
+    public void updateFeed(String s) {
         feed.appendText(s + "\n");
     }
 
-    public void updateLocationInfo(Location loc){
+    public void updateLocationInfo(Location loc) {
         tileName.setText(loc.getName());
         tileInfo.setStroke(loc.getColour());
         tileCost.setText("$" + Integer.toString(loc.getPrice()));
     }
 
+    public void addPlayerInfo() {
+        // test
+        // Game.addPlayer(new Player("2000", 1, 30, Color.WHITE, "Batman", 2));
 
-    public void updatePlayerInfo(){
-
+        for (Player p : Game.players) {
+            Label nameLabel = p.playerNameLabel;
+            nameLabel.setLayoutX(30 + p.getId()*20);
+            nameLabel.setLayoutX(30);
+            this.getChildren().add(nameLabel);
+            Label balanceLabel = p.playerBalanceLabel;
+            balanceLabel.setLayoutX(30);
+            balanceLabel.setLayoutY(50);
+            this.getChildren().add(balanceLabel);
+        }
     }
-
 }
