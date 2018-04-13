@@ -1,13 +1,10 @@
 package pw.jcollado.segamecontroller.mainActivity
 
-import android.app.ActionBar
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import com.squareup.moshi.KotlinJsonAdapterFactory
-import com.squareup.moshi.Moshi
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
@@ -104,6 +101,7 @@ class MainActivity : App(), AsyncResponse {
     fun updateGameState(){
         supportActionBar?.title = Player.character
         balanceTX.text = "${Player.balance} $"
+        positionTX.text = Player.position.toString()
     }
 
     override fun handleResponse(response: String?) {

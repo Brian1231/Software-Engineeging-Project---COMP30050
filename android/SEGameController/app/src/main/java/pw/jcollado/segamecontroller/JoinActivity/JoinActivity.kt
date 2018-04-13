@@ -3,8 +3,10 @@ package pw.jcollado.segamecontroller.JoinActivity
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
+import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_join.*
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import pw.jcollado.segamecontroller.R
@@ -24,6 +26,7 @@ class JoinActivity : App(), AsyncResponse {
         setContentView(R.layout.activity_join)
         setupUI()
         savePort(8080)
+
 
 
     }

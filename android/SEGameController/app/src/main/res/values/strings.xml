@@ -14,4 +14,6 @@
     <string name="connecting">Connecting to the server...</string>
     <string name="position_text">Position:</string>
     <string name="boost">Boost</string>
+    <string name="sell">Sell</string>
+    <string name="demolish">Demolish</string>
 </resources>

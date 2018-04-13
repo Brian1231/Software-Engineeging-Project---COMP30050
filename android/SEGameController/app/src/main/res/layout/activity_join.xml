@@ -40,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@+id/joinButton" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/monopolyIV"
         android:layout_width="383dp"
         android:layout_height="211dp"
         android:layout_marginEnd="8dp"
@@ -64,5 +64,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/monopolyIV" />
 </android.support.constraint.ConstraintLayout>
