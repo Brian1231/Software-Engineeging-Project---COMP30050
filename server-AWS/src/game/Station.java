@@ -14,13 +14,17 @@ public class Station extends RentalProperty {
 		if (!this.isMortgaged() && this.isOwned()) {
 			ArrayList<PrivateProperty> properties = this.getOwner().getOwnedProperties();
 
-			int numStationsOwned = 0;
+			int numStationsOwned = -1;
 			for (PrivateProperty p : properties) {
 				if (p.getType().equals(this.getType())) {
 					numStationsOwned++;
 				}
 			}
-			return this.getAllRentAmounts()[numStationsOwned];
+			if(numStationsOwned >= 0) {
+				return this.getAllRentAmounts()[numStationsOwned];
+			} else {
+				return 0;
+			}
 		} else {
 			System.out.println("Cant claim rent on station that is mortgaged");
 			return 0;
