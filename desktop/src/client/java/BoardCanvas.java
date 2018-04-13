@@ -1,6 +1,9 @@
 package client.java;
 
 import client.java.controllers.InGameController;
+import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Point2D;
@@ -22,10 +25,19 @@ import org.json.JSONException;
 public class BoardCanvas extends ResizableCanvas {
 
 	private int currentTile;
+	public static BooleanProperty locationsSetProperty = new SimpleBooleanProperty();
 
 	public BoardCanvas() {
 		// Redraw canvas when size changes
 		currentTile = 0;
+		locationsSetProperty.setValue(false);
+		locationsSetProperty.addListener(evt -> {
+			try {
+				//drawTileImages();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 		widthProperty().addListener(evt -> {
 			try {
 				draw();
@@ -50,48 +62,50 @@ public class BoardCanvas extends ResizableCanvas {
 		});
 	}
 
-	public void draw() throws IOException, JSONException{
-		double width =  getWidth();
+	public void draw() throws IOException, JSONException {
+		double width = getWidth();
 		double height = getHeight();
 
 		GraphicsContext gc = getGraphicsContext2D();
 		gc.clearRect(0, 0, width, height);
 
 		Image background = new Image("/client/resources/images/space.jpg");
-		gc.drawImage(background,0,0,width,height);
+		gc.drawImage(background, 0, 0, width, height);
 
 		drawInfinityShape(gc);
 		drawTiles(gc);
 	}
 
 	// Draws infinity curve
-	public void drawInfinityShape(GraphicsContext g){
+	public void drawInfinityShape(GraphicsContext g) {
 		double width = getWidth();
 		double height = getHeight();
 
 		PixelWriter pw = g.getPixelWriter();
 
-		for(double t = -PI; t<PI; t+=0.001){
+		for (double t = -PI; t < PI; t += 0.001) {
 			Point2D point = lemniscate(t);
 
-			int pixel_x =(int) Math.round(point.getX() + width/2) ;
-			int pixel_y =(int) Math.round(point.getY()+ height/2);
+			int pixel_x = (int) Math.round(point.getX() + width / 2);
+			int pixel_y = (int) Math.round(point.getY() + height / 2);
 
-			pw.setColor(pixel_x,pixel_y, Color.GOLD);
+			pw.setColor(pixel_x, pixel_y, Color.GOLD);
 		}
 	}
 
 	// Draws all tiles.
-	public void drawTiles(GraphicsContext g) throws IOException, JSONException{
+	public void drawTiles(GraphicsContext g) throws IOException, JSONException {
 		int locIndex = 0;
-		for(double t = -PI/2; t<PI-step; t+=step){
-			if(Math.abs(t-PI/2) > 0.000001){    // so we don't draw two tiles in the centre.
+		for (double t = -PI / 2; t < PI - step; t += step) {
+			if (Math.abs(t - PI / 2) > 0.000001) {    // so we don't draw two tiles in the centre.
 				Point2D point = lemniscate(t);
+				drawTile(point, g, Game.locations.get(locIndex));
+				locIndex += 1;
 				drawTile(point, g, Game.locations.get(locIndex));
 				locIndex+=1;
 			}
 		}
-		for(double t = -PI; t<-PI/2-step; t+=step){
+		for (double t = -PI; t < -PI / 2 - step; t += step) {
 			Point2D point = lemniscate(t);
 			drawTile(point, g, Game.locations.get(locIndex));
 			locIndex+=1;
@@ -103,7 +117,7 @@ public class BoardCanvas extends ResizableCanvas {
 	}
 
 	// Draws individual tiles.
-	public void drawTile(Point2D point, GraphicsContext g, Location location) throws IOException, JSONException{
+	public void drawTile(Point2D point, GraphicsContext g, Location location) throws IOException, JSONException {
 
 		double width = getWidth();
 		double height = getHeight();
@@ -116,38 +130,79 @@ public class BoardCanvas extends ResizableCanvas {
 		if(!isNumeric(location.getName())){
 			try{
 
-				Image image = new Image(
-						"/client/resources/images/worlds/"+location.getName().trim()+".jpg"
-						);
-				if(image != null){
+		g.fillOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
+		g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
+
+		g.setFill(Color.WHITE);
+		g.fillText(location.getName(), x + (width / 2) - 20, y + (height / 2));
+		*/
+	}
+/*
+	private void drawTileImages() {
+
+		double width = getWidth();
+		double height = getHeight();
+
+		System.out.println("got here1");
+
+		int i = 0;
+/*
+		for (int j = 0; j <39; j++) {
+			i++;
+			Point2D point;
+			point = lemniscate(step * Game.locations.get(j).getPosition());
+			double x = point.getX();
+			double y = point.getY();
+			System.out.println("got here2");
+
+			try {
+				StringBuilder sb = new StringBuilder();
+				sb.append("/client/resources/images/worlds/");
+				sb.append(Game.locations.get(j).getName().trim().replace(":","").toString());
+				sb.append(".jpg");
+
+				System.out.println("sb: " + sb.toString());
+				Image image = new Image( sb.toString() );
+				System.out.println("got here3");
+				if (image != null) {
+					System.out.println("got here4");
 					Pane p = (Pane) getParent();
-					Circle circle = new Circle( x + (width/2),y + (height/2),width/30 - 6); 
-					circle.setStroke(location.getColour());
+					Circle circle = new Circle(x + (width / 2), y + (height / 2), width / 30 - 6);
+//					circle.setStroke(locations.get(j).getColour());
 					circle.setFill(new ImagePattern(image));
+					System.out.println("got here5");
 					p.getChildren().add(circle);
+					System.out.println("got here6");
 				}
-			}catch(Exception e){
-				System.out.println(location.getName());
-				g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
-				g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
+			} catch (Exception e) {
+				System.out.println("got here    7");
+				System.out.println(Game.locations.get(j).getName());
+				System.out.println("j: " + j);
+//					GraphicsContext g = getGraphicsContext2D();
+//					g.fillOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
+//					g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
 			}
 		}
+		System.out.println("i: " + i);
 		else{
 			g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
 			g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
 		}
-		*/
+
 		g.fillOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
 		g.strokeOval(x + (width/2) -width/30,y + (height/2)-width/30, width/15,width/15);
 		g.setFill(Color.WHITE);
 		g.fillText(location.getName(),x + (width/2) - 20,y + (height/2));
 
 	}
-
-	public static boolean isNumeric(String str)  {  
-		try  { Double.parseDouble(str);  }
-		catch(NumberFormatException nfe) { return false;  
-		}  return true;  
+*/
+	public static boolean isNumeric(String str) {
+		try {
+			Double.parseDouble(str);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
 	}
 
 }

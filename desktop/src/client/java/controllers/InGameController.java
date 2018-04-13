@@ -56,7 +56,7 @@ public class InGameController {
         setUpBoard();
         try {
             showLobbyWindow();
-            //connection.startConnection();
+            connection.startConnection();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -94,6 +94,7 @@ public class InGameController {
                 output.put("action", "start");
                 connection.send(output);
                 gameStarted = true;
+                lobbyStage.close();
             } catch (JSONException e1) {
                 e1.printStackTrace();
             } catch (Exception e1) {
@@ -148,6 +149,7 @@ public class InGameController {
                     }
                     Game.updateLocations(locs);
                     boardCanvas.draw();
+                    BoardCanvas.locationsSetProperty.setValue(true);
                 }
 
                 // Update lobby list According to new players
@@ -190,7 +192,7 @@ public class InGameController {
         fuelbar.setLayoutY(50);
         fuelbar.setPrefSize(70,3);
 
-//      infoPane.getChildren().add(fuelbar);
+        infoPane.getChildren().add(fuelbar);
         infoPane.getChildren().add(playerLabel);
         infoPane.getChildren().add(balanceLabel);
         // -----------------------------------

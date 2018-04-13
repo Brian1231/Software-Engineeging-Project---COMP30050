@@ -287,11 +287,11 @@ public class GameState implements JSONable {
 							}
 							return property.getId() + " is mortgaged! ";
 						}
-						return "You don't own that property.";
+						return "You don't own " + property.getId();
 					}
-					return "That property is unowned.";
+					return property.getId() + " is unowned.";
 				}
-				return " You cant build on this property";
+				return " You cant build on " + loc.getId();
 
 			case "demolish":
 				locationNumber = Integer.parseInt(args[0]);
@@ -310,11 +310,11 @@ public class GameState implements JSONable {
 							}
 							return property.getId() + " is mortgaged! ";
 						}
-						return "You don't own that property.";
+						return "You don't own " + property.getId();
 					}
-					return "That property is unowned.";
+					return property.getId() + " is unowned.";
 				}
-				return " You cant demolish on this property";
+				return " You cant demolish on " + loc.getId();
 
 			case "done":
 				player.resetRoll();
