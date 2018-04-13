@@ -25,6 +25,7 @@ public class GameState implements JSONable {
 	private int playerTurn;
 	private Dice dice;
 	public boolean isActive;
+	private PlayerActions playerActions = new PlayerActions();
 
 
 	public GameState() {
@@ -43,37 +44,37 @@ public class GameState implements JSONable {
 
 		//Investment Properties
 		int[] rents = {100, 200, 300, 400};
-		for(int i=0;i<24;i++){
+		for (int i = 0; i < 24; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new InvestmentProperty(randomWorld.getWorld(), 200 + i*20, rents));
+			properties.add(new InvestmentProperty(randomWorld.getWorld(), 200 + i * 20, rents));
 		}
 
 		//3 Tax squares
-		for(int i=0;i<3;i++){
+		for (int i = 0; i < 3; i++) {
 			randomWorld = Main.noc.getRandomWorld();
 			properties.add(new TaxSquare(randomWorld.getWorld()));
 		}
 
 		//Stations
-		for(int i=0;i<4;i++){
+		for (int i = 0; i < 4; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new Station(randomWorld.getWorld(), 200 + i*20, rents));
+			properties.add(new Station(randomWorld.getWorld(), 200 + i * 20, rents));
 		}
 
 		//Utilities
-		for(int i=0;i<2;i++){
+		for (int i = 0; i < 2; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new Utility(randomWorld.getWorld(), 200 + i*20));
+			properties.add(new Utility(randomWorld.getWorld(), 200 + i * 20));
 		}
 
 		//Chance Squares
-		for(int i=0;i<3;i++){
+		for (int i = 0; i < 3; i++) {
 			properties.add(new ChanceSquare("Interdimensional TV"));
 		}
 
 		//Shuffle Tiles
 		Random random = new Random();
-		while(!properties.isEmpty()){
+		while (!properties.isEmpty()) {
 			locations.add(properties.remove(random.nextInt(properties.size())));
 		}
 
@@ -86,49 +87,49 @@ public class GameState implements JSONable {
 		int colourCount = 0;
 		int colourIndex = 0;
 
-		for(int i=0;i<locations.size();i++){
+		for (int i = 0; i < locations.size(); i++) {
 			locations.get(i).setLocation(i);
-			if(locations.get(i) instanceof InvestmentProperty){
-				InvestmentProperty prop = (InvestmentProperty)locations.get(i);
+			if (locations.get(i) instanceof InvestmentProperty) {
+				InvestmentProperty prop = (InvestmentProperty) locations.get(i);
 				prop.setColour(colours[colourIndex]);
 				colourCount++;
-				if(colourCount%3==0) colourIndex++;
+				if (colourCount % 3 == 0) colourIndex++;
 			}
 		}
 	}
 
-	public boolean isStarted(){
+	public boolean isStarted() {
 		return this.gameStarted;
 	}
-	public boolean isActive(){
+
+	public boolean isActive() {
 		return this.isActive;
 	}
 
-	public boolean isPlayerCharacter(Character_noc ch){
+	public boolean isPlayerCharacter(Character_noc ch) {
 		return this.playerCharacters.contains(ch);
 	}
 
-	public void startGame(){
+	public void startGame() {
 		this.gameStarted = true;
-		if(this.players.size() == 0 ){
-			playerTurn = rand.nextInt(this.players.size()+1) + 1;
-		}
-		else{
+		if (this.players.size() == 0) {
+			playerTurn = rand.nextInt(this.players.size() + 1) + 1;
+		} else {
 			playerTurn = rand.nextInt(this.players.size()) + 1;
 		}
 
 	}
 
-	/** 
+	/**
 	 * Returns new player ID or -1
 	 */
-	public int addPlayer(String client_ip){
-		int newID = players.size()+1;
-		if(!clientIPplayerIDMap.containsKey(client_ip)){
+	public int addPlayer(String client_ip) {
+		int newID = players.size() + 1;
+		if (!clientIPplayerIDMap.containsKey(client_ip)) {
 
 			//Get random unused character
 			Character_noc ch = Main.noc.getRandomChar();
-			while(this.isPlayerCharacter(ch)){
+			while (this.isPlayerCharacter(ch)) {
 				ch = Main.noc.getRandomChar();
 			}
 			Player newPlayer = new Player(newID, client_ip, ch);
@@ -136,217 +137,90 @@ public class GameState implements JSONable {
 			players.add(newPlayer);
 			clientIPplayerIDMap.put(client_ip, newPlayer);
 			return newID;
-		}
-		else{
+		} else {
 			return -1;
 		}
 
 	}
 
-	/** 
+	/**
 	 * Returns result of player action
 	 */
-	public String playerAction(int id, String action, String[] args){
+	public String playerAction(int id, String action, String[] args) {
 
 		//Check if its the correct players turn
-		if(this.playerTurn == id && this.gameStarted){
+		if (this.playerTurn == id && this.gameStarted) {
 			//Get player from id
 			Player player = null;
-			for(Player p : this.players){
-				if(p.getID() == id){
+			for (Player p : this.players) {
+				if (p.getID() == id) {
 					player = p;
 				}
 			}
 
 			//Do player action
-			switch(action){
-			case "roll":
-				if(!player.hasRolled()){
-					int spaces = dice.roll();
-					player.moveForward(spaces);
-					player.useRoll();
-					return "Player " + id + " rolled " + spaces + ".";
-				}
-				else{
-					return "Player " + id + " has already rolled this turn.";
-				}
+			switch (action) {
+				case "roll":
 
-			case "buy":
-				int playerPosition = player.getPos();
-				NamedLocation tile = this.locations.get(playerPosition);
-				if(tile instanceof PrivateProperty){
-					PrivateProperty prop = (PrivateProperty) tile;
-					if(!prop.isOwned()){
-						if(player.getBalance() >= prop.getPrice()){
-							(prop).setOwner(player);
-							player.addNewPropertyBought(prop);
-							player.useBuy();
-							return "Player " + id + " bought " + prop.getId() + " for " + prop.getPrice() + ".";
-						}
-						return "You can't afford this property.";
+					return playerActions.roll(player, dice, id);
+
+				case "buy":
+
+					return playerActions.buy(player, this.locations.get(player.getPos()), id);
+
+
+				case "sell":
+
+					return playerActions.sell(player, this.locations.get(Integer.parseInt(args[0])), id);
+
+				case "mortgage":
+
+					return playerActions.mortgage(player, this.locations.get(Integer.parseInt(args[0])), id);
+
+				case "redeem":
+
+					return playerActions.redeem(player, this.locations.get(Integer.parseInt(args[0])), id);
+
+				case "boost":
+
+					return playerActions.boost(player);
+
+				case "build":
+
+					return playerActions.build(player, this.locations.get(Integer.parseInt(args[0])), Integer.parseInt(args[1]), id);
+
+				case "demolish":
+
+					return playerActions.demolish(player, this.locations.get(Integer.parseInt(args[0])), Integer.parseInt(args[1]),id);
+
+				case "done":
+					playerActions.done(player);
+					//Increment player turn
+					this.playerTurn++;
+					if (this.playerTurn > this.players.size()) {
+						this.playerTurn = 1;
 					}
-					return prop.getId() + " is already owned by " + prop.getOwner().getId() + ".";
-				}
-				return "You can't buy that.";
-
-			case "sell":
-				int locationNumber = Integer.parseInt(args[0]);
-				NamedLocation loc = this.locations.get(locationNumber);
-				if(loc instanceof PrivateProperty){
-					PrivateProperty property = (PrivateProperty) loc;
-					if(property.isOwned()){
-						if(property.getOwner().equals(player)){
-							if(property instanceof RentalProperty){
-								RentalProperty rental = (RentalProperty) property;
-								if(!rental.isMortgaged()){
-									property.setOwner(null);
-									player.removePropertySold(property);
-									return "Player " + id + " sold " + property.getId() + " for " + property.getPrice() + ".";
-								}
-								return "You can't sell a mortgaged property.";
-							}
-							property.setOwner(null);
-							player.removePropertySold(property);
-							player.receiveMoney(property.getPrice());
-							return "Player " + id + " sold " + property.getId() + " for " + property.getPrice() + ".";
-						}
-						return "You don't own that property.";
-					}
-					return "That property is unowned.";
-				}
-				return "You can't sell that.";
-
-			case "mortgage":
-				locationNumber = Integer.parseInt(args[0]);
-				loc = this.locations.get(locationNumber);
-				if(loc instanceof PrivateProperty){
-					RentalProperty property = (RentalProperty) loc;
-					if(property.isOwned()){
-						if(property.getOwner().equals(player)){
-							if(!property.isMortgaged()){
-								property.mortgage(player);;
-								return "Player " + id + " mortgaged " + property.getId() + " and received " + property.getMortgageAmount() + ".";
-							}
-							return property.getId() + " is already mortgaged! ";
-						}
-						return "You don't own that property.";
-					}
-					return "That property is unowned.";
-				}
-				return "You can't mortgage that.";
-
-			case "redeem":
-				locationNumber = Integer.parseInt(args[0]);
-				loc = this.locations.get(locationNumber);
-				if(loc instanceof PrivateProperty){
-					RentalProperty property = (RentalProperty) loc;
-					if(property.isOwned()){
-						if(property.getOwner().equals(player)){
-							if(property.isMortgaged()){
-								property.redeem(player);;
-								return "Player " + id + " redeemed " + property.getId() + " for " + property.getRedeemAmount() + ".";
-							}
-							return property.getId() + " isn't mortgaged! ";
-						}
-						return "You don't own that property.";
-					}
-					return "That property is unowned.";
-				}
-				return "You can't redeem that.";
-
-			case "boost":
-				if(player.hasRolled()){
-					if(!player.hasBought()){
-						if(!player.hasBoosted()){
-							if(player.getFuel() > 0){
-								return player.useBoost();
-							}
-							return "Your vehicle is out of fuel!";
-						}
-						return "You've already used your vehicle this turn!";
-					}
-					return "You can't use your vehicle after buying a property!";
-				}
-				return "You must roll before using your vehicle.";
-
-			case "build":
-				locationNumber = Integer.parseInt(args[0]);
-				int numToBuild = Integer.parseInt(args[1]);
-				loc = this.locations.get(locationNumber);
-				if(loc instanceof InvestmentProperty) {
-					InvestmentProperty property = (InvestmentProperty) loc;
-					if(property.isOwned()){
-						if (property.getOwner().equals(player)){
-							if (!property.isMortgaged()) {
-								if(property.build(numToBuild)) {
-									return "Player " + id + " built " + numToBuild + " houses on " + property.getId() + ".";
-								}
-								else {
-									return property.getBuildDemolishError();
-								}
-							}
-							return property.getId() + " is mortgaged! ";
-						}
-						return "You don't own " + property.getId();
-					}
-					return property.getId() + " is unowned.";
-				}
-				return " You cant build on " + loc.getId();
-
-			case "demolish":
-				locationNumber = Integer.parseInt(args[0]);
-				int numToDemolish = Integer.parseInt(args[1]);
-				loc = this.locations.get(locationNumber);
-				if(loc instanceof InvestmentProperty) {
-					InvestmentProperty property = (InvestmentProperty) loc;
-					if(property.isOwned()){
-						if (property.getOwner().equals(player)){
-							if (!property.isMortgaged()) {
-								if (property.build(numToDemolish)) {
-									return "Player " + id + " demolished " + numToDemolish + " houses on " + property.getId() + ".";
-								} else {
-									return property.getBuildDemolishError();
-								}
-							}
-							return property.getId() + " is mortgaged! ";
-						}
-						return "You don't own " + property.getId();
-					}
-					return property.getId() + " is unowned.";
-				}
-				return " You cant demolish on " + loc.getId();
-
-			case "done":
-				player.resetRoll();
-				player.resetBought();
-				player.resetBoost();
-				//Increment player turn
-				this.playerTurn++;
-				if(this.playerTurn > this.players.size()) {
-					this.playerTurn=1;
-				}
-				return "Player " + id + " finished their turn.";
-			default:
-				return "Player " + id + " did nothing.";
-			}	
-		}
-		else{
+					return "Player " + id + " finished their turn.";
+				default:
+					return "Player " + id + " did nothing.";
+			}
+		} else {
 			return "It's not your turn!";
 		}
 	}
 
-	/** 
+	/**
 	 * Returns full game state in JSON format
 	 */
-	public JSONObject getInfo() throws JSONException{
+	public JSONObject getInfo() throws JSONException {
 		JSONObject info = new JSONObject();
 
 		JSONArray jsonPlayers = new JSONArray();
-		for(Player p : this.players){
+		for (Player p : this.players) {
 			jsonPlayers.put(p.getInfo());
 		}
 		JSONArray jsonLocations = new JSONArray();
-		for(NamedLocation l : this.locations){
+		for (NamedLocation l : this.locations) {
 			jsonLocations.put(l.getInfo());
 		}
 		info.put("players", jsonPlayers);
@@ -358,11 +232,11 @@ public class GameState implements JSONable {
 
 	}
 
-	public JSONObject getInfoPlayers() throws JSONException{
+	public JSONObject getInfoPlayers() throws JSONException {
 		JSONObject info = new JSONObject();
 
 		JSONArray jsonPlayers = new JSONArray();
-		for(Player p : this.players){
+		for (Player p : this.players) {
 			jsonPlayers.put(p.getInfo());
 		}
 
@@ -372,11 +246,11 @@ public class GameState implements JSONable {
 		return info;
 	}
 
-	public JSONObject getInfoBoard() throws JSONException{
+	public JSONObject getInfoBoard() throws JSONException {
 		JSONObject info = new JSONObject();
 
 		JSONArray jsonLocations = new JSONArray();
-		for(NamedLocation l : this.locations){
+		for (NamedLocation l : this.locations) {
 			jsonLocations.put(l.getInfo());
 		}
 
@@ -386,13 +260,13 @@ public class GameState implements JSONable {
 		return info;
 	}
 
-	/** 
+	/**
 	 * Returns player state in JSON format
 	 */
-	public JSONObject getPlayerInfo(int id) throws JSONException{
+	public JSONObject getPlayerInfo(int id) throws JSONException {
 		JSONObject info = new JSONObject();
-		for(Player p : this.players){
-			if(p.getID() == id){
+		for (Player p : this.players) {
+			if (p.getID() == id) {
 				info = p.getInfo();
 			}
 		}
@@ -400,7 +274,7 @@ public class GameState implements JSONable {
 
 	}
 
-	public void endGame(){
+	public void endGame() {
 		Main.clientUpdater.updateActionInfo("Game Over");
 		Main.clientUpdater.updateDesktopPlayers();
 		Main.clientUpdater.updateDesktopBoard();
