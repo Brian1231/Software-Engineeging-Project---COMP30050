@@ -26,12 +26,17 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 
 	@Override
 	public int getNumHouses() {
-		return numHouses;
+		return this.numHouses;
 	}
 
 	@Override
 	public int getNumHotels() {
-		return numHotels;
+		return this.numHotels;
+	}
+
+	@Override
+	public int getNumHousesAndHotels() {
+		return this.numHotels + this.numHouses;
 	}
 
 	@Override
