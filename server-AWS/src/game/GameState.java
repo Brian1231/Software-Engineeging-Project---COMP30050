@@ -16,7 +16,7 @@ import noc_db.World_noc;
 
 public class GameState implements JSONable {
 
-	Random rand = new Random();
+	private Random rand = new Random();
 	private ArrayList<Player> players;
 	private ArrayList<Character_noc> playerCharacters;
 	private ArrayList<NamedLocation> locations;

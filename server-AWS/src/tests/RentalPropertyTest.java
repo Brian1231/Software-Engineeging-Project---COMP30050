@@ -30,7 +30,7 @@ public class RentalPropertyTest {
 		prop.mortgage(player);
 		// if mortgaged then player receives 90% of price into balance
 		assertEquals(1090, player.getNetWorth());
-		assertEquals(true, prop.isMortgaged());
+		assertTrue(prop.isMortgaged());
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class RentalPropertyTest {
 	public void redeemTest() {
 		prop.redeem(player);
 		assertEquals(890, player.getNetWorth());
-		assertEquals(false, prop.isMortgaged());
+		assertFalse(prop.isMortgaged());
 	}
 
 	@Test

@@ -7,15 +7,16 @@ import noc_db.Character_noc;
 import noc_db.Vehicle_noc;
 import noc_db.Weapon_noc;
 
+@SuppressWarnings("Duplicates")
 public class ChanceTemplate {
 
-	Character_noc char1;
-	Weapon_noc weapon;
-	Vehicle_noc vehicle;
-	Character_noc opp;
-	String pronoun;
-	String them;
-	String possesion;
+	private Character_noc char1;
+	private Weapon_noc weapon;
+	private Vehicle_noc vehicle;
+	private Character_noc opp;
+	private String pronoun;
+	private String them;
+	private String possesion;
 
 	public ChanceTemplate(Character_noc a){
 		this.char1 = a;
@@ -34,7 +35,7 @@ public class ChanceTemplate {
 		}
 	}
 
-	public String template0(){
+	private String template0(){
 		StringBuilder sb = new StringBuilder();
 		sb.append(char1.getName()).append(" appears ").append(vehicle.getAffordance()).append(" ").append(vehicle.getDeterminer()).append(" ").append(vehicle.getVehicle()).append(". ");
 		sb.append(pronoun + " says that " + pronoun.toLowerCase() + " is tired of " + char1.getActivity() + " and wants some action. ");
@@ -42,7 +43,7 @@ public class ChanceTemplate {
 		return sb.toString(); 
 	}
 
-	public String template1(){
+	private String template1(){
 		StringBuilder sb = new StringBuilder();
 		String clothes = char1.getWearing();
 		if(clothes.length()!=0)
@@ -54,7 +55,7 @@ public class ChanceTemplate {
 		return sb.toString(); 
 	}
 
-	public String template2(){
+	private String template2(){
 		StringBuilder sb = new StringBuilder();
 		String clothes = char1.getWearing();
 		String clothesDet = Main.noc.getClothingDeterminer(clothes);
@@ -77,7 +78,7 @@ public class ChanceTemplate {
 		return sb.toString(); 
 	}
 
-	public String template3(){
+	private String template3(){
 		StringBuilder sb = new StringBuilder();
 		String act = char1.getActivity();
 		String setting = Main.noc.getActivitySetting(act);

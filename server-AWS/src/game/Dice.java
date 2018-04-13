@@ -6,7 +6,7 @@ import game_interfaces.Rollable;
 
 public class Dice implements Rollable{
 
-	Random rand = new Random();
+	private Random rand = new Random();
 	@Override
 	public int roll() {
 		return (rand.nextInt(6) + 1) + (rand.nextInt(6) + 1);

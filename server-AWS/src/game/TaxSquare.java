@@ -7,8 +7,8 @@ import noc_db.Character_noc;
 
 public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 
-	int incomePercentage = 0;
-	int flatAmount = 0;
+	private int incomePercentage = 0;
+	private int flatAmount = 0;
 
 	public TaxSquare(String name) {
 		super(name);

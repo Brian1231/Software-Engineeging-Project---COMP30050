@@ -10,8 +10,8 @@ import server.PortAllocator;
 
 public class Main {
 
-	public static final int MAINPORT = 8080;
-	public static final int DESKTOPPORT = 8000;
+	private static final int MAINPORT = 8080;
+	private static final int DESKTOPPORT = 8000;
 	public static GameState gameState;
 	public static ClientUpdater clientUpdater;
 	public static PortAllocator portAllocator;

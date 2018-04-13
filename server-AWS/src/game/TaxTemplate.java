@@ -7,15 +7,16 @@ import noc_db.Character_noc;
 import noc_db.Vehicle_noc;
 import noc_db.Weapon_noc;
 
+@SuppressWarnings("Duplicates")
 public class TaxTemplate {
 
-	Character_noc char1;
-	Weapon_noc weapon;
-	Vehicle_noc vehicle;
-	Character_noc opp;
-	String pronoun;
-	String them;
-	String possesion;
+	private Character_noc char1;
+	private Weapon_noc weapon;
+	private Vehicle_noc vehicle;
+	private Character_noc opp;
+	private String pronoun;
+	private String them;
+	private String possesion;
 
 	public TaxTemplate(Character_noc a){
 		this.char1 = a;

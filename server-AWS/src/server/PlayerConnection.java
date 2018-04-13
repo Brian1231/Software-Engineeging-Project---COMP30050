@@ -20,7 +20,7 @@ public class PlayerConnection extends Thread{
 	private Socket socket;
 	private int port;
 	private int playerID;
-	BufferedWriter out; 
+	private BufferedWriter out;
 
 	public PlayerConnection(int id, int portNum){
 		this.port = portNum;
@@ -100,7 +100,7 @@ public class PlayerConnection extends Thread{
 	}
 
 	public void updatePlayer(){
-		JSONObject output = null;
+		JSONObject output;
 		try {
 			output = Main.gameState.getPlayerInfo(this.playerID);
 			out.write(output.toString()+ "\n");

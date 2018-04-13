@@ -32,7 +32,7 @@ public class InvestmentPropertyTest {
 
 	@Test
 	public void colourTest() {
-		assertEquals(null, prop.getColour());
+		assertNull(prop.getColour());
 		prop.setColour("RED");
 		assertEquals("RED", prop.getColour());
 	}

@@ -19,22 +19,21 @@ public class PrivatePropertyTest {
 	@Test
 	public void constructorTest() {
 		assertNotNull(prop.getId());
-		assertNotNull(prop.getPrice());
 	}
 
 	@Test
 	public void ownedTest() {
-		assertEquals(false, prop.isOwned());
+		assertFalse(prop.isOwned());
 		prop.setOwner(player);
-		assertEquals(true, prop.isOwned());
+		assertTrue(prop.isOwned());
 	}
 
 	@Test
 	public void unownedTest(){
 		prop.setOwner(player);
-		assertEquals(true, prop.isOwned());
+		assertTrue(prop.isOwned());
 		prop.setUnOwned();
-		assertEquals(false, prop.isOwned());
+		assertFalse(prop.isOwned());
 	}
 
 	@Test

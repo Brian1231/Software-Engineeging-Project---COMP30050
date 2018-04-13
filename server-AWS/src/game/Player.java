@@ -7,7 +7,6 @@ import org.json.JSONObject;
 
 import game_interfaces.JSONable;
 import game_interfaces.Playable;
-import main.Main;
 import noc_db.Character_noc;
 import noc_db.Vehicle_noc;
 

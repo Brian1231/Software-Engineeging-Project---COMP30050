@@ -6,7 +6,7 @@ import org.junit.Test;
 import game.Dice;
 
 public class DiceTest {
-	int TOTAL_ROLLS = 1000000;
+	private int TOTAL_ROLLS = 1000000;
 	
 	@Test
 	public void testDiceRoll() {
