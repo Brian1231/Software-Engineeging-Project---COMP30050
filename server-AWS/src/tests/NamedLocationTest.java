@@ -9,9 +9,15 @@ import org.junit.Test;
 
 public class NamedLocationTest {
 
+	private NamedLocation loc = new NamedLocation("UCD");
+
 	@Test
-	public void nameTest(){
-		NamedLocation loc = new NamedLocation("UCD");
+	public void constructorTest() {
+		assertNotNull(loc.getId());
+	}
+
+	@Test
+	public void nameTest() {
 		assertEquals("UCD", loc.getId());
 	}
 
@@ -24,16 +30,12 @@ public class NamedLocationTest {
 
 	@Test
 	public void locationTest() {
-		NamedLocation loc = new NamedLocation("UCD");
 		loc.setLocation(10);
-
 		assertEquals(10, loc.getLocation());
 	}
 
 	@Test
 	public void getInfoTest() {
-		NamedLocation loc = new NamedLocation("UCD");
-
 		try {
 			JSONObject obj = loc.getInfo();
 			assertEquals("RED", obj.get("color"));
