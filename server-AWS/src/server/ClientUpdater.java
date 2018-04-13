@@ -87,6 +87,9 @@ public class ClientUpdater extends Thread{
 							if(obj.get("action").equals("start")){
 								Main.gameState.startGame();
 							}
+							if(obj.get("action").equals("end")){
+								Main.gameState.endGame();
+							}
 						}
 					}
 

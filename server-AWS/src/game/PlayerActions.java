@@ -1,7 +1,5 @@
 package game;
 
-import javafx.scene.control.ContentDisplay;
-
 public class PlayerActions {
 
 	public String roll(Player player, Dice dice, int id) {
