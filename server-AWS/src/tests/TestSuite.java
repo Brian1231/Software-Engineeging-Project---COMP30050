@@ -9,7 +9,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		DiceTest.class,
 		PlayerTest.class,
 		NamedLocationTest.class,
-		RentalPropertyTest.class
+		RentalPropertyTest.class,
+		PrivatePropertyTest.class
 })
 
 public class TestSuite {
