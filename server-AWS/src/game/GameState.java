@@ -58,7 +58,7 @@ public class GameState implements JSONable {
 		//Stations
 		for (int i = 0; i < 4; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new Station(randomWorld.getWorld(), 200 + i * 20, rents));
+			properties.add(new Station(randomWorld.getWorld(),200  + i * 20, rents));
 		}
 
 		//Utilities

@@ -68,7 +68,6 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
 						property.mortgage(player);
-						;
 						return "Player " + id + " mortgaged " + property.getId() + " and received " + property.getMortgageAmount() + ".";
 					}
 					return property.getId() + " is already mortgaged! ";
@@ -88,7 +87,6 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (property.isMortgaged()) {
 						property.redeem(player);
-						;
 						return "Player " + id + " redeemed " + property.getId() + " for " + property.getRedeemAmount() + ".";
 					}
 					return property.getId() + " isn't mortgaged! ";

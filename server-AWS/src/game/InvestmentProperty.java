@@ -173,7 +173,6 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 	@Override
 	public void setColour(String colour) {
 		this.colour = colour;
-		
 	}
 
 	@Override
