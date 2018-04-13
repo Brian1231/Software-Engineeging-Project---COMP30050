@@ -49,7 +49,6 @@ public class InGameController {
     public void initialize() throws IOException, JSONException {
         Game.initializeLocations();
         setUpBoard();
-
         try {
             connection.startConnection();
         } catch (IOException e) {
@@ -155,7 +154,6 @@ public class InGameController {
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
-
                 }
         );
 

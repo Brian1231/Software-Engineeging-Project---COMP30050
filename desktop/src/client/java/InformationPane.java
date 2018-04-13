@@ -1,6 +1,7 @@
 package client.java;
 
 
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 
 import javafx.scene.effect.Glow;
@@ -96,18 +97,22 @@ public class InformationPane extends Pane {
     }
 
     public void addPlayerInfo() {
-        // test
-        // Game.addPlayer(new Player("2000", 1, 30, Color.WHITE, "Batman", 2));
+        // testing
+        // Game.addPlayer(new Player("2000", 1, 30, Color.WHITE, "Batman", 1));
 
         for (Player p : Game.players) {
             Label nameLabel = p.playerNameLabel;
             nameLabel.setLayoutX(30 + p.getId()*20);
-            nameLabel.setLayoutX(30);
+            nameLabel.setLayoutY(10);
             this.getChildren().add(nameLabel);
             Label balanceLabel = p.playerBalanceLabel;
-            balanceLabel.setLayoutX(30);
-            balanceLabel.setLayoutY(50);
+            balanceLabel.setLayoutX(30 + p.getId()*20);
+            balanceLabel.setLayoutY(30);
             this.getChildren().add(balanceLabel);
+            ProgressBar fuelBar = p.playerFuelBar;
+            fuelBar.setLayoutX(30 + p.getId()*20);
+            fuelBar .setLayoutY(50);
+            this.getChildren().add(fuelBar);
         }
     }
 }

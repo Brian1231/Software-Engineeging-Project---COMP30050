@@ -1,6 +1,7 @@
 package client.java;
 
-import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
+import javafx.beans.property.adapter.JavaBeanDoubleProperty;
+import javafx.beans.property.adapter.JavaBeanDoublePropertyBuilder;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -17,7 +18,7 @@ public class Player implements Serializable {
     private int position;
     private Color color;
     private String character;
-    private int fuel;
+    private double fuel;
 
     // Information Display objects
     public Label playerNameLabel = new Label();
@@ -26,7 +27,7 @@ public class Player implements Serializable {
 
     private final PropertyChangeSupport pcs ;
 
-    public Player(String balance, int id, int position, Color colour, String character,int fuel) {
+    public Player(String balance, int id, int position, Color colour, String character,double fuel) {
         this.balance = balance;
         this.id = id;
         this.position = position;
@@ -39,9 +40,13 @@ public class Player implements Serializable {
         try {
             playerNameLabel.textProperty().bind(new JavaBeanStringPropertyBuilder().bean(this).name("character").build());
             playerBalanceLabel.textProperty().bind(new JavaBeanStringPropertyBuilder().bean(this).name("balance").build());
+            playerFuelBar.progressProperty().bind(new JavaBeanDoublePropertyBuilder().bean(this).name("fuel").build().divide(3.0));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
+
+        playerNameLabel.setTextFill(Color.rgb(232, 142, 39));
+        playerBalanceLabel.setTextFill(Color.rgb(232, 142, 39));
     }
 
     @Override
@@ -104,12 +109,14 @@ public class Player implements Serializable {
         pcs.firePropertyChange("character",oldCharacter,this.character);
     }
 
-    public int getFuel() {
+    public double getFuel() {
         return fuel;
     }
 
-    public void setFuel(int fuel) {
+    public void setFuel(double fuel) {
+        double oldFuel = this.fuel;
         this.fuel = fuel;
+        pcs.firePropertyChange("fuel",oldFuel,this.fuel);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
