@@ -7,6 +7,6 @@ public interface Taxable {
     void setIncomePercentage(int percentage);
 
     // get flat figure to be charged as tax
-    int getFlatAmount(Playable player);
+    int getFlatAmount();
     void setFlatAmount(int flatAmount);
 }

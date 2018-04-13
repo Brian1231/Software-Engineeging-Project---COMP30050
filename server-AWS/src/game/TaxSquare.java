@@ -34,7 +34,7 @@ public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 	}
 	
 	@Override
-	public int getFlatAmount(Playable player) {
+	public int getFlatAmount() {
 		if(flatAmount != 0) {
 			return flatAmount;
 		} else {

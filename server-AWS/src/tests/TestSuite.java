@@ -13,7 +13,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		PrivatePropertyTest.class,
 		StationTest.class,
 		InvestmentPropertyTest.class,
-		UtilityTest.class
+		UtilityTest.class,
+		TaxSquareTest.class
 })
 
 public class TestSuite {
