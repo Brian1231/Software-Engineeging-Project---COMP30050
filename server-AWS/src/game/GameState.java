@@ -132,7 +132,7 @@ public class GameState implements JSONable {
 			while (this.isPlayerCharacter(ch)) {
 				ch = Main.noc.getRandomChar();
 			}
-			Player newPlayer = new Player(newID, client_ip, ch);
+			Player newPlayer = new Player(newID, client_ip, ch, Main.noc.getVehicle(ch.getVehicle()));
 			this.playerCharacters.add(ch);
 			players.add(newPlayer);
 			clientIPplayerIDMap.put(client_ip, newPlayer);

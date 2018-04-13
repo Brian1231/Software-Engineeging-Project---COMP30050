@@ -29,7 +29,7 @@ public class Player implements Playable, JSONable, Colourable {
 	private boolean hasBoosted;
 	private String colour;
 	
-	public Player(int playerId, String ipAddr, Character_noc ch){
+	public Player(int playerId, String ipAddr, Character_noc ch, Vehicle_noc vehicle){
 		this.id = playerId;
 		this.balance = 1000;
 		this.position = 0;
@@ -39,7 +39,7 @@ public class Player implements Playable, JSONable, Colourable {
 		this.hasBoosted = false;
 		this.fuel = 1;
 		this.character = ch;
-		this.vehicle = Main.noc.getVehicle(ch.getVehicle());
+		this.vehicle = vehicle;
 	}
 	
 	@Override
