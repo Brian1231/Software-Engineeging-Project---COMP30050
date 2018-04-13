@@ -42,6 +42,7 @@
 ("redeem"-> attempt to un-mortgage tile at position args[0])<br />
 ("build"-> attempt to build on tile at position args[0] with number to build args[1])<br />
 ("demolish"-> attempt to demolish on tile at position args[0] with number to demolish args[1])<br />
+("pay"-> attempt to pay debt to owed player) <br />
 "args": Strings separated with "," <br />
 
 ## Server-to-Phone:
