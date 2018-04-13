@@ -11,7 +11,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		NamedLocationTest.class,
 		RentalPropertyTest.class,
 		PrivatePropertyTest.class,
-		StationTest.class
+		StationTest.class,
+		InvestmentPropertyTest.class
 })
 
 public class TestSuite {
