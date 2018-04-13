@@ -132,7 +132,7 @@ public class GameState implements JSONable {
 			while (this.isPlayerCharacter(ch)) {
 				ch = Main.noc.getRandomChar();
 			}
-			Player newPlayer = new Player(newID, client_ip, ch);
+			Player newPlayer = new Player(newID, client_ip, ch, Main.noc.getVehicle(ch.getVehicle()));
 			this.playerCharacters.add(ch);
 			players.add(newPlayer);
 			clientIPplayerIDMap.put(client_ip, newPlayer);
@@ -160,40 +160,45 @@ public class GameState implements JSONable {
 
 			//Do player action
 			switch (action) {
-				case "roll":
+			case "roll":
 
-					return playerActions.roll(player, dice, id, this.locations);
+				return playerActions.roll(player, dice, id, this.locations);
 
-				case "buy":
+			case "buy":
 
-					return playerActions.buy(player, this.locations.get(player.getPos()), id);
+				return playerActions.buy(player, this.locations.get(player.getPos()), id);
 
 
-				case "sell":
+			case "sell":
 
-					return playerActions.sell(player, this.locations.get(Integer.parseInt(args[0])), id);
+				return playerActions.sell(player, this.locations.get(Integer.parseInt(args[0])), id);
 
-				case "mortgage":
+			case "mortgage":
 
-					return playerActions.mortgage(player, this.locations.get(Integer.parseInt(args[0])), id);
+				return playerActions.mortgage(player, this.locations.get(Integer.parseInt(args[0])), id);
 
-				case "redeem":
+			case "redeem":
 
-					return playerActions.redeem(player, this.locations.get(Integer.parseInt(args[0])), id);
+				return playerActions.redeem(player, this.locations.get(Integer.parseInt(args[0])), id);
 
-				case "boost":
+			case "boost":
 
-					return playerActions.boost(player, this.locations);
+				return playerActions.boost(player, this.locations);
 
-				case "build":
+			case "build":
 
-					return playerActions.build(player, this.locations.get(Integer.parseInt(args[0])), Integer.parseInt(args[1]), id);
+				return playerActions.build(player, this.locations.get(Integer.parseInt(args[0])), Integer.parseInt(args[1]), id);
 
-				case "demolish":
+			case "demolish":
 
-					return playerActions.demolish(player, this.locations.get(Integer.parseInt(args[0])), Integer.parseInt(args[1]),id);
+				return playerActions.demolish(player, this.locations.get(Integer.parseInt(args[0])), Integer.parseInt(args[1]),id);
 
-				case "done":
+			case "pay":
+
+				return player.payDebt();
+
+			case "done":
+				if(!player.isInDebt()){
 					playerActions.done(player);
 					//Increment player turn
 					this.playerTurn++;
@@ -201,8 +206,10 @@ public class GameState implements JSONable {
 						this.playerTurn = 1;
 					}
 					return "Player " + id + " finished their turn.";
-				default:
-					return "Player " + id + " did nothing.";
+				}
+				return "You must pay your debt before ending your turn.";
+			default:
+				return "Player " + id + " did nothing.";
 			}
 		} else {
 			return "It's not your turn!";

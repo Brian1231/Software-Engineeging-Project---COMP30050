@@ -21,6 +21,8 @@ public interface Playable extends Identifiable {
     String getId();
 
     String moveForward(int spaces);
+    
+    String getCharName();
 
     int getNetWorth();
     void setNetWorth(int netWorth);

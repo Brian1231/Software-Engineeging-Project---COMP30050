@@ -1,7 +1,5 @@
 package game;
 
-import game_interfaces.Playable;
-
 import java.util.ArrayList;
 
 public class Station extends RentalProperty {
@@ -12,9 +10,9 @@ public class Station extends RentalProperty {
 		super.setType("Station");
 	}
 
-	public int getRentalAmount(Playable player) {
-		if (!this.isMortgaged()) {
-			ArrayList<PrivateProperty> properties = player.getOwnedProperties();
+	public int getRentalAmount() {
+		if (!this.isMortgaged() && this.isOwned()) {
+			ArrayList<PrivateProperty> properties = this.getOwner().getOwnedProperties();
 
 			int numStationsOwned = 0;
 			for (PrivateProperty p : properties) {
