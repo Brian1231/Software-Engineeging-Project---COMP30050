@@ -149,8 +149,15 @@ public class Player implements Playable, JSONable, Colourable {
 
 		}
 		else{
+			String res = "";
 			this.position = (this.position + spaces)%39;
 
+			//Check if we pass go
+			if((oldPos<20 && this.position>19) || oldPos>20 && this.position>=0){
+				res+= this.getCharName() +" passed go and received $200.\n";
+				this.receiveMoney(200);
+			}
+				
 			//If we land on go going backwards
 			if(this.position == 20) {
 				this.position = 0;
@@ -161,7 +168,8 @@ public class Player implements Playable, JSONable, Colourable {
 				this.position--;
 			}
 
-			return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
+			
+			return res+this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 		}
 	}
 
