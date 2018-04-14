@@ -2,9 +2,7 @@ package client.java.controllers;
 
 import client.java.*;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
 
@@ -163,22 +161,26 @@ public class InGameController {
         startButton.layoutXProperty().bind(boardWrapper.widthProperty().divide(2).subtract(startButton.widthProperty().divide(2)));
         startButton.layoutYProperty().bind(boardWrapper.heightProperty().subtract(80));
         startButton.setOnAction(e -> {
-                    try {
-                        JSONObject output = new JSONObject();
-                        output.put("id", 0);
-                        output.put("action", "start");
-                        connection.send(output);
-                        gameStarted = true;
-                        startButton.setText("End Game");
-                        startButton.setOnAction(e2 -> {
-                            closeGame();
-                        });
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
+            try {
+            JSONObject output = new JSONObject();
+            output.put("id", 0);
+            output.put("action", "start");
+            connection.send(output);
+            gameStarted = true;
+            startButton.setText("End Game");
+            startButton.setOnAction(e2 ->   {
+                boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?");
+                if(answer){
+                    closeGame();
                 }
+            } );
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        }
+
 
         );
 
@@ -197,6 +199,7 @@ public class InGameController {
         boardCanvas.draw();
         playerCanvas.draw();
     }
+
 }
 
 
