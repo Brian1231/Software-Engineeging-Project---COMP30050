@@ -5,6 +5,7 @@ import javafx.beans.property.adapter.JavaBeanDoublePropertyBuilder;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.beans.PropertyChangeListener;
@@ -24,6 +25,7 @@ public class Player implements Serializable {
     public Label playerNameLabel = new Label();
     public Label playerBalanceLabel = new Label();
     public ProgressBar playerFuelBar = new ProgressBar();
+    public VBox stats = new VBox();
 
     private final PropertyChangeSupport pcs ;
 
@@ -47,6 +49,9 @@ public class Player implements Serializable {
 
         playerNameLabel.setTextFill(Color.rgb(232, 142, 39));
         playerBalanceLabel.setTextFill(Color.rgb(232, 142, 39));
+        stats.getChildren().add(playerNameLabel);
+        stats.getChildren().add(playerBalanceLabel);
+        stats.getChildren().add(playerFuelBar);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package client.java;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import org.json.JSONException;
 
@@ -11,12 +13,13 @@ public class Game {
 
     public static ArrayList<Location> locations = new ArrayList<>();
     public static ArrayList<Player> players = new ArrayList<>();
+    public static ObservableList<Player> observablePlayers = FXCollections.observableList(players);
 
 // Player Methods
     // Updates players from server.
     public static void updatePlayers(List<Player> plyrs){
         for(Player p : plyrs){
-            if(!players.contains(p)) {
+            if(!observablePlayers.contains(p)) {
                 addPlayer(p);
             }
             else{
@@ -27,27 +30,27 @@ public class Game {
 
     // Adds new player to player list.
     public static void addPlayer(Player player){
-        players.add(player);
+        observablePlayers.add(player);
     }
 
     // Updates player on player list
     public static void updatePlayerData(Player player){
-        if(players.contains(player)){
-            int index = players.indexOf(player);
-            players.get(index).setBalance(player.getBalance());
-            players.get(index).setPosition(player.getPosition());
+        if(observablePlayers.contains(player)){
+            int index = observablePlayers.indexOf(player);
+            observablePlayers.get(index).setBalance(player.getBalance());
+            observablePlayers.get(index).setPosition(player.getPosition());
         }
     }
 
     // Removes player from the draw loop. (quits game etc)
     public static void removePlayer(Player player){
-        if(players.contains(player)){
-            players.remove(player);
+        if(observablePlayers.contains(player)){
+            observablePlayers.remove(player);
         }
     }
 
     public static Player getPlayer(int id){
-        for(Player player: players){
+        for(Player player: observablePlayers){
             if(player.getId() == id){
                 return player;
             }

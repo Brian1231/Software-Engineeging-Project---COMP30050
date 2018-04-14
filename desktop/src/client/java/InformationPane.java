@@ -1,20 +1,21 @@
 package client.java;
 
 
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.Shadow;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
 
 import java.util.ArrayList;
+
+import static java.lang.Float.MAX_VALUE;
 
 
 public class InformationPane extends Pane {
@@ -25,6 +26,12 @@ public class InformationPane extends Pane {
     private Circle tileInfo = new Circle();
     private Label tileName = new Label("Name of current Tile");
     private Label tileCost = new Label("$200");
+
+    public BorderPane playerInfoLayout = new BorderPane();
+    HBox top = new HBox();
+    HBox bottom = new HBox();
+    Region spacing1 = new Region();
+    Region spacing2 = new Region();
 
     public InformationPane() {
         //Title
@@ -74,16 +81,13 @@ public class InformationPane extends Pane {
         tileCost.setTextFill(Color.WHITE);
         getChildren().add(tileCost);
 
-        /*
-        BorderPane playerInfoLayout = new BorderPane();
-        HBox top = new HBox();
-        VBox bottom = new VBox();
-
+        // Player stats in 4 corners
+        playerInfoLayout.prefWidthProperty().bind(this.widthProperty());
+        playerInfoLayout.prefHeightProperty().bind(this.heightProperty());
         playerInfoLayout.setTop(top);
         playerInfoLayout.setBottom(bottom);
-
+        top.setMaxHeight(200);
         getChildren().add(playerInfoLayout);
-        */
     }
 
     public void updateFeed(String s) {
@@ -96,23 +100,35 @@ public class InformationPane extends Pane {
         tileCost.setText("$" + Integer.toString(loc.getPrice()));
     }
 
-    public void addPlayerInfo() {
-        // testing
-        // Game.addPlayer(new Player("2000", 1, 30, Color.WHITE, "Batman", 1));
+    public void addPlayerInfo(Player player){
+       VBox stats = player.stats;
 
-        for (Player p : Game.players) {
-            Label nameLabel = p.playerNameLabel;
-            nameLabel.setLayoutX(30 + p.getId()*20);
-            nameLabel.setLayoutY(10);
-            this.getChildren().add(nameLabel);
-            Label balanceLabel = p.playerBalanceLabel;
-            balanceLabel.setLayoutX(30 + p.getId()*20);
-            balanceLabel.setLayoutY(30);
-            this.getChildren().add(balanceLabel);
-            ProgressBar fuelBar = p.playerFuelBar;
-            fuelBar.setLayoutX(30 + p.getId()*20);
-            fuelBar .setLayoutY(50);
-            this.getChildren().add(fuelBar);
+        switch(player.getId()){
+            case 1:     top.getChildren().add(stats);
+                        break;
+            case 2:     HBox.setHgrow(spacing1,Priority.ALWAYS);
+                        top.getChildren().addAll(spacing1,stats);
+                        break;
+            case 3:     bottom.getChildren().add(stats);
+                        break;
+            case 4:     HBox.setHgrow(spacing2,Priority.ALWAYS);
+                        bottom.getChildren().addAll(spacing2,stats);
+                        break;
+            default:    break;
+        }
+    }
+
+    public void removePlayerInfo(Player player) {
+        switch(player.getId()){
+            case 1:     top.getChildren().remove(player.stats);
+                        break;
+            case 2:     top.getChildren().removeAll(spacing1,player.stats);
+                        break;
+            case 3:     bottom.getChildren().remove(player.stats);
+                        break;
+            case 4:     bottom.getChildren().removeAll(spacing2,player.stats);
+                        break;
+            default:    break;
         }
     }
 }

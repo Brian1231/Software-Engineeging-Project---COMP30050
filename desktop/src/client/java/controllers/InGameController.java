@@ -3,6 +3,7 @@ package client.java.controllers;
 import client.java.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
@@ -32,7 +33,6 @@ public class InGameController {
     private InformationPane infoPane = new InformationPane();
 
     // Players
-    private ObservableList<String> playerList = FXCollections.observableArrayList();
     private int playerTurn;
 
     // Networking.
@@ -48,6 +48,20 @@ public class InGameController {
 
     public void initialize() throws IOException, JSONException {
         Game.initializeLocations();
+        Game.observablePlayers.addListener(new ListChangeListener<Player>() {
+            @Override
+            public void onChanged(Change<? extends Player> c) {
+                System.out.println("change detected");
+                while (c.next()) {
+                        for (Player remitem : c.getRemoved()) {
+                            infoPane.removePlayerInfo(remitem);
+                        }
+                        for (Player additem : c.getAddedSubList()) {
+                            infoPane.addPlayerInfo(additem);
+                        }
+                    }
+                }
+        });
         setUpBoard();
         try {
             connection.startConnection();
@@ -111,18 +125,10 @@ public class InGameController {
                     BoardCanvas.locationsSetProperty.setValue(true);
                 }
 
-                // Update lobby list According to new players
-                ArrayList<String> names = new ArrayList<>();
-                for(Player p : plyrs){
-                    String n = "Player " + p.getId();
-                    names.add(n);
-                }
-                playerList.setAll(names);
-
                 infoPane.updateFeed(actionInfo);
 
                 if(gameStarted == true){
-                    Location locToDisplay = Game.getLocation(Game.players.get(playerTurn).getPosition());
+                    Location locToDisplay = Game.getLocation(Game.observablePlayers.get(playerTurn).getPosition());
                     infoPane.updateLocationInfo(locToDisplay);
                 }
 
@@ -155,6 +161,7 @@ public class InGameController {
                         e1.printStackTrace();
                     }
                 }
+
         );
 
         infoPane.getChildren().add(startButton);
@@ -171,9 +178,7 @@ public class InGameController {
 
         boardCanvas.draw();
         playerCanvas.draw();
-        infoPane.addPlayerInfo();
     }
-
 }
 
 
