@@ -205,11 +205,11 @@ public class GameState implements JSONable {
 					if (this.playerTurn > this.players.size()) {
 						this.playerTurn = 1;
 					}
-					return "Player " + id + " finished their turn.";
+					return player.getCharName()+" finished their turn.";
 				}
 				return "You must pay your debt before ending your turn.";
 			default:
-				return "Player " + id + " did nothing.";
+				return player.getCharName()+" did nothing.";
 			}
 		} else {
 			return "It's not your turn!";

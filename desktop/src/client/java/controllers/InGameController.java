@@ -2,8 +2,6 @@ package client.java.controllers;
 
 import client.java.*;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
 
@@ -33,7 +31,7 @@ public class InGameController {
 
     // Players
    // private ObservableList<String> playerList = FXCollections.observableArrayList();
-    private int playerTurn;
+    public static int playerTurn;
 
     // Networking.
     private final static String IP = "52.48.249.220";
@@ -122,7 +120,11 @@ public class InGameController {
                 infoPane.updateFeed(actionInfo);
 
                 if(gameStarted == true){
-                    Location locToDisplay = Game.getLocation(Game.players.get(playerTurn).getPosition());
+                	int playerPos = 0;
+                	for(Player p : Game.players){
+                		if(p.getId() == playerTurn) playerPos = p.getPosition();
+                	}
+                    Location locToDisplay = Game.getLocation(playerPos);
                     infoPane.updateLocationInfo(locToDisplay);
                 }
 
