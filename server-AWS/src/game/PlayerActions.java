@@ -3,6 +3,8 @@ package game;
 import java.util.ArrayList;
 import java.util.Random;
 
+import main.Main;
+
 public class PlayerActions {
 
 	Random random = new Random();
@@ -200,7 +202,7 @@ public class PlayerActions {
 		}
 		else if(location instanceof TaxSquare){
 			TaxSquare tax = (TaxSquare) location;
-			String res = tax.getText(player.getCharacter());
+			String res = "\n"+tax.getText(Main.noc.getOpponent(player.getCharacter()));
 			switch (random.nextInt(2)){
 			case 0:
 				player.setDebt(tax.getFlatAmount());

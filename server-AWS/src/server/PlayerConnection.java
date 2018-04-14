@@ -47,7 +47,7 @@ public class PlayerConnection extends Thread{
 		
 		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
 		Main.gameState.addPlayer(client_ip);
-		Main.clientUpdater.updateActionInfo("New Player Connected!");
+		Main.clientUpdater.updateActionInfo("Player "+ this.playerID+" has joined the game as "+Main.gameState.getPlayerName(this.playerID)+".");
 		Main.clientUpdater.updateDesktopPlayers();
 	}
 	public void run(){

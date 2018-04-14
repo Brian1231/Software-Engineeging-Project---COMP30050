@@ -280,6 +280,10 @@ public class GameState implements JSONable {
 		return info;
 
 	}
+	
+	public String getPlayerName(int id){
+		return this.players.get(id).getCharName();
+	}
 
 	public void endGame() {
 		Main.clientUpdater.updateActionInfo("Game Over");
