@@ -8,12 +8,13 @@ import javafx.scene.control.TextArea;
 
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.Shadow;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
 
-import java.util.ArrayList;
+import client.java.controllers.InGameController;
 
 import static java.lang.Float.MAX_VALUE;
 
@@ -90,15 +91,26 @@ public class InformationPane extends Pane {
         getChildren().add(playerInfoLayout);
     }
 
-    public void updateFeed(String s) {
-        feed.appendText(s + "\n");
-    }
+	public void updateFeed(String s) {
+		//Set color of text in infoPane to player color
 
-    public void updateLocationInfo(Location loc) {
-        tileName.setText(loc.getName());
-        tileInfo.setStroke(loc.getColour());
-        tileCost.setText("$" + Integer.toString(loc.getPrice()));
-    }
+
+		/*Color c = Color.BLUE;
+		if(InGameController.playerTurn > 100){
+			for(Player p : Game.players) if(p.getId() == InGameController.playerTurn) c = p.getColor();
+			switch(c.){
+			case Color.Green;
+			}
+			feed.setStyle("-fx-text-fill: green;");
+		}*/
+		feed.appendText(s + "\n");
+	}
+
+	public void updateLocationInfo(Location loc) {
+		tileName.setText(loc.getName());
+		tileInfo.setStroke(loc.getColour());
+		tileCost.setText("$" + Integer.toString(loc.getPrice()));
+	}
 
     public void addPlayerInfo(Player player){
        VBox stats = player.stats;

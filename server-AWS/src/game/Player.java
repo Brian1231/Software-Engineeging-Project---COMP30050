@@ -7,7 +7,6 @@ import org.json.JSONObject;
 
 import game_interfaces.JSONable;
 import game_interfaces.Playable;
-import main.Main;
 import noc_db.Character_noc;
 import noc_db.Vehicle_noc;
 
@@ -25,25 +24,29 @@ public class Player implements Playable, JSONable, Colourable {
 	private Vehicle_noc vehicle;
 	private int fuel;
 	private int debt;
+	private int jailTurnCount;
 	private Playable playerOwed;
 	private boolean hasRolled;
 	private boolean hasBought;
 	private boolean hasBoosted;
 	private boolean isOnGo;
 	private boolean isInDebt;
+	private boolean isInJail;
 	private String colour;
-	
+
 	public Player(int playerId, String ipAddr, Character_noc ch, Vehicle_noc vehicle){
 		this.id = playerId;
 		this.balance = 1000;
 		this.position = 0;
 		this.debt = 0;
+		this.jailTurnCount = 0;
 		this.ip = ipAddr;
 		this.hasRolled = false;
 		this.hasBought = false;
 		this.hasBoosted = false;
 		this.isOnGo = false;
 		this.isInDebt = false;
+		this.isInJail = false;
 		this.playerOwed = null;
 		this.fuel = 1;
 		this.character = ch;
@@ -100,6 +103,30 @@ public class Player implements Playable, JSONable, Colourable {
 		return this.fuel;
 	}
 
+	public void sendToJail(){
+		this.position = 29;
+		this.isInJail = true;
+	}
+	public void releaseFromJail(){
+		this.jailTurnCount = 0;
+		this.isInJail = false;
+	}
+	
+	public boolean isInJail(){
+		return this.isInJail;
+	}
+	
+	public boolean incrementJailTurns(){
+		this.jailTurnCount++;
+		if(this.jailTurnCount==3){
+			this.jailTurnCount = 0;
+			this.isInJail = false;
+			return true;
+		}
+		return false;
+	}
+	
+	
 	@Override
 	public JSONObject getInfo() throws JSONException{
 		JSONObject info = new JSONObject();
@@ -150,25 +177,36 @@ public class Player implements Playable, JSONable, Colourable {
 
 		}
 		else{
+			String res = "";
 			this.position = (this.position + spaces)%39;
 
+			//Check if we pass go
+			if((oldPos<20 && this.position>19) || oldPos>20 && this.position>=0){
+				res+= this.getCharName() +" passed go and received $200.\n";
+				this.receiveMoney(200);
+			}
+				
 			//If we land on go going backwards
 			if(this.position == 20) {
 				this.position = 0;
 				this.isOnGo = true;
 			}
 
+			//Allocating for extra space at go
 			if(oldPos<20 && this.position>20){
 				this.position--;
 			}
 
-			return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
+			return res+this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 		}
 	}
 
 	@Override
 	public String getCharName() {
 		return this.character.getName();
+	}
+	public String getCanName() {
+		return this.character.getCanName();
 	}
 
 	@Override
@@ -236,6 +274,10 @@ public class Player implements Playable, JSONable, Colourable {
 		return colour;
 	}
 
+	public Character_noc getCharacter() {
+		return this.character;
+	}
+
 	public boolean isInDebt(){
 		return this.isInDebt;
 	}
@@ -246,13 +288,33 @@ public class Player implements Playable, JSONable, Colourable {
 		this.isInDebt = true;
 	}
 
+	public void setDebt(int amount){
+		this.debt = amount;
+		this.isInDebt = true;
+	}
+
+
+	public String getPossessive(){
+		if(this.character.getGender().equals("female")) return "Her";
+		else return "His";
+	}
 	public String payDebt(){
 		if(this.balance >= this.debt){
-			this.playerOwed.receiveMoney(this.debt);
-			this.payMoney(debt);
-			this.debt = 0;
-			this.isInDebt = false;
-			return this.getCharName() + " paid " + this.playerOwed.getCharName() + " " + debt + ".";
+			if(this.playerOwed != null){
+				this.playerOwed.receiveMoney(this.debt);
+				this.payMoney(debt);
+				this.debt = 0;
+				this.isInDebt = false;
+				this.playerOwed = null;
+				return this.getCharName() + " paid " + this.playerOwed.getCharName() + " " + debt + ".";
+			}
+			else{
+				this.payMoney(debt);
+				this.debt = 0;
+				this.isInDebt = false;
+				return this.getCharName() + " paid "+this.getPossessive().toLowerCase()+" debt of " + debt + ".";
+		
+			}
 		}
 		return "You don't have enough money to pay your debt!";
 	}

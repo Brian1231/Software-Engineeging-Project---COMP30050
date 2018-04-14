@@ -1,20 +1,37 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import main.Main;
 
 public class PlayerActions {
 
+	Random random = new Random();
+
 	public String roll(Player player, Dice dice, int id, ArrayList<NamedLocation> locations) {
 		if(!player.hasRolled()){
-			int spaces = dice.roll();
+			if(!player.isInJail()){
+				int spaces = dice.roll();
+				player.useRoll();
+				String res = player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".";
+				res += landedOn(player, locations.get(player.getPos()), spaces);
+				return res;
+			}
+			String res = player.getCharName() +" attempts to escape prison...\n";
+			if(dice.rollDoubles()){
+				res+=player.getCharName()+" has succesfully escaped prison!";
+				player.releaseFromJail();
+				return res;
+			}
 			player.useRoll();
-			String res = player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".";
-			res += landedOn(player, locations.get(player.getPos()), spaces);
+			res+=player.getCharName()+"'s escape plan fails miserably.";
+			if(player.incrementJailTurns()){
+				res+=player.getCharName()+" has spent their time in prison and will be released next turn.";
+			}
 			return res;
 		}
-		else{
-			return "Player " + id + " has already rolled this turn.";
-		}
+		return player.getCanName() + " has already rolled this turn.";
 	}
 
 
@@ -27,7 +44,7 @@ public class PlayerActions {
 					(prop).setOwner(player);
 					player.addNewPropertyBought(prop);
 					player.useBuy();
-					return "Player " + id + " bought " + prop.getId() + " for " + prop.getPrice() + ".";
+					return player.getCharName() + " bought " + prop.getId() + " for " + prop.getPrice() + ".";
 				}
 				return "You can't afford this property.";
 			}
@@ -47,7 +64,7 @@ public class PlayerActions {
 						if (!rental.isMortgaged()) {
 							property.setOwner(null);
 							player.removePropertySold(property);
-							return "Player " + id + " sold " + property.getId() + " for " + property.getPrice() + ".";
+							return player.getCharName() + " sold " + property.getId() + " for " + property.getPrice() + ".";
 						}
 						return "You can't sell a mortgaged property.";
 					}
@@ -71,7 +88,7 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
 						property.mortgage(player);
-						return "Player " + id + " mortgaged " + property.getId() + " and received " + property.getMortgageAmount() + ".";
+						return player.getCharName() + " mortgaged " + property.getId() + " and received " + property.getMortgageAmount() + ".";
 					}
 					return property.getId() + " is already mortgaged! ";
 				}
@@ -90,7 +107,7 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (property.isMortgaged()) {
 						property.redeem(player);
-						return "Player " + id + " redeemed " + property.getId() + " for " + property.getRedeemAmount() + ".";
+						return player.getCharName() + " redeemed " + property.getId() + " for " + property.getRedeemAmount() + ".";
 					}
 					return property.getId() + " isn't mortgaged! ";
 				}
@@ -126,7 +143,7 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
 						if (property.build(numToBuild)) {
-							return "Player " + id + " built " + numToBuild + " houses on " + property.getId() + ".";
+							return player.getCharName() + " built " + numToBuild + " houses on " + property.getId() + ".";
 						} else {
 							return property.getBuildDemolishError();
 						}
@@ -148,7 +165,7 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
 						if (property.build(numToDemolish)) {
-							return "Player " + id + " demolished " + numToDemolish + " houses on " + property.getId() + ".";
+							return player.getCharName() + " demolished " + numToDemolish + " houses on " + property.getId() + ".";
 						} else {
 							return property.getBuildDemolishError();
 						}
@@ -168,7 +185,7 @@ public class PlayerActions {
 		player.resetBoost();
 
 	}
-	
+
 	private String landedOn(Player player, NamedLocation location, int spaces){
 		if(location instanceof PrivateProperty){
 			PrivateProperty property = (PrivateProperty) location;
@@ -194,6 +211,46 @@ public class PlayerActions {
 
 			}
 			return "\n"+ property.getId() + " is unowned. It can be purchased for $" + property.getPrice() + ".";
+		}
+		else if(location instanceof TaxSquare){
+			TaxSquare tax = (TaxSquare) location;
+			String res = "\n"+tax.getText(Main.noc.getOpponent(player.getCharacter()));
+			switch (random.nextInt(2)){
+			case 0:
+				player.setDebt(tax.getFlatAmount());
+				res+="\n"+player.getCharName()+" owes the flat amount of $"+tax.getFlatAmount()+".";
+				return res;
+			case 1:
+				//Percent in range 5% - 30%
+				double percentage = (0.05 + (random.nextInt(26)*0.01));
+				int t = tax.getIncomePercentage(player, percentage);
+				res+="\n"+player.getCharName()+" owes $"+percentage+" of their net worth. Thats $"+t+".";
+				player.setDebt(t);
+				return res;
+			}
+		}
+		else if(location instanceof ChanceSquare){
+			ChanceSquare chance = (ChanceSquare) location; 
+			String res = chance.getChance(Main.noc.getOpponent(player.getCharacter()));
+			return res;
+		}
+		else if(location instanceof SpecialSquare){
+			SpecialSquare square = (SpecialSquare) location; 
+			String res = "";
+			switch (square.getLocation()){
+			//Go
+			case 0:
+				res+="\n"+player.getCharName() + " arrived at the galactic core.";
+				res+="\nThe fuel for " + player.getPossessive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up.";
+				player.topUpFuel();
+				return res;
+				//Go to jail
+			case 10:
+				player.sendToJail();
+				return "\n" + player.getCharName() + " was sent to intergalactic prison!";
+				//Jail
+			case 29:
+			}
 		}
 		return "";
 	}

@@ -12,7 +12,7 @@ public interface Ownable extends Identifiable {
 
     // all ownable tiles are in groups
     int getNumInGroup();
-    void setNumInGroup();
+    void setNumInGroup(int numInGroup);
 
     // bool to check is tile owned or not
     boolean isOwned = false;

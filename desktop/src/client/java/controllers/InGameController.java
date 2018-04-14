@@ -128,13 +128,16 @@ public class InGameController {
                 infoPane.updateFeed(actionInfo);
 
                 if(gameStarted == true){
-                    Location locToDisplay = Game.getLocation(Game.observablePlayers.get(playerTurn).getPosition());
+                	int playerPos = 0;
+                	for(Player p : Game.players){
+                		if(p.getId() == playerTurn) playerPos = p.getPosition();
+                	}
+                    Location locToDisplay = Game.getLocation(playerPos);
                     infoPane.updateLocationInfo(locToDisplay);
                 }
 
 
             } catch (JSONException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         });

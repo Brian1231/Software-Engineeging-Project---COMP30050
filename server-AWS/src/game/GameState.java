@@ -16,7 +16,7 @@ import noc_db.World_noc;
 
 public class GameState implements JSONable {
 
-	Random rand = new Random();
+	private Random rand = new Random();
 	private ArrayList<Player> players;
 	private ArrayList<Character_noc> playerCharacters;
 	private ArrayList<NamedLocation> locations;
@@ -205,11 +205,11 @@ public class GameState implements JSONable {
 					if (this.playerTurn > this.players.size()) {
 						this.playerTurn = 1;
 					}
-					return "Player " + id + " finished their turn.";
+					return player.getCharName()+" finished their turn.";
 				}
 				return "You must pay your debt before ending your turn.";
 			default:
-				return "Player " + id + " did nothing.";
+				return player.getCharName()+" did nothing.";
 			}
 		} else {
 			return "It's not your turn!";
@@ -279,6 +279,13 @@ public class GameState implements JSONable {
 		}
 		return info;
 
+	}
+	
+	public String getPlayerName(int id){
+		for(Player player : this.players){
+			if(player.getID() == id) return player.getCharName();
+		}
+		return "Someone";
 	}
 
 	public void endGame() {

@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import game.PrivateProperty;
 import noc_db.Vehicle_noc;
@@ -10,12 +11,12 @@ import game.Player;
 import noc_db.Character_noc;
 
 public class PlayerTest {
+	private String[] info = new String[24];
+	private Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
 
 	@Test
-	public void testCreatePlayer() {
-		String[] info = new String[24];
-		Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
-
+	public void constructorTest() {
+		assertNotNull(player);
 		assertEquals(1, player.getID());
 		assertEquals("1.1.1.1", player.getIp());
 		assertEquals(1000, player.getNetWorth());
@@ -24,9 +25,6 @@ public class PlayerTest {
 	
 	@Test
 	public void testBalance() {
-		String[] info = new String[24];
-		Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
-		
 		player.payMoney(500);
 		assertEquals(500, player.getNetWorth());
 		player.receiveMoney(1000);
@@ -35,18 +33,12 @@ public class PlayerTest {
 
 	@Test
 	public void testBuy() {
-		String[] info = new String[24];
-		Player player = new Player(1, "1.1.1.1", new Character_noc(info), new Vehicle_noc(info));
-
 		player.addNewPropertyBought(new PrivateProperty("UCD", 200));
 		assertEquals("UCD", player.getOwnedProperties().get(0).getId());
 	}
 
 	@Test
 	public void testSell() {
-		String[] info = new String[24];
-		Player player = new Player(1, "1.1.1.1", new Character_noc(info), new Vehicle_noc(info));
-
 		PrivateProperty prop = new PrivateProperty("UCD", 200);
 		player.addNewPropertyBought(prop);
 

@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Random;
+
 import game_interfaces.JSONable;
 import game_interfaces.Playable;
 import game_interfaces.Taxable;
@@ -7,44 +9,24 @@ import noc_db.Character_noc;
 
 public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 
-	int incomePercentage = 0;
-	int flatAmount = 0;
+	Random random = new Random();
 
 	public TaxSquare(String name) {
 		super(name);
 	}
 
 	@Override
-	public int getIncomePercentage(Playable player) {
-		try {
-			return player.getNetWorth() / incomePercentage;
-		} catch (Exception e) {
-			System.out.println("Error income percentage not initialised" + e.getLocalizedMessage());
-		}
-		return 0;
-	}
-
-	@Override
-	public void setIncomePercentage(int percentage) {
-		this.incomePercentage = percentage;
+	public int getIncomePercentage(Playable player, double percentage) {
+		return (int) (player.getNetWorth() * percentage);
 	}
 
 	public String getText(Character_noc ch){
 		return new TaxTemplate(ch).getRandomTemplate();
 	}
-	
-	@Override
-	public int getFlatAmount(Playable player) {
-		if(flatAmount != 0) {
-			return flatAmount;
-		} else {
-			System.out.println("Error flat amount not initialised");
-			return 0;
-		}
-	}
 
+	//Tax in range 50-300
 	@Override
-	public void setFlatAmount(int flatAmount) {
-		this.flatAmount = flatAmount;
+	public int getFlatAmount() {
+		return 50 + 10*random.nextInt(26);
 	}
 }
