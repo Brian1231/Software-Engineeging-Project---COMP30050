@@ -17,7 +17,8 @@ public class RentalPropertyTest {
 
 	@Test
 	public void constructorTest() {
-		assertNotNull(prop.getId());
+		assertNotNull(prop);
+		assertEquals("UCD", prop.getId());
 	}
 	@Test
 	public void mortgageAmountTest() {

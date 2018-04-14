@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import game.PrivateProperty;
 import noc_db.Vehicle_noc;
@@ -15,6 +16,7 @@ public class PlayerTest {
 
 	@Test
 	public void constructorTest() {
+		assertNotNull(player);
 		assertEquals(1, player.getID());
 		assertEquals("1.1.1.1", player.getIp());
 		assertEquals(1000, player.getNetWorth());

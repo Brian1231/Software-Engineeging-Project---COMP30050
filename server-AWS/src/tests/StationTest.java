@@ -19,10 +19,15 @@ public class StationTest {
 
 	@Test
 	public void constructorTest() {
-		assertNotNull(station1.getId());
-		assertNotNull(station2.getId());
-		assertNotNull(station3.getId());
-		assertNotNull(station4.getId());
+		assertNotNull(station1);
+		assertNotNull(station2);
+		assertNotNull(station3);
+		assertNotNull(station4);
+		assertEquals("UCD1", station1.getId());
+		assertEquals("UCD2", station2.getId());
+		assertEquals("UCD3", station3.getId());
+		assertEquals("UCD4", station4.getId());
+
 	}
 
 	@Test

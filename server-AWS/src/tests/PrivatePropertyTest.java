@@ -18,7 +18,8 @@ public class PrivatePropertyTest {
 
 	@Test
 	public void constructorTest() {
-		assertNotNull(prop.getId());
+		assertNotNull(prop);
+		assertEquals("UCDPrivate", prop.getId());
 	}
 
 	@Test

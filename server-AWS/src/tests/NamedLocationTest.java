@@ -13,7 +13,8 @@ public class NamedLocationTest {
 
 	@Test
 	public void constructorTest() {
-		assertNotNull(loc.getId());
+		assertNotNull(loc);
+		assertEquals("UCD", loc.getId());
 	}
 
 	@Test

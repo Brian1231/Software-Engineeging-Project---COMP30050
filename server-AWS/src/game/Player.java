@@ -266,7 +266,7 @@ public class Player implements Playable, JSONable, Colourable {
 	}
 
 
-	public String getPossesive(){
+	public String getPossessive(){
 		if(this.character.getGender().equals("female")) return "Her";
 		else return "His";
 	}
@@ -284,7 +284,7 @@ public class Player implements Playable, JSONable, Colourable {
 				this.payMoney(debt);
 				this.debt = 0;
 				this.isInDebt = false;
-				return this.getCharName() + " paid "+this.getPossesive().toLowerCase()+" debt of " + debt + ".";
+				return this.getCharName() + " paid "+this.getPossessive().toLowerCase()+" debt of " + debt + ".";
 		
 			}
 		}
