@@ -19,11 +19,14 @@ public class TaxSquareTest {
 
 	@Test
 	public void incomePercentTest() {
-		assertEquals(100, tax.getIncomePercentage(player));
+		double percentage = 0.05;
+		System.out.println(tax.getIncomePercentage(player, percentage));
+		assertEquals(50, tax.getIncomePercentage(player, percentage));
 	}
 
 	@Test
 	public void flatAmountTest() {
-		assertEquals(200, tax.getFlatAmount());
+		int taxAmount = tax.getFlatAmount();
+		assertTrue(50<=taxAmount && 300>= taxAmount);
 	}
 }

@@ -108,6 +108,7 @@ public class Player implements Playable, JSONable, Colourable {
 		this.isInJail = true;
 	}
 	public void releaseFromJail(){
+		this.jailTurnCount = 0;
 		this.isInJail = false;
 	}
 	

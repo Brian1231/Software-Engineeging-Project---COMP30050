@@ -218,18 +218,20 @@ public class PlayerActions {
 			switch (random.nextInt(2)){
 			case 0:
 				player.setDebt(tax.getFlatAmount());
-				res+="\n"+player.getCharName()+" is "+tax.getFlatAmount()+" in debt.";
+				res+="\n"+player.getCharName()+" owes the flat amount of $"+tax.getFlatAmount()+".";
 				return res;
 			case 1:
-				int t = tax.getIncomePercentage(player);
-				res+="\n"+player.getCharName()+" is "+t+" in debt.";
+				//Percent in range 5% - 30%
+				double percentage = (0.05 + (random.nextInt(26)*0.01));
+				int t = tax.getIncomePercentage(player, percentage);
+				res+="\n"+player.getCharName()+" owes $"+percentage+" of their net worth. Thats $"+t+".";
 				player.setDebt(t);
 				return res;
 			}
 		}
 		else if(location instanceof ChanceSquare){
 			ChanceSquare chance = (ChanceSquare) location; 
-			String res = chance.getChance(player.getCharacter());
+			String res = chance.getChance(Main.noc.getOpponent(player.getCharacter()));
 			return res;
 		}
 		else if(location instanceof SpecialSquare){
