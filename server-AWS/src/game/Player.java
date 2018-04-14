@@ -24,12 +24,14 @@ public class Player implements Playable, JSONable, Colourable {
 	private Vehicle_noc vehicle;
 	private int fuel;
 	private int debt;
+	private int jailTurnCount;
 	private Playable playerOwed;
 	private boolean hasRolled;
 	private boolean hasBought;
 	private boolean hasBoosted;
 	private boolean isOnGo;
 	private boolean isInDebt;
+	private boolean isInJail;
 	private String colour;
 
 	public Player(int playerId, String ipAddr, Character_noc ch, Vehicle_noc vehicle){
@@ -37,12 +39,14 @@ public class Player implements Playable, JSONable, Colourable {
 		this.balance = 1000;
 		this.position = 0;
 		this.debt = 0;
+		this.jailTurnCount = 0;
 		this.ip = ipAddr;
 		this.hasRolled = false;
 		this.hasBought = false;
 		this.hasBoosted = false;
 		this.isOnGo = false;
 		this.isInDebt = false;
+		this.isInJail = false;
 		this.playerOwed = null;
 		this.fuel = 1;
 		this.character = ch;
@@ -99,6 +103,29 @@ public class Player implements Playable, JSONable, Colourable {
 		return this.fuel;
 	}
 
+	public void sendToJail(){
+		this.position = 29;
+		this.isInJail = true;
+	}
+	public void releaseFromJail(){
+		this.isInJail = false;
+	}
+	
+	public boolean isInJail(){
+		return this.isInJail;
+	}
+	
+	public boolean incrementJailTurns(){
+		this.jailTurnCount++;
+		if(this.jailTurnCount==3){
+			this.jailTurnCount = 0;
+			this.isInJail = false;
+			return true;
+		}
+		return false;
+	}
+	
+	
 	@Override
 	public JSONObject getInfo() throws JSONException{
 		JSONObject info = new JSONObject();
@@ -164,11 +191,11 @@ public class Player implements Playable, JSONable, Colourable {
 				this.isOnGo = true;
 			}
 
+			//Allocating for extra space at go
 			if(oldPos<20 && this.position>20){
 				this.position--;
 			}
 
-			
 			return res+this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 		}
 	}

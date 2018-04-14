@@ -8,18 +8,30 @@ import main.Main;
 public class PlayerActions {
 
 	Random random = new Random();
-	
+
 	public String roll(Player player, Dice dice, int id, ArrayList<NamedLocation> locations) {
 		if(!player.hasRolled()){
-			int spaces = dice.roll();
+			if(!player.isInJail()){
+				int spaces = dice.roll();
+				player.useRoll();
+				String res = player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".";
+				res += landedOn(player, locations.get(player.getPos()), spaces);
+				return res;
+			}
+			String res = player.getCharName() +" attempts to escape prison...\n";
+			if(dice.rollDoubles()){
+				res+=player.getCharName()+" has succesfully escaped prison!";
+				player.releaseFromJail();
+				return res;
+			}
 			player.useRoll();
-			String res = player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".";
-			res += landedOn(player, locations.get(player.getPos()), spaces);
+			res+=player.getCharName()+"'s escape plan fails miserably.";
+			if(player.incrementJailTurns()){
+				res+=player.getCharName()+" has spent their time in prison and will be released next turn.";
+			}
 			return res;
 		}
-		else{
-			return player.getCanName() + " has already rolled this turn.";
-		}
+		return player.getCanName() + " has already rolled this turn.";
 	}
 
 
@@ -173,7 +185,7 @@ public class PlayerActions {
 		player.resetBoost();
 
 	}
-	
+
 	private String landedOn(Player player, NamedLocation location, int spaces){
 		if(location instanceof PrivateProperty){
 			PrivateProperty property = (PrivateProperty) location;
@@ -230,9 +242,11 @@ public class PlayerActions {
 				res+="\nThe fuel for " + player.getPossesive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up."; 
 				player.topUpFuel();
 				return res;
-			//Go to jail
+				//Go to jail
 			case 10:
-			//Jail
+				player.sendToJail();
+				return "\n" + player.getCharName() + " was sent to intergalactic prison!";
+				//Jail
 			case 29:
 			}
 		}
