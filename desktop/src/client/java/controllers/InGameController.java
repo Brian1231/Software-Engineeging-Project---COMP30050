@@ -73,6 +73,17 @@ public class InGameController {
     }
 
     public void closeGame() {
+        JSONObject output = new JSONObject();
+
+        try {
+            output.put("id", 0);
+            output.put("action", "end");
+            connection.send(output);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         connection.gameEnd();
     }
 
@@ -158,6 +169,10 @@ public class InGameController {
                         output.put("action", "start");
                         connection.send(output);
                         gameStarted = true;
+                        startButton.setText("End Game");
+                        startButton.setOnAction(e2 -> {
+                            closeGame();
+                        });
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     } catch (Exception e1) {

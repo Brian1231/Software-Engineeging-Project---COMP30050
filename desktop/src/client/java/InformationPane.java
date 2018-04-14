@@ -10,6 +10,7 @@ import javafx.scene.effect.Glow;
 import javafx.scene.effect.Shadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
@@ -49,38 +50,38 @@ public class InformationPane extends Pane {
         eventLogger.layoutYProperty().bind(heightProperty().divide(2));
         getChildren().add(eventLogger);
 
-        // TexArea
-        feed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
-        feed.prefHeightProperty().bind(eventLogger.radiusProperty().multiply(2));
-        feed.layoutXProperty().bind(eventLogger.layoutXProperty().subtract(eventLogger.radiusProperty()));
-        feed.layoutYProperty().bind(heightProperty().divide(2).subtract(feed.prefHeightProperty().divide(2)));
-        feed.setEditable(false);
-        feed.setWrapText(true);
-        feed.appendText("Welcome to Interdimensional Panopoly!\n");
-        feed.appendText("Press the start button when all players have joined.\n");
-        getChildren().add(feed);
+		// TexArea
+		feed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
+		feed.prefHeightProperty().bind(eventLogger.radiusProperty().multiply(2));
+		feed.layoutXProperty().bind(eventLogger.layoutXProperty().subtract(eventLogger.radiusProperty()));
+		feed.layoutYProperty().bind(heightProperty().divide(2).subtract(feed.prefHeightProperty().divide(2)));
+		feed.setEditable(false);
+		feed.setWrapText(true);
+		feed.appendText("Welcome to Interdimensional Panopoly!\n");
+		feed.appendText("Press the start button when all players have joined.\n");
+		getChildren().add(feed);
 
         Glow g = new Glow(10);
         Shadow s = new Shadow(3, Color.RED);
 
-        // Current players location info
-        tileInfo.layoutXProperty().bind(widthProperty().subtract(widthProperty().divide(4.2)));
-        tileInfo.layoutYProperty().bind(heightProperty().divide(2));
-        tileInfo.setFill(Color.BLACK);
-        tileInfo.setStroke(Color.GOLD);
-        tileInfo.radiusProperty().bind(widthProperty().divide(9));
-        tileInfo.setEffect(g);
-        getChildren().add(tileInfo);
-        // Tile name
-        tileName.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileName.widthProperty().divide(2)));
-        tileName.layoutYProperty().bind(tileInfo.layoutYProperty().subtract(tileInfo.radiusProperty().divide(2)));
-        tileName.setTextFill(Color.WHITE);
-        getChildren().add(tileName);
-        // Tile Cost
-        tileCost.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileCost.widthProperty().divide(2)));
-        tileCost.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2)));
-        tileCost.setTextFill(Color.WHITE);
-        getChildren().add(tileCost);
+		// Current players location info
+		tileInfo.layoutXProperty().bind(widthProperty().subtract(widthProperty().divide(4.2)));
+		tileInfo.layoutYProperty().bind(heightProperty().divide(2));
+		tileInfo.setFill(Color.BLACK);
+		tileInfo.setStroke(Color.GOLD);
+		tileInfo.radiusProperty().bind(widthProperty().divide(9));
+		tileInfo.setEffect(g);
+		getChildren().add(tileInfo);
+		// Tile name
+		tileName.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileName.widthProperty().divide(2)));
+		tileName.layoutYProperty().bind(tileInfo.layoutYProperty().subtract(tileInfo.radiusProperty().divide(2)));
+		tileName.setTextFill(Color.WHITE);
+		getChildren().add(tileName);
+		// Tile Cost
+		tileCost.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileCost.widthProperty().divide(2)));
+		tileCost.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2)));
+		tileCost.setTextFill(Color.WHITE);
+		getChildren().add(tileCost);
 
         // Player stats in 4 corners
         playerInfoLayout.prefWidthProperty().bind(this.widthProperty());
