@@ -7,7 +7,7 @@ import noc_db.Character_noc;
 
 public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 
-	private float incomePercentage = 0.04f;
+	private float incomePercentage = 0.1f;
 	private int flatAmount = 200;
 
 	public TaxSquare(String name) {
