@@ -13,7 +13,8 @@ public class InvestmentPropertyTest {
 
 	@Test
 	public void constructorTest(){
-		assertNotNull(prop.getId());
+		assertNotNull(prop);
+		assertEquals("UCD", prop.getId());
 	}
 
 	@Test

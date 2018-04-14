@@ -241,7 +241,7 @@ public class PlayerActions {
 			//Go
 			case 0:
 				res+="\n"+player.getCharName() + " arrived at the galactic core.";
-				res+="\nThe fuel for " + player.getPossesive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up."; 
+				res+="\nThe fuel for " + player.getPossessive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up.";
 				player.topUpFuel();
 				return res;
 				//Go to jail

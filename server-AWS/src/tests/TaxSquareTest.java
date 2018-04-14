@@ -14,7 +14,8 @@ public class TaxSquareTest {
 
 	@Test
 	public void constructorTest() {
-		assertNotNull(tax.getId());
+		assertNotNull(tax);
+		assertEquals("UCD", tax.getId());
 	}
 
 	@Test
