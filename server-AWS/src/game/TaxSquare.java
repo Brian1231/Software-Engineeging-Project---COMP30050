@@ -7,8 +7,8 @@ import noc_db.Character_noc;
 
 public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 
-	private int incomePercentage = 0;
-	private int flatAmount = 0;
+	private float incomePercentage = 0.04f;
+	private int flatAmount = 200;
 
 	public TaxSquare(String name) {
 		super(name);
@@ -16,17 +16,7 @@ public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 
 	@Override
 	public int getIncomePercentage(Playable player) {
-		try {
-			return player.getNetWorth() / incomePercentage;
-		} catch (Exception e) {
-			System.out.println("Error income percentage not initialised" + e.getLocalizedMessage());
-		}
-		return 0;
-	}
-
-	@Override
-	public void setIncomePercentage(int percentage) {
-		this.incomePercentage = percentage;
+			return (int) (player.getNetWorth() * incomePercentage);
 	}
 
 	public String getText(Character_noc ch){
@@ -41,10 +31,5 @@ public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 			System.out.println("Error flat amount not initialised");
 			return 0;
 		}
-	}
-
-	@Override
-	public void setFlatAmount(int flatAmount) {
-		this.flatAmount = flatAmount;
 	}
 }

@@ -32,7 +32,7 @@ public class InGameController {
     private InformationPane infoPane = new InformationPane();
 
     // Players
-    private ObservableList<String> playerList = FXCollections.observableArrayList();
+   // private ObservableList<String> playerList = FXCollections.observableArrayList();
     private int playerTurn;
 
     // Networking.
@@ -111,13 +111,13 @@ public class InGameController {
                     BoardCanvas.locationsSetProperty.setValue(true);
                 }
 
-                // Update lobby list According to new players
+                /*// Update lobby list According to new players
                 ArrayList<String> names = new ArrayList<>();
                 for(Player p : plyrs){
                     String n = "Player " + p.getId();
                     names.add(n);
                 }
-                playerList.setAll(names);
+                playerList.setAll(names);*/
 
                 infoPane.updateFeed(actionInfo);
 
@@ -128,7 +128,6 @@ public class InGameController {
 
 
             } catch (JSONException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         });

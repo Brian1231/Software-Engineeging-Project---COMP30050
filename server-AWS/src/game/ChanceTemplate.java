@@ -7,7 +7,6 @@ import noc_db.Character_noc;
 import noc_db.Vehicle_noc;
 import noc_db.Weapon_noc;
 
-@SuppressWarnings("Duplicates")
 public class ChanceTemplate {
 
 	private Character_noc char1;

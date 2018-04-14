@@ -21,15 +21,12 @@ public class TaxSquareTest {
 	public void incomePercentTest() {
 		assertEquals(0, tax.getIncomePercentage(player));
 
-		tax.setIncomePercentage(10);
-		assertEquals(100, tax.getIncomePercentage(player));
 	}
 
 	@Test
 	public void flatAmountTest() {
 		assertEquals(0, tax.getFlatAmount());
 
-		tax.setFlatAmount(200);
 		assertEquals(200, tax.getFlatAmount());
 	}
 }

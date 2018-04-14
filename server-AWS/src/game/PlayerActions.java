@@ -1,9 +1,12 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class PlayerActions {
 
+	Random random = new Random();
+	
 	public String roll(Player player, Dice dice, int id, ArrayList<NamedLocation> locations) {
 		if(!player.hasRolled()){
 			int spaces = dice.roll();
@@ -194,6 +197,42 @@ public class PlayerActions {
 
 			}
 			return "\n"+ property.getId() + " is unowned. It can be purchased for $" + property.getPrice() + ".";
+		}
+		else if(location instanceof TaxSquare){
+			TaxSquare tax = (TaxSquare) location;
+			String res = tax.getText(player.getCharacter());
+			switch (random.nextInt(2)){
+			case 0:
+				player.setDebt(tax.getFlatAmount());
+				res+="\n"+player.getCharName()+" is "+tax.getFlatAmount()+" in debt.";
+				return res;
+			case 1:
+				int t = tax.getIncomePercentage(player);
+				res+="\n"+player.getCharName()+" is "+t+" in debt.";
+				player.setDebt(t);
+				return res;
+			}
+		}
+		else if(location instanceof ChanceSquare){
+			ChanceSquare chance = (ChanceSquare) location; 
+			String res = chance.getChance(player.getCharacter());
+			return res;
+		}
+		else if(location instanceof SpecialSquare){
+			SpecialSquare square = (SpecialSquare) location; 
+			String res = "";
+			switch (square.getLocation()){
+			//Go
+			case 0:
+				res+=player.getCharName() + " arrived at the galactic core.\n";
+				res+="\n"+player.getPossesive() + " fuel for " + player.getPossesive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up."; 
+				player.topUpFuel();
+				return res;
+			//Go to jail
+			case 10:
+			//Jail
+			case 29:
+			}
 		}
 		return "";
 	}

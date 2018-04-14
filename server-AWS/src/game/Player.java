@@ -31,7 +31,7 @@ public class Player implements Playable, JSONable, Colourable {
 	private boolean isOnGo;
 	private boolean isInDebt;
 	private String colour;
-	
+
 	public Player(int playerId, String ipAddr, Character_noc ch, Vehicle_noc vehicle){
 		this.id = playerId;
 		this.balance = 1000;
@@ -235,6 +235,10 @@ public class Player implements Playable, JSONable, Colourable {
 		return colour;
 	}
 
+	public Character_noc getCharacter() {
+		return this.character;
+	}
+
 	public boolean isInDebt(){
 		return this.isInDebt;
 	}
@@ -245,13 +249,33 @@ public class Player implements Playable, JSONable, Colourable {
 		this.isInDebt = true;
 	}
 
+	public void setDebt(int amount){
+		this.debt = amount;
+		this.isInDebt = true;
+	}
+
+
+	public String getPossesive(){
+		if(this.character.getGender().equals("female")) return "Her";
+		else return "His";
+	}
 	public String payDebt(){
 		if(this.balance >= this.debt){
-			this.playerOwed.receiveMoney(this.debt);
-			this.payMoney(debt);
-			this.debt = 0;
-			this.isInDebt = false;
-			return this.getCharName() + " paid " + this.playerOwed.getCharName() + " " + debt + ".";
+			if(this.playerOwed != null){
+				this.playerOwed.receiveMoney(this.debt);
+				this.payMoney(debt);
+				this.debt = 0;
+				this.isInDebt = false;
+				this.playerOwed = null;
+				return this.getCharName() + " paid " + this.playerOwed.getCharName() + " " + debt + ".";
+			}
+			else{
+				this.payMoney(debt);
+				this.debt = 0;
+				this.isInDebt = false;
+				return this.getCharName() + " paid "+this.getPossesive().toLowerCase()+" debt of " + debt + ".";
+		
+			}
 		}
 		return "You don't have enough money to pay your debt!";
 	}
