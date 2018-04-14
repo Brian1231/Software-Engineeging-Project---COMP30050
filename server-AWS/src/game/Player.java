@@ -169,6 +169,9 @@ public class Player implements Playable, JSONable, Colourable {
 	public String getCharName() {
 		return this.character.getName();
 	}
+	public String getCanName() {
+		return this.character.getCanName();
+	}
 
 	@Override
 	public String getId() {

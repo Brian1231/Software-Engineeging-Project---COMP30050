@@ -18,7 +18,7 @@ public class PlayerActions {
 			return res;
 		}
 		else{
-			return "Player " + id + " has already rolled this turn.";
+			return player.getCanName() + " has already rolled this turn.";
 		}
 	}
 
@@ -32,7 +32,7 @@ public class PlayerActions {
 					(prop).setOwner(player);
 					player.addNewPropertyBought(prop);
 					player.useBuy();
-					return "Player " + id + " bought " + prop.getId() + " for " + prop.getPrice() + ".";
+					return player.getCharName() + " bought " + prop.getId() + " for " + prop.getPrice() + ".";
 				}
 				return "You can't afford this property.";
 			}
@@ -52,7 +52,7 @@ public class PlayerActions {
 						if (!rental.isMortgaged()) {
 							property.setOwner(null);
 							player.removePropertySold(property);
-							return "Player " + id + " sold " + property.getId() + " for " + property.getPrice() + ".";
+							return player.getCharName() + " sold " + property.getId() + " for " + property.getPrice() + ".";
 						}
 						return "You can't sell a mortgaged property.";
 					}
@@ -76,7 +76,7 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
 						property.mortgage(player);
-						return "Player " + id + " mortgaged " + property.getId() + " and received " + property.getMortgageAmount() + ".";
+						return player.getCharName() + " mortgaged " + property.getId() + " and received " + property.getMortgageAmount() + ".";
 					}
 					return property.getId() + " is already mortgaged! ";
 				}
@@ -95,7 +95,7 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (property.isMortgaged()) {
 						property.redeem(player);
-						return "Player " + id + " redeemed " + property.getId() + " for " + property.getRedeemAmount() + ".";
+						return player.getCharName() + " redeemed " + property.getId() + " for " + property.getRedeemAmount() + ".";
 					}
 					return property.getId() + " isn't mortgaged! ";
 				}
@@ -131,7 +131,7 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
 						if (property.build(numToBuild)) {
-							return "Player " + id + " built " + numToBuild + " houses on " + property.getId() + ".";
+							return player.getCharName() + " built " + numToBuild + " houses on " + property.getId() + ".";
 						} else {
 							return property.getBuildDemolishError();
 						}
@@ -153,7 +153,7 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
 						if (property.build(numToDemolish)) {
-							return "Player " + id + " demolished " + numToDemolish + " houses on " + property.getId() + ".";
+							return player.getCharName() + " demolished " + numToDemolish + " houses on " + property.getId() + ".";
 						} else {
 							return property.getBuildDemolishError();
 						}
@@ -226,8 +226,8 @@ public class PlayerActions {
 			switch (square.getLocation()){
 			//Go
 			case 0:
-				res+=player.getCharName() + " arrived at the galactic core.\n";
-				res+="\n"+player.getPossesive() + " fuel for " + player.getPossesive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up."; 
+				res+="\n"+player.getCharName() + " arrived at the galactic core.";
+				res+="\nThe fuel for " + player.getPossesive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up."; 
 				player.topUpFuel();
 				return res;
 			//Go to jail

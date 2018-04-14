@@ -282,7 +282,10 @@ public class GameState implements JSONable {
 	}
 	
 	public String getPlayerName(int id){
-		return this.players.get(id).getCharName();
+		for(Player player : this.players){
+			if(player.getID() == id) return player.getCharName();
+		}
+		return "Someone";
 	}
 
 	public void endGame() {

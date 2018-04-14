@@ -96,6 +96,10 @@ public class Character_noc {
 		return this.character;
 	}
 	
+	public String getCanName(){
+		return this.canName;
+	}
+	
 	public String getWearing(){
 		String[] clothes = this.SeenWearing.split(", ");
 		return clothes[random.nextInt(clothes.length)].trim();
