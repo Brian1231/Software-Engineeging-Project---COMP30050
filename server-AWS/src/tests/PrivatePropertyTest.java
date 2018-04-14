@@ -51,9 +51,9 @@ public class PrivatePropertyTest {
 
 	@Test
 	public void numInGroupTest() {
-		assertEquals(0,prop.getNumInGroup());
+		assertEquals(0, prop.getNumInGroup());
 		prop.setNumInGroup(3);
-		assertEquals(3,prop.getNumInGroup());
+		assertEquals(3, prop.getNumInGroup());
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class PrivatePropertyTest {
 	@Test
 	public void getInfoTest() {
 		try {
-			JSONObject obj = prop.getInfo();
+			JSONObject obj = this.prop.getInfo();
 			assertEquals("UCDPrivate", obj.get("id"));
 			assertEquals("GRAY", obj.get("color"));
 			assertEquals(false, obj.get("is_mortgaged"));
