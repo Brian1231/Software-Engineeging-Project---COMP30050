@@ -190,7 +190,7 @@ public class PlayerActions {
 		if(location instanceof PrivateProperty){
 			PrivateProperty property = (PrivateProperty) location;
 			if(property.isOwned()){
-				String res = "\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ". It can be purchased for $" + property.getPrice() + ".";
+				String res = "\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ".";
 				if(property instanceof InvestmentProperty){
 					InvestmentProperty p = (InvestmentProperty) property;
 					player.setDebt(p.getBaseRentAmount(), property.getOwner());
