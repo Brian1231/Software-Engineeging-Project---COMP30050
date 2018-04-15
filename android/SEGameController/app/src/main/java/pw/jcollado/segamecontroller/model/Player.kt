@@ -1,32 +1,22 @@
 package pw.jcollado.segamecontroller.model
 
+import com.squareup.moshi.KotlinJsonAdapterFactory
+import com.squareup.moshi.Moshi
+
 /**
  * Created by jcolladosp on 15/02/2018.
  */
-class Player private constructor(){
-    private var id: Int = -1
-    private var balance: Int = 0
-    private var position: Int = 0
+object Player {
+    // {"character":"John Keats","balance":1000,"fuel":1,"id":1,"position":0,"properties":[]}
 
-    init {
-        /*
-        *  every time init is called increment instance count
-        *  just in case somehow we break singleton rule, this will be
-        *  called more than once and myInstancesCount > 1 == true
-        */
-        ++myInstancesCount
-    }
 
-    companion object {
-        //Debuggable field to check instance count
-        var myInstancesCount = 0
-        private val mInstance: Player = Player()
+     var character: String = ""
+     var balance: Int = 0
+     var position: Int = 0
+     var fuel: Int = 0
+     var id: Int = 0
+     var properties: ArrayList<Property> = ArrayList()
 
-        @Synchronized
-        fun getInstance(): Player {
-            return mInstance
-        }
-    }
 
 
 }
