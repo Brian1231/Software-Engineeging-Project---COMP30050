@@ -3,6 +3,7 @@ package pw.jcollado.segamecontroller.listPropertiesActivity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_list_properties.*
@@ -21,8 +22,6 @@ class ListPropertiesActivity : App() {
         initAdapter()
         setActionBar()
         setActivityResponse(this)
-        updateProperties()
-
     }
 
     private fun initAdapter() {
@@ -33,29 +32,58 @@ class ListPropertiesActivity : App() {
         else {
 
             recyclerView.layoutManager = LinearLayoutManager(this)
-            recyclerView.adapter = CardsAdapter(properties,{ sellButton(it)})
+            recyclerView.adapter = CardsAdapter(properties,{ sellButton(it)},{ mortgageButton(it)},{buildButton(it)},{demolishButton(it)})
             no_propertiesTX.visibility = View.GONE
+            updateProperties()
 
         }
     }
-    fun sellButton(item: Property) {
-        val size = Player.properties.size
-        Player.properties.clear()
-        recyclerView.adapter.notifyItemRangeRemoved(0,size)
+      fun sellButton(item: Property) {
+
         setMessageToServer(Request(preferences.playerID, "sell",item.location).toJSONString())
 
-
+        finish()
+        startActivity(getIntent())
     }
-   open fun updateProperties(){
-        runOnUiThread{
-            properties.clear()
-            recyclerView.adapter.notifyDataSetChanged()
+    fun mortgageButton(item: Property) {
+        if (item.is_mortgaged){
+            setMessageToServer(Request(preferences.playerID, "redeem",item.location).toJSONString())
 
-            for (p in Player.properties){
-                properties.add(p)
-                recyclerView.adapter.notifyDataSetChanged()
-            }
         }
+        else {
+            setMessageToServer(Request(preferences.playerID, "mortgage", item.location).toJSONString())
+        }
+
+        finish()
+        startActivity(getIntent())
+    }
+
+    fun demolishButton(item: Property) {
+
+        setMessageToServer(Request(preferences.playerID, "demolish",item.location+",1").toJSONString())
+
+        finish()
+        startActivity(getIntent())
+    }
+    fun buildButton(item: Property) {
+
+
+        setMessageToServer(Request(preferences.playerID, "build",item.location+",1").toJSONString())
+
+        finish()
+        startActivity(getIntent())
+    }
+
+   open fun updateProperties(){
+            properties.clear()
+            recyclerView.removeAllViews()
+            recyclerView.adapter.notifyDataSetChanged()
+            for (p in Player.properties.indices){
+                properties.add(Player.properties[p])
+                recyclerView.adapter.notifyItemInserted(p)
+
+        }
+
     }
 
 

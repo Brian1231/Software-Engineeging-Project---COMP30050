@@ -28,6 +28,11 @@ class MainActivity : App() {
         rollButton.onClick { onRoll() }
         buyButton.onClick { onBuy() }
         finishTurnButton.onClick { onFinish() }
+        payButton.onClick { onPay() }
+        boostButton.onClick { onBoost() }
+
+
+
         connectToNewPort()
     }
 
@@ -46,8 +51,15 @@ class MainActivity : App() {
     fun onRoll() {
         setMessageToServer(Request(preferences.playerID, "roll","0").toJSONString())
     }
+    fun onPay() {
+        setMessageToServer(Request(preferences.playerID, "pay","0").toJSONString())
+    }
     fun onBuy() {
         setMessageToServer(Request(preferences.playerID, "buy","0").toJSONString())
+    }
+    fun onBoost(){
+        setMessageToServer(Request(preferences.playerID, "boost","0").toJSONString())
+
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater

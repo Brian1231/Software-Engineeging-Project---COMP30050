@@ -95,15 +95,13 @@ abstract class App : AppCompatActivity(), AsyncResponse {
             for (i in 0 until jArray.length()) {
                 RequestFunctions().propertyFromJSONString(jArray.getString(i))?.let {
                     Player.properties.add(it)
-                    listActivity?.recyclerView?.adapter?.notifyItemChanged(i)
                 }
             }
         }
-        runOnUiThread{
+
             updateGameState()
             if(listActivity!=null){
-                listActivity!!.updateGameState()
-            }
+                listActivity!!.updateProperties()
 
         }
 

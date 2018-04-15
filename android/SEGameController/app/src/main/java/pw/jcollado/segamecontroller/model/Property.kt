@@ -9,8 +9,7 @@ import com.squareup.moshi.Moshi
  */
 
 data class Property(val id: String,val location: String,val price: Int,val color: String,var is_mortgaged: Boolean,
-                    var owner: Int) {
-
+                    var owner: Int,var houses: Int) {
 
 
     fun toJSONString(): String {
@@ -19,31 +18,5 @@ data class Property(val id: String,val location: String,val price: Int,val color
 
     }
 
-
-
-    /*
-    fun build() {
-        if (canBuild) {
-            when (houses) {
-                in 0..3 -> houses++
-                else -> {
-                    hotel = true
-                    canBuild = false
-                }
-            }
-        }
-    }
-    */
-
-
-    fun mortgage() {
-        if (is_mortgaged) {
-            is_mortgaged = false
-            //code to unmortgage
-        } else {
-            is_mortgaged = true
-            //code to isMortgaged
-        }
-    }
 
 }
