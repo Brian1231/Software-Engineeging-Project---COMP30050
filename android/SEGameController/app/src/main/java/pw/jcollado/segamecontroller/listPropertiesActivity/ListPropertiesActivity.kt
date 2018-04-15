@@ -8,18 +8,20 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_list_properties.*
 import org.jetbrains.anko.toast
 import pw.jcollado.segamecontroller.R
-import pw.jcollado.segamecontroller.model.App
-import pw.jcollado.segamecontroller.model.Player
-import pw.jcollado.segamecontroller.model.Property
+import pw.jcollado.segamecontroller.connections.AsyncResponse
+import pw.jcollado.segamecontroller.model.*
 import pw.jcollado.segamecontroller.utils.CardsAdapter
 
 class ListPropertiesActivity : App() {
+    var properties: ArrayList<Property> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_properties)
         initAdapter()
         setActionBar()
+        setActivityResponse(this)
+        updateProperties()
 
     }
 
@@ -31,11 +33,31 @@ class ListPropertiesActivity : App() {
         else {
 
             recyclerView.layoutManager = LinearLayoutManager(this)
-            recyclerView.adapter = CardsAdapter(Player.properties)
+            recyclerView.adapter = CardsAdapter(properties,{ sellButton(it)})
             no_propertiesTX.visibility = View.GONE
 
         }
     }
+    fun sellButton(item: Property) {
+        val size = Player.properties.size
+        Player.properties.clear()
+        recyclerView.adapter.notifyItemRangeRemoved(0,size)
+        setMessageToServer(Request(preferences.playerID, "sell",item.location).toJSONString())
+
+
+    }
+   open fun updateProperties(){
+        runOnUiThread{
+            properties.clear()
+            recyclerView.adapter.notifyDataSetChanged()
+
+            for (p in Player.properties){
+                properties.add(p)
+                recyclerView.adapter.notifyDataSetChanged()
+            }
+        }
+    }
+
 
 
     private fun setActionBar() {

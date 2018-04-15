@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_join.*
 import kotlinx.android.synthetic.main.property_card.view.*
 import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.mainActivity.MainActivity
 import pw.jcollado.segamecontroller.model.Property
@@ -19,7 +20,7 @@ import pw.jcollado.segamecontroller.model.Property
  * Created by jcolladosp on 13/02/2018.
  */
 
-class CardsAdapter(val items: List<Property>) : RecyclerView.Adapter<CardsAdapter.ViewHolder>() {
+class CardsAdapter(val items: List<Property>,val listener: (Property) -> Unit) : RecyclerView.Adapter<CardsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.property_card))
 
@@ -27,6 +28,7 @@ class CardsAdapter(val items: List<Property>) : RecyclerView.Adapter<CardsAdapte
         
         holder.initData(items[position])
         holder.bindMortgage(items[position],this)
+        holder.bindSell(items[position],listener)
 
     }
 
@@ -45,6 +47,9 @@ class CardsAdapter(val items: List<Property>) : RecyclerView.Adapter<CardsAdapte
                     //if (item.hotel) "1 Hotel" else "${item.houses} houses"
             priceTx.text = "${item.price} $"
 
+        }
+        fun bindSell(item: Property,listenerSell: (Property) -> Unit) = with(itemView){
+            sellButton.onClick { listenerSell(item) }
         }
         fun bindMortgage(item: Property, adapter: CardsAdapter) = with(itemView) {
             mortgageButton.setOnClickListener {
@@ -66,6 +71,7 @@ class CardsAdapter(val items: List<Property>) : RecyclerView.Adapter<CardsAdapte
             }
 
         }
+
 
     }
 }

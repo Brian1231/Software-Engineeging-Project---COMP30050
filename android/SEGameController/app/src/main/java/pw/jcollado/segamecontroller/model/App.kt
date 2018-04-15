@@ -5,11 +5,13 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import kotlinx.android.synthetic.main.activity_list_properties.*
 import org.jetbrains.anko.toast
 import org.json.JSONArray
 import org.json.JSONObject
 import pw.jcollado.segamecontroller.connections.AsyncResponse
 import pw.jcollado.segamecontroller.connections.ServerConnectionThread
+import pw.jcollado.segamecontroller.listPropertiesActivity.ListPropertiesActivity
 import pw.jcollado.segamecontroller.utils.Prefs
 
 /**
@@ -20,7 +22,8 @@ val preferences: Prefs by lazy {
 }
 
 abstract class App : AppCompatActivity(), AsyncResponse {
-
+    var listActivity: ListPropertiesActivity? = null
+   // var onList = false
 
     companion object {
         var prefs: Prefs? = null
@@ -45,12 +48,16 @@ abstract class App : AppCompatActivity(), AsyncResponse {
     }
 
     fun setMessageToServer(message: String) {
+        Log.i("send",message)
         gamethread?.setMessage(message)
 
     }
 
     fun killGameThread() {
         gamethread?.kill()
+    }
+    fun setActivityResponse(activity: ListPropertiesActivity){
+        listActivity = activity
     }
 
     override fun handleResponse(response: String?) {
@@ -86,13 +93,24 @@ abstract class App : AppCompatActivity(), AsyncResponse {
         val jArray = responseJSON.getJSONArray("properties") as JSONArray
         if (jArray != null) {
             for (i in 0 until jArray.length()) {
-                RequestFunctions().propertyFromJSONString(jArray.getString(i))?.let { Player.properties.add(it) }
+                RequestFunctions().propertyFromJSONString(jArray.getString(i))?.let {
+                    Player.properties.add(it)
+                    listActivity?.recyclerView?.adapter?.notifyItemChanged(i)
+                }
             }
         }
+        runOnUiThread{
             updateGameState()
+            if(listActivity!=null){
+                listActivity!!.updateGameState()
+            }
 
+        }
 
     }
 
-    open fun updateGameState(){}
+    open fun updateGameState(){
+
+
+    }
 }

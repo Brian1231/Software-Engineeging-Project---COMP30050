@@ -111,7 +111,7 @@
 
 
                 <Button
-                    android:id="@+id/sellButton"
+                    android:id="@+id/demolishButton"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                     app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
                 <Button
-                    android:id="@+id/mortgageButton2"
+                    android:id="@+id/sellButton"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
