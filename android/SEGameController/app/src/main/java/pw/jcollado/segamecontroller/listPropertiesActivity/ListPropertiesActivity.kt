@@ -42,8 +42,11 @@ class ListPropertiesActivity : App() {
 
         setMessageToServer(Request(preferences.playerID, "sell",item.location).toJSONString())
 
-        finish()
-        startActivity(getIntent())
+             finish()
+          overridePendingTransition(0, 0)
+
+          startActivity(getIntent())
+          overridePendingTransition(0, 0)
     }
     fun mortgageButton(item: Property) {
         if (item.is_mortgaged){
@@ -55,7 +58,9 @@ class ListPropertiesActivity : App() {
         }
 
         finish()
+        overridePendingTransition(0, 0)
         startActivity(getIntent())
+        overridePendingTransition(0, 0)
     }
 
     fun demolishButton(item: Property) {
@@ -63,7 +68,11 @@ class ListPropertiesActivity : App() {
         setMessageToServer(Request(preferences.playerID, "demolish",item.location+",1").toJSONString())
 
         finish()
+        overridePendingTransition(0, 0)
+
         startActivity(getIntent())
+        overridePendingTransition(0, 0)
+
     }
     fun buildButton(item: Property) {
 
@@ -71,7 +80,11 @@ class ListPropertiesActivity : App() {
         setMessageToServer(Request(preferences.playerID, "build",item.location+",1").toJSONString())
 
         finish()
+        overridePendingTransition(0, 0)
+
         startActivity(getIntent())
+        overridePendingTransition(0, 0)
+
     }
 
    open fun updateProperties(){
