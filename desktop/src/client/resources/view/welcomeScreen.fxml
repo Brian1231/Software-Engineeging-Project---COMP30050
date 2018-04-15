@@ -13,6 +13,6 @@
          </cursor></Button>
    </center>
    <top>
-      <Label fx:id="heading" text="Panopoly" BorderPane.alignment="CENTER" />
+      <Label fx:id="heading" text="Interdimensional Panopoly" BorderPane.alignment="CENTER" />
    </top>
 </BorderPane>

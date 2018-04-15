@@ -15,9 +15,8 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 
 	@Override
 	public int getMortgageAmount() {
-		float amount = ((float) super.getPrice())/2.0f;
-		int mortgageAmount = Math.round(amount);
-		return mortgageAmount;
+		float amount = ((float) super.getPrice()*0.9f);
+		return Math.round(amount);
 	}
 
 
@@ -35,10 +34,9 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 
 	@Override
 	public int getRedeemAmount() {
-		int amount = getMortgageAmount();
-		float interest = (float) amount * 10.0f/100.0f;
-		int redeemAmount = Math.round(interest) + amount;
-		return redeemAmount;
+		int amount = super.getPrice();
+		float interest = (float) amount * 0.1f;
+		return Math.round(interest) + amount;
 	}
 
 	@Override

@@ -7,4 +7,5 @@ public class SpecialSquare extends NamedLocation{
 	}
 	
 
+	
 }

@@ -5,8 +5,8 @@ import java.util.List;
 
 public class World_noc {
 
-	String world;
-	List<String> types = new ArrayList<String>();
+	private String world;
+	private List<String> types = new ArrayList<String>();
 	
 	public World_noc(String[] info){
 		this.world = info[0];

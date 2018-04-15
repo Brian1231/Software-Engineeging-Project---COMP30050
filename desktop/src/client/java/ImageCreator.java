@@ -1,4 +1,4 @@
-package client.java;
+/*package client.java;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -32,16 +32,19 @@ public class ImageCreator {
 		//ArrayList<File> files = new ArrayList<File>(Arrays.asList(f.listFiles()));
 		//System.out.println(files);
 		try{
-			InputStream in = ClassLoader.getSystemResourceAsStream("worlds/"+ query+"/pic.jpg");
+			InputStream in = ClassLoader.getSystemResourceAsStream("/worlds/"+ query+"/pic.jpg");
 			InputStreamReader isr = new InputStreamReader(in);
 			BufferedReader br = new BufferedReader(isr);
-			File f = new File("src/client/resources/images/worlds/"+query+"/pic.jpg");
+			//C://Users/user/EclipseWorkspace/desktop/src/client/resources
+			///client/resources/images
+			File f = new File("/client/resources/images/worlds/"+query+"/pic.jpg");
+			System.out.println(f.getAbsolutePath());
 			BufferedImage image = ImageIO.read(f);
-			javafx.scene.image.Image fxImage = SwingFXUtils.toFXImage(image, null);
+			//javafx.scene.image.Image fxImage = new Image("/client/resources/images/worlds/"+query+"/pic.jpg");//SwingFXUtils.toFXImage(image, null);
 			return fxImage;
-		}catch(Exception e){System.out.println(e.getMessage());}
+		}catch(Exception e){e.printStackTrace();}
 		return null;
-		/*String key = "AIzaSyDJEYAc_d2j-WkTTA-Onl4DOLd8JeIIkAM";
+		String key = "AIzaSyDJEYAc_d2j-WkTTA-Onl4DOLd8JeIIkAM";
 		URL url = new URL(
 				"https://www.googleapis.com/customsearch/v1?key="
 						+ key
@@ -94,6 +97,7 @@ public class ImageCreator {
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
-		}*/
+		}
 	}
 }
+*/

@@ -2,17 +2,13 @@ package client.java.controllers;
 
 import client.java.*;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.collections.ListChangeListener;
+
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
+
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,12 +28,9 @@ public class InGameController {
     // 4 board layers.
     private BoardCanvas boardCanvas = new BoardCanvas();
     private PlayerCanvas playerCanvas = new PlayerCanvas();
-    private InformationPane ipane = new InformationPane();
-    // infoPane will be replaced by ipane.
-    private Pane infoPane = new Pane();
+    private InformationPane infoPane = new InformationPane();
 
     // Players
-    private ObservableList<String> playerList = FXCollections.observableArrayList();
     private int playerTurn;
 
     // Networking.
@@ -52,9 +45,23 @@ public class InGameController {
     });
 
     public void initialize() throws IOException, JSONException {
+        Game.initializeLocations();
+        Game.observablePlayers.addListener(new ListChangeListener<Player>() {
+            @Override
+            public void onChanged(Change<? extends Player> c) {
+                System.out.println("change detected");
+                while (c.next()) {
+                        for (Player remitem : c.getRemoved()) {
+                            infoPane.removePlayerInfo(remitem);
+                        }
+                        for (Player additem : c.getAddedSubList()) {
+                            infoPane.addPlayerInfo(additem);
+                        }
+                    }
+                }
+        });
         setUpBoard();
         try {
-            showLobbyWindow();
             connection.startConnection();
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,43 +71,18 @@ public class InGameController {
     }
 
     public void closeGame() {
-        connection.gameEnd();
-    }
+        JSONObject output = new JSONObject();
 
-    // Player lobby code
-    public void showLobbyWindow() throws IOException {
-        VBox lobbyRoot = new VBox();
-        Button startGameButton = new Button("Start Game");
-        ListView<String> playerListView = new ListView<>(playerList);
-
-        lobbyRoot.getChildren().add(playerListView);
-        lobbyRoot.getChildren().add(startGameButton);
-
-        Scene lobbyScene = new Scene(lobbyRoot, 400,600);
-        lobbyScene.getStylesheets().add("/client/resources/css/lobby.css");
-
-        Stage lobbyStage = new Stage();
-        lobbyStage.initStyle(StageStyle.UNDECORATED);
-        lobbyStage.initModality(Modality.APPLICATION_MODAL);
-        lobbyStage.setScene(lobbyScene);
-
-        startGameButton.setOnAction((ActionEvent e) ->
-        {
-            try {
-                JSONObject output = new JSONObject();
-                output.put("id", 0);
-                output.put("action", "start");
-                connection.send(output);
-                gameStarted = true;
-                lobbyStage.close();
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
+        try {
+            output.put("id", 0);
+            output.put("action", "end");
+            connection.send(output);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-                                    );
-        lobbyStage.show();
+        connection.gameEnd();
     }
 
     // Called whenever a message/JSON is received form the server.
@@ -119,14 +101,16 @@ public class InGameController {
                     JSONArray playerObjects = update.getJSONArray("players");
 
                     for(int i=0;i<playerObjects.length();i++){
-                        int balance = playerObjects.getJSONObject(i).getInt("balance");
+                        int b = playerObjects.getJSONObject(i).getInt("balance");
+                        String balance = Integer.toString(b);
                         int id = playerObjects.getJSONObject(i).getInt("id");
                         int position = playerObjects.getJSONObject(i).getInt("position");
                         String character = playerObjects.getJSONObject(i).getString("character");
                         int fuel = playerObjects.getJSONObject(i).getInt("fuel");
                         plyrs.add(new Player(balance,id,position,Color.WHITE,character,fuel));
                     }
-                    playerCanvas.updatePlayers(plyrs);
+                    Game.updatePlayers(plyrs);
+                    playerCanvas.draw();
                 }
 
                 // Redraw locations according to new Location information.
@@ -144,59 +128,67 @@ public class InGameController {
                         boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
                         locs.add(new Location(id,position,price,0,owner, color, isMortgaged));
                     }
-                    boardCanvas.updateLocations(locs);
+                    Game.updateLocations(locs);
+
+                    boardCanvas.draw();
+                    BoardCanvas.locationsSetProperty.setValue(true);
                 }
 
-                // Update lobby list According to new players
-                ArrayList<String> names = new ArrayList<>();
-                for(Player p : plyrs){
-                    String n = "Player " + p.getId();
-                    names.add(n);
-                }
-                playerList.setAll(names);
-
-                ipane.updateFeed(actionInfo);
+                infoPane.updateFeed(actionInfo);
 
                 if(gameStarted == true){
-                    Location locToDisplay = boardCanvas.getLocation(playerCanvas.getPlayer(playerTurn).getPosition());
-                    ipane.updateLocationInfo(locToDisplay);
+                	int playerPos = 0;
+                	for(Player p : Game.players){
+                		if(p.getId() == playerTurn) playerPos = p.getPosition();
+                	}
+                    Location locToDisplay = Game.getLocation(playerPos);
+                    infoPane.updateLocationInfo(locToDisplay);
                 }
 
 
             } catch (JSONException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         });
     }
 
     public void setUpBoard() throws IOException, JSONException{
-        // Drafting Player stats ------------
-        Label playerLabel = new Label("Player 1");
-        playerLabel.setTextFill(Color.WHITE);
-        playerLabel.setLayoutX(10);
-        playerLabel.setLayoutY(10);
 
-        Label balanceLabel = new Label("$2000");
-        balanceLabel.setTextFill(Color.WHITE);
-        balanceLabel.setLayoutX(10);
-        balanceLabel.setLayoutY(30);
+        Pane boardWrapper = new Pane();
+        boardWrapper.getChildren().add(boardCanvas);
+        // Start game button
+        Button startButton = new Button("START GAME");
+        startButton.layoutXProperty().bind(boardWrapper.widthProperty().divide(2).subtract(startButton.widthProperty().divide(2)));
+        startButton.layoutYProperty().bind(boardWrapper.heightProperty().subtract(80));
+        startButton.setOnAction(e -> {
+            try {
+            JSONObject output = new JSONObject();
+            output.put("id", 0);
+            output.put("action", "start");
+            connection.send(output);
+            gameStarted = true;
+            startButton.setText("End Game");
+            startButton.setOnAction(e2 ->   {
+                boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?");
+                if(answer){
+                    closeGame();
+                }
+            } );
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        }
 
-        ProgressBar fuelbar  = new ProgressBar(.5);
-        fuelbar.setLayoutX(10);
-        fuelbar.setLayoutY(50);
-        fuelbar.setPrefSize(70,3);
 
-        infoPane.getChildren().add(fuelbar);
-        infoPane.getChildren().add(playerLabel);
-        infoPane.getChildren().add(balanceLabel);
-        // -----------------------------------
+        );
 
+        infoPane.getChildren().add(startButton);
+        layers.getChildren().add(boardWrapper);
 
-        layers.getChildren().add(boardCanvas);
         layers.getChildren().add(playerCanvas);
         layers.getChildren().add(infoPane);
-        layers.getChildren().add(ipane);
 
         rootPane.setCenter(layers);
         boardCanvas.widthProperty().bind(rootPane.widthProperty());

@@ -6,7 +6,17 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	DiceTest.class,
-	PlayerTest.class
-	})
-public class TestSuite {}
+		DiceTest.class,
+		PlayerTest.class,
+		NamedLocationTest.class,
+		RentalPropertyTest.class,
+		PrivatePropertyTest.class,
+		StationTest.class,
+		InvestmentPropertyTest.class,
+		UtilityTest.class,
+		TaxSquareTest.class,
+		SpecialSquareTest.class
+})
+
+public class TestSuite {
+}

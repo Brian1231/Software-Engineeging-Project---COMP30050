@@ -6,9 +6,9 @@ import java.util.Random;
 
 public class Clothes_noc {
 
-	String determiner;
-	String clothing;
-	String covers;
+	private String determiner;
+	private String clothing;
+	private String covers;
 	
 	public Clothes_noc(String[] info){
 		this.determiner = info[0];

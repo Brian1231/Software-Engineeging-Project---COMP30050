@@ -3,8 +3,6 @@ package main;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import org.json.JSONException;
-
 import game.GameState;
 import noc_db.NOC_Manager;
 import server.ClientUpdater;
@@ -12,15 +10,15 @@ import server.PortAllocator;
 
 public class Main {
 
-	public static final int MAINPORT = 8080;
-	public static final int DESKTOPPORT = 8000;
+	private static final int MAINPORT = 8080;
+	private static final int DESKTOPPORT = 8000;
 	public static GameState gameState;
 	public static ClientUpdater clientUpdater;
 	public static PortAllocator portAllocator;
 	public static NOC_Manager noc;
 	public static boolean isActive;
 
-	public static void main(String[] args) throws IOException, JSONException {
+	public static void main(String[] args) throws IOException {
 		isActive = false;
 
 		System.out.println(InetAddress.getLocalHost().getHostAddress());

@@ -1,7 +1,5 @@
 package game;
 
-
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

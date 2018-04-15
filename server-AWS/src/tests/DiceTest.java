@@ -1,19 +1,21 @@
 package tests;
 
 import static org.junit.Assert.*;
-
-
 import org.junit.Test;
 
 import game.Dice;
 
 public class DiceTest {
-	int TOTAL_ROLLS = 1000000;
-	
+	private int TOTAL_ROLLS = 1000000;
+	private Dice dice = new Dice();
+
+	@Test
+	public void constructorTest() {
+		assertNotNull(dice);
+	}
 	@Test
 	public void testDiceRoll() {
-		Dice dice = new Dice();
-		
+
 		int[] distribution = new int[11];
 		for(int i=0;i<distribution.length;i++){
 			distribution[i] = 0;

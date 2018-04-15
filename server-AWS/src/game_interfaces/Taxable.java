@@ -3,10 +3,8 @@ package game_interfaces;
 public interface Taxable {
 
     // get % of income to be charged as tax
-    int getIncomePercentage(Playable player);
-    void setIncomePercentage(int percentage);
+    int getIncomePercentage(Playable player, double percentage);
 
     // get flat figure to be charged as tax
-    int getFlatAmount(Playable player);
-    void setFlatAmount(int flatAmount);
+    int getFlatAmount();
 }

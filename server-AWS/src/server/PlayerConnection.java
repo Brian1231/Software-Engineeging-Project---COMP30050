@@ -20,7 +20,7 @@ public class PlayerConnection extends Thread{
 	private Socket socket;
 	private int port;
 	private int playerID;
-	BufferedWriter out; 
+	private BufferedWriter out;
 
 	public PlayerConnection(int id, int portNum){
 		this.port = portNum;
@@ -47,7 +47,7 @@ public class PlayerConnection extends Thread{
 		
 		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
 		Main.gameState.addPlayer(client_ip);
-		Main.clientUpdater.updateActionInfo("New Player Connected!");
+		Main.clientUpdater.updateActionInfo("Player "+ this.playerID+" has joined the game as "+Main.gameState.getPlayerName(this.playerID)+".");
 		Main.clientUpdater.updateDesktopPlayers();
 	}
 	public void run(){
@@ -75,7 +75,7 @@ public class PlayerConnection extends Thread{
 						int id = (int) obj.get("id");
 						if(id == this.playerID){
 							String action = (String) obj.get("action");
-							String[] args = (String[]) ((String) obj.get("args")).split(",");
+							String[] args = ((String) obj.get("args")).split(",");
 							//Update Main.gamestate based on phone input and this.playerID
 							String actionInfo = Main.gameState.playerAction(id, action, args);
 
@@ -100,7 +100,7 @@ public class PlayerConnection extends Thread{
 	}
 
 	public void updatePlayer(){
-		JSONObject output = null;
+		JSONObject output;
 		try {
 			output = Main.gameState.getPlayerInfo(this.playerID);
 			out.write(output.toString()+ "\n");

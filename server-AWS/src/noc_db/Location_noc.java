@@ -2,14 +2,14 @@ package noc_db;
 
 public class Location_noc {
 
-	String location;
-	String type;
-	String determiner;
-	String preposition;
-	String size;
-	String ambience;
-	String interactions;
-	String props;
+	private String location;
+	private String type;
+	private String determiner;
+	private String preposition;
+	private String size;
+	private String ambience;
+	private String interactions;
+	private String props;
 	
 	public Location_noc(String[] info){
 		this.location = info[0];

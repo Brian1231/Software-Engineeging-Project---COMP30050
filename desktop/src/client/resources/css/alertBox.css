@@ -1,0 +1,18 @@
+.button{
+    -fx-border-color: #e88e27;
+    -fx-background-color: rgba(255,255,255,0.2);
+    -fx-font-size: 20px;
+    -fx-text-fill: #e88e27;
+}
+
+.button:hover{
+    -fx-background-color: rgba(255,255,255,0.5);
+    }
+
+.label{
+    -fx-text-fill: #e88e27;
+    -fx-font-size: 20px;
+}
+.root{
+    -fx-background-color: #273447;
+}

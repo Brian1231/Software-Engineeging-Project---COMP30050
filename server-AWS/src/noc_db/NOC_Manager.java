@@ -11,16 +11,16 @@ import com.sun.org.apache.bcel.internal.util.ClassLoader;
 
 public class NOC_Manager {
 
-	Random random = new Random();
-	ArrayList<Superlative_noc> superlatives;
-	ArrayList<Character_noc> characters;
-	ArrayList<Weapon_noc> weapons;
-	ArrayList<Vehicle_noc> vehicles;
-	ArrayList<Activity_noc> activities;
-	ArrayList<World_noc> worlds;
-	ArrayList<Location_noc> locations;
-	ArrayList<Clothes_noc> clothes;
-	ArrayList<World_noc> usedWorlds;
+	private Random random = new Random();
+	private ArrayList<Superlative_noc> superlatives;
+	private ArrayList<Character_noc> characters;
+	private ArrayList<Weapon_noc> weapons;
+	private ArrayList<Vehicle_noc> vehicles;
+	private ArrayList<Activity_noc> activities;
+	private ArrayList<World_noc> worlds;
+	private ArrayList<Location_noc> locations;
+	private ArrayList<Clothes_noc> clothes;
+	private ArrayList<World_noc> usedWorlds;
 	
 
 	public NOC_Manager(){

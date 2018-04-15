@@ -12,6 +12,8 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 	private Player owner;
 	private int price;
 	private boolean isOwned;
+	private int numInGroup;
+	private String type;
 
 	public PrivateProperty(String name, int price){
 		super(name);
@@ -50,26 +52,22 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 
 	@Override
 	public int getNumInGroup() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.numInGroup;
 	}
 
 	@Override
-	public void setNumInGroup() {
-		// TODO Auto-generated method stub
-
+	public void setNumInGroup(int numInGroup) {
+		this.numInGroup = numInGroup;
 	}
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.type;
 	}
 
 	@Override
 	public void setType(String type) {
-		// TODO Auto-generated method stub
-
+		this.type = type;
 	}
 
 	@Override
