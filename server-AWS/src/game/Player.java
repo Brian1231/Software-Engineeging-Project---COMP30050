@@ -183,7 +183,7 @@ public class Player implements Playable, JSONable, Colourable {
 			//Check if we pass go
 			if((oldPos<20 && this.position>19) || oldPos>20 && this.position>=0){
 				res+= this.getCharName() +" passed go and received $200.\n";
-				this.receiveMoney(200);
+				this.receiveMoney(100);
 			}
 
 			//If we land on go going backwards

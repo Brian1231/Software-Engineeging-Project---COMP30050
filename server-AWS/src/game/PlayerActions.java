@@ -48,7 +48,7 @@ public class PlayerActions {
 				}
 				return "You can't afford this property.";
 			}
-			return prop.getId() + " is already owned by " + prop.getOwner().getId() + ".";
+			return prop.getId() + " is already owned by " + prop.getOwner().getCharName() + ".";
 		}
 		return "You can't buy that.";
 	}
@@ -62,7 +62,7 @@ public class PlayerActions {
 					if (property instanceof RentalProperty) {
 						RentalProperty rental = (RentalProperty) property;
 						if (!rental.isMortgaged()) {
-							property.setOwner(null);
+							property.setUnOwned();
 							player.removePropertySold(property);
 							return player.getCharName() + " sold " + property.getId() + " for " + property.getPrice() + ".";
 						}
@@ -195,7 +195,7 @@ public class PlayerActions {
 	private String landedOn(Player player, NamedLocation location, int spaces){
 		if(location instanceof PrivateProperty){
 			PrivateProperty property = (PrivateProperty) location;
-			if(property.isOwned()){
+			if(property.isOwned() && !property.getOwner().equals(player)){
 				String res = "\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ".";
 				if(property instanceof InvestmentProperty){
 					InvestmentProperty p = (InvestmentProperty) property;
@@ -230,7 +230,7 @@ public class PlayerActions {
 				//Percent in range 5% - 30%
 				double percentage = (0.05 + (random.nextInt(26)*0.01));
 				int t = tax.getIncomePercentage(player, percentage);
-				res+="\n"+player.getCharName()+" owes $"+percentage+" of their net worth. Thats $"+t+".";
+				res+="\n"+player.getCharName()+" owes "+percentage*100+" of their net worth. Thats $"+t+".";
 				player.setDebt(t);
 				return res;
 			}
