@@ -2,3 +2,11 @@ build_file_checksums.ser
 
 ../desktop/.idea/workspace.xml
 ../server/.idea/workspace.xml
+
+
+# top level git ignore for output files for desktop and server
+../server/bin/
+../desktop/bin/
+
+../server/out/
+../desktop/out/
