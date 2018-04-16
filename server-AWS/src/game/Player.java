@@ -299,27 +299,36 @@ public class Player implements Playable, JSONable, Colourable {
 		else return "His";
 	}
 	public String payDebt(){ 
-		if(this.isInDebt){
-			if(this.balance >= this.debt){
-				if(this.playerOwed != null){
-					String res = this.getCharName() + " paid " + this.playerOwed.getCharName() + " " + debt + ".";
-					this.playerOwed.receiveMoney(this.debt);
-					this.payMoney(debt);
-					this.debt = 0;
-					this.isInDebt = false;
-					this.playerOwed = null;
-					return res;
+		if(!this.isInJail){
+			if(this.isInDebt){
+				if(this.balance >= this.debt){
+					if(this.playerOwed != null){
+						String res = this.getCharName() + " paid " + this.playerOwed.getCharName() + " " + debt + ".";
+						this.playerOwed.receiveMoney(this.debt);
+						this.payMoney(debt);
+						this.debt = 0;
+						this.isInDebt = false;
+						this.playerOwed = null;
+						return res;
+					}
+					else{
+						String res = this.getCharName() + " paid "+this.getPossessive().toLowerCase()+" debt of " + debt + ".";
+						this.payMoney(debt);
+						this.debt = 0;
+						this.isInDebt = false;
+						return res;
+					}
 				}
-				else{
-					String res = this.getCharName() + " paid "+this.getPossessive().toLowerCase()+" debt of " + debt + ".";
-					this.payMoney(debt);
-					this.debt = 0;
-					this.isInDebt = false;
-					return res;
-				}
+				return "You don't have enough money to pay your debt!";
 			}
-			return "You don't have enough money to pay your debt!";
+			return "You're not in debt!";
 		}
-		return "You're not in debt!";
+		if(this.balance >=500){
+			this.payMoney(500);
+			this.jailTurnCount = 0;
+			this.isInJail = false;
+			return this.getCharName() + " paid $500 and was released from jail.";
+		}
+		return "You can't afford to the fee of $500";
 	}
 }
