@@ -1,29 +1,33 @@
 package pw.jcollado.segamecontroller.JoinActivity
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
-import android.util.Log.i
+import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_join.*
+import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.connections.AsyncResponse
+import pw.jcollado.segamecontroller.connections.ServerConnectionThread
 import pw.jcollado.segamecontroller.mainActivity.MainActivity
 import pw.jcollado.segamecontroller.model.*
-import pw.jcollado.segamecontroller.utils.requestToServer
+import pw.jcollado.segamecontroller.utils.closeLoadingDialog
+import pw.jcollado.segamecontroller.utils.loadDialog
 
 
-
-
-class JoinActivity : App(), AsyncResponse {
+open class JoinActivity : App(), AsyncResponse {
+    open lateinit var gamethread: ServerConnectionThread
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join)
         setupUI()
         savePort(8080)
+
+
 
     }
 
@@ -34,12 +38,22 @@ class JoinActivity : App(), AsyncResponse {
     }
 
     private fun joinServer(){
+        runOnUiThread {
+            loadDialog(this, getString(R.string.connecting))
+        }
+
         val username  = userNameED.text.toString()
-        val joinGameRequest = Request(-1,username)
+        val joinGameRequest = Request(-1,"connect","0")
         val jsonStringRequest = joinGameRequest.toJSONString()
         idTextView.text = jsonStringRequest
         preferences.username = username
-        requestToServer(jsonStringRequest)
+        try {
+            gamethread = ServerConnectionThread(this, preferences.port)
+            gamethread.start()
+            gamethread.setMessage(jsonStringRequest)
+        }catch (e: Exception){
+            Log.e("error",e.getStackTraceString())
+        }
 
     }
 
@@ -47,26 +61,24 @@ class JoinActivity : App(), AsyncResponse {
 
 
     private fun getResponseID(response: String){
+
         Log.i("lol",response)
         if(response.contains("port")){
             val responseRequest = RequestFunctions().portFromJSONString(response)
             responseRequest?.id?.let { saveUserID(it) }
             responseRequest?.port?.let { savePort(it) }
-            openConnectionWithNewPort()
-        }
-        else{
-            val responseRequest = RequestFunctions().playerFromJSONString(response)
-            idTextView.text = response
+            runOnUiThread {
+                closeLoadingDialog()
+            }
+            gamethread.kill()
             startActivity<MainActivity>()
+
+
         }
 
-
-
-
     }
-    private fun openConnectionWithNewPort(){
-        requestToServer((Request(preferences.playerID,"hi")).toJSONString())
-    }
+
+
     private fun saveUserID(id: Int){
         preferences.playerID = id
     }
@@ -74,11 +86,8 @@ class JoinActivity : App(), AsyncResponse {
         preferences.port = port
     }
 
-    override fun processFinish(output: String?) {
-        handleResponse(output)
-    }
 
-    private fun handleResponse(response: String?) {
+    override fun handleResponse(response: String?) {
 
         when (response) {
             null -> response?.let { toast(it) }

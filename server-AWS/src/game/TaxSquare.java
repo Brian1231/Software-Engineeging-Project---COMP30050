@@ -23,8 +23,7 @@ public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 	public String getText(Character_noc ch){
 		return new TaxTemplate(ch).getRandomTemplate();
 	}
-
-	//Tax in range 50-300
+	
 	@Override
 	public int getFlatAmount() {
 		return 50 + 10*random.nextInt(26);

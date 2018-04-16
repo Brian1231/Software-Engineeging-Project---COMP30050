@@ -9,4 +9,12 @@
     <string name="properties">Properties</string>
     <string name="marving_gardens">Marving Gardens</string>
     <string name="join_game">Join the game!</string>
+    <string name="no_properties">You don\'t have any property</string>
+    <string name="finish_turn">Finish Turn</string>
+    <string name="connecting">Connecting to the server...</string>
+    <string name="position_text">Position:</string>
+    <string name="boost">Boost</string>
+    <string name="sell">Sell</string>
+    <string name="demolish">Demolish</string>
+    <string name="pay">Pay the debt</string>
 </resources>

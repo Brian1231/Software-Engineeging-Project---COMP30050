@@ -86,6 +86,8 @@ public class ClientUpdater extends Thread{
 						if(id == 0){
 							if(obj.get("action").equals("start")){
 								Main.gameState.startGame();
+								Main.clientUpdater.updateActionInfo("\nGame has started! Good Luck!\n");
+								Main.clientUpdater.updateDesktopPlayers();
 							}
 							if(obj.get("action").equals("end")){
 								Main.gameState.endGame();

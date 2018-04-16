@@ -35,12 +35,13 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/joinButton" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/monopolyIV"
         android:layout_width="383dp"
         android:layout_height="211dp"
         android:layout_marginEnd="8dp"
@@ -54,8 +55,8 @@
         android:id="@+id/userNameED"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="12dp"
         android:ems="10"
         android:focusableInTouchMode="true"
@@ -64,5 +65,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/monopolyIV" />
 </android.support.constraint.ConstraintLayout>

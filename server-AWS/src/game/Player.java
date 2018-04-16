@@ -111,11 +111,11 @@ public class Player implements Playable, JSONable, Colourable {
 		this.jailTurnCount = 0;
 		this.isInJail = false;
 	}
-	
+
 	public boolean isInJail(){
 		return this.isInJail;
 	}
-	
+
 	public boolean incrementJailTurns(){
 		this.jailTurnCount++;
 		if(this.jailTurnCount==3){
@@ -125,8 +125,16 @@ public class Player implements Playable, JSONable, Colourable {
 		}
 		return false;
 	}
-	
-	
+
+	public boolean ownsThree(String color){
+		int count = 0;
+		for(PrivateProperty prop : this.ownedProperties){
+			if(prop.getColor().equals(color))
+				count++;
+		}
+		return count ==3;
+	}
+
 	@Override
 	public JSONObject getInfo() throws JSONException{
 		JSONObject info = new JSONObject();
@@ -181,11 +189,11 @@ public class Player implements Playable, JSONable, Colourable {
 			this.position = (this.position + spaces)%39;
 
 			//Check if we pass go
-			if((oldPos<20 && this.position>19) || oldPos>20 && this.position>=0){
-				res+= this.getCharName() +" passed go and received $200.\n";
-				this.receiveMoney(200);
+			if((oldPos<20 && this.position>19) || (oldPos>20 && this.position>=0 && this.position<20)){
+				res+= this.getCharName() +" passed go and received $100.\n";
+				this.receiveMoney(100);
 			}
-				
+
 			//If we land on go going backwards
 			if(this.position == 20) {
 				this.position = 0;
@@ -298,24 +306,37 @@ public class Player implements Playable, JSONable, Colourable {
 		if(this.character.getGender().equals("female")) return "Her";
 		else return "His";
 	}
-	public String payDebt(){
-		if(this.balance >= this.debt){
-			if(this.playerOwed != null){
-				this.playerOwed.receiveMoney(this.debt);
-				this.payMoney(debt);
-				this.debt = 0;
-				this.isInDebt = false;
-				this.playerOwed = null;
-				return this.getCharName() + " paid " + this.playerOwed.getCharName() + " " + debt + ".";
+	public String payDebt(){ 
+		if(!this.isInJail){
+			if(this.isInDebt){
+				if(this.balance >= this.debt){
+					if(this.playerOwed != null){
+						String res = this.getCharName() + " paid " + this.playerOwed.getCharName() + " " + debt + ".";
+						this.playerOwed.receiveMoney(this.debt);
+						this.payMoney(debt);
+						this.debt = 0;
+						this.isInDebt = false;
+						this.playerOwed = null;
+						return res;
+					}
+					else{
+						String res = this.getCharName() + " paid "+this.getPossessive().toLowerCase()+" debt of " + debt + ".";
+						this.payMoney(debt);
+						this.debt = 0;
+						this.isInDebt = false;
+						return res;
+					}
+				}
+				return "You don't have enough money to pay your debt!";
 			}
-			else{
-				this.payMoney(debt);
-				this.debt = 0;
-				this.isInDebt = false;
-				return this.getCharName() + " paid "+this.getPossessive().toLowerCase()+" debt of " + debt + ".";
-		
-			}
+			return "You're not in debt!";
 		}
-		return "You don't have enough money to pay your debt!";
+		if(this.balance >=500){
+			this.payMoney(500);
+			this.jailTurnCount = 0;
+			this.isInJail = false;
+			return this.getCharName() + " paid $500 and was released from jail.";
+		}
+		return "You can't afford to the fee of $500";
 	}
 }

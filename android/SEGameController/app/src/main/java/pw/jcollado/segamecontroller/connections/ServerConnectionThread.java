@@ -1,14 +1,14 @@
-package com.psmb.gamecontroller;
+package pw.jcollado.segamecontroller.connections;
 
 
-import java.io.PrintWriter;
+import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class ServerConnectionThread extends Thread {
@@ -20,12 +20,12 @@ public class ServerConnectionThread extends Thread {
     private Socket socket;
 
     private boolean mRun = true;
-    MainActivity mainActivity;
+    private AsyncResponse mCallback;
 
-    public ServerConnectionThread(MainActivity main, int p) {
+    public ServerConnectionThread(Context context, int p) {
         this.port = p;
         this.messages = new ArrayList<>();
-        this.mainActivity = main;
+        this.mCallback = (AsyncResponse) context;
     }
 
     public void setMessage(String s){
@@ -34,20 +34,12 @@ public class ServerConnectionThread extends Thread {
             messages.notify();
         }
     }
-   /* private void send(String m) {
-        PrintWriter out = null;
-        try {
-            out = new PrintWriter(socket.getOutputStream(), true);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        //Send message
-        out.println(m);
-    }*/
+
 
     public void kill(){
         this.mRun = false;
     }
+
     @Override
     public void run() {
 
@@ -84,7 +76,7 @@ public class ServerConnectionThread extends Thread {
                     if (reader.ready()) {
                         String line = reader.readLine();
                         if (!line.isEmpty()) {
-                            mainActivity.handleResponse(line);
+                            mCallback.handleResponse(line);
                         }
                     }
 

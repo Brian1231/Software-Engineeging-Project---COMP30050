@@ -48,7 +48,7 @@ public class PlayerActions {
 				}
 				return "You can't afford this property.";
 			}
-			return prop.getId() + " is already owned by " + prop.getOwner().getId() + ".";
+			return prop.getId() + " is already owned by " + prop.getOwner().getCharName() + ".";
 		}
 		return "You can't buy that.";
 	}
@@ -62,7 +62,7 @@ public class PlayerActions {
 					if (property instanceof RentalProperty) {
 						RentalProperty rental = (RentalProperty) property;
 						if (!rental.isMortgaged()) {
-							property.setOwner(null);
+							property.setUnOwned();
 							player.removePropertySold(property);
 							return player.getCharName() + " sold " + property.getId() + " for " + property.getPrice() + ".";
 						}
@@ -142,11 +142,17 @@ public class PlayerActions {
 			if (property.isOwned()) {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
-						if (property.build(numToBuild)) {
-							return player.getCharName() + " built " + numToBuild + " houses on " + property.getId() + ".";
-						} else {
-							return property.getBuildDemolishError();
+						if(player.ownsThree(property.getColor())){
+							if (property.build(numToBuild)) {
+								if(numToBuild>1)
+									return player.getCharName() + " built " + numToBuild + " houses on " + property.getId() + ".";
+								else
+									return player.getCharName() + " built " + numToBuild + " house on " + property.getId() + ".";
+							} else {
+								return property.getBuildDemolishError();
+							}
 						}
+						return "You need to own 3 " + property.getColour() + "'s before you can build houses!";
 					}
 					return property.getId() + " is mortgaged! ";
 				}
@@ -164,8 +170,11 @@ public class PlayerActions {
 			if (property.isOwned()) {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
-						if (property.build(numToDemolish)) {
-							return player.getCharName() + " demolished " + numToDemolish + " houses on " + property.getId() + ".";
+						if (property.demolish(numToDemolish)) {
+							if(numToDemolish>1)
+								return player.getCharName() + " demolished " + numToDemolish + " houses on " + property.getId() + ".";
+							else
+								return player.getCharName() + " demolished " + numToDemolish + " house on " + property.getId() + ".";
 						} else {
 							return property.getBuildDemolishError();
 						}
@@ -189,8 +198,8 @@ public class PlayerActions {
 	private String landedOn(Player player, NamedLocation location, int spaces){
 		if(location instanceof PrivateProperty){
 			PrivateProperty property = (PrivateProperty) location;
-			if(property.isOwned()){
-				String res = "\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ". It can be purchased for $" + property.getPrice() + ".";
+			if(property.isOwned() && !property.getOwner().equals(player)){
+				String res = "\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ".";
 				if(property instanceof InvestmentProperty){
 					InvestmentProperty p = (InvestmentProperty) property;
 					player.setDebt(p.getBaseRentAmount(), property.getOwner());
@@ -224,7 +233,7 @@ public class PlayerActions {
 				//Percent in range 5% - 30%
 				double percentage = (0.05 + (random.nextInt(26)*0.01));
 				int t = tax.getIncomePercentage(player, percentage);
-				res+="\n"+player.getCharName()+" owes $"+percentage+" of their net worth. Thats $"+t+".";
+				res+="\n"+player.getCharName()+" owes "+percentage*100+" of their net worth. Thats $"+t+".";
 				player.setDebt(t);
 				return res;
 			}
@@ -247,7 +256,8 @@ public class PlayerActions {
 				//Go to jail
 			case 10:
 				player.sendToJail();
-				return "\n" + player.getCharName() + " was sent to intergalactic prison!";
+				return "\n" + player.getCharName() + " was sent to intergalactic prison!\n"+
+				"Attempt to break free by rolling doubles or pay the fee of $1000.";
 				//Jail
 			case 29:
 			}
