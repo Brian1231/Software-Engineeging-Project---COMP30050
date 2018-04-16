@@ -172,6 +172,14 @@ public class InGameController {
                         startButton.setOnAction(e2 -> {
                             boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?");
                             if (answer) {
+                                try {
+                                    JSONObject output1 = new JSONObject();
+                                    output1.put("id", 0);
+                                    output1.put("action", "end");
+                                    connection.send(output1);
+                                } catch (Exception e1) {
+                                    e1.printStackTrace();
+                                }
                                 closeGame();
                             }
                         });
