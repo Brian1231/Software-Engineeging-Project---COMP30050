@@ -243,24 +243,29 @@ public class PlayerActions {
 			String res = chance.getChance(Main.noc.getOpponent(player.getCharacter()));
 			return res;
 		}
-		else if(location instanceof SpecialSquare){
-			SpecialSquare square = (SpecialSquare) location; 
+		else if(location instanceof SpecialSquare) {
+			SpecialSquare square = (SpecialSquare) location;
 			String res = "";
-			switch (square.getLocation()){
-			//Go
-			case 0:
-				res+="\n"+player.getCharName() + " arrived at the galactic core.";
-				res+="\nThe fuel for " + player.getPossessive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up.";
-				player.topUpFuel();
-				return res;
+			switch (square.getLocation()) {
+				//Go
+				case 0:
+					res += "\n" + player.getCharName() + " arrived at the galactic core.";
+					res += "\nThe fuel for " + player.getPossessive().toLowerCase() + " " + player.getCharacter().getVehicle() + " was topped up.";
+					player.topUpFuel();
+					return res;
 				//Go to jail
-			case 10:
-				player.sendToJail();
-				return "\n" + player.getCharName() + " was sent to intergalactic prison!\n"+
-				"Attempt to break free by rolling doubles or pay the fee of $1000.";
+				case 10:
+					player.sendToJail();
+					return "\n" + player.getCharName() + " was sent to intergalactic prison!\n" +
+						"Attempt to break free by rolling doubles or pay the fee of $1000.";
 				//Jail
-			case 29:
+				case 29:
 			}
+		}
+		// landing on chance returns the a random chance template but currently no action is taken good/bad to player
+		else if(location instanceof ChanceSquare) {
+			ChanceSquare chance = (ChanceSquare) location;
+			return chance.getChance(player.getCharacter());
 		}
 		return "";
 	}
