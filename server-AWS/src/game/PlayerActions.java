@@ -143,7 +143,10 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
 						if (property.build(numToBuild)) {
-							return player.getCharName() + " built " + numToBuild + " houses on " + property.getId() + ".";
+							if(numToBuild>1)
+								return player.getCharName() + " built " + numToBuild + " houses on " + property.getId() + ".";
+							else
+								return player.getCharName() + " built " + numToBuild + " house on " + property.getId() + ".";
 						} else {
 							return property.getBuildDemolishError();
 						}
@@ -164,8 +167,11 @@ public class PlayerActions {
 			if (property.isOwned()) {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
-						if (property.build(numToDemolish)) {
-							return player.getCharName() + " demolished " + numToDemolish + " houses on " + property.getId() + ".";
+						if (property.demolish(numToDemolish)) {
+							if(numToDemolish>1)
+								return player.getCharName() + " demolished " + numToDemolish + " houses on " + property.getId() + ".";
+							else
+								return player.getCharName() + " demolished " + numToDemolish + " house on " + property.getId() + ".";
 						} else {
 							return property.getBuildDemolishError();
 						}

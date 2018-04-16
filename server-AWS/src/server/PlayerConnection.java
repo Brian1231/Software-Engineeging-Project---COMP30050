@@ -21,17 +21,35 @@ public class PlayerConnection extends Thread{
 	private int port;
 	private int playerID;
 	private BufferedWriter out;
+	private boolean keepAlive;
 
 	public PlayerConnection(int id, int portNum){
 		this.port = portNum;
 		this.playerID = id;
+		this.keepAlive = true;
 		try {
 			server = new ServerSocket(this.port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public int getPlayerId(){
+		return this.playerID;
+	}
 
+	public void kill(){
+		this.keepAlive = false;
+		try {
+			socket.close();
+			server.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void setup(){
 		System.out.println("Opening connection for Player" +this.playerID+" on Port " + this.port + " ...");
 		try {
@@ -59,7 +77,7 @@ public class PlayerConnection extends Thread{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		while(Main.gameState.isActive()){
+		while(Main.gameState.isActive() && this.keepAlive){
 			synchronized(this){
 				
 				try {
@@ -96,6 +114,12 @@ public class PlayerConnection extends Thread{
 					e1.printStackTrace();
 				}
 			}
+		}
+		try {
+			socket.close();
+			server.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

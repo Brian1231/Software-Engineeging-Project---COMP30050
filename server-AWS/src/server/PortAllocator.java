@@ -23,7 +23,7 @@ public class PortAllocator extends Thread{
 	private int playerPortCount;
 	private int playerCount=1;
 	private ArrayList<PlayerConnection> playerConnections;
-	private HashMap<Integer, String> idIpMap = new HashMap<Integer, String> ();
+	private HashMap<String, Integer> ipIdMap = new HashMap<String, Integer> ();
 
 	public PortAllocator(int portNum){
 		this.port = portNum;
@@ -60,9 +60,10 @@ public class PortAllocator extends Thread{
 								System.out.println("Message from Phone: " + line);
 							}
 							String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
-
-							if(!idIpMap.values().contains(client_ip)){
-								idIpMap.put(this.playerCount, client_ip);//Maybe not needed, Just array of ip's could do
+							
+							//If we havn't seen this player;s ip before, create a new connection
+							if(!ipIdMap.keySet().contains(client_ip) && ipIdMap.size()<4){
+								ipIdMap.put(client_ip, this.playerCount);//Maybe not needed, Just array of ip's could do
 
 								playerConnections.add(new PlayerConnection(this.playerCount, this.playerPortCount));
 
@@ -76,11 +77,36 @@ public class PortAllocator extends Thread{
 								this.playerCount++;
 								this.playerPortCount++;
 							}
+							//Attempt to reconnect player we've seen before
+							else if (ipIdMap.size()<4){
+								
+								int id = ipIdMap.get(client_ip);
+								System.out.println("Reconnecting player " + id + " ...");
+								for(int i=0;i<this.playerConnections.size();i++){
+									PlayerConnection pc = this.playerConnections.get(i);
+									if(pc.getPlayerId() == id){
+										System.out.println("Killing player thread: "+ pc.getPlayerId());
+										pc.kill();
+										this.playerConnections.remove(pc);
+										
+									}
+								}
+								int port = 8080+id;
+								playerConnections.add(new PlayerConnection(id, port));
+								
+								BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+								JSONObject response = new JSONObject();
+								response.put("id", id);
+								response.put("port", port);
+								out.write(response.toString()+ "\n");
+								out.flush();
+							}
 
 							for(PlayerConnection pc : playerConnections){
 								if(!pc.isAlive()){
 									pc.setup();
 									pc.start();
+									pc.updatePlayer();
 								}
 							}
 						}
