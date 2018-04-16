@@ -142,14 +142,17 @@ public class PlayerActions {
 			if (property.isOwned()) {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
-						if (property.build(numToBuild)) {
-							if(numToBuild>1)
-								return player.getCharName() + " built " + numToBuild + " houses on " + property.getId() + ".";
-							else
-								return player.getCharName() + " built " + numToBuild + " house on " + property.getId() + ".";
-						} else {
-							return property.getBuildDemolishError();
+						if(player.ownsThree(property.getColor())){
+							if (property.build(numToBuild)) {
+								if(numToBuild>1)
+									return player.getCharName() + " built " + numToBuild + " houses on " + property.getId() + ".";
+								else
+									return player.getCharName() + " built " + numToBuild + " house on " + property.getId() + ".";
+							} else {
+								return property.getBuildDemolishError();
+							}
 						}
+						return "You need to own 3 " + property.getColour() + "'s before you can build houses!";
 					}
 					return property.getId() + " is mortgaged! ";
 				}

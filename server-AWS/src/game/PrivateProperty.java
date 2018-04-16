@@ -71,6 +71,11 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 	}
 
 	@Override
+	public String getColor(){
+		return "GRAY";
+	}
+	
+	@Override
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info = new JSONObject();
 		info.put("id", this.getId());

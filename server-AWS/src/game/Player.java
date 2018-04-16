@@ -126,6 +126,14 @@ public class Player implements Playable, JSONable, Colourable {
 		return false;
 	}
 
+	public boolean ownsThree(String color){
+		int count = 0;
+		for(PrivateProperty prop : this.ownedProperties){
+			if(prop.getColor().equals(color))
+				count++;
+		}
+		return count ==3;
+	}
 
 	@Override
 	public JSONObject getInfo() throws JSONException{

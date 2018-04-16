@@ -39,6 +39,10 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 		return this.numHotels + this.numHouses;
 	}
 
+	public String getColor(){
+		return this.colour;
+	}
+	
 	@Override
 	public boolean build(int numToBuild) {
 		switch (numToBuild) {

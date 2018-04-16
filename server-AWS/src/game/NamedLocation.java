@@ -24,6 +24,10 @@ public class NamedLocation implements Identifiable, Locatable, JSONable{
 	public void setId(String id) {
 		this.identifier = id;		
 	}
+	
+	public String getColor(){
+		return "RED";
+	}
 	@Override
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info = new JSONObject();
