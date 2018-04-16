@@ -133,6 +133,57 @@ public class BoardCanvas extends ResizableCanvas {
 		g.fillText(location.getName(), x + (width / 2) - 20, y + (height / 2));
 	}
 
+	public void drawImagedTiles(){
+		Pane p = (Pane) this.getParent();
+
+		int locIndex = 0;
+		for (double t = -PI / 2; t < PI - step; t += step) {
+			if (Math.abs(t - PI / 2) > 0.000001) {    // so we don't draw two tiles in the centre.
+				Location location = Game.locations.get(locIndex);
+				Point2D point = lemniscate(t);
+
+				Image image = getImage(location);
+
+				if(image != null) {
+					Circle circle = new Circle(point.getX() + (getWidth() / 2), point.getY() + (getHeight() / 2), getWidth() / 30 - 6);
+					circle.setStroke(Game.locations.get(locIndex).getColour());
+					circle.setFill(new ImagePattern(image));
+					p.getChildren().add(circle);
+				}
+				locIndex+=1;
+			}
+		}
+		for (double t = -PI; t < -PI / 2 - step; t += step) {
+			Location location = Game.locations.get(locIndex);
+			Point2D point = lemniscate(t);
+
+			Image image = getImage(location);
+
+			if(image != null) {
+				Circle circle = new Circle(point.getX() + (getWidth() / 2), point.getY() + (getHeight() / 2), getWidth() / 30 - 6);
+				circle.setStroke(Game.locations.get(locIndex).getColour());
+				circle.setFill(new ImagePattern(image));
+				p.getChildren().add(circle);
+			}
+			locIndex+=1;
+		}
+	}
+
+	public Image getImage(Location location){
+		StringBuilder sb = new StringBuilder();
+		sb.append("/client/resources/images/worlds/");
+		sb.append(location.getName().trim().replace(":","").toString());
+		sb.append(".jpg");
+		System.out.println("sb: " + sb.toString());
+
+		try{
+			Image image = new Image( sb.toString() );
+			return image;
+		}catch(Exception e){
+			return null;
+		}
+	}
+
 /*
 	private void drawTileImages() {
 

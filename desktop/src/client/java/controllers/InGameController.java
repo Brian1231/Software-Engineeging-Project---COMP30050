@@ -72,7 +72,6 @@ public class InGameController {
 
     public void closeGame() {
         JSONObject output = new JSONObject();
-
         try {
             output.put("id", 0);
             output.put("action", "end");
@@ -105,6 +104,8 @@ public class InGameController {
                         String balance = Integer.toString(b);
                         int id = playerObjects.getJSONObject(i).getInt("id");
                         int position = playerObjects.getJSONObject(i).getInt("position");
+                        //String c = playerObjects.getJSONObject(i).getString("color");
+                        //Color color = (Color) Color.class.getField(c).get(null);
                         String character = playerObjects.getJSONObject(i).getString("character");
                         int fuel = playerObjects.getJSONObject(i).getInt("fuel");
                         plyrs.add(new Player(balance,id,position,Color.WHITE,character,fuel));
@@ -131,21 +132,21 @@ public class InGameController {
                     Game.updateLocations(locs);
 
                     boardCanvas.draw();
+                    //boardCanvas.drawImagedTiles();
                     BoardCanvas.locationsSetProperty.setValue(true);
                 }
 
                 infoPane.updateFeed(actionInfo);
 
-                if(gameStarted == true){
+                if(gameStarted){
                 	int playerPos = 0;
                 	for(Player p : Game.players){
                 		if(p.getId() == playerTurn) playerPos = p.getPosition();
                 	}
                     Location locToDisplay = Game.getLocation(playerPos);
                     infoPane.updateLocationInfo(locToDisplay);
+
                 }
-
-
             } catch (JSONException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -161,35 +162,31 @@ public class InGameController {
         startButton.layoutXProperty().bind(boardWrapper.widthProperty().divide(2).subtract(startButton.widthProperty().divide(2)));
         startButton.layoutYProperty().bind(boardWrapper.heightProperty().subtract(80));
         startButton.setOnAction(e -> {
-            try {
-            JSONObject output = new JSONObject();
-            output.put("id", 0);
-            output.put("action", "start");
-            connection.send(output);
-            gameStarted = true;
-            startButton.setText("End Game");
-            startButton.setOnAction(e2 ->   {
-                boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?");
-                if(answer){
-                    closeGame();
+                    try {
+                        JSONObject output = new JSONObject();
+                        output.put("id", 0);
+                        output.put("action", "start");
+                        connection.send(output);
+                        gameStarted = true;
+                        startButton.setText("End Game");
+                        startButton.setOnAction(e2 -> {
+                            boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?");
+                            if (answer) {
+                                closeGame();
+                            }
+                        });
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
                 }
-            } );
-        } catch (JSONException e1) {
-            e1.printStackTrace();
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-        }
-
-
         );
 
         infoPane.getChildren().add(startButton);
         layers.getChildren().add(boardWrapper);
-
         layers.getChildren().add(playerCanvas);
         layers.getChildren().add(infoPane);
-
         rootPane.setCenter(layers);
         boardCanvas.widthProperty().bind(rootPane.widthProperty());
         boardCanvas.heightProperty().bind(rootPane.heightProperty());

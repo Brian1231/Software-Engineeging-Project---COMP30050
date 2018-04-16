@@ -47,8 +47,8 @@ public class Player implements Serializable {
             e.printStackTrace();
         }
 
-        playerNameLabel.setTextFill(Color.rgb(232, 142, 39));
-        playerBalanceLabel.setTextFill(Color.rgb(232, 142, 39));
+        playerNameLabel.setTextFill(colour);
+        playerBalanceLabel.setTextFill(colour);
         stats.getChildren().add(playerNameLabel);
         stats.getChildren().add(playerBalanceLabel);
         stats.getChildren().add(playerFuelBar);

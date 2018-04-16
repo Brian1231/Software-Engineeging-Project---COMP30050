@@ -85,4 +85,12 @@ public class Location {
     public void setColour(Color colour) {
         this.colour = colour;
     }
+
+    public void setMortgaged(boolean mortgaged) {
+        isMortgaged = mortgaged;
+    }
+
+    public boolean isMortgaged() {
+        return isMortgaged;
+    }
 }

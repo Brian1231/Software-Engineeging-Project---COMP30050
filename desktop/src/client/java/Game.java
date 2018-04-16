@@ -15,7 +15,7 @@ public class Game {
     public static ArrayList<Player> players = new ArrayList<>();
     public static ObservableList<Player> observablePlayers = FXCollections.observableList(players);
 
-// Player Methods
+    // Player Methods
     // Updates players from server.
     public static void updatePlayers(List<Player> plyrs){
         for(Player p : plyrs){
@@ -24,6 +24,11 @@ public class Game {
             }
             else{
                 updatePlayerData(p);
+            }
+        }
+        for(Player ply : observablePlayers){
+            if(!plyrs.contains(ply)){
+                removePlayer(ply);
             }
         }
     }
@@ -39,6 +44,7 @@ public class Game {
             int index = observablePlayers.indexOf(player);
             observablePlayers.get(index).setBalance(player.getBalance());
             observablePlayers.get(index).setPosition(player.getPosition());
+            observablePlayers.get(index).setFuel(player.getFuel());
         }
     }
 
@@ -58,7 +64,7 @@ public class Game {
         return null;
     }
 
-// Location Methods
+    // Location Methods
     public static void initializeLocations(){
         for(int index = 0; index<40; index++){
             String initName = Integer.toString(index);
@@ -86,6 +92,7 @@ public class Game {
             locations.get(index).setPrice(location.getPosition());
             locations.get(index).setOwnerID(location.getOwnerID());
             locations.get(index).setColour(location.getColour());
+            locations.get(index).setMortgaged(location.isMortgaged());
             // etc
         }
     }
