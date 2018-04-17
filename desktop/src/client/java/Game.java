@@ -14,6 +14,8 @@ public class Game {
     public static ArrayList<Location> locations = new ArrayList<>();
     public static ArrayList<Player> players = new ArrayList<>();
     public static ObservableList<Player> observablePlayers = FXCollections.observableList(players);
+    public static Boolean gameStarted = false;
+    public static int playerTurn;
 
     // Player Methods
     // Updates players from server.

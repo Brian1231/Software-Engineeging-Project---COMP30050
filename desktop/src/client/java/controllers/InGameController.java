@@ -20,7 +20,7 @@ import java.util.List;
 
 public class InGameController {
 
-    private Boolean gameStarted = false;
+
     @FXML
     public BorderPane rootPane;
     // Stacks each layer on top of each other.
@@ -30,8 +30,6 @@ public class InGameController {
     private PlayerCanvas playerCanvas = new PlayerCanvas();
     private InformationPane infoPane = new InformationPane();
 
-    // Players
-    private int playerTurn;
 
     // Networking.
     private final static String IP = "52.48.249.220";
@@ -90,7 +88,7 @@ public class InGameController {
             try {
                 System.out.println("Current GameState: " + update.toString());
 
-                playerTurn = update.getInt("player_turn");
+                Game.playerTurn = update.getInt("player_turn");
 
                 String actionInfo = update.getString("action_info");
 
@@ -138,10 +136,10 @@ public class InGameController {
 
                 infoPane.updateFeed(actionInfo);
 
-                if(gameStarted){
+                if(Game.gameStarted){
                 	int playerPos = 0;
                 	for(Player p : Game.players){
-                		if(p.getId() == playerTurn) playerPos = p.getPosition();
+                		if(p.getId() == Game.playerTurn) playerPos = p.getPosition();
                 	}
                     Location locToDisplay = Game.getLocation(playerPos);
                     infoPane.updateLocationInfo(locToDisplay);
@@ -167,19 +165,11 @@ public class InGameController {
                         output.put("id", 0);
                         output.put("action", "start");
                         connection.send(output);
-                        gameStarted = true;
+                        Game.gameStarted = true;
                         startButton.setText("End Game");
                         startButton.setOnAction(e2 -> {
                             boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?");
                             if (answer) {
-                                try {
-                                    JSONObject output1 = new JSONObject();
-                                    output1.put("id", 0);
-                                    output1.put("action", "end");
-                                    connection.send(output1);
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
                                 closeGame();
                             }
                         });
