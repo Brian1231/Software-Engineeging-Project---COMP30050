@@ -10,6 +10,7 @@ import game_interfaces.Playable;
 import noc_db.Character_noc;
 import noc_db.Vehicle_noc;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Player implements Playable, JSONable, Colourable {
@@ -34,6 +35,7 @@ public class Player implements Playable, JSONable, Colourable {
 	private boolean isInJail;
 	private boolean movingForward;
 	private String colour;
+	private Color rgbColour;
 
 	public Player(int playerId, String ipAddr, Character_noc ch, Vehicle_noc vehicle){
 		this.id = playerId;
@@ -156,6 +158,7 @@ public class Player implements Playable, JSONable, Colourable {
 		info.put("character", this.character.getName());
 		info.put("properties", properties);
 		info.put("fuel", this.fuel);
+		info.put("colour", this.rgbColour);
 		return info;
 
 	}
@@ -331,6 +334,21 @@ public class Player implements Playable, JSONable, Colourable {
 	@Override
 	public String getColour() {
 		return colour;
+	}
+
+	@Override
+	public void setRGB(int r, int g, int b) {
+		rgbColour = new Color(r,g,b);
+	}
+
+	@Override
+	public void setRGB(Color colour) {
+		rgbColour = colour;
+	}
+
+	@Override
+	public Color getRGBColour() {
+		return this.rgbColour;
 	}
 
 	public Character_noc getCharacter() {

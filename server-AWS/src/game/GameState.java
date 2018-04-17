@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,8 @@ public class GameState implements JSONable {
 	private Dice dice;
 	public boolean isActive;
 	private PlayerActions playerActions = new PlayerActions();
+
+	private Color[] playerColours = {new Color(66,229,244),new Color(26,224,59), new Color(242, 50, 226), new Color(255, 244, 43)};
 
 
 	public GameState() {
@@ -134,6 +137,7 @@ public class GameState implements JSONable {
 			}
 			Player newPlayer = new Player(newID, client_ip, ch, Main.noc.getVehicle(ch.getVehicle()));
 			this.playerCharacters.add(ch);
+			newPlayer.setRGB(playerColours[newID]);
 			players.add(newPlayer);
 			clientIPplayerIDMap.put(client_ip, newPlayer);
 			return newID;
