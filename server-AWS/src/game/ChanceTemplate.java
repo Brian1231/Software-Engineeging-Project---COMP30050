@@ -88,6 +88,44 @@ public class ChanceTemplate {
 		sb.append(pronoun + " decides to give you a gift.");
 		return sb.toString();
 	}
+
+	private String template4(){
+		StringBuilder sb = new StringBuilder();
+		String act = char1.getActivity();
+		String setting = Main.noc.getActivitySetting(act);
+		String settingDeterminer = Main.noc.getLocationDeterminer(setting);
+		sb.append(char1.getName() + " appears stumbling out of" + settingDeterminer + " " + setting + ". ");
+		sb.append(pronoun + " says "+pronoun.toLowerCase()+ " just got 1st place in a "+act+" competition and wants to share some of the prize money with you.");
+		sb.append(pronoun + " decides to give you a gift.");
+		return sb.toString();
+	}
+	
+	public String getTemplateType(int type){
+		Random random = new Random();
+		switch(type){
+		//Get money
+		case 0:
+			int i = random.nextInt(2);
+			switch(i){
+			case 0: 
+				return this.template3();
+			case 1:
+				return this.template4();
+			}
+		//Lose money
+		case 1:
+			i = random.nextInt(3);
+			switch(i){
+			case 0: 
+				return this.template0();
+			case 1:
+				return this.template1();
+			case 2:
+				return this.template2();
+			}
+		default: return "";
+		}
+	}
 	
 	public String getRandomTemplate(){
 		Random random = new Random();
@@ -103,7 +141,7 @@ public class ChanceTemplate {
 			return this.template3();
 		default:
 			return "";
-		
+
 		}
 	}
 }

@@ -198,8 +198,9 @@ public class PlayerActions {
 	private String landedOn(Player player, NamedLocation location, int spaces){
 		if(location instanceof PrivateProperty){
 			PrivateProperty property = (PrivateProperty) location;
-			if(!property.getOwner().equals(player)){
-				if(property.isOwned()){
+			if(property.isOwned()){
+				if(!property.getOwner().equals(player)){
+
 					String res = "\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ".";
 					if(property instanceof InvestmentProperty){
 						InvestmentProperty p = (InvestmentProperty) property;
@@ -219,9 +220,10 @@ public class PlayerActions {
 						return res;
 					}
 				}
-				return "\n"+ property.getId() + " is unowned. It can be purchased for $" + property.getPrice() + ".";
+				return "\nYou own "+ property.getId() + ".";	
 			}
-			return "\nYou own "+ property.getId() + ".";
+
+			return "\n"+ property.getId() + " is unowned. It can be purchased for $" + property.getPrice() + ".";
 		}
 		else if(location instanceof TaxSquare){
 			TaxSquare tax = (TaxSquare) location;
@@ -235,14 +237,33 @@ public class PlayerActions {
 				//Percent in range 5% - 30%
 				double percentage = (0.05 + (random.nextInt(26)*0.01));
 				int t = tax.getIncomePercentage(player, percentage);
-				res+="\n"+player.getCharName()+" owes "+percentage*100+" of their net worth. Thats $"+t+".";
+				res+="\n"+player.getCharName()+" owes "+percentage*100+"% of their net worth. Thats $"+t+".";
 				player.setDebt(t);
 				return res;
 			}
 		}
 		else if(location instanceof ChanceSquare){
 			ChanceSquare chance = (ChanceSquare) location; 
-			String res = chance.getChance(Main.noc.getOpponent(player.getCharacter()));
+			int chanceType = random.nextInt(4);
+			String res = chance.getChance(Main.noc.getOpponent(player.getCharacter()), chanceType);
+			switch(chanceType){
+			//Get money
+			case 0:
+				int amount = 50 + 10*random.nextInt(26);
+				player.receiveMoney(amount);
+				res+="\n" + player.getCharName() + " receives $" + amount + ".";
+				break;
+				//Lose money
+			case 1:
+				amount = 50 + 10*random.nextInt(26);
+				player.setDebt(amount);
+				res+="\n" + player.getCharName() + " owes $" + amount + ".";
+				break;
+			case 2:
+				player.changeDirection();
+				res+="\n" + player.getCharName() + " has changed direction!.";
+				break;
+			}
 			return res;
 		}
 		else if(location instanceof SpecialSquare){
