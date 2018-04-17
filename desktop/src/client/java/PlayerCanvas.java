@@ -4,8 +4,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class PlayerCanvas extends ResizableCanvas {
 
@@ -50,7 +48,7 @@ public class PlayerCanvas extends ResizableCanvas {
 
     // Calculates each players x,y offset so they don't draw on top of each other.
     public Point2D playerOffset(Player player){
-        double baseOffset = 30;
+        double baseOffset = getWidth() / 80;
         double offsetX;
         double offsetY;
 

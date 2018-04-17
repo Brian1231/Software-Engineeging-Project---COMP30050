@@ -16,6 +16,7 @@ public class Game {
     public static ObservableList<Player> observablePlayers = FXCollections.observableList(players);
     public static Boolean gameStarted = false;
     public static int playerTurn;
+    public static boolean locationsSet = false;
 
     // Player Methods
     // Updates players from server.
@@ -28,20 +29,22 @@ public class Game {
                 updatePlayerData(p);
             }
         }
-        for(Player ply : observablePlayers){
-            if(!plyrs.contains(ply)){
-                removePlayer(ply);
-            }
-        }
+        // Not working right now
+        //for(Player ply : players){
+        //    if(!plyrs.contains(ply)){
+        //        removePlayer(ply);
+        //    }
+        // }
     }
 
     // Adds new player to player list.
-    public static void addPlayer(Player player){
+    private static void addPlayer(Player player){
         observablePlayers.add(player);
     }
 
+
     // Updates player on player list
-    public static void updatePlayerData(Player player){
+    private static void updatePlayerData(Player player){
         if(observablePlayers.contains(player)){
             int index = observablePlayers.indexOf(player);
             observablePlayers.get(index).setBalance(player.getBalance());
@@ -68,7 +71,7 @@ public class Game {
 
     // Location Methods
     public static void initializeLocations(){
-        for(int index = 0; index<40; index++){
+        for(int index = 0; index<39; index++){
             String initName = Integer.toString(index);
             locations.add(new Location(initName, index, 0,0,0, Color.GOLD, false));
         }
@@ -86,7 +89,7 @@ public class Game {
         }
     }
 
-    public static void updateLocationData(Location location){
+    private static void updateLocationData(Location location){
         if(locations.contains(location)){
             int index = locations.indexOf(location);
             locations.get(index).setName(location.getName());

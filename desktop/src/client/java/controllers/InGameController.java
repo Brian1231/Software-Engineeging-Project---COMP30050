@@ -6,10 +6,14 @@ import javafx.collections.ListChangeListener;
 
 import javafx.fxml.FXML;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +33,8 @@ public class InGameController {
     private PlayerCanvas playerCanvas = new PlayerCanvas();
     private InformationPane infoPane = new InformationPane();
 
+    private boolean imagesPlaced = false;
+
     // Networking.
     private final static String IP = "52.48.249.220";
     private final static int PORT = 8000;
@@ -45,7 +51,6 @@ public class InGameController {
         Game.observablePlayers.addListener(new ListChangeListener<Player>() {
             @Override
             public void onChanged(Change<? extends Player> c) {
-                System.out.println("change detected");
                 while (c.next()) {
                         for (Player remitem : c.getRemoved()) {
                             infoPane.removePlayerInfo(remitem);
@@ -59,6 +64,7 @@ public class InGameController {
         setUpBoard();
         //Testing
         //Game.addPlayer(new Player("2000", 1, 2, Color.WHITE, "Batman", 2));
+        //Game.addPlayer(new Player("1500", 2, 3, Color.WHITE, "SuperMan", 1));
         try {
             connection.startConnection();
         } catch (IOException e) {
@@ -128,10 +134,12 @@ public class InGameController {
                         locs.add(new Location(id,position,price,0,owner, color, isMortgaged));
                     }
                     Game.updateLocations(locs);
-
+                    Game.locationsSet = true;
+                    if(!imagesPlaced){
+                        boardCanvas.getImages();
+                    }
                     boardCanvas.draw();
-                    //boardCanvas.drawImagedTiles();
-                    BoardCanvas.locationsSetProperty.setValue(true);
+                    imagesPlaced = true;
                 }
 
                 infoPane.updateFeed(actionInfo);
@@ -170,7 +178,7 @@ public class InGameController {
                         startButton.setOnAction(e2 -> {
                             boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?");
                             if (answer) {
-                                closeGame();
+                                showGameOverScreen();
                             }
                         });
                     } catch (JSONException e1) {
@@ -194,6 +202,27 @@ public class InGameController {
         boardCanvas.draw();
         playerCanvas.draw();
     }
+
+    public void showGameOverScreen(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/gameOverScreen.fxml"));
+        Parent gameOver = null;
+
+        try {
+            gameOver = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Scene gameOverScene = new Scene(gameOver);
+        gameOverScene.getStylesheets().addAll(this.getClass().getResource("/client/resources/css/welcome.css").toExternalForm());
+        Stage gameOverStage = new Stage();
+        gameOverStage.setScene(gameOverScene);
+
+        //InGameController gameController = loader.getController();
+        gameOverStage.setOnCloseRequest(e -> closeGame());
+        gameOverStage.show();
+    }
+
 
 }
 
