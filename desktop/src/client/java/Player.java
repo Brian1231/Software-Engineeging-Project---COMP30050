@@ -5,6 +5,9 @@ import javafx.beans.property.adapter.JavaBeanDoublePropertyBuilder;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -24,6 +27,8 @@ public class Player implements Serializable {
 
     // Information Display objects
     public Label playerNameLabel = new Label();
+    HBox money = new HBox(5);
+    Image currency = new Image("client/resources/images/Schmeckles.png");
     public Label playerBalanceLabel = new Label();
     public ProgressBar playerFuelBar = new ProgressBar();
     public VBox stats = new VBox();
@@ -44,7 +49,7 @@ public class Player implements Serializable {
         this.pcs = new PropertyChangeSupport(this);
 
         try {
-            playerNameLabel.textProperty().bind(new JavaBeanStringPropertyBuilder().bean(this).name("character").build());
+            playerNameLabel.textProperty().bind(new JavaBeanStringPropertyBuilder().bean(this).name("character").build().concat(" Player: " + id));
             playerBalanceLabel.textProperty().bind(new JavaBeanStringPropertyBuilder().bean(this).name("balance").build());
             playerFuelBar.progressProperty().bind(new JavaBeanDoublePropertyBuilder().bean(this).name("fuel").build().divide(3.0));
         } catch (NoSuchMethodException e) {
@@ -53,8 +58,13 @@ public class Player implements Serializable {
 
         playerNameLabel.setTextFill(colour);
         playerBalanceLabel.setTextFill(colour);
+        ImageView c = new ImageView();
+        c.setImage(currency);
+        c.setFitHeight(20);
+        c.setFitWidth(20);
+        money.getChildren().addAll(c,playerBalanceLabel);
         stats.getChildren().add(playerNameLabel);
-        stats.getChildren().add(playerBalanceLabel);
+        stats.getChildren().add(money);
         stats.getChildren().add(playerFuelBar);
     }
 

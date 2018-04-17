@@ -20,7 +20,6 @@ import java.util.List;
 
 public class InGameController {
 
-
     @FXML
     public BorderPane rootPane;
     // Stacks each layer on top of each other.
@@ -29,7 +28,6 @@ public class InGameController {
     private BoardCanvas boardCanvas = new BoardCanvas();
     private PlayerCanvas playerCanvas = new PlayerCanvas();
     private InformationPane infoPane = new InformationPane();
-
 
     // Networking.
     private final static String IP = "52.48.249.220";
@@ -59,6 +57,8 @@ public class InGameController {
                 }
         });
         setUpBoard();
+        //Testing
+        //Game.addPlayer(new Player("2000", 1, 2, Color.WHITE, "Batman", 2));
         try {
             connection.startConnection();
         } catch (IOException e) {
