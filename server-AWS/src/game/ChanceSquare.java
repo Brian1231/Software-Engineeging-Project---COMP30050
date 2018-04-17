@@ -9,7 +9,7 @@ public class ChanceSquare extends NamedLocation{
 		super(s);
 	}
 	
-	public String getChance(Character_noc ch){
-		return new ChanceTemplate(ch).getRandomTemplate();
+	public String getChance(Character_noc ch, int type){
+		return new ChanceTemplate(ch).getTemplateType(type);
 	}
 }

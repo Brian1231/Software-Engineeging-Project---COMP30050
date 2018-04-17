@@ -32,6 +32,7 @@ public class Player implements Playable, JSONable, Colourable {
 	private boolean isOnGo;
 	private boolean isInDebt;
 	private boolean isInJail;
+	private boolean movingForward;
 	private String colour;
 
 	public Player(int playerId, String ipAddr, Character_noc ch, Vehicle_noc vehicle){
@@ -51,6 +52,7 @@ public class Player implements Playable, JSONable, Colourable {
 		this.fuel = 1;
 		this.character = ch;
 		this.vehicle = vehicle;
+		this.movingForward = true;
 	}
 
 	@Override
@@ -116,6 +118,10 @@ public class Player implements Playable, JSONable, Colourable {
 		return this.isInJail;
 	}
 
+	public void changeDirection(){
+		this.movingForward = !this.movingForward;
+	}
+
 	public boolean incrementJailTurns(){
 		this.jailTurnCount++;
 		if(this.jailTurnCount==3){
@@ -176,36 +182,81 @@ public class Player implements Playable, JSONable, Colourable {
 
 	@Override
 	public String moveForward(int spaces){
-		int oldPos = this.position;
-		if(this.isOnGo){
-			this.position = 19;
-			this.isOnGo = false;
-			this.position = (this.position + spaces)%39;
-			return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
+		if(this.movingForward){
+			int oldPos = this.position;
+			if(this.isOnGo){
+				this.position = 19;
+				this.isOnGo = false;
+				this.position = (this.position + spaces)%39;
+				return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 
+			}
+			else{
+				String res = "";
+				this.position = (this.position + spaces)%39;
+
+				//Check if we pass go
+				if((oldPos<20 && this.position>19) || (oldPos>20 && this.position>=0 && this.position<20)){
+					res+= this.getCharName() +" passed go and received $100.\n";
+					this.receiveMoney(100);
+				}
+
+				//If we land on go going backwards
+				if(this.position == 20) {
+					this.position = 0;
+					this.isOnGo = true;
+				}
+
+				//Allocating for extra space at go
+				if(oldPos<20 && this.position>20){
+					this.position--;
+				}
+
+				return res+this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
+			}
 		}
 		else{
-			String res = "";
-			this.position = (this.position + spaces)%39;
-
-			//Check if we pass go
-			if((oldPos<20 && this.position>19) || (oldPos>20 && this.position>=0 && this.position<20)){
-				res+= this.getCharName() +" passed go and received $100.\n";
-				this.receiveMoney(100);
+			//Moving backwards
+			int oldPos = this.position;
+			if(this.isOnGo){
+				this.position = 20;
+				this.isOnGo = false;
+				if(this.position-spaces>=0)
+					this.position = (this.position - spaces);
+				else{
+					int x = spaces - this.position;
+					this.position = 39-x;
+				}
+				return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 			}
+			else{
+				String res = "";
+				if(this.position-spaces>=0)
+					this.position = (this.position - spaces);
+				else{
+					int x = spaces - this.position;
+					this.position = 39-x;
+				}
 
-			//If we land on go going backwards
-			if(this.position == 20) {
-				this.position = 0;
-				this.isOnGo = true;
+				//Check if we pass go
+				if((oldPos>20 && this.position<=20) || (this.position>=20 && oldPos>0 && oldPos<20)){
+					res+= this.getCharName() +" passed go and received $100.\n";
+					this.receiveMoney(100);
+				}
+
+				//If we land on go going backwards
+				if(this.position == 20) {
+					this.position = 0;
+					this.isOnGo = true;
+				}
+
+				//Allocating for extra space at go
+				if((oldPos>20 && this.position<20)){
+					this.position++;
+				}
+				
+				return res+this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 			}
-
-			//Allocating for extra space at go
-			if(oldPos<20 && this.position>20){
-				this.position--;
-			}
-
-			return res+this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 		}
 	}
 
