@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -26,6 +27,9 @@ public class Player implements Serializable {
     public Label playerBalanceLabel = new Label();
     public ProgressBar playerFuelBar = new ProgressBar();
     public VBox stats = new VBox();
+
+    // Token
+    public Circle playerToken = new Circle();
 
     private final PropertyChangeSupport pcs ;
 

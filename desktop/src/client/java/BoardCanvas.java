@@ -26,37 +26,28 @@ public class BoardCanvas extends ResizableCanvas {
 
 	private int currentTile;
 	public static BooleanProperty locationsSetProperty = new SimpleBooleanProperty();
+	private Pane wrapperPane = (Pane) this.getParent();
 
 	public BoardCanvas() {
 		// Redraw canvas when size changes
 		currentTile = 0;
-		locationsSetProperty.setValue(false);
-		locationsSetProperty.addListener(evt -> {
-			try {
-				//drawTileImages();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
+
 		widthProperty().addListener(evt -> {
 			try {
 				draw();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
 		});
+
 		heightProperty().addListener(evt -> {
 			try {
 				draw();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
