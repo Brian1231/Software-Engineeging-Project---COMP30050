@@ -198,28 +198,30 @@ public class PlayerActions {
 	private String landedOn(Player player, NamedLocation location, int spaces){
 		if(location instanceof PrivateProperty){
 			PrivateProperty property = (PrivateProperty) location;
-			if(property.isOwned() && !property.getOwner().equals(player)){
-				String res = "\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ".";
-				if(property instanceof InvestmentProperty){
-					InvestmentProperty p = (InvestmentProperty) property;
-					player.setDebt(p.getBaseRentAmount(), property.getOwner());
-					return res;
+			if(!property.getOwner().equals(player)){
+				if(property.isOwned()){
+					String res = "\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ".";
+					if(property instanceof InvestmentProperty){
+						InvestmentProperty p = (InvestmentProperty) property;
+						player.setDebt(p.getBaseRentAmount(), property.getOwner());
+						return res;
+					}
+					else if(property instanceof Station){
+						//Station
+						Station s = (Station) property;
+						player.setDebt(s.getRentalAmount(), property.getOwner());
+						return res;
+					}
+					else{
+						//Utility
+						Utility u = (Utility) property;
+						player.setDebt(u.getRentalAmount(spaces), property.getOwner());
+						return res;
+					}
 				}
-				else if(property instanceof Station){
-					//Station
-					Station s = (Station) property;
-					player.setDebt(s.getRentalAmount(), property.getOwner());
-					return res;
-				}
-				else{
-					//Utility
-					Utility u = (Utility) property;
-					player.setDebt(u.getRentalAmount(spaces), property.getOwner());
-					return res;
-				}
-
+				return "\n"+ property.getId() + " is unowned. It can be purchased for $" + property.getPrice() + ".";
 			}
-			return "\n"+ property.getId() + " is unowned. It can be purchased for $" + property.getPrice() + ".";
+			return "\nYou own "+ property.getId() + ".";
 		}
 		else if(location instanceof TaxSquare){
 			TaxSquare tax = (TaxSquare) location;
@@ -243,29 +245,24 @@ public class PlayerActions {
 			String res = chance.getChance(Main.noc.getOpponent(player.getCharacter()));
 			return res;
 		}
-		else if(location instanceof SpecialSquare) {
-			SpecialSquare square = (SpecialSquare) location;
+		else if(location instanceof SpecialSquare){
+			SpecialSquare square = (SpecialSquare) location; 
 			String res = "";
-			switch (square.getLocation()) {
-				//Go
-				case 0:
-					res += "\n" + player.getCharName() + " arrived at the galactic core.";
-					res += "\nThe fuel for " + player.getPossessive().toLowerCase() + " " + player.getCharacter().getVehicle() + " was topped up.";
-					player.topUpFuel();
-					return res;
+			switch (square.getLocation()){
+			//Go
+			case 0:
+				res+="\n"+player.getCharName() + " arrived at the galactic core.";
+				res+="\nThe fuel for " + player.getPossessive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up.";
+				player.topUpFuel();
+				return res;
 				//Go to jail
-				case 10:
-					player.sendToJail();
-					return "\n" + player.getCharName() + " was sent to intergalactic prison!\n" +
-						"Attempt to break free by rolling doubles or pay the fee of $1000.";
+			case 10:
+				player.sendToJail();
+				return "\n" + player.getCharName() + " was sent to intergalactic prison!\n"+
+				"Attempt to break free by rolling doubles or pay the fee of $1000.";
 				//Jail
-				case 29:
+			case 29:
 			}
-		}
-		// landing on chance returns the a random chance template but currently no action is taken good/bad to player
-		else if(location instanceof ChanceSquare) {
-			ChanceSquare chance = (ChanceSquare) location;
-			return chance.getChance(player.getCharacter());
 		}
 		return "";
 	}
