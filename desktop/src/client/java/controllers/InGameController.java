@@ -35,6 +35,7 @@ public class InGameController {
 
     private boolean imagesPlaced = false;
 
+
     // Networking.
     private final static String IP = "52.48.249.220";
     private final static int PORT = 8000;
@@ -104,15 +105,21 @@ public class InGameController {
                     JSONArray playerObjects = update.getJSONArray("players");
 
                     for(int i=0;i<playerObjects.length();i++){
-                        int b = playerObjects.getJSONObject(i).getInt("balance");
-                        String balance = Integer.toString(b);
+                        int bal = playerObjects.getJSONObject(i).getInt("balance");
+                        String balance = Integer.toString(bal);
                         int id = playerObjects.getJSONObject(i).getInt("id");
                         int position = playerObjects.getJSONObject(i).getInt("position");
-                        //String c = playerObjects.getJSONObject(i).getString("color");
+                        Object c = playerObjects.getJSONObject(i).get("colour");
+                        java.awt.Color col = (java.awt.Color) c;
+                        int r = col.getRed();
+                        int g = col.getGreen();
+                        int b = col.getBlue();
+                        int a = col.getAlpha();
+                        Color fxColor = Color.rgb(r,g,b,a);
                         //Color color = (Color) Color.class.getField(c).get(null);
                         String character = playerObjects.getJSONObject(i).getString("character");
                         int fuel = playerObjects.getJSONObject(i).getInt("fuel");
-                        plyrs.add(new Player(balance,id,position,Color.WHITE,character,fuel));
+                        plyrs.add(new Player(balance,id,position,fxColor,character,fuel));
                     }
                     Game.updatePlayers(plyrs);
                     playerCanvas.draw();
