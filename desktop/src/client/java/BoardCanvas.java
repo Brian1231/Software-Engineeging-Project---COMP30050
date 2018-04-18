@@ -20,7 +20,6 @@ public class BoardCanvas extends ResizableCanvas {
 
 	private int currentTile;
 	private Pane wrapperPane = (Pane) this.getParent();
-	private ArrayList<Image> images = new ArrayList();
 
 	public BoardCanvas() {
 		// Redraw canvas when size changes
@@ -143,7 +142,7 @@ public class BoardCanvas extends ResizableCanvas {
 		double x = point.getX();
 		double y = point.getY();
 
-		Image image = images.get(location.getPosition());
+		Image image = location.getImage();
 		ColorAdjust ca = new ColorAdjust();
 
 		if(image != null) {
@@ -188,7 +187,7 @@ public class BoardCanvas extends ResizableCanvas {
 
 	public void getImages(){
 		for(Location loc : Game.locations){
-			images.add(getImage(loc));
+			loc.setImage(getImage(loc));
 		}
 	}
 

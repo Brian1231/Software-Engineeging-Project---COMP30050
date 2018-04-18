@@ -1,7 +1,9 @@
 package client.java;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+
 
 public class Location {
 
@@ -13,7 +15,7 @@ public class Location {
     private int ownerID;
     private Color colour;
     private boolean isMortgaged;
-
+    private Image image;
     // Display objects.
     Circle Tile = new Circle();
 
@@ -98,5 +100,13 @@ public class Location {
 
     public boolean isMortgaged() {
         return isMortgaged;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 }
