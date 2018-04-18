@@ -1,23 +1,17 @@
 package client.java;
 
 
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.Shadow;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.*;
-import javafx.scene.layout.Pane;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
-
-import client.java.controllers.InGameController;
-
-import static java.lang.Float.MAX_VALUE;
 
 
 public class InformationPane extends Pane {
@@ -25,9 +19,14 @@ public class InformationPane extends Pane {
     private Label title = new Label("Panopoly");
     private Circle eventLogger = new Circle();
     private TextArea feed = new TextArea();
+
     private Circle tileInfo = new Circle();
     private Label tileName = new Label("Name of current Tile");
-    private Label tileCost = new Label("$200");
+    private Label tileCost = new Label("Cost: $200");
+    private Label tileOwner = new Label("Owner: Bank");
+    private Label tileRent = new Label("Rent: $50");
+    private ImageView tileImage = new ImageView();
+
 
     public BorderPane playerInfoLayout = new BorderPane();
     HBox top = new HBox();
@@ -82,6 +81,22 @@ public class InformationPane extends Pane {
 		tileCost.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2)));
 		tileCost.setTextFill(Color.WHITE);
 		getChildren().add(tileCost);
+        // Rent
+        tileRent.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileRent.widthProperty().divide(2)));
+        tileRent.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2.4)));
+        tileRent.setTextFill(Color.WHITE);
+        getChildren().add(tileRent);
+        // Owner
+        tileOwner.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileOwner.widthProperty().divide(2)));
+        tileOwner.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(3)));
+        tileOwner.setTextFill(Color.WHITE);
+        getChildren().add(tileOwner);
+		// Tile Image
+        tileImage.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileImage.fitWidthProperty().divide(2)));
+        tileImage.layoutYProperty().bind(tileInfo.layoutYProperty().subtract(tileImage.fitHeightProperty().divide(2)));
+        tileImage.fitWidthProperty().bind(tileInfo.radiusProperty().multiply(1.8));
+        tileImage.fitHeightProperty().bind(tileInfo.radiusProperty().divide(2));
+        getChildren().add(tileImage);
 
         // Player stats in 4 corners
         playerInfoLayout.prefWidthProperty().bind(this.widthProperty());
@@ -110,7 +125,10 @@ public class InformationPane extends Pane {
 	public void updateLocationInfo(Location loc) {
 		tileName.setText(loc.getName());
 		tileInfo.setStroke(loc.getColour());
-		tileCost.setText("$" + Integer.toString(loc.getPrice()));
+		tileCost.setText("Price: $" + Integer.toString(loc.getPrice()));
+		tileImage.setImage(loc.getImage());
+		tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
+		tileRent.setText("Rent: " + loc.getRent());
 	}
 
     public void addPlayerInfo(Player player){
