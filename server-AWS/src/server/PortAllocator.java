@@ -126,9 +126,10 @@ public class PortAllocator extends Thread{
 	public void endGame() {
 		for(PlayerConnection pc : this.playerConnections){
 			pc.updatePlayer();
+
+			pc.kill();
 			//Send endgame message JSON
 		}
-		Main.gameState.isActive = false;
 	}
 }
 
