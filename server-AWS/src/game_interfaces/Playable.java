@@ -1,41 +1,100 @@
 package game_interfaces;
 
 import game.PrivateProperty;
+import noc_db.Character_noc;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public interface Playable extends Identifiable {
-    String toString();
 
     String getIp();
+
+    boolean hasRolled();
+
+    void resetRoll();
+
+    boolean hasBought();
+
+    void useBuy();
+
+    boolean hasBoosted();
+
+    void resetBoost();
+
+    void resetBought();
+
+    void useRoll();
+
+    void topUpFuel();
+
+    int getFuel();
+
+    void sendToJail();
+
+    void releaseFromJail();
+
+    boolean isInJail();
+
+    void changeDirection();
+
+    boolean incrementJailTurns();
+
+    boolean ownsThree(String color);
 
     JSONObject getInfo() throws JSONException;
 
     int getPos();
 
-    // do we want ID as string or int??
     int getID();
 
-    String getId();
+    String getCanName();
+
+    int getBalance();
+
+    String useBoost();
 
     String moveForward(int spaces);
-    
+
     String getCharName();
 
     int getNetWorth();
+
     void setNetWorth(int netWorth);
 
     void payMoney(int paid);
+
     void receiveMoney(int received);
 
-    // returns list of ID of owned properties
     ArrayList<PrivateProperty> getOwnedProperties();
 
-    // add new property to list of properties owned
     void addNewPropertyBought(PrivateProperty property);
 
-    // remove property player sold
     void removePropertySold(PrivateProperty property);
+
+    void setColour(String colour);
+
+    String getColour();
+
+    void setRGB(int r, int g, int b);
+
+    void setRGB(Color colour);
+
+    Color getRGBColour();
+
+    Character_noc getCharacter();
+
+    boolean isInDebt();
+
+    void setDebt(int amount, Playable player);
+
+    void setDebt(int amount);
+
+    void removeDebt();
+
+    String getPossessive();
+
+    String payDebt();
 }

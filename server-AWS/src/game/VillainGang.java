@@ -2,6 +2,7 @@ package game;
 
 import java.util.Random;
 
+import game_interfaces.VillainGangable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,7 +11,7 @@ import main.Main;
 import noc_db.Character_noc;
 import noc_db.Weapon_noc;
 
-public class VillainGang implements JSONable{
+public class VillainGang implements JSONable, VillainGangable {
 
 	private boolean isActive;
 	private int position;
@@ -23,15 +24,18 @@ public class VillainGang implements JSONable{
 		this.turnsToLive = 10;
 	}
 
-	public boolean isActive(){
+	@Override
+	public boolean isActive() {
 		return this.isActive;
 	}
 
-	public int position(){
+	@Override
+    public int position(){
 		return this.position;
 	}
 	
-	public void activate(int location){
+	@Override
+    public void activate(int location){
 		this.isActive = true;
 		this.position = location;
 		this.turnsToLive = 10;
@@ -42,11 +46,13 @@ public class VillainGang implements JSONable{
 		}
 	}
 
-	public void deactivate(){
+	@Override
+    public void deactivate(){
 		this.isActive = false;
 	}
 
-	public void update(){
+	@Override
+    public void update(){
 		if(this.isActive){
 			this.turnsToLive--;
 			if(this.turnsToLive == 0 ) this.deactivate();
@@ -70,7 +76,8 @@ public class VillainGang implements JSONable{
 		}
 	}
 
-	public String attackPlayer(Player player){
+	@Override
+    public String attackPlayer(Player player){
 		Random random = new Random();
 		int amount = 50 + 10*random.nextInt(26);
 		player.setDebt(amount);
