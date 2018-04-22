@@ -100,4 +100,12 @@ public final class Constants {
         new Color(242, 50, 226),
         new Color(255, 244, 43)
     };
+
+    // Investment property colour groups
+    public static final Color[] INVESTMENT_COLOUR_GROUPS = new Color[]{
+        Color.CYAN, Color.GREEN,
+        Color.MAGENTA, Color.YELLOW,
+        Color.ORANGE, Color.BLUE,
+        Color.WHITE, Color.PINK
+    };
 }

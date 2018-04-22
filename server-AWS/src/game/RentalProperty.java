@@ -12,6 +12,7 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 	private boolean isMortgaged = false;
 	private int[] rentAmounts;
 	private boolean hasTrap;
+	private int mortgageAmount;
 
 	public RentalProperty(String name, int price) {
 		super(name, price);
@@ -20,13 +21,17 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 
 	@Override
 	public int getMortgageAmount() {
-		float amount = ((float) super.getPrice()*0.9f);
-		return Math.round(amount);
+		return this.mortgageAmount;
+	}
+
+	@Override
+	public void setMortgageAmount(int mortgageAmount) {
+		this.mortgageAmount = mortgageAmount;
 	}
 
 	@Override
 	public void mortgage(Playable player) {
-		player.receiveMoney(getMortgageAmount());
+		player.receiveMoney(this.mortgageAmount);
 		setMortgageStatus(true);
 	}
 
@@ -38,9 +43,7 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 
 	@Override
 	public int getRedeemAmount() {
-		int amount = super.getPrice();
-		float interest = (float) amount * 0.1f;
-		return Math.round(interest) + amount;
+		return Math.round(this.mortgageAmount + (this.mortgageAmount * 0.1f));
 	}
 
 	@Override

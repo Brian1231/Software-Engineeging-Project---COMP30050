@@ -49,7 +49,7 @@ public class GameState implements JSONable {
 		int[] rents = {100, 200, 300, 400};
 		for (int i = 0; i < 24; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new InvestmentProperty(randomWorld.getWorld(), 200 + i * 20, rents));
+			properties.add(new InvestmentProperty(randomWorld.getWorld()));
 		}
 
 		//3 Tax squares
@@ -61,13 +61,13 @@ public class GameState implements JSONable {
 		//Stations
 		for (int i = 0; i < 4; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new Station(randomWorld.getWorld(),200  + i * 20, rents));
+			properties.add(new Station(randomWorld.getWorld(),Constants.STATION_PRICES[i], Constants.STATION_RENTS[i]));
 		}
 
 		//Utilities
 		for (int i = 0; i < 2; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new Utility(randomWorld.getWorld(), 200 + i * 20));
+			properties.add(new Utility(randomWorld.getWorld(), Constants.UTILITY_PRICES[i]));
 		}
 
 		//Chance Squares
@@ -86,9 +86,9 @@ public class GameState implements JSONable {
 		locations.add(10, new SpecialSquare("Go to Intergalactic Prison!"));
 		locations.add(29, new SpecialSquare("Intergalactic Prison"));
 
-		String[] colours = {"CYAN", "GREEN", "MAGENTA", "YELLOW", "ORANGE", "BLUE", "WHITE", "PINK"};
 		int colourCount = 0;
 		int colourIndex = 0;
+		int investmentPropCount = 0;
 
 		for (int i = 0; i < locations.size(); i++) {
 			locations.get(i).setLocation(i);
@@ -96,7 +96,11 @@ public class GameState implements JSONable {
 				InvestmentProperty prop = (InvestmentProperty) locations.get(i);
 				prop.setColour(colours[colourIndex]);
 				colourCount++;
-				if (colourCount % 3 == 0) colourIndex++;
+				investmentPropCount++;
+
+				if (colourCount % 3 == 0) {
+					colourIndex++;
+				}
 			}
 		}
 	}
