@@ -25,6 +25,7 @@
 "owner": int (player id) <br />
 "color": String <br />
 "is_mortgaged": boolean <br />
+"hasTrap": boolean <br />
 
 ## Phone-to-Server 
 ### Initial Phone-to-Server JSON on port 8080:
@@ -43,6 +44,7 @@
 ("build"-> attempt to build on tile at position args[0] with number to build args[1])<br />
 ("demolish"-> attempt to demolish on tile at position args[0] with number to demolish args[1])<br />
 ("pay"-> attempt to pay debt to owed player) <br />
+("trap"-> attempt to set a trap on tile at position args[0] )<br />
 "args": Strings separated with "," <br />
 
 ## Server-to-Phone:
