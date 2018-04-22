@@ -137,7 +137,12 @@ public class InGameController {
                         int price = locationObjects.getJSONObject(i).getInt("price");
                         int position = locationObjects.getJSONObject(i).getInt("location");
                         int owner = locationObjects.getJSONObject(i).getInt("owner");
-                        String c = locationObjects.getJSONObject(i).getString("color");
+                        String c = locationObjects.getJSONObject(i).getString("colour");
+
+//                         below lines for when server code is pushed to aws as now sends the colour object in JSON same as players
+//                         java.awt.Color col = new java.awt.Color(locationObjects.getJSONObject(i).getInt("colour"));
+//                         Color color = Color.rgb(col.getRed(), col.getBlue(), col.getGreen());
+
                         Color color = (Color) Color.class.getField(c).get(null);
                         boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
                         locs.add(new Location(id,position,price,0,owner, color, isMortgaged));
