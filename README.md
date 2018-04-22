@@ -5,9 +5,16 @@
 "action": String ("start"-> starts game) <br />
 
 ## Server-to-Desktop JSON:
+## Player update
 "player_turn":int <br />
 "game_started": boolean <br />
 "players": JSONArray of JSONObjects for players <br />
+"action_info": String <br />
+"villain_gang":JSONObject VillainGang<br />
+
+## Board update
+"player_turn":int <br />
+"game_started": boolean <br />
 "locations": JSONArray of JSONObjects for locations <br />
 "action_info": String <br />
 
@@ -17,6 +24,10 @@
 "position": int (0 to 39) <br />
 "character": String <br />
 "fuel": int (fuel amount 0-3) <br />
+
+### JSONObject villain gang:
+"is_active": boolean <br />
+"position": int (0 to 39) <br />
 
 ### JSONObject location:
 "id": String <br />
