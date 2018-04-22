@@ -109,7 +109,7 @@ public class ChanceTemplate {
 		else 		
 			sb.append(char1.getName() + " arrives " + vehicle.getAffordance() + " " + vehicle.getDeterminer() + " " + vehicle.getVehicle()+ ". ");
 		sb.append(pronoun + " warns you of dangerous areas up ahead and recommends you go back the way you came. ");
-		sb.append("You decide to take " + them.toLowerCase() + "advise. ");
+		sb.append("You decide to take " + possesion.toLowerCase() + " advise. ");
 		return sb.toString(); 
 	}
 
@@ -130,7 +130,7 @@ public class ChanceTemplate {
 			else
 				return this.template3();
 		//Change direction
-		case 3:
+		case 2:
 			if(random.nextBoolean())
 				return this.template4();
 			else

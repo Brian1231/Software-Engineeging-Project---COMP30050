@@ -127,7 +127,10 @@ public class InformationPane extends Pane {
 		tileInfo.setStroke(loc.getColour());
 		tileCost.setText("Price: $" + Integer.toString(loc.getPrice()));
 		tileImage.setImage(loc.getImage());
-		tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
+		if(loc.getOwnerID()==0)
+			tileOwner.setText("Owner: " + " Unowned");
+		else
+			tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
 		tileRent.setText("Rent: " + loc.getRent());
 	}
 

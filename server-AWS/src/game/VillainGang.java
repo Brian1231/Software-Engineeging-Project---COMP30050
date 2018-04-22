@@ -19,6 +19,8 @@ public class VillainGang implements JSONable{
 
 	public VillainGang(){
 		this.isActive = false;
+		this.position = 0;
+		this.turnsToLive = 10;
 	}
 
 	public boolean isActive(){
@@ -48,26 +50,21 @@ public class VillainGang implements JSONable{
 		if(this.isActive){
 			this.turnsToLive--;
 			if(this.turnsToLive == 0 ) this.deactivate();
-			int oldPos = this.position;
 			if(this.isOnGo){
 				this.position = 19;
 				this.isOnGo = false;
-				this.position = (this.position++)%39;
+				this.position = (this.position+=1)%39;
 			}
 			else{
-				this.position = (this.position++)%39;
-
+				System.out.println("here");
+				this.position = (this.position+=1)%39;
 
 				//If we land on go going backwards
 				if(this.position == 20) {
 					this.position = 0;
 					this.isOnGo = true;
 				}
-
-				//Allocating for extra space at go
-				if(oldPos<20 && this.position>20){
-					this.position--;
-				}
+			
 
 			}
 		}
@@ -91,7 +88,7 @@ public class VillainGang implements JSONable{
 		JSONObject info = new JSONObject();
 		info.put("position", this.position);
 		info.put("is_active", this.isActive);
-		return null;
+		return info;
 	}
 }
 
