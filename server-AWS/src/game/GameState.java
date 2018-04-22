@@ -94,7 +94,16 @@ public class GameState implements JSONable {
 			locations.get(i).setLocation(i);
 			if (locations.get(i) instanceof InvestmentProperty) {
 				InvestmentProperty prop = (InvestmentProperty) locations.get(i);
-				prop.setColour(colours[colourIndex]);
+
+				// setting Investment properties variables
+				prop.setPrice(Constants.INVESTMENT_PRICES[investmentPropCount]);
+				prop.setRentAmounts(Constants.INVESTMENT_RENTS[investmentPropCount]);
+				prop.setHousePrice(Constants.HOUSE_PRICES[investmentPropCount]);
+				prop.setHotelPrice(Constants.HOUSE_PRICES[investmentPropCount]);
+				prop.setNumInGroup(3);
+				prop.setRGB(Constants.INVESTMENT_COLOUR_GROUPS[colourIndex]);
+
+				// increments
 				colourCount++;
 				investmentPropCount++;
 
