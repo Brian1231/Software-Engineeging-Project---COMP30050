@@ -5,8 +5,15 @@ import java.awt.*;
 public final class Constants {
 
     private Constants() {
-
+        // private constructor so cant be instantiated as all variables are public static final
     }
+
+
+    // 24 investment
+    // 3 tax
+    // 4 stations
+    // 2 utils
+    // 3 chance
 
     // Property rent constants - 28 total including 2 utils at index 7 & 20
     public static final int[][] SITE_RENTS = {
