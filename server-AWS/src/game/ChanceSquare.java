@@ -18,7 +18,7 @@ public class ChanceSquare extends NamedLocation{
 	
 	public String activate(Player player){
 		Random random = new Random();
-		int chanceType = random.nextInt(3);
+		int chanceType = random.nextInt(4);
 		String res = this.getChance(Main.noc.getOpponent(player.getCharacter()), chanceType);
 		switch(chanceType){
 		//Get money
@@ -38,6 +38,9 @@ public class ChanceSquare extends NamedLocation{
 			player.changeDirection();
 			res+="\n" + player.getCharName() + " has changed direction!.";
 			break;
+		case 3:
+			Main.gameState.activateVillainGang(player.getPos());
+			res+="\n" + player.getCharName() + " awoke a gang of evil villains!";
 		}
 		return res;
 	}

@@ -27,6 +27,7 @@ public class GameState implements JSONable {
 	private Dice dice;
 	public boolean isActive;
 	private PlayerActions playerActions = new PlayerActions();
+	private VillainGang villainGang;
 
 
 	public GameState() {
@@ -38,6 +39,7 @@ public class GameState implements JSONable {
 		isActive = true;
 		playerTurn = 1;
 		dice = new Dice();
+		villainGang = new VillainGang();
 
 		// Tiles generation & setup
 		ArrayList<NamedLocation> properties = new ArrayList<NamedLocation>();
@@ -145,6 +147,16 @@ public class GameState implements JSONable {
 
 	}
 
+	public void activateVillainGang(int location){
+		this.villainGang.activate(location);
+	}
+	
+	public String villainGangCheck(Player player){
+		if(this.villainGang.isActive() && this.villainGang.position() == player.getPos()){
+			return this.villainGang.attackPlayer(player);
+		}
+		return "";
+	}
 	/**
 	 * Returns result of player action
 	 */
@@ -219,6 +231,7 @@ public class GameState implements JSONable {
 				return playerActions.bankrupt(player);
 
 			case "done":
+				this.villainGang.update();
 				if(!player.isInDebt()){
 					playerActions.done(player);
 					//Increment player turn
@@ -272,6 +285,7 @@ public class GameState implements JSONable {
 		info.put("players", jsonPlayers);
 		info.put("player_turn", this.playerTurn);
 		info.put("game_started", this.gameStarted);
+		info.put("villain_gang", this.villainGang.getInfo());
 		return info;
 	}
 
@@ -299,6 +313,7 @@ public class GameState implements JSONable {
 				info = p.getInfo();
 			}
 		}
+		
 		return info;
 
 	}

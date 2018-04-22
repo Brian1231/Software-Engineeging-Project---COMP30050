@@ -3,6 +3,8 @@ package game;
 import java.util.ArrayList;
 import java.util.Random;
 
+import main.Main;
+
 public class PlayerActions {
 
 	Random random = new Random();
@@ -14,6 +16,7 @@ public class PlayerActions {
 				player.useRoll();
 				String res = player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".";
 				res += landedOn(player, locations.get(player.getPos()), spaces);
+				res += Main.gameState.villainGangCheck(player);
 				return res;
 			}
 			String res = player.getCharName() +" attempts to escape prison...\n";
@@ -123,6 +126,7 @@ public class PlayerActions {
 					if (player.getFuel() > 0) {
 						String res = player.useBoost()  +" and landed on "+ locations.get(player.getPos()).getId()+".";
 						res += landedOn(player, locations.get(player.getPos()), 1);
+						res += Main.gameState.villainGangCheck(player);
 						return res;
 					}
 					return "Your vehicle is out of fuel!";
@@ -262,7 +266,6 @@ public class PlayerActions {
 		}
 		return " You cant demolish on " + loc.getId();
 	}
-
 
 	public String bankrupt(Player player) {
 		for(PrivateProperty p : player.getOwnedProperties()){
