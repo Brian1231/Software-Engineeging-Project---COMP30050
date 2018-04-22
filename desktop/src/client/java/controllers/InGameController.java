@@ -137,9 +137,10 @@ public class InGameController {
                         int price = locationObjects.getJSONObject(i).getInt("price");
                         int position = locationObjects.getJSONObject(i).getInt("location");
                         int owner = locationObjects.getJSONObject(i).getInt("owner");
-                        String c = locationObjects.getJSONObject(i).getString("colour");
+                        String c = locationObjects.getJSONObject(i).getString("color");
 
 //                         below lines for when server code is pushed to aws as now sends the colour object in JSON same as players
+                        // be sure the JSON key is spelt colour not color for the color object. AWS currently gives string with key color
 //                         java.awt.Color col = new java.awt.Color(locationObjects.getJSONObject(i).getInt("colour"));
 //                         Color color = Color.rgb(col.getRed(), col.getBlue(), col.getGreen());
 
