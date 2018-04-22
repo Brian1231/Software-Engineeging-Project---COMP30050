@@ -200,14 +200,30 @@ public class GameState implements JSONable {
 				return player.payDebt();
 
 			case "trap":
-				
+
 				return playerActions.setTrap(player, this.locations.get(Integer.parseInt(args[0])));
-				
+
+			case "bankrupt":
+				player.removeDebt();
+				this.playerCharacters.remove(player.getCharacter());
+				this.players.remove(player);
+				if(this.players.size()==1) 
+					this.endGame();
+				else
+				{
+					this.playerTurn++;
+					if (this.playerTurn > this.players.size()) {
+						this.playerTurn = 1;
+					}
+				}
+				return playerActions.bankrupt(player);
+
 			case "done":
 				if(!player.isInDebt()){
 					playerActions.done(player);
 					//Increment player turn
 					this.playerTurn++;
+
 					if (this.playerTurn > this.players.size()) {
 						this.playerTurn = 1;
 					}
@@ -286,7 +302,7 @@ public class GameState implements JSONable {
 		return info;
 
 	}
-	
+
 	public String getPlayerName(int id){
 		for(Player player : this.players){
 			if(player.getID() == id) return player.getCharName();

@@ -369,6 +369,11 @@ public class Player implements Playable, JSONable, Colourable {
 		this.debt += amount;
 		this.isInDebt = true;
 	}
+	public void removeDebt(){
+		this.debt = 0;
+		this.isInDebt = false;
+		this.playerOwed = null;
+	}
 
 
 	public String getPossessive(){

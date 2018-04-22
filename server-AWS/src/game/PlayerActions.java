@@ -264,4 +264,12 @@ public class PlayerActions {
 	}
 
 
+	public String bankrupt(Player player) {
+		for(PrivateProperty p : player.getOwnedProperties()){
+			p.setUnOwned();
+		}
+		return player.getCharName() + " has declared bankruptcy and any property they own has been released. ";
+	}
+
+
 }
