@@ -361,12 +361,12 @@ public class Player implements Playable, JSONable, Colourable {
 
 	public void setDebt(int amount, Playable player){
 		this.playerOwed = player;
-		this.debt = amount;
+		this.debt += amount;
 		this.isInDebt = true;
 	}
 
 	public void setDebt(int amount){
-		this.debt = amount;
+		this.debt += amount;
 		this.isInDebt = true;
 	}
 

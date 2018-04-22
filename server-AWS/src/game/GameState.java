@@ -199,6 +199,10 @@ public class GameState implements JSONable {
 
 				return player.payDebt();
 
+			case "trap":
+				
+				return playerActions.setTrap(player, this.locations.get(Integer.parseInt(args[0])));
+				
 			case "done":
 				if(!player.isInDebt()){
 					playerActions.done(player);
