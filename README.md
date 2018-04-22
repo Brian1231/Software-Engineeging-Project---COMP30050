@@ -5,9 +5,16 @@
 "action": String ("start"-> starts game) <br />
 
 ## Server-to-Desktop JSON:
+## Player update
 "player_turn":int <br />
 "game_started": boolean <br />
 "players": JSONArray of JSONObjects for players <br />
+"action_info": String <br />
+"villain_gang":JSONObject VillainGang<br />
+
+## Board update
+"player_turn":int <br />
+"game_started": boolean <br />
 "locations": JSONArray of JSONObjects for locations <br />
 "action_info": String <br />
 
@@ -18,6 +25,10 @@
 "character": String <br />
 "fuel": int (fuel amount 0-3) <br />
 
+### JSONObject villain gang:
+"is_active": boolean <br />
+"position": int (0 to 39) <br />
+
 ### JSONObject location:
 "id": String <br />
 "price": int <br />
@@ -25,6 +36,7 @@
 "owner": int (player id) <br />
 "color": String <br />
 "is_mortgaged": boolean <br />
+"hasTrap": boolean <br />
 
 ## Phone-to-Server 
 ### Initial Phone-to-Server JSON on port 8080:
@@ -43,6 +55,7 @@
 ("build"-> attempt to build on tile at position args[0] with number to build args[1])<br />
 ("demolish"-> attempt to demolish on tile at position args[0] with number to demolish args[1])<br />
 ("pay"-> attempt to pay debt to owed player) <br />
+("trap"-> attempt to set a trap on tile at position args[0] )<br />
 "args": Strings separated with "," <br />
 
 ## Server-to-Phone:

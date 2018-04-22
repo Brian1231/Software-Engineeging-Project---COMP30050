@@ -13,6 +13,7 @@ public class Game {
 
     public static ArrayList<Location> locations = new ArrayList<>();
     public static ArrayList<Player> players = new ArrayList<>();
+    public static VillainGang villainGang = new VillainGang();
     public static ObservableList<Player> observablePlayers = FXCollections.observableList(players);
     public static Boolean gameStarted = false;
     public static int playerTurn;
@@ -42,7 +43,10 @@ public class Game {
         observablePlayers.add(player);
     }
 
-
+    public static void updateVillains(int pos, boolean status){
+    	villainGang.setPosition(pos);
+    	villainGang.setState(status);
+    }
     // Updates player on player list
     private static void updatePlayerData(Player player){
         if(observablePlayers.contains(player)){

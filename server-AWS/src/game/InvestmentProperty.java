@@ -213,6 +213,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 		info.put("color", this.getColour());
 		info.put("is_mortgaged", this.isMortgaged());
 		info.put("houses", this.getNumHousesAndHotels());
+		info.put("hasTrap", this.hasTrap());
 		return info;
 	}
 }

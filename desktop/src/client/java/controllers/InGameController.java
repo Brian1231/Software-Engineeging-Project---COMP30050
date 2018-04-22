@@ -109,13 +109,12 @@ public class InGameController {
                         String balance = Integer.toString(bal);
                         int id = playerObjects.getJSONObject(i).getInt("id");
                         int position = playerObjects.getJSONObject(i).getInt("position");
-                        Object c = playerObjects.getJSONObject(i).get("colour");
-                        java.awt.Color col = (java.awt.Color) c;
+                        int c = playerObjects.getJSONObject(i).getInt("colour");
+                        java.awt.Color col = new java.awt.Color(c);
                         int r = col.getRed();
                         int g = col.getGreen();
                         int b = col.getBlue();
-                        int a = col.getAlpha();
-                        Color fxColor = Color.rgb(r,g,b,a);
+                        Color fxColor = Color.rgb(r,g,b);
                         //Color color = (Color) Color.class.getField(c).get(null);
                         String character = playerObjects.getJSONObject(i).getString("character");
                         int fuel = playerObjects.getJSONObject(i).getInt("fuel");
@@ -123,8 +122,11 @@ public class InGameController {
                     }
                     Game.updatePlayers(plyrs);
                     playerCanvas.draw();
+                    
+                    JSONObject villains = update.getJSONObject("villain_gang");
+                    Game.updateVillains(villains.getInt("position"), villains.getBoolean("is_active"));
                 }
-
+                
                 // Redraw locations according to new Location information.
                 List<Location> locs = new ArrayList<>();
                 if(update.has("locations")){
