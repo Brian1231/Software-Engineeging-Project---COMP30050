@@ -95,7 +95,7 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 		if(!player.equals(this.getOwner())){
 			int trapAmount =  this.getPrice()/3;
 			player.setDebt(trapAmount, this.getOwner());
-			return player.getCharName() + " activated " + this.getOwner().getCharName() + "'s trap and now owes them an aditional " + trapAmount + ". ";
+			return player.getCharName() + " activated " + this.getOwner().getCharName() + "'s trap and now owes them an additional " + trapAmount + ". ";
 		}
 		return "";
 	}

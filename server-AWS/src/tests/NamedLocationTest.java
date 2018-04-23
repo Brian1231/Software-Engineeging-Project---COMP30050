@@ -7,9 +7,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import java.awt.*;
+
 public class NamedLocationTest {
 
-	private NamedLocation loc = new NamedLocation("UCD");
+	private final NamedLocation loc = new NamedLocation("UCD");
 
 	@Test
 	public void constructorTest() {
@@ -39,7 +41,7 @@ public class NamedLocationTest {
 	public void getInfoTest() {
 		try {
 			JSONObject obj = loc.getInfo();
-			assertEquals("RED", obj.get("color"));
+			assertEquals(Color.RED.getRGB(), obj.get("color"));
 			assertEquals(false, obj.get("is_mortgaged"));
 		} catch (JSONException e) {
 			e.printStackTrace();
