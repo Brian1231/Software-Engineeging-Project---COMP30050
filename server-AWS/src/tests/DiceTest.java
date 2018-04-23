@@ -1,21 +1,34 @@
 package tests;
 
 import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import game.Dice;
 
 public class DiceTest {
-	private final Dice dice = new Dice();
+	private Dice dice;
+
+
+	@Before
+	public void setUp() {
+		dice = new Dice();
+	}
+
+	@After
+	public void tearDown(){
+		dice = null;
+	}
 
 	@Test
 	public void constructorTest() {
 		assertNotNull(dice);
 	}
 
-
 	@Test
-	public void testDiceRoll() {
+	public void roll() {
 
 		int[] distribution = new int[11];
 		for(int i=0;i<distribution.length;i++){
@@ -26,8 +39,8 @@ public class DiceTest {
 			int res = dice.rollDice(2, 6);
 			distribution[res-2]++;
 		}
-		
-		
+
+
 		//Test 2 and 12 distribution
 		int min = (int) (TOTAL_ROLLS /36 - 0.05* TOTAL_ROLLS /36);
 		int max = (int) (TOTAL_ROLLS /36 + 0.05* TOTAL_ROLLS /36);
@@ -63,5 +76,4 @@ public class DiceTest {
 		max = (int) (TOTAL_ROLLS /6 + 0.05* TOTAL_ROLLS /6);
 		assertTrue(min <= distribution[5] && distribution[5] <= max);
 	}
-
 }

@@ -17,7 +17,7 @@ public class SpecialSquareTest {
     private SpecialSquare specialSquare;
     private final NOC_Manager noc = new NOC_Manager();
 
-    
+
     @Before
     public void setUp() {
         specialSquare = new SpecialSquare("UCD");
