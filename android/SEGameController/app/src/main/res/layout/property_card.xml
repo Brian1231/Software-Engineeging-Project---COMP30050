@@ -37,13 +37,26 @@
 
                 <TextView
                     android:id="@+id/priceTx"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/houses"
+                    android:layout_below="@+id/title"
+                    android:layout_centerHorizontal="true"
                     android:paddingBottom="@dimen/songs_count_padding_bottom"
                     android:paddingLeft="@dimen/album_title_padding"
                     android:paddingRight="@dimen/album_title_padding"
                     android:text="Price"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/trapTX"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/priceTx"
+                    android:paddingBottom="@dimen/songs_count_padding_bottom"
+                    android:paddingLeft="@dimen/album_title_padding"
+                    android:paddingRight="@dimen/album_title_padding"
+                    android:text="@string/hasTrap"
                     android:textSize="14sp" />
 
                 <TextView
@@ -56,11 +69,11 @@
                     android:paddingTop="@dimen/album_title_padding"
                     android:text="@string/marving_gardens"
                     android:textColor="@color/album_title"
-                    android:textSize="@dimen/album_title" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/houses"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/title"
                     android:paddingBottom="@dimen/songs_count_padding_bottom"
@@ -164,6 +177,25 @@
                     android:drawableStart="@drawable/ic_sell"
                     android:elevation="0dp"
                     android:text="@string/sell"
+                    android:textColor="@color/accent"
+                    android:textSize="14sp"
+                    card_view:layout_constraintEnd_toStartOf="@+id/guideline"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+                <Button
+                    android:id="@+id/trapButton"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/buildButton"
+                    android:layout_below="@+id/demolishButton"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:drawableLeft="@drawable/ic_trap"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_trap"
+                    android:text="@string/trap"
                     android:textColor="@color/accent"
                     android:textSize="14sp"
                     card_view:layout_constraintEnd_toStartOf="@+id/guideline"

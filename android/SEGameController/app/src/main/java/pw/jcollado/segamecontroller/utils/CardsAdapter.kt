@@ -1,5 +1,5 @@
 package pw.jcollado.segamecontroller.utils
-
+import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -16,7 +16,8 @@ import pw.jcollado.segamecontroller.model.Property
  */
 
 class CardsAdapter(val items: List<Property>,val sellFunction: (Property) -> Unit,val mortgageFunction: (Property) -> Unit
-                   ,val buildFunction: (Property) -> Unit,val demolishFunction: (Property) -> Unit) : RecyclerView.Adapter<CardsAdapter.ViewHolder>() {
+                   ,val buildFunction: (Property) -> Unit,val demolishFunction: (Property) -> Unit,val trapFunction: (Property) -> Unit)
+    : RecyclerView.Adapter<CardsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.property_card))
 
@@ -27,6 +28,8 @@ class CardsAdapter(val items: List<Property>,val sellFunction: (Property) -> Uni
         holder.bindSell(items[position],sellFunction)
         holder.bindBuild(items[position],buildFunction)
         holder.bindDemolish(items[position],demolishFunction)
+        holder.bindTrap(items[position],trapFunction)
+
 
 
     }
@@ -40,8 +43,13 @@ class CardsAdapter(val items: List<Property>,val sellFunction: (Property) -> Uni
             title.text = item.id
             priceTx.text = "${item.price} $"
             Picasso.get().load("http://52.48.249.220/worlds/${item.id}.jpg").placeholder(R.drawable.placeholder).into(thumbnail)
-            val color = resources.getIdentifier(item.color, "color", context.packageName)
-            linearLY.setBackgroundColor(ContextCompat.getColor(context,color))
+            val intColor = item.color
+            val hexColor = "#" + Integer.toHexString(intColor).substring(2)
+            val color = Color.parseColor(hexColor)
+            linearLY.setBackgroundColor(color)
+
+            if (item.hasTrap){trapTX.text = resources.getString(R.string.hasTrap)}
+            else{trapTX.text = resources.getString(R.string.noTrap)}
             if (item.houses > 4){
                 houses.text = "1 hotel"
             }
@@ -81,6 +89,11 @@ class CardsAdapter(val items: List<Property>,val sellFunction: (Property) -> Uni
         fun bindBuild(item: Property, buildFunction: (Property) -> Unit) = with(itemView) {
 
             buildButton.onClick { buildFunction(item) }
+
+        }
+        fun bindTrap(item: Property, trapFunction: (Property) -> Unit) = with(itemView) {
+
+            trapButton.onClick { trapFunction(item) }
 
         }
 

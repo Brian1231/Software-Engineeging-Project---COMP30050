@@ -167,7 +167,10 @@ public class BoardCanvas extends ResizableCanvas {
 		//g.fillRect(x + (width / 2) - width / 40, y + (height / 2) - 5, width / 20, 20);
 
 		g.setFill(Color.GOLD);
-		g.fillText(location.getName(), x + (width / 2), y + (height / 2) - width / 30);
+		if(location.getPosition()<20)
+			g.fillText(location.getName(), x + (width / 2), y + (height / 2) - width / 30);
+		else
+			g.fillText(location.getName(), x + (width / 2), y + (height / 2) - width / 30);
 	}
 
 	private Image getImage(Location location){

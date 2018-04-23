@@ -1,11 +1,11 @@
 package game;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import main.Constants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,10 +25,8 @@ public class GameState implements JSONable {
 	private boolean gameStarted;
 	private int playerTurn;
 	private Dice dice;
-	public boolean isActive;
 	private PlayerActions playerActions = new PlayerActions();
-
-	private Color[] playerColours = {new Color(66,229,244),new Color(26,224,59), new Color(242, 50, 226), new Color(255, 244, 43)};
+	private VillainGang villainGang;
 
 
 	public GameState() {
@@ -37,9 +35,9 @@ public class GameState implements JSONable {
 		playerCharacters = new ArrayList<Character_noc>();
 		clientIPplayerIDMap = new HashMap<String, Player>();
 		gameStarted = false;
-		isActive = true;
 		playerTurn = 1;
 		dice = new Dice();
+		villainGang = new VillainGang();
 
 		// Tiles generation & setup
 		ArrayList<NamedLocation> properties = new ArrayList<NamedLocation>();
@@ -49,7 +47,7 @@ public class GameState implements JSONable {
 		int[] rents = {100, 200, 300, 400};
 		for (int i = 0; i < 24; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new InvestmentProperty(randomWorld.getWorld(), 200 + i * 20, rents));
+			properties.add(new InvestmentProperty(randomWorld.getWorld()));
 		}
 
 		//3 Tax squares
@@ -61,13 +59,13 @@ public class GameState implements JSONable {
 		//Stations
 		for (int i = 0; i < 4; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new Station(randomWorld.getWorld(),200  + i * 20, rents));
+			properties.add(new Station(randomWorld.getWorld(),Constants.STATION_PRICES[i], Constants.STATION_RENTS[i]));
 		}
 
 		//Utilities
 		for (int i = 0; i < 2; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new Utility(randomWorld.getWorld(), 200 + i * 20));
+			properties.add(new Utility(randomWorld.getWorld(), Constants.UTILITY_PRICES[i]));
 		}
 
 		//Chance Squares
@@ -83,20 +81,33 @@ public class GameState implements JSONable {
 
 		//Other tiles
 		locations.add(0, new SpecialSquare("Go"));
-		locations.add(10, new SpecialSquare("Go to Intergalactic Prison!"));
+		locations.add(10, new SpecialSquare("Go to Intergalactic Prison"));
 		locations.add(29, new SpecialSquare("Intergalactic Prison"));
 
-		String[] colours = {"CYAN", "GREEN", "MAGENTA", "YELLOW", "ORANGE", "BLUE", "WHITE", "PINK"};
 		int colourCount = 0;
 		int colourIndex = 0;
+		int investmentPropCount = 0;
 
 		for (int i = 0; i < locations.size(); i++) {
 			locations.get(i).setLocation(i);
 			if (locations.get(i) instanceof InvestmentProperty) {
 				InvestmentProperty prop = (InvestmentProperty) locations.get(i);
-				prop.setColour(colours[colourIndex]);
+
+				// setting Investment properties variables
+				prop.setPrice(Constants.INVESTMENT_PRICES[investmentPropCount]);
+				prop.setRentAmounts(Constants.INVESTMENT_RENTS[investmentPropCount]);
+				prop.setHousePrice(Constants.HOUSE_PRICES[investmentPropCount]);
+				prop.setHotelPrice(Constants.HOUSE_PRICES[investmentPropCount]);
+				prop.setNumInGroup(3);
+				prop.setRGB(Constants.INVESTMENT_COLOUR_GROUPS[colourIndex]);
+
+				// increments
 				colourCount++;
-				if (colourCount % 3 == 0) colourIndex++;
+				investmentPropCount++;
+
+				if (colourCount % 3 == 0) {
+					colourIndex++;
+				}
 			}
 		}
 	}
@@ -105,9 +116,6 @@ public class GameState implements JSONable {
 		return this.gameStarted;
 	}
 
-	public boolean isActive() {
-		return this.isActive;
-	}
 
 	public boolean isPlayerCharacter(Character_noc ch) {
 		return this.playerCharacters.contains(ch);
@@ -137,7 +145,7 @@ public class GameState implements JSONable {
 			}
 			Player newPlayer = new Player(newID, client_ip, ch, Main.noc.getVehicle(ch.getVehicle()));
 			this.playerCharacters.add(ch);
-			newPlayer.setRGB(playerColours[newID]);
+			newPlayer.setRGB(Constants.playerColours[newID]);
 			players.add(newPlayer);
 			clientIPplayerIDMap.put(client_ip, newPlayer);
 			return newID;
@@ -147,6 +155,20 @@ public class GameState implements JSONable {
 
 	}
 
+	public void activateVillainGang(int location){
+		this.villainGang.activate(location);
+	}
+	
+	public boolean villainGangIsActive(){
+		return this.villainGang.isActive();
+	}
+	
+	public String villainGangCheck(Player player){
+		if(this.villainGang.isActive() && this.villainGang.position() == player.getPos()){
+			return this.villainGang.attackPlayer(player);
+		}
+		return "";
+	}
 	/**
 	 * Returns result of player action
 	 */
@@ -201,11 +223,32 @@ public class GameState implements JSONable {
 
 				return player.payDebt();
 
+			case "trap":
+
+				return playerActions.setTrap(player, this.locations.get(Integer.parseInt(args[0])));
+
+			case "bankrupt":
+				player.removeDebt();
+				this.playerCharacters.remove(player.getCharacter());
+				this.players.remove(player);
+				if(this.players.size()==1) 
+					this.endGame();
+				else
+				{
+					this.playerTurn++;
+					if (this.playerTurn > this.players.size()) {
+						this.playerTurn = 1;
+					}
+				}
+				return playerActions.bankrupt(player);
+
 			case "done":
+				this.villainGang.update();
 				if(!player.isInDebt()){
 					playerActions.done(player);
 					//Increment player turn
 					this.playerTurn++;
+
 					if (this.playerTurn > this.players.size()) {
 						this.playerTurn = 1;
 					}
@@ -254,6 +297,7 @@ public class GameState implements JSONable {
 		info.put("players", jsonPlayers);
 		info.put("player_turn", this.playerTurn);
 		info.put("game_started", this.gameStarted);
+		info.put("villain_gang", this.villainGang.getInfo());
 		return info;
 	}
 
@@ -281,10 +325,11 @@ public class GameState implements JSONable {
 				info = p.getInfo();
 			}
 		}
+		
 		return info;
 
 	}
-	
+
 	public String getPlayerName(int id){
 		for(Player player : this.players){
 			if(player.getID() == id) return player.getCharName();
@@ -297,7 +342,6 @@ public class GameState implements JSONable {
 		Main.clientUpdater.updateDesktopPlayers();
 		Main.clientUpdater.updateDesktopBoard();
 		Main.portAllocator.endGame();
-		this.isActive = false;
 		Main.isActive = false;
 	}
 }

@@ -6,6 +6,7 @@ import javafx.scene.control.TextArea;
 
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.Shadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.*;
@@ -19,15 +20,16 @@ import javafx.scene.text.Font;
 
 public class InformationPane extends Pane {
 
-    private Label title = new Label("Panopoly");
+    //private Label title = new Label("Panopoly");
+	private ImageView logo = new ImageView();
     private Circle eventLogger = new Circle();
     private TextArea feed = new TextArea();
 
     private Circle tileInfo = new Circle();
-    private Label tileName = new Label("Name of current Tile");
-    private Label tileCost = new Label("Cost: $200");
-    private Label tileOwner = new Label("Owner: Bank");
-    private Label tileRent = new Label("Rent: $50");
+    private Label tileName = new Label("");
+    private Label tileCost = new Label("");
+    private Label tileOwner = new Label("");
+    private Label tileRent = new Label("");
     private ImageView tileImage = new ImageView();
 
     private Label mortgaged = new Label("MORTGAGED");
@@ -42,10 +44,16 @@ public class InformationPane extends Pane {
 
     public InformationPane() {
         //Title
-        title.setTextFill(Color.rgb(232, 142, 39));
+       /* title.setTextFill(Color.rgb(232, 142, 39));
         title.setStyle("-fx-font-size: 50px;");
         title.layoutXProperty().bind(widthProperty().divide(2).subtract(title.widthProperty().divide(2)));
-        getChildren().add(title);
+        getChildren().add(title);*/
+    	logo.fitWidthProperty().bind(this.widthProperty().divide(2.5));
+    	logo.fitHeightProperty().bind(this.heightProperty().divide(5));
+    	logo.layoutXProperty().bind(widthProperty().divide(2).subtract(logo.fitWidthProperty().divide(2)));
+    	//logo.setEffect(new Glow(5));
+    	logo.setImage(new Image("/client/resources/images/InterDimLogo.png"));
+    	getChildren().add(logo);
 
         // Circle text Area (currently invisible)
         eventLogger.setFill(Color.rgb(60, 67, 79, 0));
@@ -72,7 +80,7 @@ public class InformationPane extends Pane {
 		// Current players location info
 		tileInfo.layoutXProperty().bind(widthProperty().subtract(widthProperty().divide(4.2)));
 		tileInfo.layoutYProperty().bind(heightProperty().divide(2));
-		tileInfo.setFill(Color.rgb(102, 52, 0));
+		tileInfo.setFill(Color.BLACK);
 		tileInfo.setStroke(Color.GOLD);
 		tileInfo.radiusProperty().bind(widthProperty().divide(9));
 		tileInfo.setEffect(g);
@@ -102,6 +110,7 @@ public class InformationPane extends Pane {
         tileImage.layoutYProperty().bind(tileInfo.layoutYProperty().subtract(tileImage.fitHeightProperty().divide(2)));
         tileImage.fitWidthProperty().bind(tileInfo.radiusProperty().multiply(1.8));
         tileImage.fitHeightProperty().bind(tileInfo.radiusProperty().divide(2));
+        tileImage.setImage(new Image("/client/resources/images/InterDimLogo.png"));
         getChildren().add(tileImage);
 
         // Player stats in 4 corners
@@ -140,7 +149,10 @@ public class InformationPane extends Pane {
 		tileInfo.setStroke(loc.getColour());
 		tileCost.setText("Price: $" + Integer.toString(loc.getPrice()));
 		tileImage.setImage(loc.getImage());
-		tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
+		if(loc.getOwnerID()==0)
+			tileOwner.setText("Owner: " + " Unowned");
+		else
+			tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
 		tileRent.setText("Rent: " + loc.getRent());
         tileInfo.setFill(loc.getColour());
 

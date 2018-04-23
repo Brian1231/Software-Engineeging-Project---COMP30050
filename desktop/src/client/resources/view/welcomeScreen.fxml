@@ -3,16 +3,22 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <BorderPane fx:id="base" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.java.controllers.WelcomeScreenController">
    <center>
       <Button fx:id="newGameButton" mnemonicParsing="false" onAction="#onNewGameClick" text="New Game" BorderPane.alignment="CENTER">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></Button>
+         </cursor>
+      </Button>
    </center>
    <top>
-      <Label fx:id="heading" text="Interdimensional Panopoly" BorderPane.alignment="CENTER" />
+      <ImageView fx:id="imageView"   pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="/client/resources/images/InterDimLogo.png" />
+         </image>
+      </ImageView>
    </top>
 </BorderPane>

@@ -8,8 +8,8 @@ import com.squareup.moshi.Moshi
  * Created by jcolladosp on 13/02/2018.
  */
 
-data class Property(val id: String,val location: String,val price: Int,val color: String,var is_mortgaged: Boolean,
-                    var owner: Int,var houses: Int) {
+data class Property(val id: String,val location: String,val price: Int,val color: Int,var is_mortgaged: Boolean,
+                    var owner: Int,var houses: Int, var hasTrap: Boolean) {
 
 
     fun toJSONString(): String {

@@ -7,7 +7,6 @@ import noc_db.Character_noc;
 import noc_db.Vehicle_noc;
 import noc_db.Weapon_noc;
 
-@SuppressWarnings("Duplicates")
 public class TaxTemplate {
 
 	private Character_noc char1;
@@ -17,9 +16,11 @@ public class TaxTemplate {
 	private String pronoun;
 	private String them;
 	private String possesion;
+	private int taxType;
 
-	public TaxTemplate(Character_noc a){
+	public TaxTemplate(Character_noc a, int type){
 		this.char1 = a;
+		this.taxType = type;
 		this.opp = Main.noc.getOpponent(a);
 		this.weapon = Main.noc.getWeapon(a.getWeapon());
 		this.vehicle = Main.noc.getVehicle(a.getVehicle());
@@ -40,6 +41,7 @@ public class TaxTemplate {
 		sb.append(char1.getName()).append(" appears ").append(vehicle.getAffordance()).append(" ").append(vehicle.getDeterminer()).append(" ").append(vehicle.getVehicle()).append(". ");
 		sb.append(pronoun + " says that " + pronoun.toLowerCase() + " is tired of " + char1.getActivity() + " and wants some action. ");
 		sb.append(pronoun + " starts " + weapon.getAffordanceWithTarget("you") + weapon.getDeterminer() + " " + weapon.getWeapon() + ".");
+		sb.append(pronoun + " demands money!");
 		return sb.toString(); 
 	}
 
@@ -52,6 +54,7 @@ public class TaxTemplate {
 			sb.append(char1.getName() + " appears " + vehicle.getAffordance() + " " + vehicle.getDeterminer() + " " + vehicle.getVehicle()+ ". ");
 		sb.append(pronoun + " says that " + pronoun.toLowerCase() + " just lost a fight to " + opp.getName() + " and wants revenge. ");
 		sb.append(pronoun + " starts " + weapon.getAffordanceWithTarget("you") + weapon.getDeterminer() + " " + weapon.getWeapon() + ".");
+		sb.append(pronoun + " says " + pronoun.toLowerCase() + "won't stop until you pay " + them.toLowerCase() + " some money!");
 		return sb.toString(); 
 	}
 
@@ -68,27 +71,32 @@ public class TaxTemplate {
 		}
 		else 		
 			sb.append(char1.getName() + " appears " + vehicle.getAffordance() + " " + vehicle.getDeterminer() + " " + vehicle.getVehicle()+ ". ");
-
-		String pos[] = char1.getPositives();
-		sb.append(pronoun + " starts a long monologue about how ");
-		if(pos.length>1) sb.append(pos[0] + " and " + pos[1] + " " + pronoun.toLowerCase() + " is. ");
-		else sb.append(pos[0] + pronoun.toLowerCase() + "is. ");
-		sb.append("You tell "+ them.toLowerCase() + " to shutup. ");
-		sb.append(pronoun + " gets mad and starts " + weapon.getAffordanceWithTarget("you") + weapon.getDeterminer() + " " + weapon.getWeapon() + ".");
+		sb.append(pronoun + " starts ranting about about how jealous " + pronoun.toLowerCase() + " is of your newly found success in buying interdimensional property.");
+		sb.append("You feel morrally obliged to share some of your vast wealth.");
 		return sb.toString(); 
 	}
 	
-	public String getRandomTemplate(){
-		Random random = new Random();
-		int i = random.nextInt(3);
-		switch(i){
-		case 0:
-			return this.template0();
-		case 1:
-			return this.template1();
-		case 2:
-			return this.template2();
+	public String template3(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("In the distance you see " + char1.getCanName() + " fast approaching " + vehicle.getAffordance() + " " + vehicle.getDeterminer() + " " + vehicle.getVehicle()+ ". ");
+		sb.append("You can see that " + pronoun.toLowerCase() + " has " + weapon.getDeterminer() + " " + weapon.getWeapon() + " and looks ready to use it. ");
+		sb.append("Rather than face them,  you decide to throw some money at " + them.toLowerCase() + " as a distraction. It's going to take a lot to pull this off. ");
+		return sb.toString(); 
+	}
 	
+	public String getTemplate(){
+		Random random = new Random();
+		switch(this.taxType){
+		case 0:
+			if(random.nextBoolean())
+				return this.template0();
+			else
+				return this.template1();
+		case 1:
+			if(random.nextBoolean())
+				return this.template2();
+			else
+				return this.template3();
 		default:
 			return "";
 		

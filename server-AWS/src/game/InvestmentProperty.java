@@ -21,9 +21,8 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 	private String buildDemolishError;
 
 	// Must declare investment propertys with the full array of rent prices
-	public InvestmentProperty(String name, int price, int[] rentalAmounts) {
-		super(name, price);
-		super.setRentAmounts(rentalAmounts);
+	public InvestmentProperty(String name) {
+		super(name, 0);
 	}
 
 
@@ -40,10 +39,6 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 	@Override
 	public int getNumHousesAndHotels() {
 		return this.numHotels + this.numHouses;
-	}
-
-	public String getColor(){
-		return this.colour;
 	}
 	
 	@Override
@@ -210,9 +205,10 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 	@Override
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info =  super.getInfo();
-		info.put("color", this.getColour());
+		info.put("color", this.rgbColour.getRGB());
 		info.put("is_mortgaged", this.isMortgaged());
 		info.put("houses", this.getNumHousesAndHotels());
+		info.put("hasTrap", this.hasTrap());
 		return info;
 	}
 }

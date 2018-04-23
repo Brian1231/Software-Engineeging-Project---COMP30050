@@ -67,63 +67,78 @@ public class Player implements Playable, JSONable, Colourable {
 		return this.ip;
 	}
 
+	@Override
 	public boolean hasRolled(){
 		return this.hasRolled;
 	}
 
+	@Override
 	public void resetRoll(){
 		this.hasRolled = false;
 	}
 
+	@Override
 	public boolean hasBought(){
 		return this.hasBought;
 	}
 
+	@Override
 	public void useBuy(){
 		this.hasBought = true;
 	}
 
+	@Override
 	public boolean hasBoosted(){
 		return this.hasBoosted;
 	}
 
+	@Override
 	public void resetBoost(){
 		this.hasBoosted = false;
 	}
 
+	@Override
 	public void resetBought(){
 		this.hasBought = false;
 	}
 
+	@Override
 	public void useRoll(){
 		this.hasRolled = true;
 	}
 
+	@Override
 	public void topUpFuel(){
 		this.fuel = 3;
 	}
 
+	@Override
 	public int getFuel(){
 		return this.fuel;
 	}
 
+	@Override
 	public void sendToJail(){
 		this.position = 29;
 		this.isInJail = true;
 	}
+	@Override
 	public void releaseFromJail(){
 		this.jailTurnCount = 0;
 		this.isInJail = false;
 	}
 
+	@Override
 	public boolean isInJail(){
 		return this.isInJail;
 	}
 
+	@Override
 	public void changeDirection(){
 		this.movingForward = !this.movingForward;
 	}
 
+	@Override
 	public boolean incrementJailTurns(){
 		this.jailTurnCount++;
 		if(this.jailTurnCount==3){
@@ -134,7 +149,8 @@ public class Player implements Playable, JSONable, Colourable {
 		return false;
 	}
 
-	public boolean ownsThree(String color){
+	@Override
+	public boolean ownsThree(Color color){
 		int count = 0;
 		for(PrivateProperty prop : this.ownedProperties){
 			if(prop.getColor().equals(color))
@@ -158,7 +174,7 @@ public class Player implements Playable, JSONable, Colourable {
 		info.put("character", this.character.getName());
 		info.put("properties", properties);
 		info.put("fuel", this.fuel);
-		info.put("colour", this.rgbColour);
+		info.put("colour", this.rgbColour.getRGB());
 		return info;
 
 	}
@@ -173,10 +189,12 @@ public class Player implements Playable, JSONable, Colourable {
 		return this.id;
 	}
 
+	@Override
 	public int getBalance(){
 		return this.balance;
 	}
 
+	@Override
 	public String useBoost(){
 		this.hasBoosted = true;
 		this.fuel--;
@@ -267,6 +285,7 @@ public class Player implements Playable, JSONable, Colourable {
 	public String getCharName() {
 		return this.character.getName();
 	}
+	@Override
 	public String getCanName() {
 		return this.character.getCanName();
 	}
@@ -351,31 +370,43 @@ public class Player implements Playable, JSONable, Colourable {
 		return this.rgbColour;
 	}
 
+	@Override
 	public Character_noc getCharacter() {
 		return this.character;
 	}
 
+	@Override
 	public boolean isInDebt(){
 		return this.isInDebt;
 	}
 
+	@Override
 	public void setDebt(int amount, Playable player){
 		this.playerOwed = player;
-		this.debt = amount;
+		this.debt += amount;
 		this.isInDebt = true;
 	}
 
+	@Override
 	public void setDebt(int amount){
-		this.debt = amount;
+		this.debt += amount;
 		this.isInDebt = true;
+	}
+	@Override
+	public void removeDebt(){
+		this.debt = 0;
+		this.isInDebt = false;
+		this.playerOwed = null;
 	}
 
 
+	@Override
 	public String getPossessive(){
 		if(this.character.getGender().equals("female")) return "Her";
 		else return "His";
 	}
-	public String payDebt(){ 
+	@Override
+	public String payDebt(){
 		if(!this.isInJail){
 			if(this.isInDebt){
 				if(this.balance >= this.debt){
@@ -408,4 +439,5 @@ public class Player implements Playable, JSONable, Colourable {
 		}
 		return "You can't afford to the fee of $500";
 	}
+
 }

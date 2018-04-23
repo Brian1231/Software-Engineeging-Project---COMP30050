@@ -22,12 +22,13 @@ public class RentalPropertyTest {
 	}
 	@Test
 	public void mortgageAmountTest() {
+		prop.setMortgageAmount(90);
 		assertEquals(90, prop.getMortgageAmount());
-
 	}
 
 	@Test
 	public void mortgageTest() {
+		prop.setMortgageAmount(90);
 		prop.mortgage(player);
 		// if mortgaged then player receives 90% of price into balance
 		assertEquals(1090, player.getNetWorth());
@@ -36,13 +37,15 @@ public class RentalPropertyTest {
 
 	@Test
 	public void redeemAmountTest() {
-		assertEquals(110, prop.getRedeemAmount());
+		prop.setMortgageAmount(90);
+		assertEquals(99, prop.getRedeemAmount());
 	}
 
 	@Test
 	public void redeemTest() {
+		prop.setMortgageAmount(90);
 		prop.redeem(player);
-		assertEquals(890, player.getNetWorth());
+		assertEquals(901, player.getNetWorth());
 		assertFalse(prop.isMortgaged());
 	}
 
