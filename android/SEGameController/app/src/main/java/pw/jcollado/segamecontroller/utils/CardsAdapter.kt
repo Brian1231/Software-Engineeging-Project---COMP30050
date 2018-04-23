@@ -16,7 +16,8 @@ import pw.jcollado.segamecontroller.model.Property
  */
 
 class CardsAdapter(val items: List<Property>,val sellFunction: (Property) -> Unit,val mortgageFunction: (Property) -> Unit
-                   ,val buildFunction: (Property) -> Unit,val demolishFunction: (Property) -> Unit) : RecyclerView.Adapter<CardsAdapter.ViewHolder>() {
+                   ,val buildFunction: (Property) -> Unit,val demolishFunction: (Property) -> Unit,val trapFunction: (Property) -> Unit)
+    : RecyclerView.Adapter<CardsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.property_card))
 
@@ -27,6 +28,8 @@ class CardsAdapter(val items: List<Property>,val sellFunction: (Property) -> Uni
         holder.bindSell(items[position],sellFunction)
         holder.bindBuild(items[position],buildFunction)
         holder.bindDemolish(items[position],demolishFunction)
+        holder.bindTrap(items[position],trapFunction)
+
 
 
     }
@@ -81,6 +84,11 @@ class CardsAdapter(val items: List<Property>,val sellFunction: (Property) -> Uni
         fun bindBuild(item: Property, buildFunction: (Property) -> Unit) = with(itemView) {
 
             buildButton.onClick { buildFunction(item) }
+
+        }
+        fun bindTrap(item: Property, trapFunction: (Property) -> Unit) = with(itemView) {
+
+            trapButton.onClick { trapFunction(item) }
 
         }
 

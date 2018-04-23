@@ -17,4 +17,5 @@
     <string name="sell">Sell</string>
     <string name="demolish">Demolish</string>
     <string name="pay">Pay the debt</string>
+    <string name="trap">Place a trap</string>
 </resources>

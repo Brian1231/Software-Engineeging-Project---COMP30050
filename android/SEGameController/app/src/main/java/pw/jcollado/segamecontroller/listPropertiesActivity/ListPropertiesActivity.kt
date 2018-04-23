@@ -25,80 +25,78 @@ class ListPropertiesActivity : App() {
     }
 
     private fun initAdapter() {
-        if(Player.properties.isEmpty()){
+        if (Player.properties.isEmpty()) {
             no_propertiesTX.visibility = View.VISIBLE
 
-        }
-        else {
+        } else {
 
             recyclerView.layoutManager = LinearLayoutManager(this)
-            recyclerView.adapter = CardsAdapter(properties,{ sellButton(it)},{ mortgageButton(it)},{buildButton(it)},{demolishButton(it)})
+            recyclerView.adapter = CardsAdapter(properties, { sellButton(it) }, { mortgageButton(it) }, { buildButton(it) }, { demolishButton(it) }, { trapButton(it) })
             no_propertiesTX.visibility = View.GONE
             updateProperties()
 
         }
     }
-      fun sellButton(item: Property) {
 
-        setMessageToServer(Request(preferences.playerID, "sell",item.location).toJSONString())
+    fun sellButton(item: Property) {
 
-             finish()
-          overridePendingTransition(0, 0)
+        setMessageToServer(Request(preferences.playerID, "sell", item.location).toJSONString())
+        resetView()
 
-          startActivity(getIntent())
-          overridePendingTransition(0, 0)
     }
-    fun mortgageButton(item: Property) {
-        if (item.is_mortgaged){
-            setMessageToServer(Request(preferences.playerID, "redeem",item.location).toJSONString())
 
-        }
-        else {
+    fun mortgageButton(item: Property) {
+        if (item.is_mortgaged) {
+            setMessageToServer(Request(preferences.playerID, "redeem", item.location).toJSONString())
+
+        } else {
             setMessageToServer(Request(preferences.playerID, "mortgage", item.location).toJSONString())
         }
 
-        finish()
-        overridePendingTransition(0, 0)
-        startActivity(getIntent())
-        overridePendingTransition(0, 0)
+        resetView()
+
     }
 
     fun demolishButton(item: Property) {
 
-        setMessageToServer(Request(preferences.playerID, "demolish",item.location+",1").toJSONString())
-
-        finish()
-        overridePendingTransition(0, 0)
-
-        startActivity(getIntent())
-        overridePendingTransition(0, 0)
+        setMessageToServer(Request(preferences.playerID, "demolish", item.location + ",1").toJSONString())
+        resetView()
 
     }
+
     fun buildButton(item: Property) {
 
-
-        setMessageToServer(Request(preferences.playerID, "build",item.location+",1").toJSONString())
-
-        finish()
-        overridePendingTransition(0, 0)
-
-        startActivity(getIntent())
-        overridePendingTransition(0, 0)
+        setMessageToServer(Request(preferences.playerID, "build", item.location + ",1").toJSONString())
+        resetView()
 
     }
 
-   open fun updateProperties(){
-            properties.clear()
-            recyclerView.removeAllViews()
-            recyclerView.adapter.notifyDataSetChanged()
-            for (p in Player.properties.indices){
-                properties.add(Player.properties[p])
-                recyclerView.adapter.notifyItemInserted(p)
+    fun trapButton(item: Property) {
+
+        setMessageToServer(Request(preferences.playerID, "trap", item.location).toJSONString())
+        resetView()
+
+    }
+
+    open fun updateProperties() {
+        properties.clear()
+        recyclerView.removeAllViews()
+        recyclerView.adapter.notifyDataSetChanged()
+        for (p in Player.properties.indices) {
+            properties.add(Player.properties[p])
+            recyclerView.adapter.notifyItemInserted(p)
 
         }
 
     }
 
+    fun resetView() {
+        finish()
+        overridePendingTransition(0, 0)
+
+        startActivity(getIntent())
+        overridePendingTransition(0, 0)
+    }
 
 
     private fun setActionBar() {
@@ -122,7 +120,6 @@ class ListPropertiesActivity : App() {
         }
         return super.onOptionsItemSelected(item)
     }
-
 
 
 }
