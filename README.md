@@ -11,6 +11,7 @@
 "players": JSONArray of JSONObjects for players <br />
 "action_info": String <br />
 "villain_gang":JSONObject VillainGang<br />
+"dice_values":int[dice1, dice2] <br />
 
 ## Board update
 "player_turn":int <br />
@@ -24,6 +25,7 @@
 "position": int (0 to 39) <br />
 "character": String <br />
 "fuel": int (fuel amount 0-3) <br />
+"colour": int <br />
 
 ### JSONObject villain gang:
 "is_active": boolean <br />
@@ -34,7 +36,7 @@
 "price": int <br />
 "location": int (0 to 39) <br />
 "owner": int (player id) <br />
-"color": String <br />
+"colour": int <br />
 "is_mortgaged": boolean <br />
 "hasTrap": boolean <br />
 
@@ -56,6 +58,7 @@
 ("demolish"-> attempt to demolish on tile at position args[0] with number to demolish args[1])<br />
 ("pay"-> attempt to pay debt to owed player) <br />
 ("trap"-> attempt to set a trap on tile at position args[0] )<br />
+("bankrupt"-> player declares bankruptcy )<br />
 "args": Strings separated with "," <br />
 
 ## Server-to-Phone:
