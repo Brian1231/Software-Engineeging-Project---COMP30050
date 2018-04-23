@@ -8,9 +8,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TaxSquareTest {
-	private TaxSquare tax = new TaxSquare("UCD");
-	private String[] info = new String[24];
-	private Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
+	private final TaxSquare tax = new TaxSquare("UCD");
+	private final String[] info = new String[24];
+	private final Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
 
 	@Test
 	public void constructorTest() {

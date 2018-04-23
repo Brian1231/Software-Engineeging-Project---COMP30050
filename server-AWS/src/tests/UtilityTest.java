@@ -11,10 +11,10 @@ import static org.junit.Assert.*;
 
 public class UtilityTest {
 
-	private Utility util1 = new Utility("UCD1", 100);
-	private Utility util2 = new Utility("UCD2", 100);
-	private String[] info = new String[24];
-	private Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
+	private final Utility util1 = new Utility("UCD1", 100);
+	private final Utility util2 = new Utility("UCD2", 100);
+	private final String[] info = new String[24];
+	private final Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
 
 	@Test
 	public void constructorTest() {

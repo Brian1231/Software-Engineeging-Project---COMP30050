@@ -81,13 +81,13 @@ public class VillainGang implements JSONable, VillainGangable {
 		Random random = new Random();
 		int amount = 50 + 10*random.nextInt(26);
 		player.setDebt(amount);
-		Character_noc pchar = player.getCharacter();
-		Character_noc villain = Main.noc.getOpponent(pchar);
-		Weapon_noc villWeapon = Main.noc.getWeapon(villain.getWeapon());
+		Character_noc playerCharacter = player.getCharacter();
+		Character_noc villain = Main.noc.getOpponent(playerCharacter);
+		Weapon_noc villainWeapon = Main.noc.getWeapon(villain.getWeapon());
 		
 		return villain.getName() + " steps forward from the gang of villains and immediately begins " +
-		villWeapon.getAffordanceWithTarget(pchar.getName()) + " " + villWeapon.getDeterminer() + " " + villWeapon.getWeapon() + ". "+
-		pchar.getName() + " loses " + amount + ". ";
+		villainWeapon.getAffordanceWithTarget(playerCharacter.getName()) + " " + villainWeapon.getDeterminer() + " " + villainWeapon.getWeapon() + ". "+
+		playerCharacter.getName() + " loses " + amount + ". ";
 	}
 	
 	@Override

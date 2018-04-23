@@ -10,12 +10,12 @@ import static org.junit.Assert.*;
 
 public class StationTest {
 
-	private Station station1 = new Station("UCD1", 100, new int[]{10,20,30,40});
-	private Station station2 = new Station("UCD2", 100, new int[]{10,20,30,40});
-	private Station station3 = new Station("UCD3", 100, new int[]{10,20,30,40});
-	private Station station4 = new Station("UCD4", 100, new int[]{10,20,30,40});
-	private String[] info = new String[24];
-	private Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
+	private final Station station1 = new Station("UCD1", 100, new int[]{10,20,30,40});
+	private final Station station2 = new Station("UCD2", 100, new int[]{10,20,30,40});
+	private final Station station3 = new Station("UCD3", 100, new int[]{10,20,30,40});
+	private final Station station4 = new Station("UCD4", 100, new int[]{10,20,30,40});
+	private final String[] info = new String[24];
+	private final Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
 
 	@Test
 	public void constructorTest() {

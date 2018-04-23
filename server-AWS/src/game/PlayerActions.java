@@ -21,7 +21,7 @@ public class PlayerActions {
 			}
 			String res = player.getCharName() +" attempts to escape prison...\n";
 			if(dice.rollDoubles()){
-				res+=player.getCharName()+" has succesfully escaped prison!";
+				res+=player.getCharName()+" has successfully escaped prison!";
 				player.releaseFromJail();
 				return res;
 			}
