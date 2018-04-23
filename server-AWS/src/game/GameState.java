@@ -159,6 +159,10 @@ public class GameState implements JSONable {
 		this.villainGang.activate(location);
 	}
 	
+	public boolean villainGangIsActive(){
+		return this.villainGang.isActive();
+	}
+	
 	public String villainGangCheck(Player player){
 		if(this.villainGang.isActive() && this.villainGang.position() == player.getPos()){
 			return this.villainGang.attackPlayer(player);

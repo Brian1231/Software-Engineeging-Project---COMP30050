@@ -39,8 +39,11 @@ public class ChanceSquare extends NamedLocation{
 			res+="\n" + player.getCharName() + " has changed direction!.";
 			break;
 		case 3:
+			if(Main.gameState.villainGangIsActive())
+				res += "\n" + player.getCharName() + " startled the gange of villains! They quickly charge to you. ";
+			else
+				res+="\n" + player.getCharName() + " awoke a gang of evil villains!";
 			Main.gameState.activateVillainGang(player.getPos());
-			res+="\n" + player.getCharName() + " awoke a gang of evil villains!";
 		}
 		return res;
 	}

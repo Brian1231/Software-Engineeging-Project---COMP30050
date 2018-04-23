@@ -101,7 +101,11 @@ public class PlayerConnection extends Thread{
 							
 							//Update Desktop
 							Main.clientUpdater.updateActionInfo(actionInfo);
-							Main.clientUpdater.updateDesktopPlayers();
+							if(action.equals("buy")||action.equals("sell")||action.equals("mortgage")||action.equals("redeem")||action.equals("trap")
+									||action.equals("build")||action.equals("demolish"))
+								Main.clientUpdater.updateDesktopBoard();
+							else
+								Main.clientUpdater.updateDesktopPlayers();
 							
 							//Update Player
 							this.updatePlayer();
