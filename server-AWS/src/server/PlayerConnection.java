@@ -77,7 +77,7 @@ public class PlayerConnection extends Thread{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		while(Main.gameState.isActive() && this.keepAlive){
+		while(Main.isActive && this.keepAlive){
 			synchronized(this){
 				
 				try {
@@ -101,7 +101,11 @@ public class PlayerConnection extends Thread{
 							
 							//Update Desktop
 							Main.clientUpdater.updateActionInfo(actionInfo);
-							Main.clientUpdater.updateDesktopPlayers();
+							if(action.equals("buy")||action.equals("sell")||action.equals("mortgage")||action.equals("redeem")||action.equals("trap")
+									||action.equals("build")||action.equals("demolish"))
+								Main.clientUpdater.updateDesktopBoard();
+							else
+								Main.clientUpdater.updateDesktopPlayers();
 							
 							//Update Player
 							this.updatePlayer();

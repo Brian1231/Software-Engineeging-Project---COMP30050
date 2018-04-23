@@ -1,6 +1,6 @@
 
 .text-area {
-    -fx-background-color: rgba(64, 80, 94,0.4);
+    -fx-background-color: rgba(45, 88, 158,0.2);
 }
 
 .text-area .scroll-pane {
@@ -21,16 +21,27 @@
 }
 
 .button{
--fx-border-color: #e88e27;
--fx-background-color: rgb(255,255,255,0.2);
--fx-font-size: 30px;
--fx-text-fill: #e88e27;
+    -fx-border-color: #e88e27;
+    -fx-background-color: rgb(255,255,255,0.2);
+    -fx-font-size: 30px;
+    -fx-text-fill: #e88e27;
 }
 
 .button:hover{
--fx-background-color: rgb(255,255,255,0.5);
+    -fx-background-color: rgb(255,255,255,0.5);
 }
 
 .progress-bar{
--fx-accent: #e88e27;
+    -fx-accent: #e88e27;
+    -fx-background-color:  transparent;
 }
+
+.progress-bar .track{
+    -fx-background-insets: 0;
+}
+
+.progress-bar .bar{
+    -fx-background-insets: 1 1 2 1;
+    -fx-padding: 0.40em;
+}
+

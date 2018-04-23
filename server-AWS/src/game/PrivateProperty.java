@@ -25,7 +25,7 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 		return this.isOwned;
 	}
 	@Override
-	public Playable getOwner() {
+	public Player getOwner() {
 		return this.owner;
 	}
 
@@ -84,6 +84,7 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 		info.put("color", "GRAY");
 		info.put("is_mortgaged", false);
 		info.put("houses", 0);
+		info.put("hasTrap", false);
 		if(this.owner != null)
 			info.put("owner", this.owner.getID());
 		else

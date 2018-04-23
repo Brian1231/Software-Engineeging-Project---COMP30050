@@ -6,10 +6,14 @@ import javafx.collections.ListChangeListener;
 
 import javafx.fxml.FXML;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +24,6 @@ import java.util.List;
 
 public class InGameController {
 
-    private Boolean gameStarted = false;
     @FXML
     public BorderPane rootPane;
     // Stacks each layer on top of each other.
@@ -30,8 +33,8 @@ public class InGameController {
     private PlayerCanvas playerCanvas = new PlayerCanvas();
     private InformationPane infoPane = new InformationPane();
 
-    // Players
-    private int playerTurn;
+    private boolean imagesPlaced = false;
+
 
     // Networking.
     private final static String IP = "52.48.249.220";
@@ -49,7 +52,6 @@ public class InGameController {
         Game.observablePlayers.addListener(new ListChangeListener<Player>() {
             @Override
             public void onChanged(Change<? extends Player> c) {
-                System.out.println("change detected");
                 while (c.next()) {
                         for (Player remitem : c.getRemoved()) {
                             infoPane.removePlayerInfo(remitem);
@@ -61,6 +63,9 @@ public class InGameController {
                 }
         });
         setUpBoard();
+        //Testing
+        //Game.addPlayer(new Player("2000", 1, 2, Color.WHITE, "Batman", 2));
+        //Game.addPlayer(new Player("1500", 2, 3, Color.WHITE, "SuperMan", 1));
         try {
             connection.startConnection();
         } catch (IOException e) {
@@ -72,7 +77,6 @@ public class InGameController {
 
     public void closeGame() {
         JSONObject output = new JSONObject();
-
         try {
             output.put("id", 0);
             output.put("action", "end");
@@ -91,7 +95,7 @@ public class InGameController {
             try {
                 System.out.println("Current GameState: " + update.toString());
 
-                playerTurn = update.getInt("player_turn");
+                Game.playerTurn = update.getInt("player_turn");
 
                 String actionInfo = update.getString("action_info");
 
@@ -101,18 +105,28 @@ public class InGameController {
                     JSONArray playerObjects = update.getJSONArray("players");
 
                     for(int i=0;i<playerObjects.length();i++){
-                        int b = playerObjects.getJSONObject(i).getInt("balance");
-                        String balance = Integer.toString(b);
+                        int bal = playerObjects.getJSONObject(i).getInt("balance");
+                        String balance = Integer.toString(bal);
                         int id = playerObjects.getJSONObject(i).getInt("id");
                         int position = playerObjects.getJSONObject(i).getInt("position");
+                        int c = playerObjects.getJSONObject(i).getInt("colour");
+                        java.awt.Color col = new java.awt.Color(c);
+                        int r = col.getRed();
+                        int g = col.getGreen();
+                        int b = col.getBlue();
+                        Color fxColor = Color.rgb(r,g,b);
+                        //Color color = (Color) Color.class.getField(c).get(null);
                         String character = playerObjects.getJSONObject(i).getString("character");
                         int fuel = playerObjects.getJSONObject(i).getInt("fuel");
-                        plyrs.add(new Player(balance,id,position,Color.WHITE,character,fuel));
+                        plyrs.add(new Player(balance,id,position,fxColor,character,fuel));
                     }
                     Game.updatePlayers(plyrs);
                     playerCanvas.draw();
+                    
+                    JSONObject villains = update.getJSONObject("villain_gang");
+                    Game.updateVillains(villains.getInt("position"), villains.getBoolean("is_active"));
                 }
-
+                
                 // Redraw locations according to new Location information.
                 List<Location> locs = new ArrayList<>();
                 if(update.has("locations")){
@@ -124,28 +138,36 @@ public class InGameController {
                         int position = locationObjects.getJSONObject(i).getInt("location");
                         int owner = locationObjects.getJSONObject(i).getInt("owner");
                         String c = locationObjects.getJSONObject(i).getString("color");
+
+//                         below lines for when server code is pushed to aws as now sends the colour object in JSON same as players
+                        // be sure the JSON key is spelt colour not color for the color object. AWS currently gives string with key color
+//                         java.awt.Color col = new java.awt.Color(locationObjects.getJSONObject(i).getInt("colour"));
+//                         Color color = Color.rgb(col.getRed(), col.getBlue(), col.getGreen());
+
                         Color color = (Color) Color.class.getField(c).get(null);
                         boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
                         locs.add(new Location(id,position,price,0,owner, color, isMortgaged));
                     }
                     Game.updateLocations(locs);
-
+                    Game.locationsSet = true;
+                    if(!imagesPlaced){
+                        boardCanvas.getImages();
+                    }
                     boardCanvas.draw();
-                    BoardCanvas.locationsSetProperty.setValue(true);
+                    imagesPlaced = true;
                 }
 
                 infoPane.updateFeed(actionInfo);
 
-                if(gameStarted == true){
+                if(Game.gameStarted){
                 	int playerPos = 0;
                 	for(Player p : Game.players){
-                		if(p.getId() == playerTurn) playerPos = p.getPosition();
+                		if(p.getId() == Game.playerTurn) playerPos = p.getPosition();
                 	}
                     Location locToDisplay = Game.getLocation(playerPos);
                     infoPane.updateLocationInfo(locToDisplay);
+
                 }
-
-
             } catch (JSONException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -161,35 +183,31 @@ public class InGameController {
         startButton.layoutXProperty().bind(boardWrapper.widthProperty().divide(2).subtract(startButton.widthProperty().divide(2)));
         startButton.layoutYProperty().bind(boardWrapper.heightProperty().subtract(80));
         startButton.setOnAction(e -> {
-            try {
-            JSONObject output = new JSONObject();
-            output.put("id", 0);
-            output.put("action", "start");
-            connection.send(output);
-            gameStarted = true;
-            startButton.setText("End Game");
-            startButton.setOnAction(e2 ->   {
-                boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?");
-                if(answer){
-                    closeGame();
+                    try {
+                        JSONObject output = new JSONObject();
+                        output.put("id", 0);
+                        output.put("action", "start");
+                        connection.send(output);
+                        Game.gameStarted = true;
+                        startButton.setText("End Game");
+                        startButton.setOnAction(e2 -> {
+                            boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?");
+                            if (answer) {
+                                showGameOverScreen();
+                            }
+                        });
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
                 }
-            } );
-        } catch (JSONException e1) {
-            e1.printStackTrace();
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-        }
-
-
         );
 
         infoPane.getChildren().add(startButton);
         layers.getChildren().add(boardWrapper);
-
         layers.getChildren().add(playerCanvas);
         layers.getChildren().add(infoPane);
-
         rootPane.setCenter(layers);
         boardCanvas.widthProperty().bind(rootPane.widthProperty());
         boardCanvas.heightProperty().bind(rootPane.heightProperty());
@@ -199,6 +217,27 @@ public class InGameController {
         boardCanvas.draw();
         playerCanvas.draw();
     }
+
+    public void showGameOverScreen(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/gameOverScreen.fxml"));
+        Parent gameOver = null;
+
+        try {
+            gameOver = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Scene gameOverScene = new Scene(gameOver);
+        gameOverScene.getStylesheets().addAll(this.getClass().getResource("/client/resources/css/welcome.css").toExternalForm());
+        Stage gameOverStage = new Stage();
+        gameOverStage.setScene(gameOverScene);
+
+        //InGameController gameController = loader.getController();
+        gameOverStage.setOnCloseRequest(e -> closeGame());
+        gameOverStage.show();
+    }
+
 
 }
 

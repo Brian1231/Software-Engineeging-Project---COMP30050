@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class InvestmentPropertyTest {
 
-	private InvestmentProperty prop = new InvestmentProperty("UCD", 100, new int[] {10,20,30,40,50});
+	private InvestmentProperty prop = new InvestmentProperty("UCD");
 
 	@Test
 	public void constructorTest(){

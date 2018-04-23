@@ -4,6 +4,9 @@ public interface Mortgageable extends Ownable {
     // get Mortgage amount
     int getMortgageAmount();
 
+    //set Mortgage amount
+    void setMortgageAmount(int mortgageAmount);
+
     // mortgage a property
     void mortgage(Playable player);
 

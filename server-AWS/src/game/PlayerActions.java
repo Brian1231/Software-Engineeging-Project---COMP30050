@@ -16,6 +16,7 @@ public class PlayerActions {
 				player.useRoll();
 				String res = player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".";
 				res += landedOn(player, locations.get(player.getPos()), spaces);
+				res += Main.gameState.villainGangCheck(player);
 				return res;
 			}
 			String res = player.getCharName() +" attempts to escape prison...\n";
@@ -125,6 +126,7 @@ public class PlayerActions {
 					if (player.getFuel() > 0) {
 						String res = player.useBoost()  +" and landed on "+ locations.get(player.getPos()).getId()+".";
 						res += landedOn(player, locations.get(player.getPos()), 1);
+						res += Main.gameState.villainGangCheck(player);
 						return res;
 					}
 					return "Your vehicle is out of fuel!";
@@ -151,8 +153,9 @@ public class PlayerActions {
 							} else {
 								return property.getBuildDemolishError();
 							}
+
 						}
-						return "You need to own 3 " + property.getColour() + "'s before you can build houses!";
+						return "You need to own 3 " + property.getColour() + "'s before you can improve a property!";
 					}
 					return property.getId() + " is mortgaged! ";
 				}
@@ -160,7 +163,7 @@ public class PlayerActions {
 			}
 			return property.getId() + " is unowned.";
 		}
-		return " You cant build on " + loc.getId();
+		return " You cant improve " + loc.getId();
 	}
 
 
@@ -198,70 +201,78 @@ public class PlayerActions {
 	private String landedOn(Player player, NamedLocation location, int spaces){
 		if(location instanceof PrivateProperty){
 			PrivateProperty property = (PrivateProperty) location;
-			if(property.isOwned() && !property.getOwner().equals(player)){
-				String res = "\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ".";
-				if(property instanceof InvestmentProperty){
-					InvestmentProperty p = (InvestmentProperty) property;
-					player.setDebt(p.getBaseRentAmount(), property.getOwner());
-					return res;
-				}
-				else if(property instanceof Station){
-					//Station
-					Station s = (Station) property;
-					player.setDebt(s.getRentalAmount(), property.getOwner());
-					return res;
-				}
-				else{
-					//Utility
-					Utility u = (Utility) property;
-					player.setDebt(u.getRentalAmount(spaces), property.getOwner());
-					return res;
-				}
+			if(property.isOwned()){
+				if(!property.getOwner().equals(player)){
 
+					String res = "\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ".";
+					if(property instanceof InvestmentProperty){
+						InvestmentProperty p = (InvestmentProperty) property;
+						player.setDebt(p.getBaseRentAmount(), property.getOwner());
+						if(p.hasTrap()) res+= p.activateTrap(player);
+						return res;
+					}
+					else if(property instanceof Station){
+						//Station
+						Station s = (Station) property;
+						player.setDebt(s.getRentalAmount(), property.getOwner());
+						if(s.hasTrap()) res += s.activateTrap(player);
+						return res;
+					}
+					else{
+						//Utility
+						Utility u = (Utility) property;
+						player.setDebt(u.getRentalAmount(spaces), property.getOwner());
+						if(u.hasTrap()) res += u.activateTrap(player);
+						return res;
+					}
+				}
+				return "\nYou own "+ property.getId() + ".";	
 			}
+
 			return "\n"+ property.getId() + " is unowned. It can be purchased for $" + property.getPrice() + ".";
 		}
 		else if(location instanceof TaxSquare){
 			TaxSquare tax = (TaxSquare) location;
-			String res = "\n"+tax.getText(Main.noc.getOpponent(player.getCharacter()));
-			switch (random.nextInt(2)){
-			case 0:
-				player.setDebt(tax.getFlatAmount());
-				res+="\n"+player.getCharName()+" owes the flat amount of $"+tax.getFlatAmount()+".";
-				return res;
-			case 1:
-				//Percent in range 5% - 30%
-				double percentage = (0.05 + (random.nextInt(26)*0.01));
-				int t = tax.getIncomePercentage(player, percentage);
-				res+="\n"+player.getCharName()+" owes "+percentage*100+" of their net worth. Thats $"+t+".";
-				player.setDebt(t);
-				return res;
-			}
+			return tax.activate(player);
 		}
 		else if(location instanceof ChanceSquare){
 			ChanceSquare chance = (ChanceSquare) location; 
-			String res = chance.getChance(Main.noc.getOpponent(player.getCharacter()));
-			return res;
+			return chance.activate(player);
 		}
 		else if(location instanceof SpecialSquare){
 			SpecialSquare square = (SpecialSquare) location; 
-			String res = "";
-			switch (square.getLocation()){
-			//Go
-			case 0:
-				res+="\n"+player.getCharName() + " arrived at the galactic core.";
-				res+="\nThe fuel for " + player.getPossessive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up.";
-				player.topUpFuel();
-				return res;
-				//Go to jail
-			case 10:
-				player.sendToJail();
-				return "\n" + player.getCharName() + " was sent to intergalactic prison!\n"+
-				"Attempt to break free by rolling doubles or pay the fee of $1000.";
-				//Jail
-			case 29:
-			}
+			return square.activate(player);
 		}
 		return "";
 	}
+
+
+	public String setTrap(Player player, NamedLocation loc) {
+		if (loc instanceof RentalProperty) {
+			RentalProperty property = (RentalProperty) loc;
+			if (property.isOwned()) {
+				if (property.getOwner().equals(player)) {
+					if (!property.isMortgaged()) {
+						if(!property.hasTrap()){
+							return property.setTrap();
+						}
+						return property.getId() + " already has a trap set!";
+					}
+					return property.getId() + " is mortgaged! ";
+				}
+				return "You don't own " + property.getId();
+			}
+			return property.getId() + " is unowned.";
+		}
+		return " You cant demolish on " + loc.getId();
+	}
+
+	public String bankrupt(Player player) {
+		for(PrivateProperty p : player.getOwnedProperties()){
+			p.setUnOwned();
+		}
+		return player.getCharName() + " has declared bankruptcy and any property they own has been released. ";
+	}
+
+
 }

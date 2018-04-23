@@ -1,9 +1,13 @@
 package client.java;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+
 
 public class Location {
 
+    // Data
     private String name;
     private int position;
     private int price;
@@ -11,6 +15,10 @@ public class Location {
     private int ownerID;
     private Color colour;
     private boolean isMortgaged;
+    private Image image;
+    // Display objects.
+    Circle Tile = new Circle();
+
 
     public Location(String name, int position, int price, int rent, int owner, Color c,boolean isMortgaged) {
         this.name = name;
@@ -84,5 +92,21 @@ public class Location {
 
     public void setColour(Color colour) {
         this.colour = colour;
+    }
+
+    public void setMortgaged(boolean mortgaged) {
+        isMortgaged = mortgaged;
+    }
+
+    public boolean isMortgaged() {
+        return isMortgaged;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 }

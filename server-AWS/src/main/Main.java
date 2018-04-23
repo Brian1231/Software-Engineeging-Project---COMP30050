@@ -25,6 +25,7 @@ public class Main {
 
 		while(true){
 			if(!isActive){
+				isActive = true;
 				//Create and populate noc list
 				noc = new NOC_Manager();
 				noc.setup();
@@ -44,8 +45,13 @@ public class Main {
 				//Creates a new player object in gamestate for each new player
 				portAllocator = new PortAllocator(MAINPORT);
 				portAllocator.start();
-				isActive = true;
 			}
+			/* - possible fix to kill all threads to re-launch game ??
+			if(!isActive) {
+				portAllocator.interrupt();
+				clientUpdater.interrupt();
+			}
+			*/
 		}
 
 

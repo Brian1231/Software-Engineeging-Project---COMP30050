@@ -10,6 +10,7 @@ import game_interfaces.Playable;
 import noc_db.Character_noc;
 import noc_db.Vehicle_noc;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Player implements Playable, JSONable, Colourable {
@@ -32,7 +33,9 @@ public class Player implements Playable, JSONable, Colourable {
 	private boolean isOnGo;
 	private boolean isInDebt;
 	private boolean isInJail;
+	private boolean movingForward;
 	private String colour;
+	private Color rgbColour;
 
 	public Player(int playerId, String ipAddr, Character_noc ch, Vehicle_noc vehicle){
 		this.id = playerId;
@@ -51,6 +54,7 @@ public class Player implements Playable, JSONable, Colourable {
 		this.fuel = 1;
 		this.character = ch;
 		this.vehicle = vehicle;
+		this.movingForward = true;
 	}
 
 	@Override
@@ -63,59 +67,78 @@ public class Player implements Playable, JSONable, Colourable {
 		return this.ip;
 	}
 
+	@Override
 	public boolean hasRolled(){
 		return this.hasRolled;
 	}
 
+	@Override
 	public void resetRoll(){
 		this.hasRolled = false;
 	}
 
+	@Override
 	public boolean hasBought(){
 		return this.hasBought;
 	}
 
+	@Override
 	public void useBuy(){
 		this.hasBought = true;
 	}
 
+	@Override
 	public boolean hasBoosted(){
 		return this.hasBoosted;
 	}
 
+	@Override
 	public void resetBoost(){
 		this.hasBoosted = false;
 	}
 
+	@Override
 	public void resetBought(){
 		this.hasBought = false;
 	}
 
+	@Override
 	public void useRoll(){
 		this.hasRolled = true;
 	}
 
+	@Override
 	public void topUpFuel(){
 		this.fuel = 3;
 	}
 
+	@Override
 	public int getFuel(){
 		return this.fuel;
 	}
 
+	@Override
 	public void sendToJail(){
 		this.position = 29;
 		this.isInJail = true;
 	}
+	@Override
 	public void releaseFromJail(){
 		this.jailTurnCount = 0;
 		this.isInJail = false;
 	}
 
+	@Override
 	public boolean isInJail(){
 		return this.isInJail;
 	}
 
+	@Override
+	public void changeDirection(){
+		this.movingForward = !this.movingForward;
+	}
+
+	@Override
 	public boolean incrementJailTurns(){
 		this.jailTurnCount++;
 		if(this.jailTurnCount==3){
@@ -126,6 +149,7 @@ public class Player implements Playable, JSONable, Colourable {
 		return false;
 	}
 
+	@Override
 	public boolean ownsThree(String color){
 		int count = 0;
 		for(PrivateProperty prop : this.ownedProperties){
@@ -150,6 +174,7 @@ public class Player implements Playable, JSONable, Colourable {
 		info.put("character", this.character.getName());
 		info.put("properties", properties);
 		info.put("fuel", this.fuel);
+		info.put("colour", this.rgbColour.getRGB());
 		return info;
 
 	}
@@ -164,10 +189,12 @@ public class Player implements Playable, JSONable, Colourable {
 		return this.id;
 	}
 
+	@Override
 	public int getBalance(){
 		return this.balance;
 	}
 
+	@Override
 	public String useBoost(){
 		this.hasBoosted = true;
 		this.fuel--;
@@ -176,36 +203,81 @@ public class Player implements Playable, JSONable, Colourable {
 
 	@Override
 	public String moveForward(int spaces){
-		int oldPos = this.position;
-		if(this.isOnGo){
-			this.position = 19;
-			this.isOnGo = false;
-			this.position = (this.position + spaces)%39;
-			return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
+		if(this.movingForward){
+			int oldPos = this.position;
+			if(this.isOnGo){
+				this.position = 19;
+				this.isOnGo = false;
+				this.position = (this.position + spaces)%39;
+				return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 
+			}
+			else{
+				String res = "";
+				this.position = (this.position + spaces)%39;
+
+				//Check if we pass go
+				if((oldPos<20 && this.position>19) || (oldPos>20 && this.position>=0 && this.position<20)){
+					res+= this.getCharName() +" passed go and received $100.\n";
+					this.receiveMoney(100);
+				}
+
+				//If we land on go going backwards
+				if(this.position == 20) {
+					this.position = 0;
+					this.isOnGo = true;
+				}
+
+				//Allocating for extra space at go
+				if(oldPos<20 && this.position>20){
+					this.position--;
+				}
+
+				return res+this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
+			}
 		}
 		else{
-			String res = "";
-			this.position = (this.position + spaces)%39;
-
-			//Check if we pass go
-			if((oldPos<20 && this.position>19) || (oldPos>20 && this.position>=0 && this.position<20)){
-				res+= this.getCharName() +" passed go and received $100.\n";
-				this.receiveMoney(100);
+			//Moving backwards
+			int oldPos = this.position;
+			if(this.isOnGo){
+				this.position = 20;
+				this.isOnGo = false;
+				if(this.position-spaces>=0)
+					this.position = (this.position - spaces);
+				else{
+					int x = spaces - this.position;
+					this.position = 39-x;
+				}
+				return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 			}
+			else{
+				String res = "";
+				if(this.position-spaces>=0)
+					this.position = (this.position - spaces);
+				else{
+					int x = spaces - this.position;
+					this.position = 39-x;
+				}
 
-			//If we land on go going backwards
-			if(this.position == 20) {
-				this.position = 0;
-				this.isOnGo = true;
+				//Check if we pass go
+				if((oldPos>20 && this.position<=20) || (this.position>=20 && oldPos>0 && oldPos<20)){
+					res+= this.getCharName() +" passed go and received $100.\n";
+					this.receiveMoney(100);
+				}
+
+				//If we land on go going backwards
+				if(this.position == 20) {
+					this.position = 0;
+					this.isOnGo = true;
+				}
+
+				//Allocating for extra space at go
+				if((oldPos>20 && this.position<20)){
+					this.position++;
+				}
+				
+				return res+this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 			}
-
-			//Allocating for extra space at go
-			if(oldPos<20 && this.position>20){
-				this.position--;
-			}
-
-			return res+this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 		}
 	}
 
@@ -213,6 +285,7 @@ public class Player implements Playable, JSONable, Colourable {
 	public String getCharName() {
 		return this.character.getName();
 	}
+	@Override
 	public String getCanName() {
 		return this.character.getCanName();
 	}
@@ -282,31 +355,58 @@ public class Player implements Playable, JSONable, Colourable {
 		return colour;
 	}
 
+	@Override
+	public void setRGB(int r, int g, int b) {
+		rgbColour = new Color(r,g,b);
+	}
+
+	@Override
+	public void setRGB(Color colour) {
+		rgbColour = colour;
+	}
+
+	@Override
+	public Color getRGBColour() {
+		return this.rgbColour;
+	}
+
+	@Override
 	public Character_noc getCharacter() {
 		return this.character;
 	}
 
+	@Override
 	public boolean isInDebt(){
 		return this.isInDebt;
 	}
 
+	@Override
 	public void setDebt(int amount, Playable player){
 		this.playerOwed = player;
-		this.debt = amount;
+		this.debt += amount;
 		this.isInDebt = true;
 	}
 
+	@Override
 	public void setDebt(int amount){
-		this.debt = amount;
+		this.debt += amount;
 		this.isInDebt = true;
+	}
+	@Override
+	public void removeDebt(){
+		this.debt = 0;
+		this.isInDebt = false;
+		this.playerOwed = null;
 	}
 
 
+	@Override
 	public String getPossessive(){
 		if(this.character.getGender().equals("female")) return "Her";
 		else return "His";
 	}
-	public String payDebt(){ 
+	@Override
+	public String payDebt(){
 		if(!this.isInJail){
 			if(this.isInDebt){
 				if(this.balance >= this.debt){

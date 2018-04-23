@@ -18,7 +18,6 @@ public class WelcomeScreenController {
     // New game
     public void onNewGameClick(ActionEvent event) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/inGame.fxml"));
-
         Parent inGame =  loader.load();
 
         Scene gameScene = new Scene(inGame);

@@ -37,6 +37,7 @@ public class Weapon_noc {
 		return this.weapon.trim();
 	}
 
+	
 	public String getAffordance(){
 		String aff[] = this.affordances.split(", ");
 		return aff[random.nextInt(aff.length)].trim();

@@ -6,6 +6,7 @@
 -fx-background-position: center center;
 }
 
+
 #newGameButton{
 -fx-border-color: #e88e27;
 -fx-background-color: rgba(255,255,255,0.2);
@@ -20,4 +21,10 @@
 #heading{
 -fx-font-size: 50px;
 -fx-text-fill: #e88e27;
+}
+
+#imageView{
+	-fx-margin-top: 100px;
+	-fx-border-insets: 100px;
+    -fx-background-insets: 100px;
 }

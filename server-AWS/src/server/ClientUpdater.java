@@ -69,7 +69,7 @@ public class ClientUpdater extends Thread{
 			e1.printStackTrace();
 		}
 
-		while(Main.gameState.isActive){
+		while(Main.isActive){
 			synchronized(this){
 
 				try{
