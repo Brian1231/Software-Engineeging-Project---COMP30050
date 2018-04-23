@@ -77,7 +77,7 @@ public class PlayerConnection extends Thread{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		while(Main.gameState.isActive() && this.keepAlive){
+		while(Main.isActive && this.keepAlive){
 			synchronized(this){
 				
 				try {

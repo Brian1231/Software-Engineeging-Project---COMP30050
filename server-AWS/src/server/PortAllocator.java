@@ -37,7 +37,7 @@ public class PortAllocator extends Thread{
 	}
 
 	public void run(){
-		while(Main.gameState.isActive()){
+		while(Main.isActive){
 			System.out.println("Listening for incoming connections on Port "+this.port+" ...");
 			try {
 				socket = server.accept();

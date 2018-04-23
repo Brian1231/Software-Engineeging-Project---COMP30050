@@ -5,6 +5,7 @@ import javafx.scene.control.TextArea;
 
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.Shadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.*;
@@ -16,17 +17,17 @@ import javafx.scene.control.Label;
 
 public class InformationPane extends Pane {
 
-    private Label title = new Label("Panopoly");
+    //private Label title = new Label("Panopoly");
+	private ImageView logo = new ImageView();
     private Circle eventLogger = new Circle();
     private TextArea feed = new TextArea();
 
     private Circle tileInfo = new Circle();
-    private Label tileName = new Label("Name of current Tile");
-    private Label tileCost = new Label("Cost: $200");
-    private Label tileOwner = new Label("Owner: Bank");
-    private Label tileRent = new Label("Rent: $50");
+    private Label tileName = new Label("");
+    private Label tileCost = new Label("");
+    private Label tileOwner = new Label("");
+    private Label tileRent = new Label("");
     private ImageView tileImage = new ImageView();
-
 
     public BorderPane playerInfoLayout = new BorderPane();
     HBox top = new HBox();
@@ -36,10 +37,16 @@ public class InformationPane extends Pane {
 
     public InformationPane() {
         //Title
-        title.setTextFill(Color.rgb(232, 142, 39));
+       /* title.setTextFill(Color.rgb(232, 142, 39));
         title.setStyle("-fx-font-size: 50px;");
         title.layoutXProperty().bind(widthProperty().divide(2).subtract(title.widthProperty().divide(2)));
-        getChildren().add(title);
+        getChildren().add(title);*/
+    	logo.fitWidthProperty().bind(this.widthProperty().divide(2.5));
+    	logo.fitHeightProperty().bind(this.heightProperty().divide(5));
+    	logo.layoutXProperty().bind(widthProperty().divide(2).subtract(logo.fitWidthProperty().divide(2)));
+    	//logo.setEffect(new Glow(5));
+    	logo.setImage(new Image("/client/resources/images/InterDimLogo.png"));
+    	getChildren().add(logo);
 
         // Circle text Area (currently invisible)
         eventLogger.setFill(Color.rgb(60, 67, 79, 0));
@@ -96,6 +103,7 @@ public class InformationPane extends Pane {
         tileImage.layoutYProperty().bind(tileInfo.layoutYProperty().subtract(tileImage.fitHeightProperty().divide(2)));
         tileImage.fitWidthProperty().bind(tileInfo.radiusProperty().multiply(1.8));
         tileImage.fitHeightProperty().bind(tileInfo.radiusProperty().divide(2));
+        tileImage.setImage(new Image("/client/resources/images/InterDimLogo.png"));
         getChildren().add(tileImage);
 
         // Player stats in 4 corners

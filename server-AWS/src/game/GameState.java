@@ -25,7 +25,6 @@ public class GameState implements JSONable {
 	private boolean gameStarted;
 	private int playerTurn;
 	private Dice dice;
-	public boolean isActive;
 	private PlayerActions playerActions = new PlayerActions();
 	private VillainGang villainGang;
 
@@ -36,7 +35,6 @@ public class GameState implements JSONable {
 		playerCharacters = new ArrayList<Character_noc>();
 		clientIPplayerIDMap = new HashMap<String, Player>();
 		gameStarted = false;
-		isActive = true;
 		playerTurn = 1;
 		dice = new Dice();
 		villainGang = new VillainGang();
@@ -83,7 +81,7 @@ public class GameState implements JSONable {
 
 		//Other tiles
 		locations.add(0, new SpecialSquare("Go"));
-		locations.add(10, new SpecialSquare("Go to Intergalactic Prison!"));
+		locations.add(10, new SpecialSquare("Go to Intergalactic Prison"));
 		locations.add(29, new SpecialSquare("Intergalactic Prison"));
 
 		int colourCount = 0;
@@ -118,9 +116,6 @@ public class GameState implements JSONable {
 		return this.gameStarted;
 	}
 
-	public boolean isActive() {
-		return this.isActive;
-	}
 
 	public boolean isPlayerCharacter(Character_noc ch) {
 		return this.playerCharacters.contains(ch);
@@ -343,7 +338,6 @@ public class GameState implements JSONable {
 		Main.clientUpdater.updateDesktopPlayers();
 		Main.clientUpdater.updateDesktopBoard();
 		Main.portAllocator.endGame();
-		this.isActive = false;
 		Main.isActive = false;
 	}
 }
