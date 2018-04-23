@@ -150,7 +150,7 @@ public class Player implements Playable, JSONable, Colourable {
 	}
 
 	@Override
-	public boolean ownsThree(String color){
+	public boolean ownsThree(Color color){
 		int count = 0;
 		for(PrivateProperty prop : this.ownedProperties){
 			if(prop.getColor().equals(color))
@@ -439,4 +439,5 @@ public class Player implements Playable, JSONable, Colourable {
 		}
 		return "You can't afford to the fee of $500";
 	}
+
 }

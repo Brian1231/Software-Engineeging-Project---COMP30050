@@ -105,7 +105,7 @@ public final class Constants {
     public static final Color[] INVESTMENT_COLOUR_GROUPS = new Color[]{
         Color.CYAN, Color.GREEN,
         Color.MAGENTA, Color.YELLOW,
-        Color.ORANGE, Color.BLUE,
-        Color.WHITE, Color.PINK
+        Color.WHITE, Color.ORANGE,
+        Color.BLUE, Color.PINK
     };
 }

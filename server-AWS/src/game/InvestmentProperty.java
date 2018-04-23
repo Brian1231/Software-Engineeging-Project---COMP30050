@@ -40,10 +40,6 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 	public int getNumHousesAndHotels() {
 		return this.numHotels + this.numHouses;
 	}
-
-	public String getColor(){
-		return this.colour;
-	}
 	
 	@Override
 	public boolean build(int numToBuild) {
@@ -209,7 +205,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 	@Override
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info =  super.getInfo();
-		info.put("colour", this.rgbColour.getRGB());
+		info.put("color", this.rgbColour.getRGB());
 		info.put("is_mortgaged", this.isMortgaged());
 		info.put("houses", this.getNumHousesAndHotels());
 		info.put("hasTrap", this.hasTrap());

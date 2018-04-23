@@ -42,7 +42,7 @@ public interface Playable extends Identifiable {
 
     boolean incrementJailTurns();
 
-    boolean ownsThree(String color);
+    boolean ownsThree(Color color);
 
     JSONObject getInfo() throws JSONException;
 

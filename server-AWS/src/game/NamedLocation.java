@@ -1,5 +1,7 @@
 package game;
 
+import java.awt.Color;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,8 +27,8 @@ public class NamedLocation implements Identifiable, Locatable, JSONable{
 		this.identifier = id;		
 	}
 	
-	public String getColor(){
-		return "RED";
+	public Color getColor(){
+		return Color.RED;
 	}
 	@Override
 	public JSONObject getInfo() throws JSONException {
@@ -35,7 +37,7 @@ public class NamedLocation implements Identifiable, Locatable, JSONable{
 		info.put("location", this.getLocation());
 		info.put("price", 0);
 		info.put("owner", 0);
-		info.put("color", "RED");
+		info.put("color", this.getColor().getRGB());
 		info.put("houses", 0);
 		info.put("is_mortgaged", false);
 		info.put("hasTrap", false);
