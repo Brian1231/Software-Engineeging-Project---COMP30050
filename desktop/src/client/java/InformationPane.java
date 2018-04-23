@@ -1,6 +1,7 @@
 package client.java;
 
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
 
 import javafx.scene.effect.Glow;
@@ -12,6 +13,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 
 public class InformationPane extends Pane {
@@ -26,6 +29,9 @@ public class InformationPane extends Pane {
     private Label tileOwner = new Label("Owner: Bank");
     private Label tileRent = new Label("Rent: $50");
     private ImageView tileImage = new ImageView();
+
+    private Label mortgaged = new Label("MORTGAGED");
+    private Rectangle mortRect = new Rectangle();
 
 
     public BorderPane playerInfoLayout = new BorderPane();
@@ -66,7 +72,7 @@ public class InformationPane extends Pane {
 		// Current players location info
 		tileInfo.layoutXProperty().bind(widthProperty().subtract(widthProperty().divide(4.2)));
 		tileInfo.layoutYProperty().bind(heightProperty().divide(2));
-		tileInfo.setFill(Color.BLACK);
+		tileInfo.setFill(Color.rgb(102, 52, 0));
 		tileInfo.setStroke(Color.GOLD);
 		tileInfo.radiusProperty().bind(widthProperty().divide(9));
 		tileInfo.setEffect(g);
@@ -105,6 +111,13 @@ public class InformationPane extends Pane {
         playerInfoLayout.setBottom(bottom);
         top.setMaxHeight(200);
         getChildren().add(playerInfoLayout);
+
+        // Mortgaged banner.
+//        mortgaged.setFont(Font.font("Verdana",50));
+//        mortgaged.setTextFill(Color.RED);
+//        mortgaged.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(mortgaged.widthProperty().divide(2)));
+//        mortgaged.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(3)));
+//        mortgaged.setRotate(-45);
     }
 
 	public void updateFeed(String s) {
@@ -129,6 +142,18 @@ public class InformationPane extends Pane {
 		tileImage.setImage(loc.getImage());
 		tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
 		tileRent.setText("Rent: " + loc.getRent());
+        tileInfo.setFill(loc.getColour());
+
+        /*
+        if(!getChildren().contains(mortgaged) && loc.isMortgaged()){
+            getChildren().add(mortgaged);
+        }
+
+        if(getChildren().contains(mortgaged) && !loc.isMortgaged()){
+            getChildren().remove(mortgaged);
+        }
+        */
+
 	}
 
     public void addPlayerInfo(Player player){

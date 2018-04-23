@@ -14,13 +14,14 @@ public class Location {
     private int rent;
     private int ownerID;
     private Color colour;
+    private Color auraColour;
     private boolean isMortgaged;
     private Image image;
     // Display objects.
     Circle Tile = new Circle();
 
 
-    public Location(String name, int position, int price, int rent, int owner, Color c,boolean isMortgaged) {
+    public Location(String name, int position, int price, int rent, int owner, Color c, boolean isMortgaged) {
         this.name = name;
         this.position = position;
         this.price = price;

@@ -129,7 +129,7 @@ public class BoardCanvas extends ResizableCanvas {
 		g.setStroke(location.getColour());
 
 		g.fillOval(x + (width / 2) - width / 34, y + (height / 2) - width / 34, width / 17, width / 17);
-		g.strokeOval(x + (width / 2) - width / 34, y + (height / 2) - width / 34, width / 17, width / 17);
+		//g.strokeOval(x + (width / 2) - width / 34, y + (height / 2) - width / 34, width / 17, width / 17);
 
 		//g.setFill(Color.WHITE);
 		//g.fillText(location.getName(), x + (width / 2) - 20, y + (height / 2));

@@ -110,12 +110,11 @@ public class InGameController {
                         int id = playerObjects.getJSONObject(i).getInt("id");
                         int position = playerObjects.getJSONObject(i).getInt("position");
                         Object c = playerObjects.getJSONObject(i).get("colour");
-                        java.awt.Color col = (java.awt.Color) c;
+                        java.awt.Color col = new java.awt.Color((int) playerObjects.getJSONObject(i).get("colour"));
                         int r = col.getRed();
                         int g = col.getGreen();
                         int b = col.getBlue();
-                        int a = col.getAlpha();
-                        Color fxColor = Color.rgb(r,g,b,a);
+                        Color fxColor = Color.rgb(r,g,b);
                         //Color color = (Color) Color.class.getField(c).get(null);
                         String character = playerObjects.getJSONObject(i).getString("character");
                         int fuel = playerObjects.getJSONObject(i).getInt("fuel");
@@ -160,6 +159,8 @@ public class InGameController {
                     infoPane.updateLocationInfo(locToDisplay);
 
                 }
+
+
             } catch (JSONException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -229,8 +230,4 @@ public class InGameController {
         gameOverStage.setOnCloseRequest(e -> closeGame());
         gameOverStage.show();
     }
-
-
 }
-
-
