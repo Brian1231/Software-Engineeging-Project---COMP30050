@@ -6,8 +6,7 @@ import static org.junit.Assert.*;
 
 public class SpecialSquareTest {
 
-	SpecialSquare specialSquare = new SpecialSquare("UCD");
-
+	private final SpecialSquare specialSquare = new SpecialSquare("UCD");
 	@Test
 	public void constructorTest() {
 		assertNotNull(specialSquare);

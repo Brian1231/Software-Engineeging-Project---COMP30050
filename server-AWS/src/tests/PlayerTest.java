@@ -11,8 +11,8 @@ import game.Player;
 import noc_db.Character_noc;
 
 public class PlayerTest {
-	private String[] info = new String[24];
-	private Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
+	private final String[] info = new String[24];
+	private final Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
 
 	@Test
 	public void constructorTest() {

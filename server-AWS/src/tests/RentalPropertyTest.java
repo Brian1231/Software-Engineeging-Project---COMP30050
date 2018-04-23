@@ -11,9 +11,9 @@ import static org.junit.Assert.*;
 
 public class RentalPropertyTest {
 
-	private String[] info = new String[24];
-	private Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
-	private RentalProperty prop = new RentalProperty("UCD", 100);
+	private final String[] info = new String[24];
+	private final Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
+	private final RentalProperty prop = new RentalProperty("UCD", 100);
 
 	@Test
 	public void constructorTest() {

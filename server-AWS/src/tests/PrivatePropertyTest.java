@@ -8,13 +8,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import java.awt.*;
+
 import static org.junit.Assert.*;
 
 public class PrivatePropertyTest {
 
-	private PrivateProperty prop = new PrivateProperty("UCDPrivate", 100);
-	private String[] info = new String[24];
-	private Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
+	private final PrivateProperty prop = new PrivateProperty("UCDPrivate", 100);
+	private final String[] info = new String[24];
+	private final Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
 
 	@Test
 	public void constructorTest() {
@@ -68,7 +70,7 @@ public class PrivatePropertyTest {
 		try {
 			JSONObject obj = this.prop.getInfo();
 			assertEquals("UCDPrivate", obj.get("id"));
-			assertEquals("GRAY", obj.get("color"));
+			assertEquals(Color.GRAY.getRGB(), obj.get("color"));
 			assertEquals(false, obj.get("is_mortgaged"));
 		} catch (JSONException e) {
 			e.printStackTrace();

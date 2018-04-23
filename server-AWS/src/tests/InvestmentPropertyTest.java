@@ -4,12 +4,15 @@ import game.InvestmentProperty;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
+
+import java.awt.*;
+
 import static org.junit.Assert.*;
 
 
 public class InvestmentPropertyTest {
 
-	private InvestmentProperty prop = new InvestmentProperty("UCD");
+	private final InvestmentProperty prop = new InvestmentProperty("UCD");
 
 	@Test
 	public void constructorTest(){
@@ -39,11 +42,18 @@ public class InvestmentPropertyTest {
 	}
 
 	@Test
+	public void rgbColourTest() {
+		assertNull(prop.getRGBColour());
+		prop.setRGB(Color.BLUE);
+		assertEquals(Color.BLUE, prop.getRGBColour());
+	}
+
+	@Test
 	public void getInfoTest() {
-		prop.setColour("BLUE");
+		prop.setRGB(Color.BLUE);
 		try {
 			JSONObject obj = prop.getInfo();
-			assertEquals("BLUE", obj.get("color"));
+			assertEquals(Color.BLUE.getRGB(), obj.get("color"));
 			assertEquals(false, obj.get("is_mortgaged"));
 		} catch (JSONException e) {
 			e.printStackTrace();

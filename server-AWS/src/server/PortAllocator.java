@@ -61,7 +61,7 @@ public class PortAllocator extends Thread{
 							}
 							String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
 							
-							//If we havn't seen this player;s ip before, create a new connection
+							//If we have not seen this player;s ip before, create a new connection
 							if(!ipIdMap.keySet().contains(client_ip) && ipIdMap.size()<4){
 								ipIdMap.put(client_ip, this.playerCount);//Maybe not needed, Just array of ip's could do
 
