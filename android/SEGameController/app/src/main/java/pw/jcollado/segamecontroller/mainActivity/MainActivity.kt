@@ -30,7 +30,7 @@ class MainActivity : App() {
         finishTurnButton.onClick { onFinish() }
         payButton.onClick { onPay() }
         boostButton.onClick { onBoost() }
-
+        bankruptButton.onClick { onBankrupt() }
 
 
         connectToNewPort()
@@ -59,6 +59,10 @@ class MainActivity : App() {
     }
     fun onBoost(){
         setMessageToServer(Request(preferences.playerID, "boost","0").toJSONString())
+
+    }
+    fun onBankrupt(){
+        setMessageToServer(Request(preferences.playerID, "bankrupt","0").toJSONString())
 
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

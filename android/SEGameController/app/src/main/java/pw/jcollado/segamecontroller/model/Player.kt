@@ -15,6 +15,7 @@ object Player {
      var position: Int = 0
      var fuel: Int = 0
      var id: Int = 0
+     var colour: Int = 0
      var properties: ArrayList<Property> = ArrayList()
 
 

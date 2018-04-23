@@ -84,6 +84,7 @@ abstract class App : AppCompatActivity(), AsyncResponse {
         Player.balance = responseJSON.getInt("balance")
         Player.fuel = responseJSON.getInt("fuel")
         Player.id = responseJSON.getInt("id")
+        Player.colour = responseJSON.getInt("colour")
         Player.position = responseJSON.getInt("position")
 
         if (!Player.properties.isEmpty()) {

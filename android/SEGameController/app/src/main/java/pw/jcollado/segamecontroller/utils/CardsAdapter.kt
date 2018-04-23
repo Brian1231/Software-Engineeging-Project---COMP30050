@@ -1,5 +1,5 @@
 package pw.jcollado.segamecontroller.utils
-
+import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -43,8 +43,13 @@ class CardsAdapter(val items: List<Property>,val sellFunction: (Property) -> Uni
             title.text = item.id
             priceTx.text = "${item.price} $"
             Picasso.get().load("http://52.48.249.220/worlds/${item.id}.jpg").placeholder(R.drawable.placeholder).into(thumbnail)
-            val color = resources.getIdentifier(item.color, "color", context.packageName)
-            linearLY.setBackgroundColor(ContextCompat.getColor(context,color))
+            val intColor = item.color
+            val hexColor = "#" + Integer.toHexString(intColor).substring(2)
+            val color = Color.parseColor(hexColor)
+            linearLY.setBackgroundColor(color)
+
+            if (item.hasTrap){trapTX.text = resources.getString(R.string.hasTrap)}
+            else{trapTX.text = resources.getString(R.string.noTrap)}
             if (item.houses > 4){
                 houses.text = "1 hotel"
             }

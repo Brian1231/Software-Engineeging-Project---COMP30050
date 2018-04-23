@@ -18,4 +18,7 @@
     <string name="demolish">Demolish</string>
     <string name="pay">Pay the debt</string>
     <string name="trap">Place a trap</string>
+    <string name="hasTrap">1 trap</string>
+    <string name="noTrap">0 traps </string>
+    <string name="bankrupt">Bankruptcy</string>
 </resources>
