@@ -23,7 +23,7 @@ public class SpecialSquare extends NamedLocation{
 			"Attempt to break free by rolling doubles or pay the fee of $1000.";
 			//Jail
 		case 29:
-			return "You arrive at intergalactic prison and decide to have a relaxing stroll around. ";
+			return "You arrive at intergalactic prison and decide to have a relaxing stroll around.";
 		default:
 			return "";
 		}
