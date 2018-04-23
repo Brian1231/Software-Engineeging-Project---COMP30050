@@ -1,8 +1,12 @@
 package client.java;
 
+import javafx.animation.PathTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polyline;
+import javafx.util.Duration;
 
 
 public class PlayerCanvas extends ResizableCanvas {
@@ -20,7 +24,7 @@ public class PlayerCanvas extends ResizableCanvas {
 		GraphicsContext gc = getGraphicsContext2D();
 		gc.clearRect(0, 0, width, height);
 
-		drawPlayers(gc, width, height);
+		//drawPlayers(gc, width, height);
 		drawVillains(gc, width, height);
 	}
 
@@ -43,7 +47,11 @@ public class PlayerCanvas extends ResizableCanvas {
 
 			// Payer ID numbers for testing
 			g.setStroke(Color.RED);
-					g.strokeText(Integer.toString(player.getId()),playerX+5,playerY+15);
+			g.strokeText(Integer.toString(player.getId()),playerX+5,playerY+15);
+		}
+
+		for(Player p: Game.players ){
+			relocatePlayer(p);
 		}
 	}
 
@@ -91,6 +99,55 @@ public class PlayerCanvas extends ResizableCanvas {
 		}
 
 		return new Point2D(offsetX,offsetY);
+	}
+
+	public void addPlayerToken(Player p){
+		double t = -PI/2 + step*p.getPosition();
+		Point2D point = lemniscate(t);
+		Point2D offset = playerOffset(p);
+		double playerX = point.getX() + (getWidth()/2) + offset.getX();
+		double playerY = point.getY() + (getHeight()/2) + offset.getY();
+
+		p.playerToken.setLayoutX(playerX);
+		p.playerToken.setLayoutY(playerY);
+		p.playerToken.setFill(p.getColor());
+		Pane parent = (Pane) this.getParent();
+		parent.getChildren().add(p.playerToken);
+	}
+
+	public void animatePlayer(Player p, int newPos){
+		Polyline path = new Polyline();
+
+		int diff = newPos - p.getPosition();
+
+		for(int i = p.getPosition(); i <= newPos; i++){
+			double t = -PI/2 + step*i;
+			Point2D point = lemniscate(t);
+			Point2D offset = playerOffset(p);
+			double playerX = point.getX() + (getWidth()/2) + offset.getX();
+			double playerY = point.getY() + (getHeight()/2) + offset.getY();
+			path.getPoints().addAll(new Double[]{playerX,playerY});
+		}
+
+		PathTransition trans = new PathTransition();
+		trans.setNode(p.playerToken);
+		trans.setDuration(Duration.seconds(4));
+		trans.setPath(path);
+		trans.setCycleCount(1);
+		trans.play();
+	}
+
+	public void relocatePlayer(Player p){
+		Pane parent = (Pane) this.getParent();
+
+		double t = -PI/2 + step*p.getPosition();
+		Point2D point = lemniscate(t);
+		Point2D offset = playerOffset(p);
+		double playerX = point.getX() + (getWidth()/2) + offset.getX();
+		double playerY = point.getY() + (getHeight()/2) + offset.getY();
+
+		p.playerToken.setCenterX(playerX);
+		p.playerToken.setCenterY(playerY);
 	}
 
 }

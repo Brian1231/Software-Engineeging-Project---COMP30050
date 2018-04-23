@@ -63,9 +63,11 @@ public class InGameController {
 			}
 		});
 		setUpBoard();
+		Game.setPlayerCanvas(playerCanvas);
 		//Testing
 		//Game.addPlayer(new Player("2000", 1, 2, Color.WHITE, "Batman", 2));
-		//Game.addPlayer(new Player("1500", 2, 3, Color.WHITE, "SuperMan", 1));
+		//Player p = new Player("1500", 1, 3, Color.WHITE, "SuperMan", 1);
+		//Game.addPlayer(p);
 		try {
 			connection.startConnection();
 		} catch (IOException e) {
@@ -116,8 +118,8 @@ public class InGameController {
 						int fuel = playerObjects.getJSONObject(i).getInt("fuel");
 						plyrs.add(new Player(balance,id,position,fxColor,character,fuel));
 					}
-					Game.updatePlayers(plyrs);
-					playerCanvas.draw();
+					Game.updatePlayers(plyrs, actionInfo);
+					//playerCanvas.draw();
 
 					JSONObject villains = update.getJSONObject("villain_gang");
 					Game.updateVillains(villains.getInt("position"), villains.getBoolean("is_active"));
@@ -170,6 +172,10 @@ public class InGameController {
 
 		Pane boardWrapper = new Pane();
 		boardWrapper.getChildren().add(boardCanvas);
+
+		Pane playerWrapper = new Pane();
+		playerWrapper.getChildren().add(playerCanvas);
+
 		// Start game button
 		Button startButton = new Button("START GAME");
 		startButton.layoutXProperty().bind(boardWrapper.widthProperty().divide(2).subtract(startButton.widthProperty().divide(2)));
@@ -198,7 +204,7 @@ public class InGameController {
 
 		infoPane.getChildren().add(startButton);
 		layers.getChildren().add(boardWrapper);
-		layers.getChildren().add(playerCanvas);
+		layers.getChildren().add(playerWrapper);
 		layers.getChildren().add(infoPane);
 		rootPane.setCenter(layers);
 		boardCanvas.widthProperty().bind(rootPane.widthProperty());
@@ -208,6 +214,7 @@ public class InGameController {
 
 		boardCanvas.draw();
 		playerCanvas.draw();
+
 	}
 
 	public void showGameOverScreen(){

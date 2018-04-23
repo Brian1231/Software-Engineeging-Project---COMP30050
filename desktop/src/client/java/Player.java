@@ -33,7 +33,7 @@ public class Player implements Serializable {
     public VBox stats = new VBox();
 
     // Token
-    public Circle playerToken = new Circle();
+    public Circle playerToken = new Circle(10);
 
     private final PropertyChangeSupport pcs ;
 

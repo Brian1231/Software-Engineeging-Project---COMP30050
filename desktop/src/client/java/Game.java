@@ -18,16 +18,17 @@ public class Game {
     public static Boolean gameStarted = false;
     public static int playerTurn;
     public static boolean locationsSet = false;
+    public static PlayerCanvas pCanvas;
 
     // Player Methods
     // Updates players from server.
-    public static void updatePlayers(List<Player> plyrs){
+    public static void updatePlayers(List<Player> plyrs, String action){
         for(Player p : plyrs){
             if(!observablePlayers.contains(p)) {
                 addPlayer(p);
             }
             else{
-                updatePlayerData(p);
+                updatePlayerData(p,action);
             }
         }
         // Not working right now
@@ -39,8 +40,9 @@ public class Game {
     }
 
     // Adds new player to player list.
-    private static void addPlayer(Player player){
+    public static void addPlayer(Player player){
         observablePlayers.add(player);
+        pCanvas.addPlayerToken(player);
     }
 
     public static void updateVillains(int pos, boolean status){
@@ -48,12 +50,23 @@ public class Game {
     	villainGang.setState(status);
     }
     // Updates player on player list
-    private static void updatePlayerData(Player player){
+    private static void updatePlayerData(Player player, String action){
         if(observablePlayers.contains(player)){
+
             int index = observablePlayers.indexOf(player);
             observablePlayers.get(index).setBalance(player.getBalance());
-            observablePlayers.get(index).setPosition(player.getPosition());
             observablePlayers.get(index).setFuel(player.getFuel());
+
+            // Only animates movement when action info == "roll".
+            if(observablePlayers.get(index).getPosition() != player.getPosition()){
+                if(action.equals("roll")){
+                    pCanvas.animatePlayer(observablePlayers.get(index),player.getPosition());
+                    observablePlayers.get(index).setPosition(player.getPosition());
+                }else{
+                    observablePlayers.get(index).setPosition(player.getPosition());
+                    pCanvas.relocatePlayer( observablePlayers.get(index));
+                }
+            }
         }
     }
 
@@ -113,5 +126,9 @@ public class Game {
             }
         }
         return null;
+    }
+
+    public static void setPlayerCanvas(PlayerCanvas canvas){
+        pCanvas = canvas;
     }
 }
