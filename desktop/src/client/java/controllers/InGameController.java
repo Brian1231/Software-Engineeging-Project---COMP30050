@@ -109,6 +109,7 @@ public class InGameController {
 					JSONArray playerObjects = update.getJSONArray("players");
 
 					for(int i=0;i<playerObjects.length();i++){
+						//p
 						int bal = playerObjects.getJSONObject(i).getInt("balance");
 						String balance = Integer.toString(bal);
 						int id = playerObjects.getJSONObject(i).getInt("id");
@@ -126,6 +127,12 @@ public class InGameController {
 
 					JSONObject villains = update.getJSONObject("villain_gang");
 					Game.updateVillains(villains.getInt("position"), villains.getBoolean("is_active"));
+
+					// Update Dice
+					JSONArray dice = update.getJSONArray("dice_values");
+					int dice1 = dice.getInt(0);
+					int dice2 = dice.getInt(1);
+					infoPane.updateDice(dice1, dice2);
 				}
 
 				// Redraw locations according to new Location information.

@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.*;
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
@@ -45,6 +46,7 @@ public class InformationPane extends Pane {
 
     Rectangle diceLeft = new Rectangle();
     Rectangle diceRight = new Rectangle();
+    private ArrayList<Image> diceFaces = new ArrayList<>();
 
     public BorderPane playerInfoLayout = new BorderPane();
     HBox top = new HBox();
@@ -150,8 +152,9 @@ public class InformationPane extends Pane {
 //        mortgaged.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(3)));
 //        mortgaged.setRotate(-45);
 
-
         //Dice
+        loadDiceImages();
+
         diceLeft.widthProperty().bind(widthProperty().divide(20));
         diceLeft.heightProperty().bind(widthProperty().divide(20));
 
@@ -243,6 +246,27 @@ public class InformationPane extends Pane {
             case 4:     bottom.getChildren().removeAll(spacing2,player.stats);
                         break;
             default:    break;
+        }
+    }
+
+    public void updateDice(int dice1, int dice2){
+        diceLeft.setFill(new ImagePattern(diceFaces.get(dice1-1)));
+        diceRight.setFill(new ImagePattern(diceFaces.get(dice2-1)));
+    }
+
+    private void loadDiceImages(){
+        for(int i = 1; i<=6; i++){
+            StringBuilder sb = new StringBuilder();
+            sb.append("/client/resources/images/dice/dice");
+            sb.append(i);
+            sb.append(".png");
+            try{
+                Image image = new Image(sb.toString());
+                diceFaces.add(image);
+            }catch(Exception e){
+                System.out.println("Failed to find dice image");
+                e.printStackTrace();
+            }
         }
     }
 }
