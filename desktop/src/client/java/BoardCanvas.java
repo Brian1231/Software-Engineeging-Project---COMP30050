@@ -127,7 +127,7 @@ public class BoardCanvas extends ResizableCanvas {
 		double re = locColour.getRed();
 		double gr = locColour.getGreen();
 		double bl = locColour.getBlue();
-		Color faded = Color.color(re,gr,bl,0.0);
+		Color faded = Color.color(re,gr,bl,0.08);
 
 		ArrayList<Stop> stops = new ArrayList<>();
 		stops.add(new Stop(0,locColour));
@@ -135,10 +135,12 @@ public class BoardCanvas extends ResizableCanvas {
 
 		RadialGradient aura = new RadialGradient(0,0,.5,.5, .5,true, CycleMethod.NO_CYCLE, stops );
 
+		g.setEffect(new Glow(.8));
 		g.setFill(aura);
 		g.setStroke(location.getColour());
 
-		g.fillOval(x + (width / 2) - width / 32, y + (height / 2) - width / 32, width / 16, width / 16);
+		g.setEffect(null);
+		g.fillOval(x + (width / 2) - width / 28, y + (height / 2) - width / 28, width / 14, width / 14);
 		//g.strokeOval(x + (width / 2) - width / 34, y + (height / 2) - width / 34, width / 17, width / 17);
 
 		//g.setFill(Color.WHITE);

@@ -135,18 +135,22 @@ public class PlayerCanvas extends ResizableCanvas {
 
 	public void animatePlayer(Player p, int newPos){
 		Polyline path = new Polyline();
-
 		int oldPosition = p.getPosition();
 
+		// if inside left loop
 		if(oldPosition > 19 && oldPosition < 39)oldPosition++;
 		if(newPos>19&&newPos<39)newPos++;
 
+		// if landing on Go coming from right loop
 		if(newPos == 0 && oldPosition > 0 && oldPosition < 20)newPos = 20;
 
-		if(oldPosition ==0 && newPos>19 && newPos<39 ){
+		// if entering left loop from go
+		if(oldPosition == 0 && newPos>19 && newPos<39 ){
 			oldPosition = 20;
 		}
 
+		// Forward
+		// If passing go from left loop to right loop
 		if(newPos < oldPosition){
 			for(int i = oldPosition; i < 40; i++){
 				double t = -PI/2 + step*i;
@@ -165,7 +169,7 @@ public class PlayerCanvas extends ResizableCanvas {
 				path.getPoints().addAll(new Double[]{playerX,playerY});
 			}
 		}
-		else{
+		else{ // normal situation
 			for(int i = oldPosition; i <= newPos; i++){
 				double t = -PI/2 + step*i;
 				Point2D point = lemniscate(t);
