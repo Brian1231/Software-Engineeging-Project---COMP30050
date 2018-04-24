@@ -175,6 +175,7 @@ public class Player implements Playable, JSONable, Colourable {
 		info.put("properties", properties);
 		info.put("fuel", this.fuel);
 		info.put("colour", this.rgbColour.getRGB());
+		info.put("moving_forward", this.movingForward);
 		return info;
 
 	}

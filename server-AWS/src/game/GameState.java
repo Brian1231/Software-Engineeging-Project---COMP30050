@@ -242,7 +242,7 @@ public class GameState implements JSONable {
 				return playerActions.bankrupt(player);
 
 			case "done":
-				this.villainGang.update();
+				
 				if(!player.isInDebt()){
 					playerActions.done(player);
 					//Increment player turn
@@ -251,6 +251,7 @@ public class GameState implements JSONable {
 					if (this.playerTurn > this.players.size()) {
 						this.playerTurn = 1;
 					}
+					this.villainGang.update();
 					return player.getCharName()+" finished their turn.";
 				}
 				return "You must pay your debt before ending your turn.";

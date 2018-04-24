@@ -85,6 +85,7 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 		info.put("location", this.getLocation());
 		info.put("color", this.getColor().getRGB());
 		info.put("is_mortgaged", false);
+		info.put("houses", 0);
 		if(this.owner != null)
 			info.put("owner", this.owner.getID());
 		else
