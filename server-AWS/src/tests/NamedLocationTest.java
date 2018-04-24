@@ -53,7 +53,7 @@ public class NamedLocationTest {
 		try {
 			JSONObject obj = loc.getInfo();
 			assertEquals(Color.RED.getRGB(), obj.get("color"));
-			assertEquals(false, obj.get("is_mortgaged"));
+			assertFalse(obj.getBoolean("is_mortgaged"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

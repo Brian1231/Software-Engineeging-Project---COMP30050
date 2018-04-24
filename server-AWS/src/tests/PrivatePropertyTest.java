@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 public class PrivatePropertyTest {
 
 	private PrivateProperty prop;
-	private final NOC_Manager noc = new NOC_Manager();
+	private NOC_Manager noc = new NOC_Manager();
 	private Player player;
 
 	@Before
@@ -34,6 +34,8 @@ public class PrivatePropertyTest {
 	@After
 	public void tearDown() {
 		prop = null;
+		noc = null;
+		player = null;
 	}
 
 
@@ -115,7 +117,6 @@ public class PrivatePropertyTest {
 	@Test
 	public void getInfo() {
 		prop.setPrice(200);
-		prop.setType("Private");
 		prop.setOwner(player);
 		prop.setLocation(20);
 		try {
@@ -124,7 +125,8 @@ public class PrivatePropertyTest {
 			assertEquals(200, obj.get("price"));
 			assertEquals(20, obj.get("location"));
 			assertEquals(Color.GRAY.getRGB(), obj.get("color"));
-			assertEquals(false, obj.get("is_mortgaged"));
+			assertFalse(obj.getBoolean("is_mortgaged"));
+			assertEquals(player.getID(), obj.get("owner"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
