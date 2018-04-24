@@ -4,12 +4,10 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
-import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -125,10 +123,22 @@ public class BoardCanvas extends ResizableCanvas {
 		double x = point.getX();
 		double y = point.getY();
 
-		g.setFill(Color.rgb(45, 88, 158,0.2));
+		Color locColour = location.getColour();
+		double re = locColour.getRed();
+		double gr = locColour.getGreen();
+		double bl = locColour.getBlue();
+		Color faded = Color.color(re,gr,bl,0.0);
+
+		ArrayList<Stop> stops = new ArrayList<>();
+		stops.add(new Stop(0,locColour));
+		stops.add(new Stop(1, faded));
+
+		RadialGradient aura = new RadialGradient(0,0,.5,.5, .5,true, CycleMethod.NO_CYCLE, stops );
+
+		g.setFill(aura);
 		g.setStroke(location.getColour());
 
-		g.fillOval(x + (width / 2) - width / 34, y + (height / 2) - width / 34, width / 17, width / 17);
+		g.fillOval(x + (width / 2) - width / 32, y + (height / 2) - width / 32, width / 16, width / 16);
 		//g.strokeOval(x + (width / 2) - width / 34, y + (height / 2) - width / 34, width / 17, width / 17);
 
 		//g.setFill(Color.WHITE);
@@ -159,8 +169,8 @@ public class BoardCanvas extends ResizableCanvas {
 		}
 
 		g.setStroke(Color.TRANSPARENT);
-		g.fillOval(x + (width / 2) - width / 40, y + (height / 2) - width / 40, width / 20, width / 20);
-		g.strokeOval(x + (width / 2) - width / 40, y + (height / 2) - width / 40, width / 20, width / 20);
+		g.fillOval(x + (width / 2) - width / 42, y + (height / 2) - width / 42, width / 21, width / 21);
+		g.strokeOval(x + (width / 2) - width / 42, y + (height / 2) - width / 42, width / 21, width / 21);
 
 		g.setEffect(null);
 		//g.setFill(Color.BLACK);

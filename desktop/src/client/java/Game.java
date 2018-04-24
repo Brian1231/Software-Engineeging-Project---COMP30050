@@ -54,13 +54,14 @@ public class Game {
         if(observablePlayers.contains(player)){
 
             int index = observablePlayers.indexOf(player);
+            Player oldData = observablePlayers.get(index);
             observablePlayers.get(index).setBalance(player.getBalance());
             observablePlayers.get(index).setFuel(player.getFuel());
 
             // Only animates movement when action info == "roll".
-            if(observablePlayers.get(index).getPosition() != player.getPosition()){
-                if(action.equals("roll")){
-                    pCanvas.animatePlayer(observablePlayers.get(index),player.getPosition());
+            if(oldData.getPosition() != player.getPosition()){
+                if(action.contains("spaces")){
+                    pCanvas.animatePlayer(oldData,player.getPosition());
                     observablePlayers.get(index).setPosition(player.getPosition());
                 }else{
                     observablePlayers.get(index).setPosition(player.getPosition());

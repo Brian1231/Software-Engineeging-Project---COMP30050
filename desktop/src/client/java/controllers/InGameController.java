@@ -66,8 +66,10 @@ public class InGameController {
 		Game.setPlayerCanvas(playerCanvas);
 		//Testing
 		//Game.addPlayer(new Player("2000", 1, 2, Color.WHITE, "Batman", 2));
-		//Player p = new Player("1500", 1, 3, Color.WHITE, "SuperMan", 1);
-		//Game.addPlayer(p);
+		//Player p = new Player("1500", 1, 0, Color.WHITE, "SuperMan", 1);
+		//ArrayList<Player> ps = new ArrayList<>();
+		//ps.add(p);
+		//Game.updatePlayers(ps,"");
 		try {
 			connection.startConnection();
 		} catch (IOException e) {
@@ -119,7 +121,7 @@ public class InGameController {
 						plyrs.add(new Player(balance,id,position,fxColor,character,fuel));
 					}
 					Game.updatePlayers(plyrs, actionInfo);
-					//playerCanvas.draw();
+					playerCanvas.draw();
 
 					JSONObject villains = update.getJSONObject("villain_gang");
 					Game.updateVillains(villains.getInt("position"), villains.getBoolean("is_active"));

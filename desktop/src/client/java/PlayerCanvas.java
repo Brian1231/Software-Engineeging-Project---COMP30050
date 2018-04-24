@@ -1,6 +1,7 @@
 package client.java;
 
 import javafx.animation.PathTransition;
+import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
@@ -8,13 +9,29 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import javafx.util.Duration;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class PlayerCanvas extends ResizableCanvas {
 
 	public PlayerCanvas() {
 		// Redraw canvas when size changes.
-		widthProperty().addListener(evt -> draw());
-		heightProperty().addListener(evt -> draw());
+		widthProperty().addListener(evt -> {
+			draw();
+			for(Player p: Game.players){
+				relocatePlayer(p);
+				System.out.println("relocating");
+			}
+		});
+		heightProperty().addListener(evt -> {
+			draw();
+			for(Player p: Game.players){
+				relocatePlayer(p);
+				System.out.println("relocating");
+			}
+		});
 	}
 
 	public void draw(){
@@ -108,8 +125,8 @@ public class PlayerCanvas extends ResizableCanvas {
 		double playerX = point.getX() + (getWidth()/2) + offset.getX();
 		double playerY = point.getY() + (getHeight()/2) + offset.getY();
 
-		p.playerToken.setLayoutX(playerX);
-		p.playerToken.setLayoutY(playerY);
+		p.playerToken.setCenterX(playerX);
+		p.playerToken.setCenterY(playerY);
 		p.playerToken.setFill(p.getColor());
 		Pane parent = (Pane) this.getParent();
 		parent.getChildren().add(p.playerToken);
@@ -117,10 +134,10 @@ public class PlayerCanvas extends ResizableCanvas {
 
 	public void animatePlayer(Player p, int newPos){
 		Polyline path = new Polyline();
-
 		int diff = newPos - p.getPosition();
+
 		if(newPos < p.getPosition()){
-			for(int i = p.getPosition(); i < 0; i++){
+			for(int i = p.getPosition(); i < 40; i++){
 				double t = -PI/2 + step*i;
 				Point2D point = lemniscate(t);
 				Point2D offset = playerOffset(p);
@@ -155,9 +172,16 @@ public class PlayerCanvas extends ResizableCanvas {
 		trans.setPath(path);
 		trans.setCycleCount(1);
 		trans.play();
+
+		ObservableList<Double> points = path.getPoints();
+		List<Double> sub = points.subList(points.size()-2,points.size());
+
+		p.playerToken.setCenterX(sub.get(0));
+		p.playerToken.setCenterY(sub.get(1));
 	}
 
 	public void relocatePlayer(Player p){
+
 		Pane parent = (Pane) this.getParent();
 
 		double t = -PI/2 + step*p.getPosition();
