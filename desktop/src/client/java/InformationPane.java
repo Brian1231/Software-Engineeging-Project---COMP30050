@@ -1,6 +1,9 @@
 package client.java;
 
 
+import java.util.ArrayList;
+
+import client.java.controllers.InGameController;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
 
@@ -14,16 +17,21 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 
 public class InformationPane extends Pane {
 
-    //private Label title = new Label("Panopoly");
 	private ImageView logo = new ImageView();
     private Circle eventLogger = new Circle();
-    private TextArea feed = new TextArea();
+    //private TextArea feed = new TextArea();
+    private TextFlow newsfeed = new TextFlow();
+    private ArrayList<Text> messages = new ArrayList<Text>();
 
     private Circle tileInfo = new Circle();
     private Label tileName = new Label("");
@@ -44,10 +52,6 @@ public class InformationPane extends Pane {
 
     public InformationPane() {
         //Title
-       /* title.setTextFill(Color.rgb(232, 142, 39));
-        title.setStyle("-fx-font-size: 50px;");
-        title.layoutXProperty().bind(widthProperty().divide(2).subtract(title.widthProperty().divide(2)));
-        getChildren().add(title);*/
     	logo.fitWidthProperty().bind(this.widthProperty().divide(2.5));
     	logo.fitHeightProperty().bind(this.heightProperty().divide(5));
     	logo.layoutXProperty().bind(widthProperty().divide(2).subtract(logo.fitWidthProperty().divide(2)));
@@ -64,7 +68,7 @@ public class InformationPane extends Pane {
         getChildren().add(eventLogger);
 
 		// TexArea
-		feed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
+		/*feed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
 		feed.prefHeightProperty().bind(eventLogger.radiusProperty().multiply(2));
 		feed.layoutXProperty().bind(eventLogger.layoutXProperty().subtract(eventLogger.radiusProperty()));
 		feed.layoutYProperty().bind(heightProperty().divide(2).subtract(feed.prefHeightProperty().divide(2)));
@@ -72,10 +76,26 @@ public class InformationPane extends Pane {
 		feed.setWrapText(true);
 		feed.appendText("Welcome to Interdimensional Panopoly!\n");
 		feed.appendText("Press the start button when all players have joined.\n");
-		getChildren().add(feed);
+		getChildren().add(feed);*/
 
+        newsfeed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
+        newsfeed.prefHeightProperty().bind(eventLogger.radiusProperty().multiply(2));
+		newsfeed.layoutXProperty().bind(eventLogger.layoutXProperty().subtract(eventLogger.radiusProperty()));
+		newsfeed.layoutYProperty().bind(heightProperty().divide(2).subtract(newsfeed.prefHeightProperty().divide(2)));
+		getChildren().add(newsfeed);
+		
+        //t1.setStyle("-fx-fill: #4F8A10;-fx-font-weight:bold;");
+        
+		Text welcome = new Text("Welcome to Interdimensional Panopoly!\n");
+		
+		welcome.setStyle("-fx-fill: rgb(254, 254, 254);");
+		messages.add(welcome);
+		newsfeed.getChildren().add(messages.get(0));
+		
+		
+		
         Glow g = new Glow(10);
-        Shadow s = new Shadow(3, Color.RED);
+        //Shadow s = new Shadow(3, Color.RED);
 
 		// Current players location info
 		tileInfo.layoutXProperty().bind(widthProperty().subtract(widthProperty().divide(4.2)));
@@ -132,16 +152,20 @@ public class InformationPane extends Pane {
 	public void updateFeed(String s) {
 		//Set color of text in infoPane to player color
 
-
-		/*Color c = Color.BLUE;
-		if(InGameController.playerTurn > 100){
-			for(Player p : Game.players) if(p.getId() == InGameController.playerTurn) c = p.getColor();
-			switch(c.){
-			case Color.Green;
-			}
-			feed.setStyle("-fx-text-fill: green;");
-		}*/
-		feed.appendText(s + "\n");
+		Color c = Color.WHITE;
+		for(Player p : Game.players) if(p.getId() == Game.playerTurn) c = p.getColor();
+	
+		Text newText = new Text(s + "\n");
+		int r = (int)(c.getRed()*254);
+		int g = (int)(c.getGreen()*254);
+		int b = (int)(c.getBlue()*254);
+		newText.setStyle("-fx-fill: rgb("+r+", "+g+", "+b+");");
+		messages.add(newText);
+		if(messages.size()>7) messages.remove(0);
+		
+		newsfeed.getChildren().clear();
+		for (Text m : messages) newsfeed.getChildren().add(m);
+		//newsfeed.appendText(s + "\n");
 	}
 
 	public void updateLocationInfo(Location loc) {

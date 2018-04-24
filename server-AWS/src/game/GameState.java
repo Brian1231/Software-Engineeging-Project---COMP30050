@@ -44,7 +44,6 @@ public class GameState implements JSONable {
 		World_noc randomWorld;
 
 		//Investment Properties
-		int[] rents = {100, 200, 300, 400};
 		for (int i = 0; i < 24; i++) {
 			randomWorld = Main.noc.getRandomWorld();
 			properties.add(new InvestmentProperty(randomWorld.getWorld()));
