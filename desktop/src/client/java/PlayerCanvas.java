@@ -119,6 +119,7 @@ public class PlayerCanvas extends ResizableCanvas {
 	}
 
 	public void addPlayerToken(Player p){
+
 		double t = -PI/2 + step*p.getPosition();
 		Point2D point = lemniscate(t);
 		Point2D offset = playerOffset(p);
@@ -134,10 +135,20 @@ public class PlayerCanvas extends ResizableCanvas {
 
 	public void animatePlayer(Player p, int newPos){
 		Polyline path = new Polyline();
-		int diff = newPos - p.getPosition();
 
-		if(newPos < p.getPosition()){
-			for(int i = p.getPosition(); i < 40; i++){
+		int oldPosition = p.getPosition();
+
+		if(oldPosition > 19 && oldPosition < 39)oldPosition++;
+		if(newPos>19&&newPos<39)newPos++;
+
+		if(newPos == 0 && oldPosition > 0 && oldPosition < 20)newPos = 20;
+
+		if(oldPosition ==0 && newPos>19 && newPos<39 ){
+			oldPosition = 20;
+		}
+
+		if(newPos < oldPosition){
+			for(int i = oldPosition; i < 40; i++){
 				double t = -PI/2 + step*i;
 				Point2D point = lemniscate(t);
 				Point2D offset = playerOffset(p);
@@ -155,7 +166,7 @@ public class PlayerCanvas extends ResizableCanvas {
 			}
 		}
 		else{
-			for(int i = p.getPosition(); i <= newPos; i++){
+			for(int i = oldPosition; i <= newPos; i++){
 				double t = -PI/2 + step*i;
 				Point2D point = lemniscate(t);
 				Point2D offset = playerOffset(p);
@@ -164,7 +175,6 @@ public class PlayerCanvas extends ResizableCanvas {
 				path.getPoints().addAll(new Double[]{playerX,playerY});
 			}
 		}
-
 
 		PathTransition trans = new PathTransition();
 		trans.setNode(p.playerToken);
