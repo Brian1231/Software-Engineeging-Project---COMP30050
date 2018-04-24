@@ -57,11 +57,17 @@ public class Game {
             Player oldData = observablePlayers.get(index);
             observablePlayers.get(index).setBalance(player.getBalance());
             observablePlayers.get(index).setFuel(player.getFuel());
+            observablePlayers.get(index).setMovingForward(player.isMovingForward());
 
-            // Only animates movement when action info == "roll".
+            // Only animates movement when action contains "spaces".
             if(oldData.getPosition() != player.getPosition()){
                 if(action.contains("spaces")){
-                    pCanvas.animatePlayer(oldData,player.getPosition());
+//                    if(oldData.isMovingForward()){
+                           pCanvas.animatePlayer(oldData,player.getPosition());
+//                    }
+//                    else{
+//                        pCanvas.animatePlayerBackwards(oldData,player.getPosition());
+//                    }
                     observablePlayers.get(index).setPosition(player.getPosition());
                 }else{
                     observablePlayers.get(index).setPosition(player.getPosition());

@@ -123,13 +123,16 @@ public class PlayerActions {
 		if (player.hasRolled()) {
 			if (!player.hasBought()) {
 				if (!player.hasBoosted()) {
-					if (player.getFuel() > 0) {
-						String res = player.useBoost()  +" and landed on "+ locations.get(player.getPos()).getId()+".";
-						res += landedOn(player, locations.get(player.getPos()), 1);
-						res += Main.gameState.villainGangCheck(player);
-						return res;
+					if(!player.isInDebt()){
+						if (player.getFuel() > 0) {
+							String res = player.useBoost()  +" and landed on "+ locations.get(player.getPos()).getId()+".";
+							res += landedOn(player, locations.get(player.getPos()), 1);
+							res += Main.gameState.villainGangCheck(player);
+							return res;
+						}
+						return "Your vehicle is out of fuel!";
 					}
-					return "Your vehicle is out of fuel!";
+					return "You can't run away from your debt!";
 				}
 				return "You've already used your vehicle this turn!";
 			}

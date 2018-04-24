@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.*;
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
@@ -29,7 +30,6 @@ public class InformationPane extends Pane {
 
 	private ImageView logo = new ImageView();
     private Circle eventLogger = new Circle();
-    //private TextArea feed = new TextArea();
     private TextFlow newsfeed = new TextFlow();
     private ArrayList<Text> messages = new ArrayList<Text>();
 
@@ -43,6 +43,9 @@ public class InformationPane extends Pane {
     private Label mortgaged = new Label("MORTGAGED");
     private Rectangle mortRect = new Rectangle();
 
+    Rectangle diceLeft = new Rectangle();
+    Rectangle diceRight = new Rectangle();
+    private ArrayList<Image> diceFaces = new ArrayList<>();
 
     public BorderPane playerInfoLayout = new BorderPane();
     HBox top = new HBox();
@@ -147,6 +150,27 @@ public class InformationPane extends Pane {
 //        mortgaged.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(mortgaged.widthProperty().divide(2)));
 //        mortgaged.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(3)));
 //        mortgaged.setRotate(-45);
+
+        //Dice
+        loadDiceImages();
+
+        diceLeft.widthProperty().bind(widthProperty().divide(20));
+        diceLeft.heightProperty().bind(widthProperty().divide(20));
+
+        diceRight.widthProperty().bind(widthProperty().divide(20));
+        diceRight.heightProperty().bind(widthProperty().divide(20));
+
+        diceLeft.layoutXProperty().bind(widthProperty().divide(2).subtract(diceLeft.widthProperty().multiply(3).divide(2)));
+        diceLeft.layoutYProperty().bind(heightProperty().subtract(heightProperty().divide(4.5)));
+
+        diceRight.layoutXProperty().bind(widthProperty().divide(2).add(diceRight.widthProperty().divide(2)));
+        diceRight.layoutYProperty().bind(heightProperty().subtract(heightProperty().divide(4.5)));
+
+        diceLeft.setFill(Color.WHITE);
+        diceRight.setFill(Color.WHITE);
+
+        getChildren().add(diceLeft);
+        getChildren().add(diceRight);
     }
 
 	public void updateFeed(String s) {
@@ -161,10 +185,17 @@ public class InformationPane extends Pane {
 		int b = (int)(c.getBlue()*254);
 		newText.setStyle("-fx-fill: rgb("+r+", "+g+", "+b+");");
 		messages.add(newText);
-		if(messages.size()>7) messages.remove(0);
+		if(messages.size()>6) messages.remove(0);
 		
 		newsfeed.getChildren().clear();
-		for (Text m : messages) newsfeed.getChildren().add(m);
+		for(int i=0;i<messages.size();i++){
+			Text m = messages.get(i);
+			if(i == messages.size()-1 || i == messages.size()-2)
+				m.setOpacity(1);
+			else
+				m.setOpacity(((double)i/(double)messages.size()+0.2));
+			newsfeed.getChildren().add(m);
+		}
 		//newsfeed.appendText(s + "\n");
 	}
 
@@ -221,6 +252,27 @@ public class InformationPane extends Pane {
             case 4:     bottom.getChildren().removeAll(spacing2,player.stats);
                         break;
             default:    break;
+        }
+    }
+
+    public void updateDice(int dice1, int dice2){
+        diceLeft.setFill(new ImagePattern(diceFaces.get(dice1-1)));
+        diceRight.setFill(new ImagePattern(diceFaces.get(dice2-1)));
+    }
+
+    private void loadDiceImages(){
+        for(int i = 1; i<=6; i++){
+            StringBuilder sb = new StringBuilder();
+            sb.append("/client/resources/images/dice/dice");
+            sb.append(i);
+            sb.append(".png");
+            try{
+                Image image = new Image(sb.toString());
+                diceFaces.add(image);
+            }catch(Exception e){
+                System.out.println("Failed to find dice image");
+                e.printStackTrace();
+            }
         }
     }
 }

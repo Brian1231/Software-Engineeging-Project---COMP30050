@@ -9,8 +9,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import javafx.util.Duration;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -186,7 +184,62 @@ public class PlayerCanvas extends ResizableCanvas {
 		trans.setPath(path);
 		trans.setCycleCount(1);
 		trans.play();
+		ObservableList<Double> points = path.getPoints();
+		List<Double> sub = points.subList(points.size()-2,points.size());
 
+		p.playerToken.setCenterX(sub.get(0));
+		p.playerToken.setCenterY(sub.get(1));
+	}
+
+	// buggy at the moment
+	public void animatePlayerBackwards(Player p, int newPos){
+		Polyline path = new Polyline();
+		int oldPosition = p.getPosition();
+
+		// if inside left loop
+		//if(oldPosition > 19 && oldPosition < 39)oldPosition++;
+		//if(newPos>19&&newPos<39)newPos++;
+
+		// if landing on Go coming from left loop
+		//if(newPos == 0 && oldPosition > 0 && oldPosition > 20)newPos = 20;
+
+		// Backwards
+		// If passing go from left loop to right loop
+		if(newPos > oldPosition){
+			for(int i = oldPosition; i > 0; i--){
+				double t = -PI/2 + step*i;
+				Point2D point = lemniscate(t);
+				Point2D offset = playerOffset(p);
+				double playerX = point.getX() + (getWidth()/2) + offset.getX();
+				double playerY = point.getY() + (getHeight()/2) + offset.getY();
+				path.getPoints().addAll(new Double[]{playerX,playerY});
+			}
+			for(int i = 0; i >= newPos; i--){
+				double t = -PI/2 + step*i;
+				Point2D point = lemniscate(t);
+				Point2D offset = playerOffset(p);
+				double playerX = point.getX() + (getWidth()/2) + offset.getX();
+				double playerY = point.getY() + (getHeight()/2) + offset.getY();
+				path.getPoints().addAll(new Double[]{playerX,playerY});
+			}
+		}
+		else{ // normal situation
+			for(int i = oldPosition; i >= newPos; i--){
+				double t = -PI/2 + step*i;
+				Point2D point = lemniscate(t);
+				Point2D offset = playerOffset(p);
+				double playerX = point.getX() + (getWidth()/2) + offset.getX();
+				double playerY = point.getY() + (getHeight()/2) + offset.getY();
+				path.getPoints().addAll(new Double[]{playerX,playerY});
+			}
+		}
+
+		PathTransition trans = new PathTransition();
+		trans.setNode(p.playerToken);
+		trans.setDuration(Duration.seconds(3));
+		trans.setPath(path);
+		trans.setCycleCount(1);
+		trans.play();
 		ObservableList<Double> points = path.getPoints();
 		List<Double> sub = points.subList(points.size()-2,points.size());
 
