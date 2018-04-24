@@ -118,7 +118,8 @@ public class InGameController {
 						Color fxColor = Color.rgb(col.getRed(),col.getGreen(),col.getBlue());
 						String character = playerObjects.getJSONObject(i).getString("character");
 						int fuel = playerObjects.getJSONObject(i).getInt("fuel");
-						plyrs.add(new Player(balance,id,position,fxColor,character,fuel));
+						boolean direction = playerObjects.getJSONObject(i).getBoolean("moving_forward");
+						plyrs.add(new Player(balance,id,position,fxColor,character,fuel,direction));
 					}
 					Game.updatePlayers(plyrs, actionInfo);
 					playerCanvas.draw();
@@ -161,7 +162,6 @@ public class InGameController {
 					}
 					Location locToDisplay = Game.getLocation(playerPos);
 					infoPane.updateLocationInfo(locToDisplay);
-
 				}
 			} catch (JSONException | IllegalArgumentException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
 				e.printStackTrace();
@@ -170,7 +170,6 @@ public class InGameController {
 	}
 
 	public void setUpBoard() throws IOException, JSONException{
-
 		Pane boardWrapper = new Pane();
 		boardWrapper.getChildren().add(boardCanvas);
 
