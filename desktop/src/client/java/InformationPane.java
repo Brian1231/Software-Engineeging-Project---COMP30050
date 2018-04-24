@@ -43,6 +43,8 @@ public class InformationPane extends Pane {
     private Label mortgaged = new Label("MORTGAGED");
     private Rectangle mortRect = new Rectangle();
 
+    Rectangle diceLeft = new Rectangle();
+    Rectangle diceRight = new Rectangle();
 
     public BorderPane playerInfoLayout = new BorderPane();
     HBox top = new HBox();
@@ -147,6 +149,26 @@ public class InformationPane extends Pane {
 //        mortgaged.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(mortgaged.widthProperty().divide(2)));
 //        mortgaged.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(3)));
 //        mortgaged.setRotate(-45);
+
+
+        //Dice
+        diceLeft.widthProperty().bind(widthProperty().divide(20));
+        diceLeft.heightProperty().bind(widthProperty().divide(20));
+
+        diceRight.widthProperty().bind(widthProperty().divide(20));
+        diceRight.heightProperty().bind(widthProperty().divide(20));
+
+        diceLeft.layoutXProperty().bind(widthProperty().divide(2).subtract(diceLeft.widthProperty().multiply(3).divide(2)));
+        diceLeft.layoutYProperty().bind(heightProperty().subtract(heightProperty().divide(4.5)));
+
+        diceRight.layoutXProperty().bind(widthProperty().divide(2).add(diceRight.widthProperty().divide(2)));
+        diceRight.layoutYProperty().bind(heightProperty().subtract(heightProperty().divide(4.5)));
+
+        diceLeft.setFill(Color.WHITE);
+        diceRight.setFill(Color.WHITE);
+
+        getChildren().add(diceLeft);
+        getChildren().add(diceRight);
     }
 
 	public void updateFeed(String s) {
