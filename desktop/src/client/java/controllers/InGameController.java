@@ -193,6 +193,7 @@ public class InGameController {
 				output.put("id", 0);
 				output.put("action", "start");
 				connection.send(output);
+				infoPane.removeLogo();
 				Game.gameStarted = true;
 				startButton.setText("End Game");
 				startButton.setOnAction(e2 -> {

@@ -3,12 +3,7 @@ package client.java;
 
 import java.util.ArrayList;
 
-import client.java.controllers.InGameController;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.control.TextArea;
-
 import javafx.scene.effect.Glow;
-import javafx.scene.effect.Shadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -16,12 +11,11 @@ import javafx.scene.layout.*;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -34,6 +28,8 @@ public class InformationPane extends Pane {
     private ArrayList<Text> messages = new ArrayList<Text>();
 
     private Circle tileInfo = new Circle();
+    Arc infoBackground = new Arc();
+
     private Label tileName = new Label("");
     private Label tileCost = new Label("");
     private Label tileOwner = new Label("");
@@ -95,8 +91,6 @@ public class InformationPane extends Pane {
 		messages.add(welcome);
 		newsfeed.getChildren().add(messages.get(0));
 		
-		
-		
         Glow g = new Glow(10);
         //Shadow s = new Shadow(3, Color.RED);
 
@@ -108,6 +102,18 @@ public class InformationPane extends Pane {
 		tileInfo.radiusProperty().bind(widthProperty().divide(9));
 		tileInfo.setEffect(g);
 		getChildren().add(tileInfo);
+
+		// Semi Circle
+        infoBackground.centerXProperty().bind(tileInfo.layoutXProperty());
+        infoBackground.centerYProperty().bind(tileInfo.layoutYProperty());
+        infoBackground.radiusXProperty().bind(tileInfo.radiusProperty());
+        infoBackground.radiusYProperty().bind(tileInfo.radiusProperty());
+        infoBackground.setStartAngle(180.0f);
+        infoBackground.setLength(180.0f);
+        infoBackground.setType(ArcType.ROUND);
+        infoBackground.setFill(Color.rgb(255,255,255,0.2));
+        getChildren().add(infoBackground);
+
 		// Tile name
 		tileName.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileName.widthProperty().divide(2)));
 		tileName.layoutYProperty().bind(tileInfo.layoutYProperty().subtract(tileInfo.radiusProperty().divide(2)));
@@ -199,17 +205,20 @@ public class InformationPane extends Pane {
 		//newsfeed.appendText(s + "\n");
 	}
 
+	public void removeLogo(){
+        getChildren().remove(tileImage);
+    }
+
 	public void updateLocationInfo(Location loc) {
 		tileName.setText(loc.getName());
 		tileInfo.setStroke(loc.getColour());
 		tileCost.setText("Price: $" + Integer.toString(loc.getPrice()));
-		tileImage.setImage(loc.getImage());
 		if(loc.getOwnerID()==0)
 			tileOwner.setText("Owner: " + " Unowned");
 		else
 			tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
 		tileRent.setText("Rent: " + loc.getRent());
-        tileInfo.setFill(loc.getColour());
+        tileInfo.setFill(new ImagePattern(loc.getImage()));
 
         /*
         if(!getChildren().contains(mortgaged) && loc.isMortgaged()){

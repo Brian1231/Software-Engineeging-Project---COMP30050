@@ -21,7 +21,6 @@ public class Location {
     // Display objects.
     Circle Tile = new Circle();
 
-
     public Location(String name, int position, int price, int rent, int owner, Color c, boolean isMortgaged, int houses) {
         this.name = name;
         this.position = position;
