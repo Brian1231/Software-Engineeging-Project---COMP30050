@@ -91,7 +91,7 @@ public class Game {
     public static void initializeLocations(){
         for(int index = 0; index<39; index++){
             String initName = Integer.toString(index);
-            locations.add(new Location(initName, index, 0,0,0, Color.GOLD, false));
+            locations.add(new Location(initName, index, 0,0,0, Color.GOLD, false, 0));
         }
     }
 
@@ -116,6 +116,7 @@ public class Game {
             locations.get(index).setOwnerID(location.getOwnerID());
             locations.get(index).setColour(location.getColour());
             locations.get(index).setMortgaged(location.isMortgaged());
+            locations.get(index).setHouses(location.getHouses());
             // etc
         }
     }
