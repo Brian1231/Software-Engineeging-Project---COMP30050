@@ -104,9 +104,9 @@ public class PrivatePropertyTest {
 
 	@Test
 	public void setType() {
-		assertNull(prop.getType());
-		prop.setType("Private");
 		assertEquals("Private", prop.getType());
+		prop.setType("PrivateProperty");
+		assertEquals("PrivateProperty", prop.getType());
 	}
 
 	@Test
