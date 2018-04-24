@@ -30,7 +30,6 @@ public class InformationPane extends Pane {
 
 	private ImageView logo = new ImageView();
     private Circle eventLogger = new Circle();
-    //private TextArea feed = new TextArea();
     private TextFlow newsfeed = new TextFlow();
     private ArrayList<Text> messages = new ArrayList<Text>();
 
@@ -186,10 +185,17 @@ public class InformationPane extends Pane {
 		int b = (int)(c.getBlue()*254);
 		newText.setStyle("-fx-fill: rgb("+r+", "+g+", "+b+");");
 		messages.add(newText);
-		if(messages.size()>7) messages.remove(0);
+		if(messages.size()>6) messages.remove(0);
 		
 		newsfeed.getChildren().clear();
-		for (Text m : messages) newsfeed.getChildren().add(m);
+		for(int i=0;i<messages.size();i++){
+			Text m = messages.get(i);
+			if(i == messages.size()-1 || i == messages.size()-2)
+				m.setOpacity(1);
+			else
+				m.setOpacity(((double)i/(double)messages.size()+0.2));
+			newsfeed.getChildren().add(m);
+		}
 		//newsfeed.appendText(s + "\n");
 	}
 
