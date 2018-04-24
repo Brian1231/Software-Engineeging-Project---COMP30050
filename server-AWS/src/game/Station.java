@@ -16,7 +16,7 @@ public class Station extends RentalProperty {
 
 			int numStationsOwned = -1;
 			for (PrivateProperty p : properties) {
-				if (p.getType().equals(this.getType())) {
+				if (p.getOwner()  == this.getOwner()) {
 					numStationsOwned++;
 				}
 			}
