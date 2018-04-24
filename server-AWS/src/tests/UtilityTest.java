@@ -38,8 +38,8 @@ public class UtilityTest {
 
     @Before
     public void setUp() throws IOException {
-		util1 = new Utility("UCD1", 100);
-		util2 = new Utility("UCD2", 100);
+		util1 = new Utility("UCD1", 100, new int[]{4,10});
+		util2 = new Utility("UCD2", 100, new int[]{4,10});
 		dice = new Dice();
 
 		noc = new NOC_Manager();
