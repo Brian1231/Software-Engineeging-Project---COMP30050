@@ -54,7 +54,7 @@ public class TaxTemplate {
 			sb.append(char1.getName() + " appears " + vehicle.getAffordance() + " " + vehicle.getDeterminer() + " " + vehicle.getVehicle()+ ". ");
 		sb.append(pronoun + " says that " + pronoun.toLowerCase() + " just lost a fight to " + opp.getName() + " and wants revenge. ");
 		sb.append(pronoun + " starts " + weapon.getAffordanceWithTarget("you") + weapon.getDeterminer() + " " + weapon.getWeapon() + ".");
-		sb.append(pronoun + " says " + pronoun.toLowerCase() + "won't stop until you pay " + them.toLowerCase() + " some money!");
+		sb.append(pronoun + " says " + pronoun.toLowerCase() + " won't stop until you pay " + them.toLowerCase() + " some money!");
 		return sb.toString(); 
 	}
 
