@@ -58,13 +58,17 @@ public class GameState implements JSONable {
 		//Stations
 		for (int i = 0; i < 4; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new Station(randomWorld.getWorld(),Constants.STATION_PRICES[i], Constants.STATION_RENTS[i]));
+			Station station = new Station(randomWorld.getWorld(),Constants.STATION_PRICES[i], Constants.STATION_RENTS[i]);
+			station.setMortgageAmount(Constants.STATION_MORTGAGE_VALUE[i]);
+			properties.add(station);
 		}
 
 		//Utilities
 		for (int i = 0; i < 2; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new Utility(randomWorld.getWorld(), Constants.UTILITY_PRICES[i]));
+			Utility utility = new Utility(randomWorld.getWorld(), Constants.UTILITY_PRICES[i], Constants.UTILITY_RENTS[i]);
+			utility.setMortgageAmount(Constants.UTILITY_MORTGAGE_VALUE[i]);
+			properties.add(utility);
 		}
 
 		//Chance Squares
@@ -97,6 +101,7 @@ public class GameState implements JSONable {
 				prop.setRentAmounts(Constants.INVESTMENT_RENTS[investmentPropCount]);
 				prop.setHousePrice(Constants.HOUSE_PRICES[investmentPropCount]);
 				prop.setHotelPrice(Constants.HOUSE_PRICES[investmentPropCount]);
+				prop.setMortgageAmount(Constants.INVESTMENT_MORTGAGE_VALUE[investmentPropCount]);
 				prop.setNumInGroup(3);
 				prop.setRGB(Constants.INVESTMENT_COLOUR_GROUPS[colourIndex]);
 
