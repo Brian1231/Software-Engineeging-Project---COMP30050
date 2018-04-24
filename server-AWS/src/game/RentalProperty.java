@@ -1,13 +1,11 @@
 package game;
 
+import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
+import game_interfaces.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import game_interfaces.Mortgageable;
-import game_interfaces.Playable;
-import game_interfaces.Rentable;
-
-public class RentalProperty extends PrivateProperty implements Rentable, Mortgageable {
+public class RentalProperty extends PrivateProperty implements Rentable, Mortgageable, JSONable, Trapable {
 
 	private boolean isMortgaged = false;
 	private int[] rentAmounts;
@@ -76,10 +74,12 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 		return rentAmounts;
 	}
 
+	@Override
 	public boolean hasTrap(){
 		return this.hasTrap;
 	}
 
+	@Override
 	public String setTrap(){
 		int trapCost = this.getPrice()/5;
 		if(this.getOwner().getBalance() > trapCost){
@@ -90,7 +90,8 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 		else
 			return "You can't afford the cost of " + trapCost + " to set a trap.";
 	}
-	
+
+	@Override
 	public String activateTrap(Player player){
 		if(!player.equals(this.getOwner())){
 			int trapAmount =  this.getPrice()/3;
@@ -100,7 +101,7 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 		return "";
 	}
 	
-	
+	@Override
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info = super.getInfo();
 		info.put("hasTrap", false);
