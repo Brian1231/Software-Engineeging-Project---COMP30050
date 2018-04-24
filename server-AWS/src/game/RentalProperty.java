@@ -15,6 +15,7 @@ public class RentalProperty extends PrivateProperty implements Rentable, Mortgag
 	public RentalProperty(String name, int price) {
 		super(name, price);
 		this.hasTrap = false;
+		this.setType("Rental");
 	}
 
 	@Override

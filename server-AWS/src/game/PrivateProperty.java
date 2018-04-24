@@ -21,6 +21,7 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 		super(name);
 		this.price = price;
 		this.isOwned = false;
+		this.setType("Private");
 	}
 
 	public boolean isOwned(){
