@@ -41,7 +41,7 @@ class CardsAdapter(val items: List<Property>,val sellFunction: (Property) -> Uni
 
         fun initData(item: Property) = with(itemView) {
             title.text = item.id
-            priceTx.text = "${item.price} $"
+            priceTx.text = "${item.price} SHM"
             Picasso.get().load("http://52.48.249.220/worlds/${item.id}.jpg").placeholder(R.drawable.placeholder).into(thumbnail)
             val intColor = item.color
             val hexColor = "#" + Integer.toHexString(intColor).substring(2)
@@ -66,7 +66,7 @@ class CardsAdapter(val items: List<Property>,val sellFunction: (Property) -> Uni
                 infoRL.alpha = 0.3F
                 infoRL.backgroundColor = ContextCompat.getColor(context, R.color.grey)
                 mortgageText.visibility = View.VISIBLE
-                mortgageText.text = "MORTGAGED FOR ${item.price} $"
+                mortgageText.text = "MORTGAGED FOR ${item.price} SHM"
                 mortgageButton.text = "REDEEM"
 
             }

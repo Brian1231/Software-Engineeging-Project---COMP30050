@@ -46,6 +46,7 @@ class MainActivity : App() {
         setMessageToServer(Request(preferences.playerID, "done","0").toJSONString())
     }
 
+
     fun connectToNewPort(){
         val joinGameRequest = Request(preferences.playerID,"connect","0")
         val jsonStringRequest = joinGameRequest.toJSONString()
@@ -68,7 +69,7 @@ class MainActivity : App() {
 
     }
     fun onBankrupt(){
-        alert("Bankrupt", "Are you sure that you want to leave the game?") {
+        alert("Are you sure that you want to leave the game?","Bankrupt" ) {
             yesButton {
                 setMessageToServer(Request(preferences.playerID, "bankrupt","0").toJSONString())
                 killGameThread()
@@ -108,7 +109,7 @@ class MainActivity : App() {
 
             supportActionBar?.title = Player.character
             supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
-            balanceTX.text = "${Player.balance} ${'$'}"
+            balanceTX.text = "${Player.balance} SHM"
             positionTX.text = Player.position.toString()
         }
     }

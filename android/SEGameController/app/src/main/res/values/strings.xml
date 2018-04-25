@@ -23,4 +23,5 @@
     <string name="bankrupt">Bankruptcy</string>
     <string name="character_name_resume">You were playing as: </string>
     <string name="resume_game">Resume game</string>
+    <string name="new_game">New game</string>
 </resources>

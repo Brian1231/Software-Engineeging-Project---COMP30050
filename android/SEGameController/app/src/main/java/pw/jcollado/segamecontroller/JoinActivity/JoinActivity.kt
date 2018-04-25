@@ -2,6 +2,7 @@ package pw.jcollado.segamecontroller.JoinActivity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 
 import kotlinx.android.synthetic.main.activity_join.*
 import org.jetbrains.anko.*
@@ -23,7 +24,7 @@ open class JoinActivity : App(), AsyncResponse {
         setContentView(R.layout.activity_join)
         setupUI()
         savePort(8080)
-
+        newGameBT.onClick { onNewGame() }
 
 
     }
@@ -33,11 +34,18 @@ open class JoinActivity : App(), AsyncResponse {
             resumeTX.text = getString(R.string.character_name_resume) + preferences.character
             joinButton.text = getString(R.string.resume_game)
             joinButton.onClick { resumeGame() }
+            newGameBT.visibility = View.VISIBLE
+
         }
         else {
             joinButton.onClick { joinServerNewGame() }
+            newGameBT.visibility = View.GONE
         }
 
+    }
+    private fun onNewGame(){
+        savePort(8080)
+        joinServerNewGame()
     }
 
     private fun joinServerNewGame(){
