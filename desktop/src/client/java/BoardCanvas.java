@@ -4,12 +4,10 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
-import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,14 +65,14 @@ public class BoardCanvas extends ResizableCanvas {
 
 		PixelWriter pw = g.getPixelWriter();
 
-		for (double t = -PI; t < PI; t += 0.02) {
+		for (double t = -PI; t < PI; t += 0.03) {
 			Point2D point = lemniscate(t);
 
 			int pixel_x = (int) Math.round(point.getX() + width / 2);
 			int pixel_y = (int) Math.round(point.getY() + height / 2);
 
 			g.setFill(Color.rgb(45, 88, 158,0.2));
-			g.fillOval(pixel_x-37.5,pixel_y-37.5,75,75);
+			g.fillOval(pixel_x-width/50,pixel_y-width/50,width/25,width/25);
 		}
 		for (double t = -PI; t < PI; t += 0.0001) {
 			Point2D point = lemniscate(t);
@@ -125,15 +123,56 @@ public class BoardCanvas extends ResizableCanvas {
 		double x = point.getX();
 		double y = point.getY();
 
-		g.setFill(Color.rgb(45, 88, 158,0.2));
+		Color locColour = location.getColour();
+		double re = locColour.getRed();
+		double gr = locColour.getGreen();
+		double bl = locColour.getBlue();
+		Color faded = Color.color(re,gr,bl,0.08);
+		ArrayList<Stop> stops = new ArrayList<>();
+		stops.add(new Stop(0,locColour));
+		stops.add(new Stop(1, faded));
+		RadialGradient aura = new RadialGradient(0,0,.5,.5, .5,true, CycleMethod.NO_CYCLE, stops );
+
+		g.setEffect(new Glow(.8));
+		g.setFill(aura);
 		g.setStroke(location.getColour());
 
-		g.fillOval(x + (width / 2) - width / 34, y + (height / 2) - width / 34, width / 17, width / 17);
-		g.strokeOval(x + (width / 2) - width / 34, y + (height / 2) - width / 34, width / 17, width / 17);
+		g.setEffect(null);
+		g.fillOval(x + (width / 2) - width / 28, y + (height / 2) - width / 28, width / 14, width / 14);
 
-		//g.setFill(Color.WHITE);
-		//g.fillText(location.getName(), x + (width / 2) - 20, y + (height / 2));
+         // Drawing houses
+        int numHouses = location.getHouses();
+        g.setStroke(Color.GOLD);
+
+        switch(numHouses){
+            case 0:
+                break;
+            case 1:
+                g.strokeOval(x + (width / 2) - width / 28, y + (height / 2) - width / 28, width / 14, width / 14);
+                break;
+            case 2:
+                g.strokeOval(x + (width / 2) - width / 28, y + (height / 2) - width / 28, width / 14, width / 14);
+                g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width /15);
+                break;
+            case 3:
+                g.strokeOval(x + (width / 2) - width / 28, y + (height / 2) - width / 28, width / 14, width / 14);
+                g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width /15);
+                g.strokeOval(x + (width / 2) - width / 32, y + (height / 2) - width / 32, width / 16, width / 16);
+                break;
+            case 4:
+                g.setLineWidth(5);
+                g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
+                g.setLineWidth(1);
+                break;
+            default:
+                break;
+        }
 	}
+
+	public void drawHouses(){
+
+
+    }
 
 	private void drawImagedTile(Point2D point, GraphicsContext g, Location location){
 
@@ -159,12 +198,10 @@ public class BoardCanvas extends ResizableCanvas {
 		}
 
 		g.setStroke(Color.TRANSPARENT);
-		g.fillOval(x + (width / 2) - width / 40, y + (height / 2) - width / 40, width / 20, width / 20);
-		g.strokeOval(x + (width / 2) - width / 40, y + (height / 2) - width / 40, width / 20, width / 20);
+		g.fillOval(x + (width / 2) - width / 42, y + (height / 2) - width / 42, width / 21, width / 21);
+		g.strokeOval(x + (width / 2) - width / 42, y + (height / 2) - width / 42, width / 21, width / 21);
 
 		g.setEffect(null);
-		//g.setFill(Color.BLACK);
-		//g.fillRect(x + (width / 2) - width / 40, y + (height / 2) - 5, width / 20, 20);
 
 		g.setFill(Color.GOLD);
 		if(location.getPosition()<20)
@@ -193,5 +230,6 @@ public class BoardCanvas extends ResizableCanvas {
 			loc.setImage(getImage(loc));
 		}
 	}
+
 
 }

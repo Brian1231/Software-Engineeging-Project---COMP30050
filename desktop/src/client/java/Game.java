@@ -18,20 +18,21 @@ public class Game {
     public static Boolean gameStarted = false;
     public static int playerTurn;
     public static boolean locationsSet = false;
+    public static PlayerCanvas pCanvas;
 
     // Player Methods
     // Updates players from server.
-    public static void updatePlayers(List<Player> plyrs){
+    public static void updatePlayers(List<Player> plyrs, String action){
         for(Player p : plyrs){
             if(!observablePlayers.contains(p)) {
                 addPlayer(p);
             }
             else{
-                updatePlayerData(p);
+                updatePlayerData(p,action);
             }
         }
         // Not working right now
-        //for(Player ply : players){
+        // for(Player ply : players){
         //    if(!plyrs.contains(ply)){
         //        removePlayer(ply);
         //    }
@@ -39,8 +40,9 @@ public class Game {
     }
 
     // Adds new player to player list.
-    private static void addPlayer(Player player){
+    public static void addPlayer(Player player){
         observablePlayers.add(player);
+        pCanvas.addPlayerToken(player);
     }
 
     public static void updateVillains(int pos, boolean status){
@@ -48,12 +50,30 @@ public class Game {
     	villainGang.setState(status);
     }
     // Updates player on player list
-    private static void updatePlayerData(Player player){
+    private static void updatePlayerData(Player player, String action){
         if(observablePlayers.contains(player)){
+
             int index = observablePlayers.indexOf(player);
+            Player oldData = observablePlayers.get(index);
             observablePlayers.get(index).setBalance(player.getBalance());
-            observablePlayers.get(index).setPosition(player.getPosition());
             observablePlayers.get(index).setFuel(player.getFuel());
+            observablePlayers.get(index).setMovingForward(player.isMovingForward());
+
+            // Only animates movement when action contains "spaces".
+            if(oldData.getPosition() != player.getPosition()){
+                if(action.contains("spaces")){
+//                    if(oldData.isMovingForward()){
+                           pCanvas.animatePlayer(oldData,player.getPosition());
+//                    }
+//                    else{
+//                        pCanvas.animatePlayerBackwards(oldData,player.getPosition());
+//                    }
+                    observablePlayers.get(index).setPosition(player.getPosition());
+                }else{
+                    observablePlayers.get(index).setPosition(player.getPosition());
+                    pCanvas.relocatePlayer( observablePlayers.get(index));
+                }
+            }
         }
     }
 
@@ -77,7 +97,7 @@ public class Game {
     public static void initializeLocations(){
         for(int index = 0; index<39; index++){
             String initName = Integer.toString(index);
-            locations.add(new Location(initName, index, 0,0,0, Color.GOLD, false));
+            locations.add(new Location(initName, index, 0,0,0, Color.GOLD, false, 0));
         }
     }
 
@@ -102,6 +122,7 @@ public class Game {
             locations.get(index).setOwnerID(location.getOwnerID());
             locations.get(index).setColour(location.getColour());
             locations.get(index).setMortgaged(location.isMortgaged());
+            locations.get(index).setHouses(location.getHouses());
             // etc
         }
     }
@@ -113,5 +134,9 @@ public class Game {
             }
         }
         return null;
+    }
+
+    public static void setPlayerCanvas(PlayerCanvas canvas){
+        pCanvas = canvas;
     }
 }

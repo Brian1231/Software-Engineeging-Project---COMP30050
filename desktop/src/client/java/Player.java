@@ -23,6 +23,7 @@ public class Player implements Serializable {
     private Color color;
     private String character;
     private double fuel;
+    private boolean movingForward = true;
 
     // Information Display objects
     public Label playerNameLabel = new Label();
@@ -33,17 +34,18 @@ public class Player implements Serializable {
     public VBox stats = new VBox();
 
     // Token
-    public Circle playerToken = new Circle();
+    public Circle playerToken = new Circle(10);
 
     private final PropertyChangeSupport pcs ;
 
-    public Player(String balance, int id, int position, Color colour, String character,double fuel) {
+    public Player(String balance, int id, int position, Color colour, String character,double fuel, boolean movingForward) {
         this.balance = balance;
         this.id = id;
         this.position = position;
         this.color = colour;
         this.character = character;
         this.fuel = fuel;
+        this.movingForward = movingForward;
 
         this.pcs = new PropertyChangeSupport(this);
 
@@ -135,6 +137,14 @@ public class Player implements Serializable {
         double oldFuel = this.fuel;
         this.fuel = fuel;
         pcs.firePropertyChange("fuel",oldFuel,this.fuel);
+    }
+
+    public boolean isMovingForward() {
+        return movingForward;
+    }
+
+    public void setMovingForward(boolean movingForward) {
+        this.movingForward = movingForward;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

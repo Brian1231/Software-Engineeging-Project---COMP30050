@@ -1,6 +1,10 @@
 package client.java;
 
 
+import java.util.ArrayList;
+
+import client.java.controllers.InGameController;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
 
 import javafx.scene.effect.Glow;
@@ -11,16 +15,23 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.*;
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 
 public class InformationPane extends Pane {
 
-    //private Label title = new Label("Panopoly");
 	private ImageView logo = new ImageView();
     private Circle eventLogger = new Circle();
-    private TextArea feed = new TextArea();
+    private TextFlow newsfeed = new TextFlow();
+    private ArrayList<Text> messages = new ArrayList<Text>();
 
     private Circle tileInfo = new Circle();
     private Label tileName = new Label("");
@@ -28,6 +39,13 @@ public class InformationPane extends Pane {
     private Label tileOwner = new Label("");
     private Label tileRent = new Label("");
     private ImageView tileImage = new ImageView();
+
+    private Label mortgaged = new Label("MORTGAGED");
+    private Rectangle mortRect = new Rectangle();
+
+    Rectangle diceLeft = new Rectangle();
+    Rectangle diceRight = new Rectangle();
+    private ArrayList<Image> diceFaces = new ArrayList<>();
 
     public BorderPane playerInfoLayout = new BorderPane();
     HBox top = new HBox();
@@ -37,10 +55,6 @@ public class InformationPane extends Pane {
 
     public InformationPane() {
         //Title
-       /* title.setTextFill(Color.rgb(232, 142, 39));
-        title.setStyle("-fx-font-size: 50px;");
-        title.layoutXProperty().bind(widthProperty().divide(2).subtract(title.widthProperty().divide(2)));
-        getChildren().add(title);*/
     	logo.fitWidthProperty().bind(this.widthProperty().divide(2.5));
     	logo.fitHeightProperty().bind(this.heightProperty().divide(5));
     	logo.layoutXProperty().bind(widthProperty().divide(2).subtract(logo.fitWidthProperty().divide(2)));
@@ -57,7 +71,7 @@ public class InformationPane extends Pane {
         getChildren().add(eventLogger);
 
 		// TexArea
-		feed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
+		/*feed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
 		feed.prefHeightProperty().bind(eventLogger.radiusProperty().multiply(2));
 		feed.layoutXProperty().bind(eventLogger.layoutXProperty().subtract(eventLogger.radiusProperty()));
 		feed.layoutYProperty().bind(heightProperty().divide(2).subtract(feed.prefHeightProperty().divide(2)));
@@ -65,10 +79,26 @@ public class InformationPane extends Pane {
 		feed.setWrapText(true);
 		feed.appendText("Welcome to Interdimensional Panopoly!\n");
 		feed.appendText("Press the start button when all players have joined.\n");
-		getChildren().add(feed);
+		getChildren().add(feed);*/
 
+        newsfeed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
+        newsfeed.prefHeightProperty().bind(eventLogger.radiusProperty().multiply(2));
+		newsfeed.layoutXProperty().bind(eventLogger.layoutXProperty().subtract(eventLogger.radiusProperty()));
+		newsfeed.layoutYProperty().bind(heightProperty().divide(2).subtract(newsfeed.prefHeightProperty().divide(2)));
+		getChildren().add(newsfeed);
+		
+        //t1.setStyle("-fx-fill: #4F8A10;-fx-font-weight:bold;");
+        
+		Text welcome = new Text("Welcome to Interdimensional Panopoly!\n");
+		
+		welcome.setStyle("-fx-fill: rgb(254, 254, 254);");
+		messages.add(welcome);
+		newsfeed.getChildren().add(messages.get(0));
+		
+		
+		
         Glow g = new Glow(10);
-        Shadow s = new Shadow(3, Color.RED);
+        //Shadow s = new Shadow(3, Color.RED);
 
 		// Current players location info
 		tileInfo.layoutXProperty().bind(widthProperty().subtract(widthProperty().divide(4.2)));
@@ -113,21 +143,60 @@ public class InformationPane extends Pane {
         playerInfoLayout.setBottom(bottom);
         top.setMaxHeight(200);
         getChildren().add(playerInfoLayout);
+
+        // Mortgaged banner.
+//        mortgaged.setFont(Font.font("Verdana",50));
+//        mortgaged.setTextFill(Color.RED);
+//        mortgaged.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(mortgaged.widthProperty().divide(2)));
+//        mortgaged.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(3)));
+//        mortgaged.setRotate(-45);
+
+        //Dice
+        loadDiceImages();
+
+        diceLeft.widthProperty().bind(widthProperty().divide(20));
+        diceLeft.heightProperty().bind(widthProperty().divide(20));
+
+        diceRight.widthProperty().bind(widthProperty().divide(20));
+        diceRight.heightProperty().bind(widthProperty().divide(20));
+
+        diceLeft.layoutXProperty().bind(widthProperty().divide(2).subtract(diceLeft.widthProperty().multiply(3).divide(2)));
+        diceLeft.layoutYProperty().bind(heightProperty().subtract(heightProperty().divide(4.5)));
+
+        diceRight.layoutXProperty().bind(widthProperty().divide(2).add(diceRight.widthProperty().divide(2)));
+        diceRight.layoutYProperty().bind(heightProperty().subtract(heightProperty().divide(4.5)));
+
+        diceLeft.setFill(Color.WHITE);
+        diceRight.setFill(Color.WHITE);
+
+        getChildren().add(diceLeft);
+        getChildren().add(diceRight);
     }
 
 	public void updateFeed(String s) {
 		//Set color of text in infoPane to player color
 
-
-		/*Color c = Color.BLUE;
-		if(InGameController.playerTurn > 100){
-			for(Player p : Game.players) if(p.getId() == InGameController.playerTurn) c = p.getColor();
-			switch(c.){
-			case Color.Green;
-			}
-			feed.setStyle("-fx-text-fill: green;");
-		}*/
-		feed.appendText(s + "\n");
+		Color c = Color.WHITE;
+		for(Player p : Game.players) if(p.getId() == Game.playerTurn) c = p.getColor();
+	
+		Text newText = new Text(s + "\n");
+		int r = (int)(c.getRed()*254);
+		int g = (int)(c.getGreen()*254);
+		int b = (int)(c.getBlue()*254);
+		newText.setStyle("-fx-fill: rgb("+r+", "+g+", "+b+");");
+		messages.add(newText);
+		if(messages.size()>6) messages.remove(0);
+		
+		newsfeed.getChildren().clear();
+		for(int i=0;i<messages.size();i++){
+			Text m = messages.get(i);
+			if(i == messages.size()-1 || i == messages.size()-2)
+				m.setOpacity(1);
+			else
+				m.setOpacity(((double)i/(double)messages.size()+0.2));
+			newsfeed.getChildren().add(m);
+		}
+		//newsfeed.appendText(s + "\n");
 	}
 
 	public void updateLocationInfo(Location loc) {
@@ -140,6 +209,18 @@ public class InformationPane extends Pane {
 		else
 			tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
 		tileRent.setText("Rent: " + loc.getRent());
+        tileInfo.setFill(loc.getColour());
+
+        /*
+        if(!getChildren().contains(mortgaged) && loc.isMortgaged()){
+            getChildren().add(mortgaged);
+        }
+
+        if(getChildren().contains(mortgaged) && !loc.isMortgaged()){
+            getChildren().remove(mortgaged);
+        }
+        */
+
 	}
 
     public void addPlayerInfo(Player player){
@@ -171,6 +252,27 @@ public class InformationPane extends Pane {
             case 4:     bottom.getChildren().removeAll(spacing2,player.stats);
                         break;
             default:    break;
+        }
+    }
+
+    public void updateDice(int dice1, int dice2){
+        diceLeft.setFill(new ImagePattern(diceFaces.get(dice1-1)));
+        diceRight.setFill(new ImagePattern(diceFaces.get(dice2-1)));
+    }
+
+    private void loadDiceImages(){
+        for(int i = 1; i<=6; i++){
+            StringBuilder sb = new StringBuilder();
+            sb.append("/client/resources/images/dice/dice");
+            sb.append(i);
+            sb.append(".png");
+            try{
+                Image image = new Image(sb.toString());
+                diceFaces.add(image);
+            }catch(Exception e){
+                System.out.println("Failed to find dice image");
+                e.printStackTrace();
+            }
         }
     }
 }

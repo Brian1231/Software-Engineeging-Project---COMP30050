@@ -33,7 +33,7 @@ public class PlayerConnection extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int getPlayerId(){
 		return this.playerID;
 	}
@@ -47,9 +47,9 @@ public class PlayerConnection extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void setup(){
 		System.out.println("Opening connection for Player" +this.playerID+" on Port " + this.port + " ...");
 		try {
@@ -60,16 +60,16 @@ public class PlayerConnection extends Thread{
 			e2.printStackTrace();
 		}
 
-		
+
 		System.out.println("Connected Player to Port " +  + this.port);
-		
+
 		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
 		Main.gameState.addPlayer(client_ip);
 		Main.clientUpdater.updateActionInfo("Player "+ this.playerID+" has joined the game as "+Main.gameState.getPlayerName(this.playerID)+".");
 		Main.clientUpdater.updateDesktopPlayers();
 	}
 	public void run(){
-		
+
 		BufferedReader reader = null;
 		try {
 
@@ -79,7 +79,7 @@ public class PlayerConnection extends Thread{
 		}
 		while(Main.isActive && this.keepAlive){
 			synchronized(this){
-				
+
 				try {
 
 					if(reader.ready()){
@@ -95,20 +95,22 @@ public class PlayerConnection extends Thread{
 							String action = (String) obj.get("action");
 							String[] args = ((String) obj.get("args")).split(",");
 							//Update Main.gamestate based on phone input and this.playerID
-							String actionInfo = Main.gameState.playerAction(id, action, args);
+							if(!action.equals("connect")){
+								String actionInfo = Main.gameState.playerAction(id, action, args);
 
-							System.out.println(actionInfo);
-							
-							//Update Desktop
-							Main.clientUpdater.updateActionInfo(actionInfo);
-							if(action.equals("buy")||action.equals("sell")||action.equals("mortgage")||action.equals("redeem")||action.equals("trap")
-									||action.equals("build")||action.equals("demolish"))
-								Main.clientUpdater.updateDesktopBoard();
-							else
-								Main.clientUpdater.updateDesktopPlayers();
-							
-							//Update Player
-							this.updatePlayer();
+								System.out.println(actionInfo);
+
+								//Update Desktop
+								Main.clientUpdater.updateActionInfo(actionInfo);
+								if(action.equals("buy")||action.equals("sell")||action.equals("mortgage")||action.equals("redeem")||action.equals("trap")
+										||action.equals("build")||action.equals("demolish"))
+									Main.clientUpdater.updateDesktopBoard();
+								else
+									Main.clientUpdater.updateDesktopPlayers();
+
+								//Update Player
+								this.updatePlayer();
+							}
 						}
 
 						System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
@@ -138,7 +140,7 @@ public class PlayerConnection extends Thread{
 			e1.printStackTrace();
 		}
 		//Output to desktop
-		
+
 	}
 }
 

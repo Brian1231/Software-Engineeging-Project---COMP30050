@@ -23,6 +23,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 	// Must declare investment propertys with the full array of rent prices
 	public InvestmentProperty(String name) {
 		super(name, 0);
+		this.setType("Investment");
 	}
 
 

@@ -36,7 +36,7 @@ public class TaxTemplate {
 		}
 	}
 
-	public String template0(){
+	private String template0(){
 		StringBuilder sb = new StringBuilder();
 		sb.append(char1.getName()).append(" appears ").append(vehicle.getAffordance()).append(" ").append(vehicle.getDeterminer()).append(" ").append(vehicle.getVehicle()).append(". ");
 		sb.append(pronoun + " says that " + pronoun.toLowerCase() + " is tired of " + char1.getActivity() + " and wants some action. ");
@@ -45,7 +45,7 @@ public class TaxTemplate {
 		return sb.toString(); 
 	}
 
-	public String template1(){
+	private String template1(){
 		StringBuilder sb = new StringBuilder();
 		String clothes = char1.getWearing();
 		if(clothes.length()!=0)
@@ -54,11 +54,11 @@ public class TaxTemplate {
 			sb.append(char1.getName() + " appears " + vehicle.getAffordance() + " " + vehicle.getDeterminer() + " " + vehicle.getVehicle()+ ". ");
 		sb.append(pronoun + " says that " + pronoun.toLowerCase() + " just lost a fight to " + opp.getName() + " and wants revenge. ");
 		sb.append(pronoun + " starts " + weapon.getAffordanceWithTarget("you") + weapon.getDeterminer() + " " + weapon.getWeapon() + ".");
-		sb.append(pronoun + " says " + pronoun.toLowerCase() + "won't stop until you pay " + them.toLowerCase() + " some money!");
+		sb.append(pronoun + " says " + pronoun.toLowerCase() + " won't stop until you pay " + them.toLowerCase() + " some money!");
 		return sb.toString(); 
 	}
 
-	public String template2(){
+	private String template2(){
 		StringBuilder sb = new StringBuilder();
 		String clothes = char1.getWearing();
 		String clothesDet = Main.noc.getClothingDeterminer(clothes);
@@ -72,11 +72,11 @@ public class TaxTemplate {
 		else 		
 			sb.append(char1.getName() + " appears " + vehicle.getAffordance() + " " + vehicle.getDeterminer() + " " + vehicle.getVehicle()+ ". ");
 		sb.append(pronoun + " starts ranting about about how jealous " + pronoun.toLowerCase() + " is of your newly found success in buying interdimensional property.");
-		sb.append("You feel morrally obliged to share some of your vast wealth.");
+		sb.append("You feel morally obliged to share some of your vast wealth.");
 		return sb.toString(); 
 	}
 	
-	public String template3(){
+	private String template3(){
 		StringBuilder sb = new StringBuilder();
 		sb.append("In the distance you see " + char1.getCanName() + " fast approaching " + vehicle.getAffordance() + " " + vehicle.getDeterminer() + " " + vehicle.getVehicle()+ ". ");
 		sb.append("You can see that " + pronoun.toLowerCase() + " has " + weapon.getDeterminer() + " " + weapon.getWeapon() + " and looks ready to use it. ");

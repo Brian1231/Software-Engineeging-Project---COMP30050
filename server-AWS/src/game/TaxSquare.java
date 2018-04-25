@@ -10,7 +10,7 @@ import noc_db.Character_noc;
 
 public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 
-	Random random = new Random();
+	private final Random random = new Random();
 
 	public TaxSquare(String name) {
 		super(name);
@@ -29,7 +29,7 @@ public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 			//Percent in range 5% - 30%
 			double percentage = (0.05 + (random.nextInt(26)*0.01));
 			int t = this.getIncomePercentage(player, percentage);
-			res+="\n"+player.getCharName()+" owes "+percentage*100+"% of their net worth. Thats $"+t+".";
+			res+="\n"+player.getCharName()+" owes "+percentage*100+"% of their net worth. That's $"+t+".";
 			player.setDebt(t);
 			return res;
 		}

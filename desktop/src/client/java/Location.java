@@ -14,13 +14,15 @@ public class Location {
     private int rent;
     private int ownerID;
     private Color colour;
+    private Color auraColour;
     private boolean isMortgaged;
     private Image image;
+    private int houses;
     // Display objects.
     Circle Tile = new Circle();
 
 
-    public Location(String name, int position, int price, int rent, int owner, Color c,boolean isMortgaged) {
+    public Location(String name, int position, int price, int rent, int owner, Color c, boolean isMortgaged, int houses) {
         this.name = name;
         this.position = position;
         this.price = price;
@@ -28,6 +30,7 @@ public class Location {
         this.ownerID = owner;
         this.colour = c;
         this.isMortgaged = isMortgaged;
+        this.houses = houses;
     }
 
     @Override
@@ -108,5 +111,13 @@ public class Location {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public int getHouses() {
+        return houses;
+    }
+
+    public void setHouses(int numHouses){
+        houses = numHouses;
     }
 }

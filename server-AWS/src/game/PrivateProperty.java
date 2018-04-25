@@ -21,6 +21,7 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 		super(name);
 		this.price = price;
 		this.isOwned = false;
+		this.setType("Private");
 	}
 
 	public boolean isOwned(){
@@ -86,7 +87,6 @@ public class PrivateProperty extends NamedLocation implements Ownable, JSONable{
 		info.put("color", this.getColor().getRGB());
 		info.put("is_mortgaged", false);
 		info.put("houses", 0);
-		info.put("hasTrap", false);
 		if(this.owner != null)
 			info.put("owner", this.owner.getID());
 		else

@@ -1,20 +1,28 @@
 package tests;
 
+import game.Dice;
 import game.Player;
+import game.Station;
 import game.Utility;
 import noc_db.Character_noc;
+import noc_db.NOC_Manager;
 import noc_db.Vehicle_noc;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
 
 import static org.junit.Assert.*;
 
 
 public class UtilityTest {
 
-	private Utility util1 = new Utility("UCD1", 100);
-	private Utility util2 = new Utility("UCD2", 100);
-	private String[] info = new String[24];
-	private Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
+	private Utility util1;
+	private Utility util2;
+	private Player player;
+	private NOC_Manager noc;
+	private Dice dice;
 
 	@Test
 	public void constructorTest() {
@@ -27,15 +35,37 @@ public class UtilityTest {
 		assertEquals("UCD2", util2.getId());
 	}
 
-	@Test
-	public void rentTest() {
-		int diceRoll = 7;
+
+    @Before
+    public void setUp() throws IOException {
+		util1 = new Utility("UCD1", 100, new int[]{4,10});
+		util2 = new Utility("UCD2", 100, new int[]{4,10});
+		dice = new Dice();
+
+		noc = new NOC_Manager();
+		noc.setup();
+		Character_noc ch = noc.getRandomChar();
+		player = new Player(1, "1.1.1.1",noc.getRandomChar(), noc.getVehicle(ch.getVehicle()));
+    }
+
+    @After
+    public void tearDown() {
+		util1 = util2 = null;
+		player = null;
+		noc = null;
+		dice = null;
+    }
+
+    @Test
+    public void getRentalAmount() {
+		int diceRoll = dice.rollDice(2,6);
+
 		player.addNewPropertyBought(util1);
 		util1.setOwner(player);
-		assertEquals(28, util1.getRentalAmount(diceRoll));
+		assertEquals(diceRoll*4, util1.getRentalAmount(diceRoll));
 
 		player.addNewPropertyBought(util2);
 		util2.setOwner(player);
-		assertEquals(70, util1.getRentalAmount(diceRoll));
-	}
+		assertEquals(diceRoll*10, util1.getRentalAmount(diceRoll));
+    }
 }

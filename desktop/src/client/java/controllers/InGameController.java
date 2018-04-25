@@ -63,9 +63,13 @@ public class InGameController {
 			}
 		});
 		setUpBoard();
+		Game.setPlayerCanvas(playerCanvas);
 		//Testing
 		//Game.addPlayer(new Player("2000", 1, 2, Color.WHITE, "Batman", 2));
-		//Game.addPlayer(new Player("1500", 2, 3, Color.WHITE, "SuperMan", 1));
+		//Player p = new Player("1500", 1, 0, Color.WHITE, "SuperMan", 1);
+		//ArrayList<Player> ps = new ArrayList<>();
+		//ps.add(p);
+		//Game.updatePlayers(ps,"");
 		try {
 			connection.startConnection();
 		} catch (IOException e) {
@@ -105,6 +109,7 @@ public class InGameController {
 					JSONArray playerObjects = update.getJSONArray("players");
 
 					for(int i=0;i<playerObjects.length();i++){
+						//p
 						int bal = playerObjects.getJSONObject(i).getInt("balance");
 						String balance = Integer.toString(bal);
 						int id = playerObjects.getJSONObject(i).getInt("id");
@@ -114,13 +119,20 @@ public class InGameController {
 						Color fxColor = Color.rgb(col.getRed(),col.getGreen(),col.getBlue());
 						String character = playerObjects.getJSONObject(i).getString("character");
 						int fuel = playerObjects.getJSONObject(i).getInt("fuel");
-						plyrs.add(new Player(balance,id,position,fxColor,character,fuel));
+						boolean direction = playerObjects.getJSONObject(i).getBoolean("moving_forward");
+						plyrs.add(new Player(balance,id,position,fxColor,character,fuel,direction));
 					}
-					Game.updatePlayers(plyrs);
+					Game.updatePlayers(plyrs, actionInfo);
 					playerCanvas.draw();
 
 					JSONObject villains = update.getJSONObject("villain_gang");
 					Game.updateVillains(villains.getInt("position"), villains.getBoolean("is_active"));
+
+					// Update Dice
+					JSONArray dice = update.getJSONArray("dice_values");
+					int dice1 = dice.getInt(0);
+					int dice2 = dice.getInt(1);
+					infoPane.updateDice(dice1, dice2);
 				}
 
 				// Redraw locations according to new Location information.
@@ -133,12 +145,11 @@ public class InGameController {
 						int price = locationObjects.getJSONObject(i).getInt("price");
 						int position = locationObjects.getJSONObject(i).getInt("location");
 						int owner = locationObjects.getJSONObject(i).getInt("owner");
-
+						int houses = locationObjects.getJSONObject(i).getInt("houses");
 						java.awt.Color col = new java.awt.Color(locationObjects.getJSONObject(i).getInt("color"));
 						Color color = Color.rgb(col.getRed(), col.getGreen(), col.getBlue());
-
 						boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
-						locs.add(new Location(id,position,price,0,owner, color, isMortgaged));
+						locs.add(new Location(id,position,price,0,owner, color, isMortgaged, houses));
 					}
 					Game.updateLocations(locs);
 					Game.locationsSet = true;
@@ -158,7 +169,6 @@ public class InGameController {
 					}
 					Location locToDisplay = Game.getLocation(playerPos);
 					infoPane.updateLocationInfo(locToDisplay);
-
 				}
 			} catch (JSONException | IllegalArgumentException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
 				e.printStackTrace();
@@ -167,9 +177,12 @@ public class InGameController {
 	}
 
 	public void setUpBoard() throws IOException, JSONException{
-
 		Pane boardWrapper = new Pane();
 		boardWrapper.getChildren().add(boardCanvas);
+
+		Pane playerWrapper = new Pane();
+		playerWrapper.getChildren().add(playerCanvas);
+
 		// Start game button
 		Button startButton = new Button("START GAME");
 		startButton.layoutXProperty().bind(boardWrapper.widthProperty().divide(2).subtract(startButton.widthProperty().divide(2)));
@@ -198,7 +211,7 @@ public class InGameController {
 
 		infoPane.getChildren().add(startButton);
 		layers.getChildren().add(boardWrapper);
-		layers.getChildren().add(playerCanvas);
+		layers.getChildren().add(playerWrapper);
 		layers.getChildren().add(infoPane);
 		rootPane.setCenter(layers);
 		boardCanvas.widthProperty().bind(rootPane.widthProperty());
@@ -208,6 +221,7 @@ public class InGameController {
 
 		boardCanvas.draw();
 		playerCanvas.draw();
+
 	}
 
 	public void showGameOverScreen(){
@@ -232,5 +246,3 @@ public class InGameController {
 
 
 }
-
-
