@@ -87,6 +87,7 @@ abstract class App : AppCompatActivity(), AsyncResponse {
         Player.colour = responseJSON.getInt("colour")
         Player.position = responseJSON.getInt("position")
 
+        preferences.character = charactername
         if (!Player.properties.isEmpty()) {
             Player.properties.clear()
         }
