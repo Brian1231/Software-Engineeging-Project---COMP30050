@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import game_interfaces.JSONable;
 import game_interfaces.Playable;
+import main.Main;
 import noc_db.Character_noc;
 import noc_db.Vehicle_noc;
 
@@ -417,6 +418,7 @@ public class Player implements Playable, JSONable, Colourable {
 						this.payMoney(debt);
 						this.debt = 0;
 						this.isInDebt = false;
+						Main.portAllocator.updatePlayer(playerOwed.getID());
 						this.playerOwed = null;
 						return res;
 					}
