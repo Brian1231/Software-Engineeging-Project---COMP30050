@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_dices"
         android:drawablePadding="20dp"
@@ -135,7 +135,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_shopping_cart"
         android:drawablePadding="20dp"
@@ -195,8 +195,18 @@
         android:layout_height="0dp"
         android:layout_marginTop="50dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="71dp"
+        app:layout_constraintGuide_begin="32dp"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="21dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toEndOf="@+id/balanceTX"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:srcCompat="@drawable/schmeckles" />
 
 
 </android.support.constraint.ConstraintLayout>

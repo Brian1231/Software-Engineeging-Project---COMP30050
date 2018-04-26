@@ -24,28 +24,19 @@ open class JoinActivity : App(), AsyncResponse {
         setContentView(R.layout.activity_join)
         setupUI()
         savePort(8080)
-        newGameBT.onClick { onNewGame() }
 
 
     }
 
     private fun setupUI(){
         if(preferences.port != 8080){
-            resumeTX.text = getString(R.string.character_name_resume) + preferences.character
+            resumeTX.text = "${getString(R.string.character_name_resume)} ${preferences.character}"
             joinButton.text = getString(R.string.resume_game)
-            joinButton.onClick { resumeGame() }
-            newGameBT.visibility = View.VISIBLE
 
         }
-        else {
+
             joinButton.onClick { joinServerNewGame() }
-            newGameBT.visibility = View.GONE
-        }
 
-    }
-    private fun onNewGame(){
-        savePort(8080)
-        joinServerNewGame()
     }
 
     private fun joinServerNewGame(){
@@ -62,10 +53,6 @@ open class JoinActivity : App(), AsyncResponse {
         }catch (e: Exception){
             Log.e("error",e.getStackTraceString())
         }
-
-    }
-    private fun resumeGame(){
-        startActivity<MainActivity>()
 
     }
 

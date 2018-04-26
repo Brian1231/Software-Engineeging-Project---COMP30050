@@ -56,7 +56,7 @@ public class ServerConnectionThread extends Thread {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
-        } catch (IOException e1) {
+        } catch (Exception e1) {
             e1.printStackTrace();
         }
         while (mRun) {

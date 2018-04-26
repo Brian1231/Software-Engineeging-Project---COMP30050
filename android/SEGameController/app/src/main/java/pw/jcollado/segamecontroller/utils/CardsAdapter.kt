@@ -41,7 +41,7 @@ class CardsAdapter(val items: List<Property>,val sellFunction: (Property) -> Uni
 
         fun initData(item: Property) = with(itemView) {
             title.text = item.id
-            priceTx.text = "${item.price} SHM"
+            priceTx.text = item.price.toString()
             Picasso.get().load("http://52.48.249.220/worlds/${item.id}.jpg").placeholder(R.drawable.placeholder).into(thumbnail)
             val intColor = item.color
             val hexColor = "#" + Integer.toHexString(intColor).substring(2)

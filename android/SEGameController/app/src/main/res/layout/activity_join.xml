@@ -27,25 +27,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/resumeTX" />
 
-    <Button
-        android:id="@+id/newGameBT"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/ic_start"
-        android:drawablePadding="20dp"
-        android:drawableStart="@drawable/ic_start"
-        android:gravity="center_vertical"
-        android:text="@string/new_game"
-        android:textColor="@color/accent"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/joinButton" />
-
     <ImageView
         android:id="@+id/monopolyIV"
         android:layout_width="383dp"

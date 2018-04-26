@@ -109,7 +109,7 @@ class MainActivity : App() {
 
             supportActionBar?.title = Player.character
             supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
-            balanceTX.text = "${Player.balance} SHM"
+            balanceTX.text = Player.balance.toString()
             positionTX.text = Player.position.toString()
         }
     }
