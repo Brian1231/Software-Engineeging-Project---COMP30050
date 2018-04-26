@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import game.Player;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,6 +42,22 @@ public class ClientUpdater extends Thread{
 			output = new JSONObject("{}");
 			output = Main.gameState.getInfoBoard();
 			output.put("action_info", this.actionInfo);
+			out = new PrintWriter(socket.getOutputStream(), true);
+		} catch (JSONException | IOException e1) {
+			e1.printStackTrace();
+		}
+		//Output to desktop
+		out.println(output.toString());
+	}
+
+	public void updateDesktopBoardWithWinner(Player player){
+		JSONObject output = null;
+		PrintWriter out = null;
+		try {
+			output = new JSONObject("{}");
+			output = Main.gameState.getInfoBoard();
+			output.put("action_info", this.actionInfo);
+			output.put("winner", player.getID());
 			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (JSONException | IOException e1) {
 			e1.printStackTrace();
