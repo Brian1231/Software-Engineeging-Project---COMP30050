@@ -350,6 +350,7 @@ public class GameState implements JSONable {
 				max = newMax;
 			}
 		}
+		return players[0];
 	}
 
 	public void endGame() {
