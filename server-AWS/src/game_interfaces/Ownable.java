@@ -10,12 +10,8 @@ public interface Ownable extends Identifiable {
     int getPrice();
     void setPrice(int price);
 
-    // all ownable tiles are in groups
-    int getNumInGroup();
-    void setNumInGroup(int numInGroup);
-
     // bool to check is tile owned or not
-    boolean isOwned = false;
+    boolean isOwned();
 
     // all game components have a type
     // type of location = property/jail/station/utility/tax etc

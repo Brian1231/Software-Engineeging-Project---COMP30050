@@ -102,8 +102,7 @@ public class GameState implements JSONable {
 				prop.setHousePrice(Constants.HOUSE_PRICES[investmentPropCount]);
 				prop.setHotelPrice(Constants.HOUSE_PRICES[investmentPropCount]);
 				prop.setMortgageAmount(Constants.INVESTMENT_MORTGAGE_VALUE[investmentPropCount]);
-				prop.setNumInGroup(3);
-				prop.setRGB(Constants.INVESTMENT_COLOUR_GROUPS[colourIndex]);
+				prop.setColour(Constants.INVESTMENT_COLOUR_GROUPS[colourIndex]);
 
 				// increments
 				colourCount++;
@@ -118,11 +117,6 @@ public class GameState implements JSONable {
 
 	public boolean isStarted() {
 		return this.gameStarted;
-	}
-
-
-	public boolean isPlayerCharacter(Character_noc ch) {
-		return this.playerCharacters.contains(ch);
 	}
 
 	public void startGame() {
@@ -144,12 +138,11 @@ public class GameState implements JSONable {
 
 			//Get random unused character
 			Character_noc ch = Main.noc.getRandomChar();
-			while (this.isPlayerCharacter(ch)) {
+			while (this.playerCharacters.contains(ch)) {
 				ch = Main.noc.getRandomChar();
 			}
-			Player newPlayer = new Player(newID, client_ip, ch, Main.noc.getVehicle(ch.getVehicle()));
+			Player newPlayer = new Player(newID, ch, Main.noc.getVehicle(ch.getVehicle()), Constants.playerColours[newID]);
 			this.playerCharacters.add(ch);
-			newPlayer.setRGB(Constants.playerColours[newID]);
 			players.add(newPlayer);
 			clientIPplayerIDMap.put(client_ip, newPlayer);
 			return newID;
@@ -232,7 +225,6 @@ public class GameState implements JSONable {
 				return playerActions.setTrap(player, this.locations.get(Integer.parseInt(args[0])));
 
 			case "bankrupt":
-				player.removeDebt();
 				this.playerCharacters.remove(player.getCharacter());
 				this.players.remove(player);
 				if(this.players.size()==1) 

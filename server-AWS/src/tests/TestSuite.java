@@ -10,7 +10,6 @@ import org.junit.runners.Suite.SuiteClasses;
 		PlayerTest.class,
 		NamedLocationTest.class,
 		RentalPropertyTest.class,
-		PrivatePropertyTest.class,
 		StationTest.class,
 		InvestmentPropertyTest.class,
 		UtilityTest.class,

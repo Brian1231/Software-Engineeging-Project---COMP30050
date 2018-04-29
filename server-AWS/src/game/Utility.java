@@ -14,10 +14,10 @@ public class Utility extends RentalProperty {
 
 	public int getRentalAmount(int diceRoll) {
 		if (!this.isMortgaged() && this.isOwned()) {
-			ArrayList<PrivateProperty> properties = this.getOwner().getOwnedProperties();
+			ArrayList<RentalProperty> properties = this.getOwner().getOwnedProperties();
 
 			int numUtilitiesOwned = 0;
-			for (PrivateProperty p : properties) {
+			for (RentalProperty p : properties) {
 				if (p.getType().equals(this.getType())) {
 					numUtilitiesOwned++;
 				}

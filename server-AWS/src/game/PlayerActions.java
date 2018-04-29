@@ -38,13 +38,12 @@ public class PlayerActions {
 
 	public String buy(Player player, NamedLocation tile, int id) {
 
-		if (tile instanceof PrivateProperty) {
-			PrivateProperty prop = (PrivateProperty) tile;
+		if (tile instanceof RentalProperty) {
+			RentalProperty prop = (RentalProperty) tile;
 			if (!prop.isOwned()) {
 				if (player.getBalance() >= prop.getPrice()) {
-					(prop).setOwner(player);
+					prop.setOwner(player);
 					player.addNewPropertyBought(prop);
-					player.useBuy();
 					return player.getCharName() + " bought " + prop.getId() + " for " + prop.getPrice() + ".";
 				}
 				return "You can't afford this property.";
@@ -56,8 +55,8 @@ public class PlayerActions {
 
 
 	public String sell(Player player, NamedLocation loc, int id) {
-		if (loc instanceof PrivateProperty) {
-			PrivateProperty property = (PrivateProperty) loc;
+		if (loc instanceof RentalProperty) {
+			RentalProperty property = (RentalProperty) loc;
 			if (property.isOwned()) {
 				if (property.getOwner().equals(player)) {
 					if (property instanceof RentalProperty) {
@@ -83,7 +82,7 @@ public class PlayerActions {
 
 
 	public String mortgage(Player player, NamedLocation loc, int id)  {
-		if (loc instanceof PrivateProperty) {
+		if (loc instanceof RentalProperty) {
 			RentalProperty property = (RentalProperty) loc;
 			if (property.isOwned()) {
 				if (property.getOwner().equals(player)) {
@@ -102,7 +101,7 @@ public class PlayerActions {
 
 
 	public String redeem(Player player, NamedLocation loc, int id) {
-		if (loc instanceof PrivateProperty) {
+		if (loc instanceof RentalProperty) {
 			RentalProperty property = (RentalProperty) loc;
 			if (property.isOwned()) {
 				if (property.getOwner().equals(player)) {
@@ -147,7 +146,7 @@ public class PlayerActions {
 			if (property.isOwned()) {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
-						if(player.ownsThree(property.getColor())){
+						if(player.ownsThree(property.getColour())){
 							if (property.build(numToBuild)) {
 								if(numToBuild>1)
 									return player.getCharName() + " built " + numToBuild + " houses on " + property.getId() + ".";
@@ -158,7 +157,7 @@ public class PlayerActions {
 							}
 
 						}
-						return "You need to own 3 " + property.getColour() + "'s before you can improve a property!";
+						return "You need to own the full colour group before you can improve a property!";
 					}
 					return property.getId() + " is mortgaged! ";
 				}
@@ -195,15 +194,13 @@ public class PlayerActions {
 	}
 
 	public void done(Player player) {
-		player.resetRoll();
-		player.resetBought();
-		player.resetBoost();
+		player.reset();
 
 	}
 
 	private String landedOn(Player player, NamedLocation location, int spaces){
-		if(location instanceof PrivateProperty){
-			PrivateProperty property = (PrivateProperty) location;
+		if(location instanceof RentalProperty){
+			RentalProperty property = (RentalProperty) location;
 			if(property.isOwned()){
 				if(!property.getOwner().equals(player)){
 
@@ -271,7 +268,7 @@ public class PlayerActions {
 	}
 
 	public String bankrupt(Player player) {
-		for(PrivateProperty p : player.getOwnedProperties()){
+		for(RentalProperty p : player.getOwnedProperties()){
 			p.setUnOwned();
 		}
 		return player.getCharName() + " has declared bankruptcy and any property they own has been released. ";

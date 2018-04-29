@@ -1,23 +1,67 @@
 package game;
 
-import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
 import game_interfaces.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RentalProperty extends PrivateProperty implements Rentable, Mortgageable, JSONable, Trapable {
+public class RentalProperty extends NamedLocation implements Ownable, Rentable, Mortgageable, JSONable, Trapable {
 
-	private boolean isMortgaged = false;
-	private int[] rentAmounts;
-	private boolean hasTrap;
+	private int price;
 	private int mortgageAmount;
+	private int[] rentAmounts;
+	private boolean isMortgaged = false;
+	private boolean hasTrap;
+	private boolean isOwned;
+	private Player owner;
+	private String type;
 
 	public RentalProperty(String name, int price) {
-		super(name, price);
+		super(name);
+		this.price = price;
 		this.hasTrap = false;
 		this.setType("Rental");
 	}
 
+	@Override
+	public Player getOwner() {
+		return this.owner;
+	}
+
+	@Override
+	public void setOwner(Playable player) {
+		this.isOwned = true;
+		this.owner = (Player) player;		
+	}
+	
+	public void setUnOwned(){
+		this.owner = null;
+		this.isOwned = false;
+	}
+	@Override
+	public boolean isOwned() {
+		return this.isOwned;
+	}
+
+	@Override
+	public int getPrice() {
+		return this.price;
+	}
+
+	@Override
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	@Override
+	public String getType() {
+		return this.type;
+	}
+
+	@Override
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 	@Override
 	public int getMortgageAmount() {
 		return this.mortgageAmount;

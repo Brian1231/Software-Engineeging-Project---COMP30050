@@ -16,25 +16,13 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 
 	private int numHouses = 0;
 	private int numHotels = 0;
-	private String colour;
-	private Color rgbColour;
+	private Color Colour;
 	private String buildDemolishError;
 
-	// Must declare investment propertys with the full array of rent prices
+	// Must declare investment properties with the full array of rent prices
 	public InvestmentProperty(String name) {
 		super(name, 0);
 		this.setType("Investment");
-	}
-
-
-	@Override
-	public int getNumHouses() {
-		return this.numHouses;
-	}
-
-	@Override
-	public int getNumHotels() {
-		return this.numHotels;
 	}
 
 	@Override
@@ -177,36 +165,20 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 		}
 	}
 
-
 	@Override
-	public void setColour(String colour) {
-		this.colour = colour;
+	public void setColour(Color colour) {
+		Colour = colour;
 	}
 
 	@Override
-	public String getColour() {
-		return this.colour;
-	}
-
-	@Override
-	public void setRGB(int r, int g, int b) {
-		rgbColour = new Color(r,g,b);
-	}
-
-	@Override
-	public void setRGB(Color colour) {
-		rgbColour = colour;
-	}
-
-	@Override
-	public Color getRGBColour() {
-		return this.rgbColour;
+	public Color getColour() {
+		return this.Colour;
 	}
 
 	@Override
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info =  super.getInfo();
-		info.put("color", this.rgbColour.getRGB());
+		info.put("color", this.Colour.getRGB());
 		info.put("is_mortgaged", this.isMortgaged());
 		info.put("houses", this.getNumHousesAndHotels());
 		info.put("hasTrap", this.hasTrap());

@@ -1,6 +1,5 @@
 package game;
 
-import game_interfaces.Colourable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,13 +13,12 @@ import noc_db.Vehicle_noc;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Player implements Playable, JSONable, Colourable {
+public class Player implements Playable, JSONable{
 
 	private int id;
 	private int balance;
 	private int position;
-	private String ip;
-	private ArrayList<PrivateProperty> ownedProperties = new ArrayList<>();
+	private ArrayList<RentalProperty> ownedProperties = new ArrayList<>();
 
 	private Character_noc character;
 	private Vehicle_noc vehicle;
@@ -35,16 +33,14 @@ public class Player implements Playable, JSONable, Colourable {
 	private boolean isInDebt;
 	private boolean isInJail;
 	private boolean movingForward;
-	private String colour;
 	private Color rgbColour;
 
-	public Player(int playerId, String ipAddr, Character_noc ch, Vehicle_noc vehicle){
+	public Player(int playerId, Character_noc ch, Vehicle_noc vehicle, Color color){
 		this.id = playerId;
 		this.balance = 1000;
 		this.position = 0;
 		this.debt = 0;
 		this.jailTurnCount = 0;
-		this.ip = ipAddr;
 		this.hasRolled = false;
 		this.hasBought = false;
 		this.hasBoosted = false;
@@ -56,6 +52,7 @@ public class Player implements Playable, JSONable, Colourable {
 		this.character = ch;
 		this.vehicle = vehicle;
 		this.movingForward = true;
+		this.rgbColour = color;
 	}
 
 	@Override
@@ -64,18 +61,15 @@ public class Player implements Playable, JSONable, Colourable {
 	}
 
 	@Override
-	public String getIp(){
-		return this.ip;
-	}
-
-	@Override
 	public boolean hasRolled(){
 		return this.hasRolled;
 	}
 
 	@Override
-	public void resetRoll(){
+	public void reset(){
 		this.hasRolled = false;
+		this.hasBoosted = false;
+		this.hasBought = false;
 	}
 
 	@Override
@@ -84,23 +78,8 @@ public class Player implements Playable, JSONable, Colourable {
 	}
 
 	@Override
-	public void useBuy(){
-		this.hasBought = true;
-	}
-
-	@Override
 	public boolean hasBoosted(){
 		return this.hasBoosted;
-	}
-
-	@Override
-	public void resetBoost(){
-		this.hasBoosted = false;
-	}
-
-	@Override
-	public void resetBought(){
-		this.hasBought = false;
 	}
 
 	@Override
@@ -153,9 +132,12 @@ public class Player implements Playable, JSONable, Colourable {
 	@Override
 	public boolean ownsThree(Color color){
 		int count = 0;
-		for(PrivateProperty prop : this.ownedProperties){
-			if(prop.getColor().equals(color))
-				count++;
+		for(RentalProperty prop : this.ownedProperties){
+			if(prop instanceof InvestmentProperty){
+				InvestmentProperty investment = (InvestmentProperty) prop;
+				if(investment.getColour().equals(color))
+					count++;
+			}
 		}
 		return count ==3;
 	}
@@ -277,7 +259,7 @@ public class Player implements Playable, JSONable, Colourable {
 				if((oldPos>20 && this.position<20)){
 					this.position++;
 				}
-				
+
 				return res+this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 			}
 		}
@@ -298,24 +280,14 @@ public class Player implements Playable, JSONable, Colourable {
 	}
 
 	@Override
-	public void setId(String id) {
-		this.id = Integer.parseInt(id);
-	}
-
-	@Override
 	public int getNetWorth() {
 		int worth = balance;
 		// add on price of all owned properties
-		for (PrivateProperty p: ownedProperties
+		for (RentalProperty p: ownedProperties
 				) {
 			worth += p.getPrice();
 		}
 		return worth;
-	}
-
-	@Override
-	public void setNetWorth(int netWorth) {
-		this.balance = netWorth;
 	}
 
 	@Override
@@ -329,47 +301,23 @@ public class Player implements Playable, JSONable, Colourable {
 	}
 
 	@Override
-	public ArrayList<PrivateProperty> getOwnedProperties() {
+	public ArrayList<RentalProperty> getOwnedProperties() {
 		return ownedProperties;
 	}
 
 	@Override
-	public void addNewPropertyBought(PrivateProperty property) {
+	public void addNewPropertyBought(RentalProperty property) {
 		ownedProperties.add(property);
 		// pay money out
 		payMoney(property.getPrice());
+		this.hasBought = true;
 	}
 
 	@Override
-	public void removePropertySold(PrivateProperty property) {
+	public void removePropertySold(RentalProperty property) {
 		ownedProperties.remove(property);
 		// receive money in
 		receiveMoney(property.getPrice());
-	}
-
-	@Override
-	public void setColour(String colour) {
-		this.colour = colour;
-	}
-
-	@Override
-	public String getColour() {
-		return colour;
-	}
-
-	@Override
-	public void setRGB(int r, int g, int b) {
-		rgbColour = new Color(r,g,b);
-	}
-
-	@Override
-	public void setRGB(Color colour) {
-		rgbColour = colour;
-	}
-
-	@Override
-	public Color getRGBColour() {
-		return this.rgbColour;
 	}
 
 	@Override
@@ -394,13 +342,6 @@ public class Player implements Playable, JSONable, Colourable {
 		this.debt += amount;
 		this.isInDebt = true;
 	}
-	@Override
-	public void removeDebt(){
-		this.debt = 0;
-		this.isInDebt = false;
-		this.playerOwed = null;
-	}
-
 
 	@Override
 	public String getPossessive(){

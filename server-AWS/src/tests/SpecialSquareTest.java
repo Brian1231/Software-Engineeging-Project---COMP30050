@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
@@ -27,7 +28,7 @@ public class SpecialSquareTest {
         noc.setup();
 
         Character_noc ch = noc.getRandomChar();
-        player = new Player(1, "1.1.1.1",noc.getRandomChar(), noc.getVehicle(ch.getVehicle()));
+        player = new Player(1,noc.getRandomChar(), noc.getVehicle(ch.getVehicle()), Color.BLUE);
 
     }
 
