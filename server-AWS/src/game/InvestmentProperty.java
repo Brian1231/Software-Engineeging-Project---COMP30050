@@ -3,20 +3,16 @@ package game;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import game_interfaces.Colourable;
 import game_interfaces.Improvable;
 import game_interfaces.JSONable;
 
-import java.awt.*;
-
-public class InvestmentProperty extends RentalProperty implements Improvable, Colourable, JSONable {
+public class InvestmentProperty extends RentalProperty implements Improvable, JSONable {
 
 	private int housePrice = 0;
 	private int hotelPrice = 0;
 
 	private int numHouses = 0;
 	private int numHotels = 0;
-	private Color Colour;
 	private String buildDemolishError;
 
 	// Must declare investment properties with the full array of rent prices
@@ -166,22 +162,9 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 	}
 
 	@Override
-	public void setColour(Color colour) {
-		Colour = colour;
-	}
-
-	@Override
-	public Color getColour() {
-		return this.Colour;
-	}
-
-	@Override
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info =  super.getInfo();
-		info.put("color", this.Colour.getRGB());
-		info.put("is_mortgaged", this.isMortgaged());
 		info.put("houses", this.getNumHousesAndHotels());
-		info.put("hasTrap", this.hasTrap());
 		return info;
 	}
 }
