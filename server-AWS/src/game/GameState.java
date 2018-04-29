@@ -347,14 +347,15 @@ public class GameState implements JSONable {
 	}
 
 	public Player getWinner() {
-		int max = 0;
+		Player winner = players.get(0);
+
 		for (Player p : players) {
-			int newMax = p.getNetWorth();
-			if (newMax > max) {
-				max = newMax;
+
+			if (p.getNetWorth() > winner.getNetWorth()) {
+				winner = p;
 			}
 		}
-		return players.get(0);
+		return winner;
 	}
 
 	public void endGame() {
