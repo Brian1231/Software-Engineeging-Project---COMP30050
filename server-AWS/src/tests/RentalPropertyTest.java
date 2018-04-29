@@ -143,13 +143,14 @@ public class RentalPropertyTest {
         prop.setPrice(150);
         prop.setOwner(player);
         prop.setLocation(15);
+        prop.setColour(Color.GRAY);
 
         try {
             JSONObject obj = this.prop.getInfo();
             assertEquals("UCD", obj.get("id"));
             assertEquals(150, obj.get("price"));
             assertEquals(15, obj.get("location"));
-            assertEquals(Color.GRAY.getRGB(), obj.get("color"));
+            assertEquals(Color.GRAY, obj.get("color"));
             assertEquals(false, obj.get("is_mortgaged"));
             assertEquals(player.getID(), obj.get("owner"));
             assertFalse(obj.getBoolean("hasTrap"));

@@ -163,7 +163,7 @@ public class InvestmentPropertyTest {
 
 	@Test
 	public void getColour() {
-		assertEquals("RED", prop.getColour());
+		assertEquals(Color.RED, prop.getColour());
 	}
 
 	@Test
@@ -180,10 +180,12 @@ public class InvestmentPropertyTest {
 	@Test
 	public void getInfo() {
 		prop.setColour(Color.BLUE);
+		prop.build(3);
 		try {
 			JSONObject obj = prop.getInfo();
-			assertEquals(Color.BLUE.getRGB(), obj.get("color"));
+			assertEquals(Color.BLUE, obj.get("color"));
 			assertEquals(false, obj.get("is_mortgaged"));
+            assertEquals(3, obj.get("houses"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
