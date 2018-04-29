@@ -28,7 +28,6 @@
 "fuel": int (fuel amount 0-3) <br />
 "colour": int <br />
 "moving_forward": boolean <br />
-"location_name": String <br />
 
 ### JSONObject villain gang:
 "is_active": boolean <br />
@@ -80,6 +79,5 @@
 "properties": JSONArray of JSONObjects for owned properties <br />
 "character": String <br />
 "fuel": int (fuel amount 0-3) <br />
-"location_name": String <br />
 "colour": int <br />
 "moving_forward": boolean <br />
