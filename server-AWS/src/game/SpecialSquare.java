@@ -20,7 +20,7 @@ public class SpecialSquare extends NamedLocation{
 		case 10:
 			player.sendToJail();
 			return "\n" + player.getCharName() + " was sent to intergalactic prison!\n"+
-			"Attempt to break free by rolling doubles or pay the fee of $1000.";
+			"Attempt to break free by rolling doubles or pay the fee of $500.";
 			//Jail
 		case 29:
 			return "You arrive at intergalactic prison and decide to have a relaxing stroll around.";

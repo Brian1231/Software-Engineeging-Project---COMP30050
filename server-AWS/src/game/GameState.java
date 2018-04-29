@@ -152,14 +152,28 @@ public class GameState implements JSONable {
 
 	}
 
+	public void removePlayer(Player player) {
+		this.playerCharacters.remove(player.getCharacter());
+		this.players.remove(player);
+		if(this.players.size()==1) 
+			this.endGame();
+		else
+		{
+			this.incrementPlayerTurn();
+		}
+	}
+
 	public void activateVillainGang(int location){
 		this.villainGang.activate(location);
 	}
-	
+	public void updateVillainGang(){
+		this.villainGang.update();
+	}
+
 	public boolean villainGangIsActive(){
 		return this.villainGang.isActive();
 	}
-	
+
 	public String villainGangCheck(Player player){
 		if(this.villainGang.isActive() && this.villainGang.position() == player.getPos()){
 			return this.villainGang.attackPlayer(player);
@@ -225,34 +239,14 @@ public class GameState implements JSONable {
 				return playerActions.setTrap(player, this.locations.get(Integer.parseInt(args[0])));
 
 			case "bankrupt":
-				this.playerCharacters.remove(player.getCharacter());
-				this.players.remove(player);
-				if(this.players.size()==1) 
-					this.endGame();
-				else
-				{
-					this.playerTurn++;
-					if (this.playerTurn > this.players.size()) {
-						this.playerTurn = 1;
-					}
-				}
+
 				return playerActions.bankrupt(player);
 
 			case "done":
-				
-				if(!player.isInDebt()){
-					playerActions.done(player);
-					//Increment player turn
-					this.playerTurn++;
 
-					if (this.playerTurn > this.players.size()) {
-						this.playerTurn = 1;
-					}
-					this.villainGang.update();
-					return player.getCharName()+" finished their turn.";
-				}
-				return "You must pay your debt before ending your turn.";
+				return playerActions.done(player);
 			default:
+
 				return player.getCharName()+" did nothing.";
 			}
 		} else {
@@ -260,6 +254,12 @@ public class GameState implements JSONable {
 		}
 	}
 
+	public void incrementPlayerTurn(){
+		this.playerTurn++;
+		if (this.playerTurn > this.players.size()) {
+			this.playerTurn = 1;
+		}
+	}
 	/**
 	 * Returns full game state in JSON format
 	 */
@@ -322,7 +322,7 @@ public class GameState implements JSONable {
 				info = p.getInfo();
 			}
 		}
-		
+
 		return info;
 
 	}

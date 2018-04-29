@@ -48,7 +48,10 @@ public class PlayerActions {
 				}
 				return "You can't afford this property.";
 			}
-			return prop.getId() + " is already owned by " + prop.getOwner().getCharName() + ".";
+			if(prop.getOwner().equals(player))
+				return "You already own " + prop.getId() + ".";
+			else
+				return prop.getId() + " is already owned by " + prop.getOwner().getCharName() + ".";
 		}
 		return "You can't buy that.";
 	}
@@ -193,8 +196,19 @@ public class PlayerActions {
 		return " You cant demolish on " + loc.getId();
 	}
 
-	public void done(Player player) {
-		player.reset();
+	public String done(Player player) {
+
+		if(!player.isInDebt()){
+			if(player.hasRolled()){
+				player.reset();
+				Main.gameState.incrementPlayerTurn();
+				Main.gameState.updateVillainGang();
+				return player.getCharName()+" finished their turn.";
+			}
+			return "You must roll te dice before ending your turn.";
+		}
+		return "You must pay your debt before ending your turn.";
+		
 
 	}
 
@@ -207,7 +221,8 @@ public class PlayerActions {
 					String res = "\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ".";
 					if(property instanceof InvestmentProperty){
 						InvestmentProperty p = (InvestmentProperty) property;
-						player.setDebt(p.getBaseRentAmount(), property.getOwner());
+						player.setDebt(p.getRentalAmount(), property.getOwner());
+						res+=player.getCharName() + " owes " + property.getOwner().getCharName() + " " + p.getRentalAmount() + ". ";
 						if(p.hasTrap()) res+= p.activateTrap(player);
 						return res;
 					}
@@ -215,6 +230,7 @@ public class PlayerActions {
 						//Station
 						Station s = (Station) property;
 						player.setDebt(s.getRentalAmount(), property.getOwner());
+						res+=player.getCharName() + " owes " + property.getOwner().getCharName() + " " + s.getRentalAmount() + ". ";
 						if(s.hasTrap()) res += s.activateTrap(player);
 						return res;
 					}
@@ -222,6 +238,7 @@ public class PlayerActions {
 						//Utility
 						Utility u = (Utility) property;
 						player.setDebt(u.getRentalAmount(spaces), property.getOwner());
+						res+=player.getCharName() + " owes " + property.getOwner().getCharName() + " " + u.getRentalAmount(spaces) + ". ";
 						if(u.hasTrap()) res += u.activateTrap(player);
 						return res;
 					}
