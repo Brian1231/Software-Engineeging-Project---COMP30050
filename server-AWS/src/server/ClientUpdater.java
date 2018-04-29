@@ -17,12 +17,6 @@ public class ClientUpdater extends Thread{
 
 	private ServerSocket server;
 	private Socket socket;
-	private int[] diceValues = {0,0};
-
-	
-	public void updateActionDice(int[] d){
-		this.diceValues = d;
-	}
 	
 	public void setup(int port) throws IOException{
 		System.out.println("Connecting to Desktop...");
@@ -69,7 +63,7 @@ public class ClientUpdater extends Thread{
 			output = new JSONObject("{}");
 			output = Main.gameState.getInfoPlayers();
 			output.put("action_info", Main.gameState.getActionInfo());
-			output.put("dice_values", this.diceValues);
+			output.put("dice_values", Main.dice.getDiceValues());
 			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (JSONException | IOException e1) {
 			e1.printStackTrace();

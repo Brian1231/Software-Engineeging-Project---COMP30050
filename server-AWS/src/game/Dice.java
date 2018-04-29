@@ -1,18 +1,31 @@
 package game;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import game_interfaces.Rollable;
-import main.Main;
 
 public class Dice implements Rollable{
 
-	private Random rand = new Random();
-	
+	private Random rand;
+	private int[] diceValues;
+
+	public int[] getDiceValues() {
+		return diceValues;
+	}
+
+	public int getRollResult() {
+		return Arrays.stream(diceValues).sum();
+	}
+
+	public Dice() {
+		this.rand = new Random();
+	}
+
+
 	@Override
-	public int[] roll() {
+	public void roll() {
 		int[] dice = {(rand.nextInt(6) + 1), (rand.nextInt(6) + 1)};
-		Main.clientUpdater.updateActionDice(dice);
-		return dice;
+		this.diceValues = dice;
 	}
 }

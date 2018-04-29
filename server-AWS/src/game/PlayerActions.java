@@ -10,11 +10,12 @@ public class PlayerActions {
 
 	Random random = new Random();
 
-	public String roll(Player player, Dice dice, int id, ArrayList<NamedLocation> locations) {
-		if(!player.hasRolled()){
-			int[] dice_values = dice.roll();
+	public String roll(Player player, int id, ArrayList<NamedLocation> locations) {
+		if(!player.hasRolled()) {
+			Main.dice.roll();
+			int[] dice_values = Main.dice.getDiceValues();
 			if(!player.isInJail()){
-				int spaces = Arrays.stream(dice_values).sum();
+				int spaces = Main.dice.getRollResult();
 				String res = player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".";
 				res += landedOn(player, locations.get(player.getPos()), spaces);
 				res += Main.gameState.villainGangCheck(player);

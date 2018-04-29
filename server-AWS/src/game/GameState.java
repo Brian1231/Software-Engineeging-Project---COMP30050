@@ -24,7 +24,6 @@ public class GameState implements JSONable {
 	private Map<String, Player> clientIPplayerIDMap;
 	private boolean gameStarted;
 	private int playerTurn;
-	private Dice dice;
 	private PlayerActions playerActions = new PlayerActions();
 	private VillainGang villainGang;
 	private String actionInfo;
@@ -37,7 +36,6 @@ public class GameState implements JSONable {
 		clientIPplayerIDMap = new HashMap<String, Player>();
 		gameStarted = false;
 		playerTurn = 1;
-		dice = new Dice();
 		villainGang = new VillainGang();
 
 		// Tiles generation & setup
@@ -208,7 +206,7 @@ public class GameState implements JSONable {
 			switch (action) {
 			case "roll":
 
-				return playerActions.roll(player, dice, id, this.locations);
+				return playerActions.roll(player, id, this.locations);
 
 			case "buy":
 
