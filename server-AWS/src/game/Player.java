@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import game_interfaces.JSONable;
 import game_interfaces.Playable;
-import main.Main;
 import noc_db.Character_noc;
 import noc_db.Vehicle_noc;
 
@@ -160,7 +159,6 @@ public class Player implements Playable, JSONable{
 		info.put("fuel", this.fuel);
 		info.put("colour", this.rgbColour.getRGB());
 		info.put("moving_forward", this.movingForward);
-		info.put("location_name", Main.gameState.getLocationName(this.position));
 		return info;
 
 	}
