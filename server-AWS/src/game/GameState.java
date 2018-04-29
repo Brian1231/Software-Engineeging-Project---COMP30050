@@ -333,6 +333,7 @@ public class GameState implements JSONable {
 			if (p.getID() == id) {
 				info = p.getInfo();
 			}
+			info.put("position", locations.get(p.getPos()).getId());
 		}
 
 		return info;
