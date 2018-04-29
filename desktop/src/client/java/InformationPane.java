@@ -16,6 +16,7 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -86,12 +87,13 @@ public class InformationPane extends Pane {
         //t1.setStyle("-fx-fill: #4F8A10;-fx-font-weight:bold;");
         
 		Text welcome = new Text("Welcome to Interdimensional Panopoly!\n");
+		welcome.setFont(new Font("Verdana", 22));
 		
 		welcome.setStyle("-fx-fill: rgb(254, 254, 254);");
 		messages.add(welcome);
 		newsfeed.getChildren().add(messages.get(0));
 		
-        Glow g = new Glow(10);
+        //Glow g = new Glow(10);
         //Shadow s = new Shadow(3, Color.RED);
 
 		// Current players location info
@@ -100,7 +102,7 @@ public class InformationPane extends Pane {
 		tileInfo.setFill(Color.BLACK);
 		tileInfo.setStroke(Color.GOLD);
 		tileInfo.radiusProperty().bind(widthProperty().divide(9));
-		tileInfo.setEffect(g);
+		//tileInfo.setEffect(g);
 		getChildren().add(tileInfo);
 
 		// Semi Circle
@@ -117,22 +119,22 @@ public class InformationPane extends Pane {
 		// Tile name
 		tileName.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileName.widthProperty().divide(2)));
 		tileName.layoutYProperty().bind(tileInfo.layoutYProperty().subtract(tileInfo.radiusProperty().divide(2)));
-		tileName.setTextFill(Color.WHITE);
+		tileName.setTextFill(Color.BLACK);
 		getChildren().add(tileName);
 		// Tile Cost
 		tileCost.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileCost.widthProperty().divide(2)));
 		tileCost.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2)));
-		tileCost.setTextFill(Color.WHITE);
+		tileCost.setTextFill(Color.BLACK);
 		getChildren().add(tileCost);
         // Rent
         tileRent.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileRent.widthProperty().divide(2)));
         tileRent.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2.4)));
-        tileRent.setTextFill(Color.WHITE);
+        tileRent.setTextFill(Color.BLACK);
         getChildren().add(tileRent);
         // Owner
         tileOwner.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileOwner.widthProperty().divide(2)));
         tileOwner.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(3)));
-        tileOwner.setTextFill(Color.WHITE);
+        tileOwner.setTextFill(Color.BLACK);
         getChildren().add(tileOwner);
 		// Tile Image
         tileImage.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileImage.fitWidthProperty().divide(2)));
@@ -190,6 +192,7 @@ public class InformationPane extends Pane {
 		int g = (int)(c.getGreen()*254);
 		int b = (int)(c.getBlue()*254);
 		newText.setStyle("-fx-fill: rgb("+r+", "+g+", "+b+");");
+		newText.setFont(new Font("Verdana", 20));
 		messages.add(newText);
 		if(messages.size()>6) messages.remove(0);
 		
@@ -265,8 +268,11 @@ public class InformationPane extends Pane {
     }
 
     public void updateDice(int dice1, int dice2){
-        diceLeft.setFill(new ImagePattern(diceFaces.get(dice1-1)));
-        diceRight.setFill(new ImagePattern(diceFaces.get(dice2-1)));
+        if(dice1 != 0 && dice2 != 0){
+            diceLeft.setFill(new ImagePattern(diceFaces.get(dice1-1)));
+            diceRight.setFill(new ImagePattern(diceFaces.get(dice2-1)));
+        }
+
     }
 
     private void loadDiceImages(){

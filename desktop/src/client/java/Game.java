@@ -31,12 +31,11 @@ public class Game {
                 updatePlayerData(p,action);
             }
         }
-        // Not working right now
-        // for(Player ply : players){
-        //    if(!plyrs.contains(ply)){
-        //        removePlayer(ply);
-        //    }
-        // }
+         for(int i = 0; i < players.size(); i++ ){
+            if(!plyrs.contains(players.get(i))){
+                removePlayer(players.get(i));
+            }
+         }
     }
 
     // Adds new player to player list.
@@ -77,10 +76,11 @@ public class Game {
         }
     }
 
-    // Removes player from the draw loop. (quits game etc)
+    // Removes player Token from draw loop
     public static void removePlayer(Player player){
         if(observablePlayers.contains(player)){
-            observablePlayers.remove(player);
+            //observablePlayers.remove(player);
+            pCanvas.removePlayerToken(player);
         }
     }
 

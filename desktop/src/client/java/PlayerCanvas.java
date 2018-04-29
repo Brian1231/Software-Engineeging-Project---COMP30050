@@ -131,6 +131,11 @@ public class PlayerCanvas extends ResizableCanvas {
 		parent.getChildren().add(p.playerToken);
 	}
 
+	public void removePlayerToken(Player p){
+		Pane parent = (Pane) this.getParent();
+		parent.getChildren().remove(p.playerToken);
+	}
+
 	public void animatePlayer(Player p, int newPos){
 		Polyline path = new Polyline();
 		int oldPosition = p.getPosition();
