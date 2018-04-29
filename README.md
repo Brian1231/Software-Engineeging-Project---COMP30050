@@ -76,7 +76,7 @@
 ### Server-to-Phone JSON:
 "id": int <br />
 "balance": int <br />
-"position": int (0 to 39) <br />
+"position": String (name of property) <br />
 "properties": JSONArray of JSONObjects for owned properties <br />
 "character": String <br />
 "fuel": int (fuel amount 0-3) <br />
