@@ -12,7 +12,7 @@ import org.jetbrains.anko.defaultSharedPreferences
 class Prefs (context: Context) {
     private val PLAYER_ID = "PlayerID"
     private val PORT = "PORT"
-    private val USERNAME = "USERNAME"
+    private val CHARACTER = "CHARACTER"
 
     val prefs: SharedPreferences = context.defaultSharedPreferences
 
@@ -22,7 +22,7 @@ class Prefs (context: Context) {
     var port: Int
         get() = prefs.getInt(PORT, 8080)
         set(value) = prefs.edit().putInt(PORT, value).apply()
-    var username: String
-        get() = prefs.getString(USERNAME, "user")
-        set(value) = prefs.edit().putString(USERNAME, value).apply()
+    var character: String
+        get() = prefs.getString(CHARACTER, "character")
+        set(value) = prefs.edit().putString(CHARACTER, value).apply()
 }

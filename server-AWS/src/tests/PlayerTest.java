@@ -2,23 +2,22 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
-import game.PrivateProperty;
-import noc_db.Vehicle_noc;
 import org.junit.Test;
+import java.awt.Color;
 
 import game.Player;
+import game.RentalProperty;
+import noc_db.Vehicle_noc;
 import noc_db.Character_noc;
 
 public class PlayerTest {
 	private final String[] info = new String[24];
-	private final Player player = new Player(1, "1.1.1.1",new Character_noc( info), new Vehicle_noc(info));
+	private final Player player = new Player(1, new Character_noc( info), new Vehicle_noc(info), Color.BLUE);
 
 	@Test
 	public void constructorTest() {
 		assertNotNull(player);
 		assertEquals(1, player.getID());
-		assertEquals("1.1.1.1", player.getIp());
 		assertEquals(1000, player.getNetWorth());
 		assertEquals(0, player.getPos());
 	}
@@ -33,13 +32,13 @@ public class PlayerTest {
 
 	@Test
 	public void testBuy() {
-		player.addNewPropertyBought(new PrivateProperty("UCD", 200));
+		player.addNewPropertyBought(new RentalProperty("UCD", 200));
 		assertEquals("UCD", player.getOwnedProperties().get(0).getId());
 	}
 
 	@Test
 	public void testSell() {
-		PrivateProperty prop = new PrivateProperty("UCD", 200);
+		RentalProperty prop = new RentalProperty("UCD", 200);
 		player.addNewPropertyBought(prop);
 
 		player.removePropertySold(prop);

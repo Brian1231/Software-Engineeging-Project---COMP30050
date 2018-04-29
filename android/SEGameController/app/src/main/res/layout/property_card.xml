@@ -27,6 +27,16 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="20dp"
+                    android:layout_height="18dp"
+                    android:layout_alignTop="@+id/priceTx"
+                    android:layout_toEndOf="@+id/priceTx"
+                    card_view:layout_constraintStart_toEndOf="@+id/balanceTX"
+                    card_view:layout_constraintTop_toTopOf="@+id/guideline2"
+                    card_view:srcCompat="@drawable/schmeckles" />
+
+                <ImageView
                     android:id="@+id/thumbnail"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/album_cover_height"

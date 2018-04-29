@@ -24,8 +24,10 @@
 "balance": int <br />
 "position": int (0 to 39) <br />
 "character": String <br />
+"properties": JSONArray of JSONObjects for owned properties <br />
 "fuel": int (fuel amount 0-3) <br />
 "colour": int <br />
+"moving_forward": boolean <br />
 
 ### JSONObject villain gang:
 "is_active": boolean <br />
@@ -66,10 +68,16 @@
 "id": int (Player id)<br />
 "port": int (Port listening for player connection) <br />
 
+### Alert message
+"id": int <br />
+"action":"vibrate"<br />
+
 ### Server-to-Phone JSON:
 "id": int <br />
 "balance": int <br />
-"position": int (0 to 39) <br />
+"position": String (name of property) <br />
 "properties": JSONArray of JSONObjects for owned properties <br />
 "character": String <br />
 "fuel": int (fuel amount 0-3) <br />
+"colour": int <br />
+"moving_forward": boolean <br />

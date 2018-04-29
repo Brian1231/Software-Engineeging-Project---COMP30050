@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import game.Player;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,16 +17,6 @@ public class ClientUpdater extends Thread{
 
 	private ServerSocket server;
 	private Socket socket;
-	private String actionInfo;
-	private int[] diceValues = {0,0};
-
-	public void updateActionInfo(String s){
-		this.actionInfo = s;
-	}
-	
-	public void updateActionDice(int[] d){
-		this.diceValues = d;
-	}
 	
 	public void setup(int port) throws IOException{
 		System.out.println("Connecting to Desktop...");
@@ -40,7 +31,23 @@ public class ClientUpdater extends Thread{
 		try {
 			output = new JSONObject("{}");
 			output = Main.gameState.getInfoBoard();
-			output.put("action_info", this.actionInfo);
+			output.put("action_info", Main.gameState.getActionInfo());
+			out = new PrintWriter(socket.getOutputStream(), true);
+		} catch (JSONException | IOException e1) {
+			e1.printStackTrace();
+		}
+		//Output to desktop
+		out.println(output.toString());
+	}
+
+	public void updateDesktopBoardWithWinner(Player player){
+		JSONObject output = null;
+		PrintWriter out = null;
+		try {
+			output = new JSONObject("{}");
+			output = Main.gameState.getInfoBoard();
+			output.put("action_info", Main.gameState.getActionInfo());
+			output.put("winner", player.getID());
 			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (JSONException | IOException e1) {
 			e1.printStackTrace();
@@ -55,8 +62,8 @@ public class ClientUpdater extends Thread{
 		try {
 			output = new JSONObject("{}");
 			output = Main.gameState.getInfoPlayers();
-			output.put("action_info", this.actionInfo);
-			output.put("dice_values", this.diceValues);
+			output.put("action_info", Main.gameState.getActionInfo());
+			output.put("dice_values", Main.dice.getDiceValues());
 			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (JSONException | IOException e1) {
 			e1.printStackTrace();
@@ -67,16 +74,14 @@ public class ClientUpdater extends Thread{
 
 	public void run(){
 		BufferedReader reader = null;
-
 		try {
-
-			//out = new PrintWriter(socket.getOutputStream(), true);
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 
 		while(Main.isActive){
+			//synchronized(Main.gameState){ maybe better
 			synchronized(this){
 
 				try{
@@ -93,7 +98,7 @@ public class ClientUpdater extends Thread{
 						if(id == 0){
 							if(obj.get("action").equals("start")){
 								Main.gameState.startGame();
-								Main.clientUpdater.updateActionInfo("\nGame has started! Good Luck!\n");
+								Main.gameState.updateActionInfo("\nGame has started! Good Luck!\n");
 								Main.clientUpdater.updateDesktopPlayers();
 							}
 							if(obj.get("action").equals("end")){

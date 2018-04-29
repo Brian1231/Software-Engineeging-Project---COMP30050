@@ -12,11 +12,11 @@ public class Station extends RentalProperty {
 
 	public int getRentalAmount() {
 		if (!this.isMortgaged() && this.isOwned()) {
-			ArrayList<PrivateProperty> properties = this.getOwner().getOwnedProperties();
+			ArrayList<RentalProperty> properties = this.getOwner().getOwnedProperties();
 
 			int numStationsOwned = -1;
-			for (PrivateProperty p : properties) {
-				if (p.getType().equals(this.getType())) {
+			for (RentalProperty p : properties) {
+				if (p.getOwner()  == this.getOwner()) {
 					numStationsOwned++;
 				}
 			}

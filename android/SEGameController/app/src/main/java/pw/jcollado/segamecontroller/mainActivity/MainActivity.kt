@@ -1,19 +1,25 @@
 package pw.jcollado.segamecontroller.mainActivity
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.yesButton
 import org.json.JSONObject
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.connections.AsyncResponse
 import pw.jcollado.segamecontroller.connections.ServerConnectionThread
 import pw.jcollado.segamecontroller.listPropertiesActivity.ListPropertiesActivity
 import org.json.JSONArray
+import pw.jcollado.segamecontroller.JoinActivity.JoinActivity
 import pw.jcollado.segamecontroller.model.*
 
 
@@ -40,6 +46,7 @@ class MainActivity : App() {
         setMessageToServer(Request(preferences.playerID, "done","0").toJSONString())
     }
 
+
     fun connectToNewPort(){
         val joinGameRequest = Request(preferences.playerID,"connect","0")
         val jsonStringRequest = joinGameRequest.toJSONString()
@@ -62,7 +69,17 @@ class MainActivity : App() {
 
     }
     fun onBankrupt(){
-        setMessageToServer(Request(preferences.playerID, "bankrupt","0").toJSONString())
+        alert("Are you sure that you want to leave the game?","Bankrupt" ) {
+            yesButton {
+                setMessageToServer(Request(preferences.playerID, "bankrupt","0").toJSONString())
+                killGameThread()
+                preferences.port = 8080
+                startActivity(Intent(applicationContext, JoinActivity::class.java))
+
+            }
+            noButton {}
+        }.show()
+
 
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -86,9 +103,13 @@ class MainActivity : App() {
 
     override fun updateGameState(){
         runOnUiThread {
+            val intColor = Player.colour
+            val hexColor = "#" + Integer.toHexString(intColor).substring(2)
+            val color = Color.parseColor(hexColor)
 
             supportActionBar?.title = Player.character
-            balanceTX.text = "${Player.balance} ${'$'}"
+            supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
+            balanceTX.text = Player.balance.toString()
             positionTX.text = Player.position.toString()
         }
     }

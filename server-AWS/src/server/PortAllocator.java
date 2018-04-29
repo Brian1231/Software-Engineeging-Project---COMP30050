@@ -123,12 +123,29 @@ public class PortAllocator extends Thread{
 		}
 	}
 
+	public void updatePlayer(int id) {
+		for(PlayerConnection pc : this.playerConnections){
+			if(pc.getPlayerId() == id) pc.updatePlayer();
+		}
+	}
+	
+	public void updatePlayers() {
+		for(PlayerConnection pc : this.playerConnections){
+			if(pc.isAlive()) pc.updatePlayer();
+		}
+	}
+	
+	public void alertPlayer(int id) {
+		for(PlayerConnection pc : this.playerConnections){
+			if(pc.getPlayerId() == id) pc.vibrate();
+		}
+	}
+	
+	
 	public void endGame() {
 		for(PlayerConnection pc : this.playerConnections){
 			pc.updatePlayer();
-
 			pc.kill();
-			//Send endgame message JSON
 		}
 	}
 }

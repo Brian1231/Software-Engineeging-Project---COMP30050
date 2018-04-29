@@ -1,12 +1,10 @@
 package pw.jcollado.segamecontroller.JoinActivity
 
-import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
-import com.squareup.picasso.Picasso
+import android.view.View
 
 import kotlinx.android.synthetic.main.activity_join.*
-import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import pw.jcollado.segamecontroller.R
@@ -28,25 +26,26 @@ open class JoinActivity : App(), AsyncResponse {
         savePort(8080)
 
 
-
     }
 
     private fun setupUI(){
-        joinButton.onClick { joinServer() }
-        idTextView.text = preferences.playerID.toString()
+        if(preferences.port != 8080){
+            resumeTX.text = "${getString(R.string.character_name_resume)} ${preferences.character}"
+            joinButton.text = getString(R.string.resume_game)
+
+        }
+
+            joinButton.onClick { joinServerNewGame() }
 
     }
 
-    private fun joinServer(){
+    private fun joinServerNewGame(){
         runOnUiThread {
             loadDialog(this, getString(R.string.connecting))
         }
 
-        val username  = userNameED.text.toString()
         val joinGameRequest = Request(-1,"connect","0")
         val jsonStringRequest = joinGameRequest.toJSONString()
-        idTextView.text = jsonStringRequest
-        preferences.username = username
         try {
             gamethread = ServerConnectionThread(this, preferences.port)
             gamethread.start()

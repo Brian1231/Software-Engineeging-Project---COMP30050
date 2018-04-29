@@ -65,7 +65,7 @@ public class PlayerConnection extends Thread{
 
 		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
 		Main.gameState.addPlayer(client_ip);
-		Main.clientUpdater.updateActionInfo("Player "+ this.playerID+" has joined the game as "+Main.gameState.getPlayerName(this.playerID)+".");
+		Main.gameState.updateActionInfo("Player "+ this.playerID+" has joined the game as "+Main.gameState.getPlayerName(this.playerID)+".");
 		Main.clientUpdater.updateDesktopPlayers();
 	}
 	public void run(){
@@ -101,15 +101,15 @@ public class PlayerConnection extends Thread{
 								System.out.println(actionInfo);
 
 								//Update Desktop
-								Main.clientUpdater.updateActionInfo(actionInfo);
+								Main.gameState.updateActionInfo(actionInfo);
 								if(action.equals("buy")||action.equals("sell")||action.equals("mortgage")||action.equals("redeem")||action.equals("trap")
 										||action.equals("build")||action.equals("demolish"))
 									Main.clientUpdater.updateDesktopBoard();
 								else
 									Main.clientUpdater.updateDesktopPlayers();
 
-								//Update Player
-								this.updatePlayer();
+								//Update all players
+								Main.portAllocator.updatePlayers();
 							}
 						}
 
@@ -129,10 +129,24 @@ public class PlayerConnection extends Thread{
 		}
 	}
 
+	public void vibrate(){
+		JSONObject output = new JSONObject();
+		
+		try {
+			output.put("id", this.playerID);
+			output.put("action", "vibrate");
+			out.write(output.toString()+ "\n");
+			out.flush();
+		} catch (JSONException | IOException e) {
+			e.printStackTrace();
+		}	
+	}
+	
 	public void updatePlayer(){
 		JSONObject output;
 		try {
 			output = Main.gameState.getPlayerInfo(this.playerID);
+			output.put("action_info", Main.gameState.getActionInfo());
 			out.write(output.toString()+ "\n");
 			out.flush();
 			//output = Main.gameState.getInfo();

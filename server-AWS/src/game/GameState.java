@@ -24,9 +24,9 @@ public class GameState implements JSONable {
 	private Map<String, Player> clientIPplayerIDMap;
 	private boolean gameStarted;
 	private int playerTurn;
-	private Dice dice;
 	private PlayerActions playerActions = new PlayerActions();
 	private VillainGang villainGang;
+	private String actionInfo;
 
 
 	public GameState() {
@@ -36,7 +36,6 @@ public class GameState implements JSONable {
 		clientIPplayerIDMap = new HashMap<String, Player>();
 		gameStarted = false;
 		playerTurn = 1;
-		dice = new Dice();
 		villainGang = new VillainGang();
 
 		// Tiles generation & setup
@@ -58,13 +57,17 @@ public class GameState implements JSONable {
 		//Stations
 		for (int i = 0; i < 4; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new Station(randomWorld.getWorld(),Constants.STATION_PRICES[i], Constants.STATION_RENTS[i]));
+			Station station = new Station(randomWorld.getWorld(),Constants.STATION_PRICES[i], Constants.STATION_RENTS[i]);
+			station.setMortgageAmount(Constants.STATION_MORTGAGE_VALUE[i]);
+			properties.add(station);
 		}
 
 		//Utilities
 		for (int i = 0; i < 2; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new Utility(randomWorld.getWorld(), Constants.UTILITY_PRICES[i]));
+			Utility utility = new Utility(randomWorld.getWorld(), Constants.UTILITY_PRICES[i], Constants.UTILITY_RENTS[i]);
+			utility.setMortgageAmount(Constants.UTILITY_MORTGAGE_VALUE[i]);
+			properties.add(utility);
 		}
 
 		//Chance Squares
@@ -97,8 +100,8 @@ public class GameState implements JSONable {
 				prop.setRentAmounts(Constants.INVESTMENT_RENTS[investmentPropCount]);
 				prop.setHousePrice(Constants.HOUSE_PRICES[investmentPropCount]);
 				prop.setHotelPrice(Constants.HOUSE_PRICES[investmentPropCount]);
-				prop.setNumInGroup(3);
-				prop.setRGB(Constants.INVESTMENT_COLOUR_GROUPS[colourIndex]);
+				prop.setMortgageAmount(Constants.INVESTMENT_MORTGAGE_VALUE[investmentPropCount]);
+				prop.setColour(Constants.INVESTMENT_COLOUR_GROUPS[colourIndex]);
 
 				// increments
 				colourCount++;
@@ -115,11 +118,14 @@ public class GameState implements JSONable {
 		return this.gameStarted;
 	}
 
-
-	public boolean isPlayerCharacter(Character_noc ch) {
-		return this.playerCharacters.contains(ch);
+	public String getActionInfo(){
+		return this.actionInfo;
 	}
-
+	
+	public void updateActionInfo(String s){
+		this.actionInfo = s;
+	}
+	
 	public void startGame() {
 		this.gameStarted = true;
 		if (this.players.size() == 0) {
@@ -139,12 +145,11 @@ public class GameState implements JSONable {
 
 			//Get random unused character
 			Character_noc ch = Main.noc.getRandomChar();
-			while (this.isPlayerCharacter(ch)) {
+			while (this.playerCharacters.contains(ch)) {
 				ch = Main.noc.getRandomChar();
 			}
-			Player newPlayer = new Player(newID, client_ip, ch, Main.noc.getVehicle(ch.getVehicle()));
+			Player newPlayer = new Player(newID, ch, Main.noc.getVehicle(ch.getVehicle()), Constants.playerColours[newID]);
 			this.playerCharacters.add(ch);
-			newPlayer.setRGB(Constants.playerColours[newID]);
 			players.add(newPlayer);
 			clientIPplayerIDMap.put(client_ip, newPlayer);
 			return newID;
@@ -154,14 +159,28 @@ public class GameState implements JSONable {
 
 	}
 
+	public void removePlayer(Player player) {
+		this.playerCharacters.remove(player.getCharacter());
+		this.players.remove(player);
+		if(this.players.size()==1) 
+			this.endGame();
+		else
+		{
+			this.incrementPlayerTurn();
+		}
+	}
+
 	public void activateVillainGang(int location){
 		this.villainGang.activate(location);
 	}
-	
+	public void updateVillainGang(){
+		this.villainGang.update();
+	}
+
 	public boolean villainGangIsActive(){
 		return this.villainGang.isActive();
 	}
-	
+
 	public String villainGangCheck(Player player){
 		if(this.villainGang.isActive() && this.villainGang.position() == player.getPos()){
 			return this.villainGang.attackPlayer(player);
@@ -187,7 +206,7 @@ public class GameState implements JSONable {
 			switch (action) {
 			case "roll":
 
-				return playerActions.roll(player, dice, id, this.locations);
+				return playerActions.roll(player, id, this.locations);
 
 			case "buy":
 
@@ -227,35 +246,14 @@ public class GameState implements JSONable {
 				return playerActions.setTrap(player, this.locations.get(Integer.parseInt(args[0])));
 
 			case "bankrupt":
-				player.removeDebt();
-				this.playerCharacters.remove(player.getCharacter());
-				this.players.remove(player);
-				if(this.players.size()==1) 
-					this.endGame();
-				else
-				{
-					this.playerTurn++;
-					if (this.playerTurn > this.players.size()) {
-						this.playerTurn = 1;
-					}
-				}
+
 				return playerActions.bankrupt(player);
 
 			case "done":
-				
-				if(!player.isInDebt()){
-					playerActions.done(player);
-					//Increment player turn
-					this.playerTurn++;
 
-					if (this.playerTurn > this.players.size()) {
-						this.playerTurn = 1;
-					}
-					this.villainGang.update();
-					return player.getCharName()+" finished their turn.";
-				}
-				return "You must pay your debt before ending your turn.";
+				return playerActions.done(player);
 			default:
+
 				return player.getCharName()+" did nothing.";
 			}
 		} else {
@@ -263,6 +261,18 @@ public class GameState implements JSONable {
 		}
 	}
 
+	public void incrementPlayerTurn(){
+		this.playerTurn++;
+		if (this.playerTurn > this.players.size()) {
+			
+			this.playerTurn = 1;
+		}
+		Main.portAllocator.alertPlayer(this.playerTurn);
+	}
+	
+	public String getLocationName(int location){
+		return this.locations.get(location).getId();
+	}
 	/**
 	 * Returns full game state in JSON format
 	 */
@@ -281,7 +291,6 @@ public class GameState implements JSONable {
 		info.put("locations", jsonLocations);
 		info.put("player_turn", this.playerTurn);
 		info.put("game_started", this.gameStarted);
-		//info.put("action_info", "Something happened!");
 		return info;
 
 	}
@@ -324,8 +333,9 @@ public class GameState implements JSONable {
 			if (p.getID() == id) {
 				info = p.getInfo();
 			}
+			info.put("position", locations.get(p.getPos()).getId());
 		}
-		
+
 		return info;
 
 	}
@@ -337,10 +347,24 @@ public class GameState implements JSONable {
 		return "Someone";
 	}
 
+	public Player getWinner() {
+		Player winner = players.get(0);
+
+		for (Player p : players) {
+
+			if (p.getNetWorth() > winner.getNetWorth()) {
+				winner = p;
+			}
+		}
+		return winner;
+	}
+
 	public void endGame() {
-		Main.clientUpdater.updateActionInfo("Game Over");
+		Player winningPlayer = getWinner();
+
+		this.updateActionInfo("Game Over");
 		Main.clientUpdater.updateDesktopPlayers();
-		Main.clientUpdater.updateDesktopBoard();
+		Main.clientUpdater.updateDesktopBoardWithWinner(winningPlayer);
 		Main.portAllocator.endGame();
 		Main.isActive = false;
 	}

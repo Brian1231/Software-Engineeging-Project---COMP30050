@@ -3,37 +3,22 @@ package game;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import game_interfaces.Colourable;
 import game_interfaces.Improvable;
 import game_interfaces.JSONable;
 
-import java.awt.*;
-
-public class InvestmentProperty extends RentalProperty implements Improvable, Colourable, JSONable {
+public class InvestmentProperty extends RentalProperty implements Improvable, JSONable {
 
 	private int housePrice = 0;
 	private int hotelPrice = 0;
 
 	private int numHouses = 0;
 	private int numHotels = 0;
-	private String colour;
-	private Color rgbColour;
 	private String buildDemolishError;
 
-	// Must declare investment propertys with the full array of rent prices
+	// Must declare investment properties with the full array of rent prices
 	public InvestmentProperty(String name) {
 		super(name, 0);
-	}
-
-
-	@Override
-	public int getNumHouses() {
-		return this.numHouses;
-	}
-
-	@Override
-	public int getNumHotels() {
-		return this.numHotels;
+		this.setType("Investment");
 	}
 
 	@Override
@@ -176,39 +161,10 @@ public class InvestmentProperty extends RentalProperty implements Improvable, Co
 		}
 	}
 
-
-	@Override
-	public void setColour(String colour) {
-		this.colour = colour;
-	}
-
-	@Override
-	public String getColour() {
-		return this.colour;
-	}
-
-	@Override
-	public void setRGB(int r, int g, int b) {
-		rgbColour = new Color(r,g,b);
-	}
-
-	@Override
-	public void setRGB(Color colour) {
-		rgbColour = colour;
-	}
-
-	@Override
-	public Color getRGBColour() {
-		return this.rgbColour;
-	}
-
 	@Override
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info =  super.getInfo();
-		info.put("color", this.rgbColour.getRGB());
-		info.put("is_mortgaged", this.isMortgaged());
 		info.put("houses", this.getNumHousesAndHotels());
-		info.put("hasTrap", this.hasTrap());
 		return info;
 	}
 }

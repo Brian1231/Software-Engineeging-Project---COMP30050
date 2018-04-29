@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
@@ -15,17 +16,26 @@ import static org.junit.Assert.*;
 public class SpecialSquareTest {
 
     private SpecialSquare specialSquare;
-    private final NOC_Manager noc = new NOC_Manager();
+    private NOC_Manager noc;
+    private Player player;
 
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         specialSquare = new SpecialSquare("UCD");
+
+        noc = new NOC_Manager();
+        noc.setup();
+
+        Character_noc ch = noc.getRandomChar();
+        player = new Player(1,noc.getRandomChar(), noc.getVehicle(ch.getVehicle()), Color.BLUE);
+
     }
 
     @After
     public void tearDown() {
         specialSquare = null;
+        noc = null;
     }
 
     @Test
@@ -35,11 +45,7 @@ public class SpecialSquareTest {
     }
 
     @Test
-    public void activateTestLoc0() throws IOException {
-        noc.setup();
-
-        Character_noc ch = noc.getRandomChar();
-        Player player = new Player(1, "1.1.1.1",noc.getRandomChar(), noc.getVehicle(ch.getVehicle()));
+    public void activateTestLoc0() {
 
         specialSquare.setLocation(0);
         String result = "\n"+player.getCharName() + " arrived at the galactic core." +
@@ -49,25 +55,16 @@ public class SpecialSquareTest {
 
 
     @Test
-    public void activateTestLoc10() throws IOException {
-        noc.setup();
-
-        Character_noc ch = noc.getRandomChar();
-        Player player = new Player(1, "1.1.1.1",noc.getRandomChar(), noc.getVehicle(ch.getVehicle()));
-
+    public void activateTestLoc10() {
 
         specialSquare.setLocation(10);
         String result = "\n" + player.getCharName() + " was sent to intergalactic prison!\n"+
-            "Attempt to break free by rolling doubles or pay the fee of $1000.";
+            "Attempt to break free by rolling doubles or pay the fee of $500.";
         assertEquals(result, specialSquare.activate(player));
     }
 
     @Test
-    public void activateTestLoc29() throws IOException {
-        noc.setup();
-
-        Character_noc ch = noc.getRandomChar();
-        Player player = new Player(1, "1.1.1.1",noc.getRandomChar(), noc.getVehicle(ch.getVehicle()));
+    public void activateTestLoc29() {
 
         specialSquare.setLocation(29);
         String result = "You arrive at intergalactic prison and decide to have a relaxing stroll around.";

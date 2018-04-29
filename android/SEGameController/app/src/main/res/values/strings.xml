@@ -21,4 +21,7 @@
     <string name="hasTrap">1 trap</string>
     <string name="noTrap">0 traps </string>
     <string name="bankrupt">Bankruptcy</string>
+    <string name="character_name_resume">You were playing as: </string>
+    <string name="resume_game">Resume game</string>
+    <string name="new_game">New game</string>
 </resources>
