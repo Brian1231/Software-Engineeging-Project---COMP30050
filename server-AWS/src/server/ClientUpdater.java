@@ -17,12 +17,8 @@ public class ClientUpdater extends Thread{
 
 	private ServerSocket server;
 	private Socket socket;
-	private String actionInfo;
 	private int[] diceValues = {0,0};
 
-	public void updateActionInfo(String s){
-		this.actionInfo = s;
-	}
 	
 	public void updateActionDice(int[] d){
 		this.diceValues = d;
@@ -41,7 +37,7 @@ public class ClientUpdater extends Thread{
 		try {
 			output = new JSONObject("{}");
 			output = Main.gameState.getInfoBoard();
-			output.put("action_info", this.actionInfo);
+			output.put("action_info", Main.gameState.getActionInfo());
 			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (JSONException | IOException e1) {
 			e1.printStackTrace();
@@ -56,7 +52,7 @@ public class ClientUpdater extends Thread{
 		try {
 			output = new JSONObject("{}");
 			output = Main.gameState.getInfoBoard();
-			output.put("action_info", this.actionInfo);
+			output.put("action_info", Main.gameState.getActionInfo());
 			output.put("winner", player.getID());
 			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (JSONException | IOException e1) {
@@ -72,7 +68,7 @@ public class ClientUpdater extends Thread{
 		try {
 			output = new JSONObject("{}");
 			output = Main.gameState.getInfoPlayers();
-			output.put("action_info", this.actionInfo);
+			output.put("action_info", Main.gameState.getActionInfo());
 			output.put("dice_values", this.diceValues);
 			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (JSONException | IOException e1) {
@@ -110,7 +106,7 @@ public class ClientUpdater extends Thread{
 						if(id == 0){
 							if(obj.get("action").equals("start")){
 								Main.gameState.startGame();
-								Main.clientUpdater.updateActionInfo("\nGame has started! Good Luck!\n");
+								Main.gameState.updateActionInfo("\nGame has started! Good Luck!\n");
 								Main.clientUpdater.updateDesktopPlayers();
 							}
 							if(obj.get("action").equals("end")){

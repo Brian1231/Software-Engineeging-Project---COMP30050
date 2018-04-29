@@ -27,6 +27,7 @@ public class GameState implements JSONable {
 	private Dice dice;
 	private PlayerActions playerActions = new PlayerActions();
 	private VillainGang villainGang;
+	private String actionInfo;
 
 
 	public GameState() {
@@ -119,6 +120,14 @@ public class GameState implements JSONable {
 		return this.gameStarted;
 	}
 
+	public String getActionInfo(){
+		return this.actionInfo;
+	}
+	
+	public void updateActionInfo(String s){
+		this.actionInfo = s;
+	}
+	
 	public void startGame() {
 		this.gameStarted = true;
 		if (this.players.size() == 0) {
@@ -259,6 +268,11 @@ public class GameState implements JSONable {
 		if (this.playerTurn > this.players.size()) {
 			this.playerTurn = 1;
 		}
+		Main.portAllocator.alertPlayer(this.playerTurn);
+	}
+	
+	public String getLocationName(int location){
+		return this.locations.get(location).getId();
 	}
 	/**
 	 * Returns full game state in JSON format
@@ -348,7 +362,7 @@ public class GameState implements JSONable {
 	public void endGame() {
 		Player winningPlayer = getWinner();
 
-		Main.clientUpdater.updateActionInfo("Game Over");
+		this.updateActionInfo("Game Over");
 		Main.clientUpdater.updateDesktopPlayers();
 		Main.clientUpdater.updateDesktopBoardWithWinner(winningPlayer);
 		Main.portAllocator.endGame();

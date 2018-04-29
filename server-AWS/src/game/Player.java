@@ -16,16 +16,12 @@ import java.util.ArrayList;
 public class Player implements Playable, JSONable{
 
 	private int id;
-	private int balance;
-	private int position;
-	private ArrayList<RentalProperty> ownedProperties = new ArrayList<>();
-
-	private Character_noc character;
-	private Vehicle_noc vehicle;
 	private int fuel;
 	private int debt;
 	private int jailTurnCount;
-	private Playable playerOwed;
+	private int balance;
+	private int position;
+	
 	private boolean hasRolled;
 	private boolean hasBought;
 	private boolean hasBoosted;
@@ -33,8 +29,13 @@ public class Player implements Playable, JSONable{
 	private boolean isInDebt;
 	private boolean isInJail;
 	private boolean movingForward;
+	
 	private Color rgbColour;
-
+	private Playable playerOwed;
+	private ArrayList<RentalProperty> ownedProperties = new ArrayList<>();
+	private Character_noc character;
+	private Vehicle_noc vehicle;
+	
 	public Player(int playerId, Character_noc ch, Vehicle_noc vehicle, Color color){
 		this.id = playerId;
 		this.balance = 1000;
@@ -159,6 +160,7 @@ public class Player implements Playable, JSONable{
 		info.put("fuel", this.fuel);
 		info.put("colour", this.rgbColour.getRGB());
 		info.put("moving_forward", this.movingForward);
+		info.put("location_name", Main.gameState.getLocationName(this.position));
 		return info;
 
 	}
