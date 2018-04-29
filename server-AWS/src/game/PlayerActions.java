@@ -205,7 +205,7 @@ public class PlayerActions {
 				Main.gameState.updateVillainGang();
 				return player.getCharName()+" finished their turn.";
 			}
-			return "You must roll te dice before ending your turn.";
+			return "You must roll the dice before ending your turn.";
 		}
 		return "You must pay your debt before ending your turn.";
 		

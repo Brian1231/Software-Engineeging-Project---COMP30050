@@ -129,6 +129,12 @@ public class PortAllocator extends Thread{
 		}
 	}
 	
+	public void updatePlayers() {
+		for(PlayerConnection pc : this.playerConnections){
+			if(pc.isAlive()) pc.updatePlayer();
+		}
+	}
+	
 	public void alertPlayer(int id) {
 		for(PlayerConnection pc : this.playerConnections){
 			if(pc.getPlayerId() == id) pc.vibrate();
@@ -139,9 +145,7 @@ public class PortAllocator extends Thread{
 	public void endGame() {
 		for(PlayerConnection pc : this.playerConnections){
 			pc.updatePlayer();
-
 			pc.kill();
-			//Send endgame message JSON
 		}
 	}
 }

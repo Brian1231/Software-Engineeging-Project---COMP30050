@@ -108,8 +108,8 @@ public class PlayerConnection extends Thread{
 								else
 									Main.clientUpdater.updateDesktopPlayers();
 
-								//Update Player
-								this.updatePlayer();
+								//Update all players
+								Main.portAllocator.updatePlayers();
 							}
 						}
 
