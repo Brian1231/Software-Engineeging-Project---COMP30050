@@ -266,6 +266,7 @@ public class GameState implements JSONable {
 	public void incrementPlayerTurn(){
 		this.playerTurn++;
 		if (this.playerTurn > this.players.size()) {
+			
 			this.playerTurn = 1;
 		}
 		Main.portAllocator.alertPlayer(this.playerTurn);
@@ -292,7 +293,6 @@ public class GameState implements JSONable {
 		info.put("locations", jsonLocations);
 		info.put("player_turn", this.playerTurn);
 		info.put("game_started", this.gameStarted);
-		//info.put("action_info", "Something happened!");
 		return info;
 
 	}

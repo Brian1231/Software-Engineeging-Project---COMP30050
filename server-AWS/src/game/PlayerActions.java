@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import main.Main;
@@ -11,16 +12,20 @@ public class PlayerActions {
 
 	public String roll(Player player, Dice dice, int id, ArrayList<NamedLocation> locations) {
 		if(!player.hasRolled()){
+			int[] dice_values = dice.roll();
 			if(!player.isInJail()){
-				int spaces = dice.roll();
-				player.useRoll();
+				int spaces = Arrays.stream(dice_values).sum();
 				String res = player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".";
 				res += landedOn(player, locations.get(player.getPos()), spaces);
 				res += Main.gameState.villainGangCheck(player);
+				if(dice_values[0] == dice_values[1])
+					res += player.getCharName() + " rolled doubles! Roll again!";
+				else
+					player.useRoll();
 				return res;
 			}
 			String res = player.getCharName() +" attempts to escape prison...\n";
-			if(dice.rollDoubles()){
+			if(dice_values[0] == dice_values[1]){
 				res+=player.getCharName()+" has successfully escaped prison!";
 				player.releaseFromJail();
 				return res;

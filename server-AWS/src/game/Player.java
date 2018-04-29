@@ -361,7 +361,7 @@ public class Player implements Playable, JSONable{
 						this.payMoney(debt);
 						this.debt = 0;
 						this.isInDebt = false;
-						Main.portAllocator.updatePlayer(playerOwed.getID());
+						//Main.portAllocator.updatePlayer(playerOwed.getID());
 						this.playerOwed = null;
 						return res;
 					}

@@ -80,16 +80,14 @@ public class ClientUpdater extends Thread{
 
 	public void run(){
 		BufferedReader reader = null;
-
 		try {
-
-			//out = new PrintWriter(socket.getOutputStream(), true);
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 
 		while(Main.isActive){
+			//synchronized(Main.gameState){ maybe better
 			synchronized(this){
 
 				try{

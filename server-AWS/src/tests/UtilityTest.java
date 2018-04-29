@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -58,7 +59,7 @@ public class UtilityTest {
 
     @Test
     public void getRentalAmount() {
-		int diceRoll = dice.roll();
+		int diceRoll = Arrays.stream(dice.roll()).sum();
 
 		player.addNewPropertyBought(util1);
 		util1.setOwner(player);
