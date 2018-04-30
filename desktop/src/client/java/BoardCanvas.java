@@ -169,11 +169,6 @@ public class BoardCanvas extends ResizableCanvas {
         }
 	}
 
-	public void drawHouses(){
-
-
-    }
-
 	private void drawImagedTile(Point2D point, GraphicsContext g, Location location){
 
 		double width = getWidth();

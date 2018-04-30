@@ -14,6 +14,7 @@ public class WelcomeScreenController {
 
     public BorderPane base;
     public Button newGameButton;
+    public Button rulesButton;
 
     // New game
     public void onNewGameClick(ActionEvent event) throws Exception{
@@ -30,6 +31,10 @@ public class WelcomeScreenController {
         //gameStage.setFullScreen(true);
         gameStage.setMaximized(true);
         gameStage.show();
+    }
+
+    public void onRulesClick(ActionEvent event){
+        
     }
 
 }
