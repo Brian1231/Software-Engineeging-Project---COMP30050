@@ -150,7 +150,7 @@ public class RentalPropertyTest {
             assertEquals("UCD", obj.get("id"));
             assertEquals(150, obj.get("price"));
             assertEquals(15, obj.get("location"));
-            assertEquals(Color.GRAY, obj.get("color"));
+            assertEquals(Color.GRAY.getRGB(), obj.get("color"));
             assertEquals(false, obj.get("is_mortgaged"));
             assertEquals(player.getID(), obj.get("owner"));
             assertFalse(obj.getBoolean("hasTrap"));

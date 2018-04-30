@@ -183,7 +183,7 @@ public class InvestmentPropertyTest {
 		prop.build(3);
 		try {
 			JSONObject obj = prop.getInfo();
-			assertEquals(Color.BLUE, obj.get("color"));
+			assertEquals(Color.BLUE.getRGB(), obj.get("color"));
 			assertEquals(false, obj.get("is_mortgaged"));
             assertEquals(3, obj.get("houses"));
 		} catch (JSONException e) {
