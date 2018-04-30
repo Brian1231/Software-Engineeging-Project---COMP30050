@@ -25,7 +25,7 @@ public class TaxSquareTest {
 	public void setUp() throws IOException {
 		tax = new TaxSquare("UCD");
 
-		noc = new NOC_Manager();
+		noc = NOC_Manager.getNocManager();
 		noc.setup();
 		ch = noc.getRandomChar();
 		player = new Player(1,ch, noc.getVehicle(ch.getVehicle()), Color.BLUE);

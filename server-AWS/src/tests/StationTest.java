@@ -32,7 +32,7 @@ public class StationTest {
 		station4 = new Station("UCD4", 100, new int[]{10,20,30,40});
 
 
-		noc = new NOC_Manager();
+		noc = NOC_Manager.getNocManager();
 		noc.setup();
 		Character_noc ch = noc.getRandomChar();
 		player = new Player(1,ch, noc.getVehicle(ch.getVehicle()), Color.BLUE);

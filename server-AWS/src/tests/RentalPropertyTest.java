@@ -31,7 +31,7 @@ public class RentalPropertyTest {
         prop.setMortgageAmount(50);
 
 
-        noc = new NOC_Manager();
+        noc = NOC_Manager.getNocManager();
         noc.setup();
         Character_noc ch = noc.getRandomChar();
         player = new Player(1,ch, noc.getVehicle(ch.getVehicle()), Color.BLUE);

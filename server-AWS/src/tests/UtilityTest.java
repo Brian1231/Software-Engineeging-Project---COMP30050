@@ -42,7 +42,7 @@ public class UtilityTest {
 		util2 = new Utility("UCD2", 100, new int[]{4,10});
 		dice = new Dice();
 
-		noc = new NOC_Manager();
+		noc = NOC_Manager.getNocManager();
 		noc.setup();
 		Character_noc ch = noc.getRandomChar();
 		player = new Player(1,ch, noc.getVehicle(ch.getVehicle()), Color.BLUE);

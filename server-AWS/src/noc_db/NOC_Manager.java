@@ -11,6 +11,8 @@ import com.sun.org.apache.bcel.internal.util.ClassLoader;
 
 public class NOC_Manager {
 
+	public static NOC_Manager nocManager;
+
 	private Random random = new Random();
 	private ArrayList<Superlative_noc> superlatives;
 	private ArrayList<Character_noc> characters;
@@ -21,9 +23,17 @@ public class NOC_Manager {
 	private ArrayList<Location_noc> locations;
 	private ArrayList<Clothes_noc> clothes;
 	private ArrayList<World_noc> usedWorlds;
-	
 
-	public NOC_Manager(){
+
+	public static NOC_Manager getNocManager() {
+		return SingletonCache.ONE;
+	}
+
+	private static class SingletonCache {
+		public static final NOC_Manager ONE = new NOC_Manager();
+	}
+
+	private NOC_Manager(){
 		this.superlatives = new ArrayList<Superlative_noc>();
 		this.characters = new ArrayList<Character_noc>();
 		this.weapons = new ArrayList<Weapon_noc>();

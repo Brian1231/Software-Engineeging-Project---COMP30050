@@ -33,7 +33,7 @@ public class Main {
 				dice = new Dice();
 
 				//Create and populate noc list
-				noc = new NOC_Manager();
+				noc = NOC_Manager.getNocManager();
 				noc.setup();
 				
 				//Contains all information about current game state

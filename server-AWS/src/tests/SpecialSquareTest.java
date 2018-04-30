@@ -24,7 +24,7 @@ public class SpecialSquareTest {
     public void setUp() throws IOException {
         specialSquare = new SpecialSquare("UCD");
 
-        noc = new NOC_Manager();
+        noc = NOC_Manager.getNocManager();
         noc.setup();
 
         Character_noc ch = noc.getRandomChar();

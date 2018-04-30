@@ -25,7 +25,7 @@ public class PlayerTest {
 	@Before
 	public void setup() throws IOException {
 
-		noc = new NOC_Manager();
+		noc = NOC_Manager.getNocManager();
 		noc.setup();
 
 		ch = noc.getRandomChar();
