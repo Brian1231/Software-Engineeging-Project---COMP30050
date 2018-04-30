@@ -41,8 +41,8 @@ public class WelcomeScreenController {
         gameStage.show();
     }
 
+    // Open Rules Page
     public void onRulesClick(ActionEvent event){
-        // Open Rules Page
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/rulesPage.fxml"));
         Parent rules = null;
         try {
