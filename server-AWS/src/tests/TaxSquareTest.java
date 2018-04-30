@@ -28,7 +28,7 @@ public class TaxSquareTest {
 		noc = new NOC_Manager();
 		noc.setup();
 		ch = noc.getRandomChar();
-		player = new Player(1,noc.getRandomChar(), noc.getVehicle(ch.getVehicle()), Color.BLUE);
+		player = new Player(1,ch, noc.getVehicle(ch.getVehicle()), Color.BLUE);
 	}
 
 	@After
