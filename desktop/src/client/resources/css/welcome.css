@@ -6,7 +6,6 @@
 -fx-background-position: center center;
 }
 
-
 .button{
 -fx-border-color: #e88e27;
 -fx-background-color: rgba(255,255,255,0.2);
@@ -27,4 +26,25 @@
 	-fx-margin-top: 100px;
 	-fx-border-insets: 100px;
     -fx-background-insets: 100px;
+}
+
+.text-area {
+    -fx-background-color: rgba(45, 88, 158,0.2);
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+.text-area {
+    -fx-text-fill: #b8d86e;
 }

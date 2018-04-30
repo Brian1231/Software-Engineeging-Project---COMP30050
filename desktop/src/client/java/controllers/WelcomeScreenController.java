@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 
 public class WelcomeScreenController {
 
@@ -17,9 +19,15 @@ public class WelcomeScreenController {
     public Button rulesButton;
 
     // New game
-    public void onNewGameClick(ActionEvent event) throws Exception{
+    public void onNewGameClick(ActionEvent event){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/inGame.fxml"));
-        Parent inGame =  loader.load();
+        Parent inGame = null;
+        try {
+            inGame = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Could not connect to the Server");
+        }
 
         Scene gameScene = new Scene(inGame);
         gameScene.getStylesheets().addAll(this.getClass().getResource("/client/resources/css/game.css").toExternalForm());
@@ -34,7 +42,21 @@ public class WelcomeScreenController {
     }
 
     public void onRulesClick(ActionEvent event){
-        
+        // Open Rules Page
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/rulesPage.fxml"));
+        Parent rules = null;
+        try {
+            rules =  loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Could not load rules page");
+        }
+
+        Scene rulesScene = new Scene(rules);
+        rulesScene.getStylesheets().addAll(this.getClass().getResource("/client/resources/css/welcome.css").toExternalForm());
+        Stage welcomeStage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        welcomeStage.setScene(rulesScene);
+
     }
 
 }
