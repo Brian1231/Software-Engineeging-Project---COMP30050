@@ -1,4 +1,4 @@
-package client.java;
+package client.java.gameObjects;
 
 import javafx.beans.property.adapter.JavaBeanDoublePropertyBuilder;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
@@ -26,11 +26,11 @@ public class Player implements Serializable {
     private boolean movingForward = true;
 
     // Information Display objects
-    public Label playerNameLabel = new Label();
-    HBox money = new HBox(5);
-    Image currency = new Image("client/resources/images/Schmeckles.png");
-    public Label playerBalanceLabel = new Label();
-    public ProgressBar playerFuelBar = new ProgressBar();
+    private Label playerNameLabel = new Label();
+    private HBox money = new HBox(5);
+    private Image currency = new Image("client/resources/images/Schmeckles.png");
+    private Label playerBalanceLabel = new Label();
+    private ProgressBar playerFuelBar = new ProgressBar();
     public VBox stats = new VBox();
 
     // Token
@@ -79,10 +79,7 @@ public class Player implements Serializable {
         }
         final Player other = (Player) obj;
 
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+        return this.id == other.id;
     }
 
     public String getBalance() {

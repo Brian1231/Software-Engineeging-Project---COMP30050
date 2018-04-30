@@ -1,4 +1,4 @@
-package client.java;
+package client.java.network;
 
 import javafx.application.Platform;
 import org.json.JSONException;
@@ -39,7 +39,7 @@ public class NetworkConnection {
 		writer.println(output.toString());
 	}
 
-	public void closeConnection() throws Exception {
+	private void closeConnection() throws Exception {
 		networkThread.socket.close();
 		Platform.exit();
 	}
@@ -79,7 +79,7 @@ public class NetworkConnection {
 			}catch(Exception e){e.printStackTrace();}
 		}
 
-		public void onMessage(String message) throws JSONException {
+		void onMessage(String message) throws JSONException {
 			JSONObject input = new JSONObject(message);
 			onReceiveCallBack.accept(input);
 		}

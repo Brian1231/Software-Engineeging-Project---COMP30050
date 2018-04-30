@@ -1,5 +1,7 @@
-package client.java;
+package client.java.gui;
 
+import client.java.main.Game;
+import client.java.gameObjects.Location;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
@@ -26,9 +28,7 @@ public class BoardCanvas extends ResizableCanvas {
 		widthProperty().addListener(evt -> {
 			try {
 				draw();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (JSONException e) {
+			} catch (IOException | JSONException e) {
 				e.printStackTrace();
 			}
 		});
@@ -36,9 +36,7 @@ public class BoardCanvas extends ResizableCanvas {
 		heightProperty().addListener(evt -> {
 			try {
 				draw();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (JSONException e) {
+			} catch (IOException | JSONException e) {
 				e.printStackTrace();
 			}
 		});
@@ -209,12 +207,11 @@ public class BoardCanvas extends ResizableCanvas {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("/client/resources/images/worlds/");
-		sb.append(location.getName().trim().replace(":","").toString());
+		sb.append(location.getName().trim().replace(":", ""));
 		sb.append(".jpg");
 
 		try{
-			Image image = new Image( sb.toString() );
-			return image;
+			return new Image( sb.toString() );
 		}catch(Exception e){
 			return null;
 		}

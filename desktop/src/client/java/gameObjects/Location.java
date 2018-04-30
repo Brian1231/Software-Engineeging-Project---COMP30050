@@ -1,4 +1,4 @@
-package client.java;
+package client.java.gameObjects;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -42,10 +42,7 @@ public class Location {
         }
         final Location other = (Location) obj;
 
-        if (this.position != other.position){
-            return false;
-        }
-        return true;
+        return this.position == other.position;
     }
 
     public int getRent() {

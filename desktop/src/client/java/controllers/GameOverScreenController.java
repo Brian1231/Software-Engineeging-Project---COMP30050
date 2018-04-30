@@ -1,7 +1,7 @@
 package client.java.controllers;
 
-import client.java.Game;
-import client.java.Player;
+import client.java.main.Game;
+import client.java.gameObjects.Player;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

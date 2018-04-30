@@ -1,9 +1,11 @@
-package client.java;
+package client.java.gui;
 
 
 import java.util.ArrayList;
 
-import javafx.scene.effect.Glow;
+import client.java.main.Game;
+import client.java.gameObjects.Location;
+import client.java.gameObjects.Player;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -26,10 +28,10 @@ public class InformationPane extends Pane {
 	private ImageView logo = new ImageView();
     private Circle eventLogger = new Circle();
     private TextFlow newsfeed = new TextFlow();
-    private ArrayList<Text> messages = new ArrayList<Text>();
+    private ArrayList<Text> messages = new ArrayList<>();
 
     private Circle tileInfo = new Circle();
-    Arc infoBackground = new Arc();
+    private Arc infoBackground = new Arc();
 
     private Label tileName = new Label("");
     private Label tileCost = new Label("");
@@ -40,15 +42,15 @@ public class InformationPane extends Pane {
     private Label mortgaged = new Label("MORTGAGED");
     private Rectangle mortRect = new Rectangle();
 
-    Rectangle diceLeft = new Rectangle();
-    Rectangle diceRight = new Rectangle();
+    private Rectangle diceLeft = new Rectangle();
+    private Rectangle diceRight = new Rectangle();
     private ArrayList<Image> diceFaces = new ArrayList<>();
 
-    public BorderPane playerInfoLayout = new BorderPane();
-    HBox top = new HBox();
-    HBox bottom = new HBox();
-    Region spacing1 = new Region();
-    Region spacing2 = new Region();
+    private BorderPane playerInfoLayout = new BorderPane();
+    private HBox top = new HBox();
+    private HBox bottom = new HBox();
+    private Region spacing1 = new Region();
+    private Region spacing2 = new Region();
 
     public InformationPane() {
         //Title

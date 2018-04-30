@@ -1,5 +1,7 @@
-package client.java;
+package client.java.gui;
 
+import client.java.main.Game;
+import client.java.gameObjects.Player;
 import javafx.animation.PathTransition;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
@@ -70,7 +72,7 @@ public class PlayerCanvas extends ResizableCanvas {
 		}
 	}
 
-	public void drawVillains(GraphicsContext g, double width, double height){
+	private void drawVillains(GraphicsContext g, double width, double height){
 		if(Game.villainGang.isActive()){
 			int position = Game.villainGang.getPos();
 			if(position>19&&position<39)position++;
@@ -91,7 +93,7 @@ public class PlayerCanvas extends ResizableCanvas {
 	}
 
 	// Calculates each players x,y offset so they don't draw on top of each other.
-	public Point2D playerOffset(Player player){
+	private Point2D playerOffset(Player player){
 		double baseOffset = getWidth() / 80;
 		double offsetX;
 		double offsetY;

@@ -1,6 +1,13 @@
 package client.java.controllers;
 
-import client.java.*;
+import client.java.gameObjects.Location;
+import client.java.gameObjects.Player;
+import client.java.gui.BoardCanvas;
+import client.java.gui.ConfirmBox;
+import client.java.gui.InformationPane;
+import client.java.gui.PlayerCanvas;
+import client.java.main.Game;
+import client.java.network.NetworkConnection;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 
@@ -34,7 +41,6 @@ public class InGameController {
 	private InformationPane infoPane = new InformationPane();
 
 	private boolean imagesPlaced = false;
-
 
 	// Networking.
 	private final static String IP = "52.48.249.220";
@@ -72,21 +78,17 @@ public class InGameController {
 		//Game.updatePlayers(ps,"");
 		try {
 			connection.startConnection();
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void closeGame() {
+	void closeGame() {
 		JSONObject output = new JSONObject();
 		try {
 			output.put("id", 0);
 			output.put("action", "end");
 			connection.send(output);
-		} catch (JSONException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -94,13 +96,12 @@ public class InGameController {
 	}
 
 	// Called whenever a message/JSON is received form the server.
-	public void onUpdateReceived(JSONObject update) throws JSONException {
+	private void onUpdateReceived(JSONObject update) throws JSONException {
 		Platform.runLater(() -> {
 			try {
 				System.out.println("Current GameState: " + update.toString());
 
 				Game.playerTurn = update.getInt("player_turn");
-
 				String actionInfo = update.getString("action_info");
 
 				// Redraw players according to new player positions
@@ -176,7 +177,7 @@ public class InGameController {
 		});
 	}
 
-	public void setUpBoard() throws IOException, JSONException{
+	private void setUpBoard() throws IOException, JSONException{
 		Pane boardWrapper = new Pane();
 		boardWrapper.getChildren().add(boardCanvas);
 
@@ -202,8 +203,6 @@ public class InGameController {
 						showGameOverScreen();
 					}
 				});
-			} catch (JSONException e1) {
-				e1.printStackTrace();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -225,7 +224,7 @@ public class InGameController {
 
 	}
 
-	public void showGameOverScreen(){
+	private void showGameOverScreen(){
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/gameOverScreen.fxml"));
 		Parent gameOver = null;
 
