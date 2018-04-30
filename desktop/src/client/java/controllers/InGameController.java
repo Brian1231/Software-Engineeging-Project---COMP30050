@@ -78,7 +78,7 @@ public class InGameController {
 //		ps.add(p2);
 //		Game.updatePlayers(ps,"");
 		try {
-			//connection.startConnection();
+			connection.startConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
