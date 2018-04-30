@@ -97,9 +97,13 @@ public class ClientUpdater extends Thread{
 						int id = (int) obj.get("id");
 						if(id == 0){
 							if(obj.get("action").equals("start")){
-								Main.gameState.startGame();
-								Main.gameState.updateActionInfo("\nGame has started! Good Luck!\n");
-								Main.clientUpdater.updateDesktopPlayers();
+//								if (Main.gameState.players.size() >=2) {
+									Main.gameState.startGame();
+									Main.gameState.updateActionInfo("\nGame has started! Good Luck!\n");
+									Main.clientUpdater.updateDesktopPlayers();
+//								} else {
+//									Main.gameState.updateActionInfo("Must have at least 2 players to start the game!");
+//								}
 							}
 							if(obj.get("action").equals("end")){
 								Main.gameState.endGame();

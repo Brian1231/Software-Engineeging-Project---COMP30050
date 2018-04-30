@@ -187,8 +187,10 @@ public class NOC_Manager {
 	}
 
 	public Vehicle_noc getVehicle(String w){
-		for(Vehicle_noc vehicle : this.vehicles){
-			if(vehicle.getVehicle().equals(w)) return vehicle;
+		if (!w.equals(null)) {
+			for(Vehicle_noc vehicle : this.vehicles){
+				if(vehicle.getVehicle().equals(w)) return vehicle;
+			}
 		}
 		return this.getRandomVehicle();
 	}
