@@ -74,7 +74,7 @@ public class PlayerCanvas extends ResizableCanvas {
 
 	private void drawVillains(GraphicsContext g, double width, double height){
 		if(Game.villainGang.isActive()){
-			int position = Game.villainGang.getPos();
+			int position = Game.villainGang.getPosition();
 			if(position>19&&position<39)position++;
 			double t = -PI/2 + step*position;
 

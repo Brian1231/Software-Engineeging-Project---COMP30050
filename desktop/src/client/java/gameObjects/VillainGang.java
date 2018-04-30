@@ -13,15 +13,16 @@ public class VillainGang {
 	public void setPosition(int pos){
 		this.position = pos;
 	}
-	
+
+	public int getPosition(){
+		return this.position;
+	}
+
+
 	public void setState(boolean status){
 		this.isActive = status;
 	}
-	
-	public int getPos(){
-		return this.position;
-	}
-	
+
 	public boolean isActive(){
 		return this.isActive;
 	}
