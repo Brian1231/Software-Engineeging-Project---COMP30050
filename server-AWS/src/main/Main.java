@@ -30,6 +30,8 @@ public class Main {
 		while(true){
 			if(!isActive){
 				isActive = true;
+				dice = new Dice();
+
 				//Create and populate noc list
 				noc = new NOC_Manager();
 				noc.setup();

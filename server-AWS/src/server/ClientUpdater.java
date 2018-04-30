@@ -63,7 +63,9 @@ public class ClientUpdater extends Thread{
 			output = new JSONObject("{}");
 			output = Main.gameState.getInfoPlayers();
 			output.put("action_info", Main.gameState.getActionInfo());
-			output.put("dice_values", Main.dice.getDiceValues());
+			if (Main.gameState.isStarted()) {
+				output.put("dice_values", Main.dice.getDiceValues());
+			}
 			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (JSONException | IOException e1) {
 			e1.printStackTrace();
