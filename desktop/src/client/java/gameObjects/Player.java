@@ -37,7 +37,7 @@ public class Player implements Serializable {
     // Token
     public Circle playerToken = new Circle(10);
 
-    private final PropertyChangeSupport pcs ;
+    private final PropertyChangeSupport pcs;
 
     public Player(String balance, int id, int position, Color colour, String character,double fuel, boolean movingForward) {
         this.balance = balance;
