@@ -69,34 +69,18 @@ public class InformationPane extends Pane {
         eventLogger.layoutYProperty().bind(heightProperty().divide(2));
         getChildren().add(eventLogger);
 
-		// TexArea
-		/*feed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
-		feed.prefHeightProperty().bind(eventLogger.radiusProperty().multiply(2));
-		feed.layoutXProperty().bind(eventLogger.layoutXProperty().subtract(eventLogger.radiusProperty()));
-		feed.layoutYProperty().bind(heightProperty().divide(2).subtract(feed.prefHeightProperty().divide(2)));
-		feed.setEditable(false);
-		feed.setWrapText(true);
-		feed.appendText("Welcome to Interdimensional Panopoly!\n");
-		feed.appendText("Press the start button when all players have joined.\n");
-		getChildren().add(feed);*/
-
         newsfeed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
         newsfeed.prefHeightProperty().bind(eventLogger.radiusProperty().multiply(2));
 		newsfeed.layoutXProperty().bind(eventLogger.layoutXProperty().subtract(eventLogger.radiusProperty()));
 		newsfeed.layoutYProperty().bind(heightProperty().divide(2).subtract(newsfeed.prefHeightProperty().divide(2)));
 		getChildren().add(newsfeed);
-		
-        //t1.setStyle("-fx-fill: #4F8A10;-fx-font-weight:bold;");
-        
+
 		Text welcome = new Text("Welcome to Interdimensional Panopoly!\n");
 		welcome.setFont(new Font("Verdana", 22));
 		
 		welcome.setStyle("-fx-fill: rgb(254, 254, 254);");
 		messages.add(welcome);
 		newsfeed.getChildren().add(messages.get(0));
-		
-        //Glow g = new Glow(10);
-        //Shadow s = new Shadow(3, Color.RED);
 
 		// Current players location info
 		tileInfo.layoutXProperty().bind(widthProperty().subtract(widthProperty().divide(4.2)));
@@ -274,7 +258,6 @@ public class InformationPane extends Pane {
             diceLeft.setFill(new ImagePattern(diceFaces.get(dice1-1)));
             diceRight.setFill(new ImagePattern(diceFaces.get(dice2-1)));
         }
-
     }
 
     private void loadDiceImages(){
@@ -292,4 +275,20 @@ public class InformationPane extends Pane {
             }
         }
     }
+
+    public void updatePlayerTurn(int playerTurn){
+        Player currentPlayer = Game.getPlayer(playerTurn);
+
+        for(Player p : Game.observablePlayers){
+            if(p == currentPlayer){
+                p.stats.setBorder(new Border(new BorderStroke(currentPlayer.getColor(),BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            }
+            else{
+                p.stats.setBorder(null);
+            }
+        }
+
+    }
+
+
 }

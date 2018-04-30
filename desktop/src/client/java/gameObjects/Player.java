@@ -2,6 +2,7 @@ package client.java.gameObjects;
 
 import javafx.beans.property.adapter.JavaBeanDoublePropertyBuilder;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -64,6 +65,9 @@ public class Player implements Serializable {
         c.setFitHeight(20);
         c.setFitWidth(20);
         money.getChildren().addAll(c,playerBalanceLabel);
+        stats.setSpacing(5.0);
+        stats.setId("stats");
+        stats.setPadding(new Insets(5,5,5,5));
         stats.getChildren().add(playerNameLabel);
         stats.getChildren().add(money);
         stats.getChildren().add(playerFuelBar);

@@ -70,14 +70,15 @@ public class InGameController {
 		});
 		setUpBoard();
 		Game.setPlayerCanvas(playerCanvas);
-		//Testing
-		//Game.addPlayer(new Player("2000", 1, 2, Color.WHITE, "Batman", 2));
-		//Player p = new Player("1500", 1, 0, Color.WHITE, "SuperMan", 1);
-		//ArrayList<Player> ps = new ArrayList<>();
-		//ps.add(p);
-		//Game.updatePlayers(ps,"");
+		// Testing
+//		Player p1 = new Player("1500", 1, 0, Color.WHITE, "SuperMan", 1, true);
+//		Player p2 = new Player("2000", 2, 4, Color.RED, "Batman", 2, true);
+//		ArrayList<Player> ps = new ArrayList<>();
+//		ps.add(p1);
+//		ps.add(p2);
+//		Game.updatePlayers(ps,"");
 		try {
-			connection.startConnection();
+			//connection.startConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
