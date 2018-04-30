@@ -20,6 +20,7 @@ public class Dice implements Rollable{
 
 	public Dice() {
 		this.rand = new Random();
+
 		diceValues = new int[]{0, 0};
 	}
 
