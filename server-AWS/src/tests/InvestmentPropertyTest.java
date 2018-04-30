@@ -38,7 +38,7 @@ public class InvestmentPropertyTest {
 		noc = new NOC_Manager();
 		noc.setup();
 		Character_noc ch = noc.getRandomChar();
-		player = new Player(1, noc.getRandomChar(), noc.getVehicle(ch.getVehicle()), Color.BLUE);
+		player = new Player(1, ch, noc.getVehicle(ch.getVehicle()), Color.BLUE);
 		prop.setOwner(player);
 	}
 
