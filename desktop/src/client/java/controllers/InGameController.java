@@ -2,10 +2,7 @@ package client.java.controllers;
 
 import client.java.gameObjects.Location;
 import client.java.gameObjects.Player;
-import client.java.gui.BoardCanvas;
-import client.java.gui.ConfirmBox;
-import client.java.gui.InformationPane;
-import client.java.gui.PlayerCanvas;
+import client.java.gui.*;
 import client.java.main.Game;
 import client.java.network.NetworkConnection;
 import javafx.application.Platform;
@@ -14,6 +11,7 @@ import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -30,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InGameController {
+
+	private Stage gameStage;
 
 	@FXML
 	public BorderPane rootPane;
@@ -79,8 +79,8 @@ public class InGameController {
 //		Game.updatePlayers(ps,"");
 		try {
 			connection.startConnection();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 	}
 
@@ -96,86 +96,119 @@ public class InGameController {
 		connection.gameEnd();
 	}
 
+	public Stage getGameStage() {
+		return gameStage;
+	}
+
+	public void setGameStage(Stage gameStage) {
+		this.gameStage = gameStage;
+	}
+
 	// Called whenever a message/JSON is received form the server.
 	private void onUpdateReceived(JSONObject update) throws JSONException {
-		Platform.runLater(() -> {
+		// If desktop failed to connect to the server
+		if(update.has("f")){
+			onFalseConnection();
+		}
+		else{
+			Platform.runLater(() -> {
+				try {
+
+					System.out.println("Current GameState: " + update.toString());
+
+					Game.playerTurn = update.getInt("player_turn");
+					infoPane.updatePlayerTurn(Game.playerTurn);
+					String actionInfo = update.getString("action_info");
+
+					// Redraw players according to new player positions
+					List<Player> plyrs = new ArrayList<>();
+					if(update.has("players")){
+						JSONArray playerObjects = update.getJSONArray("players");
+
+						for(int i=0;i<playerObjects.length();i++){
+							//p
+							int bal = playerObjects.getJSONObject(i).getInt("balance");
+							String balance = Integer.toString(bal);
+							int id = playerObjects.getJSONObject(i).getInt("id");
+							int position = playerObjects.getJSONObject(i).getInt("position");
+							int c = playerObjects.getJSONObject(i).getInt("colour");
+							java.awt.Color col = new java.awt.Color(c);
+							Color fxColor = Color.rgb(col.getRed(),col.getGreen(),col.getBlue());
+							String character = playerObjects.getJSONObject(i).getString("character");
+							int fuel = playerObjects.getJSONObject(i).getInt("fuel");
+							boolean direction = playerObjects.getJSONObject(i).getBoolean("moving_forward");
+							plyrs.add(new Player(balance,id,position,fxColor,character,fuel,direction));
+						}
+						Game.updatePlayers(plyrs, actionInfo);
+						playerCanvas.draw();
+
+						JSONObject villains = update.getJSONObject("villain_gang");
+						Game.updateVillains(villains.getInt("position"), villains.getBoolean("is_active"));
+
+						// Update Dice
+						JSONArray dice = update.getJSONArray("dice_values");
+						int dice1 = dice.getInt(0);
+						int dice2 = dice.getInt(1);
+						infoPane.updateDice(dice1, dice2);
+					}
+
+					// Redraw locations according to new Location information.
+					List<Location> locs = new ArrayList<>();
+					if(update.has("locations")){
+						JSONArray locationObjects = update.getJSONArray("locations");
+
+						for(int i=0;i<locationObjects.length();i++){
+							String id = locationObjects.getJSONObject(i).getString("id");
+							int price = locationObjects.getJSONObject(i).getInt("price");
+							int position = locationObjects.getJSONObject(i).getInt("location");
+							int owner = locationObjects.getJSONObject(i).getInt("owner");
+							int houses = locationObjects.getJSONObject(i).getInt("houses");
+							java.awt.Color col = new java.awt.Color(locationObjects.getJSONObject(i).getInt("color"));
+							Color color = Color.rgb(col.getRed(), col.getGreen(), col.getBlue());
+							boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
+							locs.add(new Location(id,position,price,0,owner, color, isMortgaged, houses));
+						}
+						Game.updateLocations(locs);
+						Game.locationsSet = true;
+						if(!imagesPlaced){
+							boardCanvas.getImages();
+						}
+						boardCanvas.removeTileTitles();
+						boardCanvas.draw();
+						imagesPlaced = true;
+					}
+
+					infoPane.updateFeed(actionInfo);
+
+					if(Game.gameStarted){
+						int playerPos = 0;
+						for(Player p : Game.players){
+							if(p.getId() == Game.playerTurn) playerPos = p.getPosition();
+						}
+						Location locToDisplay = Game.getLocation(playerPos);
+						infoPane.updateLocationInfo(locToDisplay);
+					}
+				} catch (JSONException | IllegalArgumentException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+		}
+	}
+
+	private void onFalseConnection(){
+		Platform.runLater(() ->{
+			AlertBox.display("Error Connecting","Could not Connect to the Server.");
+
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/welcomeScreen.fxml"));
+			Parent welcome = null;
 			try {
-				System.out.println("Current GameState: " + update.toString());
-
-				Game.playerTurn = update.getInt("player_turn");
-				infoPane.updatePlayerTurn(Game.playerTurn);
-				String actionInfo = update.getString("action_info");
-
-				// Redraw players according to new player positions
-				List<Player> plyrs = new ArrayList<>();
-				if(update.has("players")){
-					JSONArray playerObjects = update.getJSONArray("players");
-
-					for(int i=0;i<playerObjects.length();i++){
-						//p
-						int bal = playerObjects.getJSONObject(i).getInt("balance");
-						String balance = Integer.toString(bal);
-						int id = playerObjects.getJSONObject(i).getInt("id");
-						int position = playerObjects.getJSONObject(i).getInt("position");
-						int c = playerObjects.getJSONObject(i).getInt("colour");
-						java.awt.Color col = new java.awt.Color(c);
-						Color fxColor = Color.rgb(col.getRed(),col.getGreen(),col.getBlue());
-						String character = playerObjects.getJSONObject(i).getString("character");
-						int fuel = playerObjects.getJSONObject(i).getInt("fuel");
-						boolean direction = playerObjects.getJSONObject(i).getBoolean("moving_forward");
-						plyrs.add(new Player(balance,id,position,fxColor,character,fuel,direction));
-					}
-					Game.updatePlayers(plyrs, actionInfo);
-					playerCanvas.draw();
-
-					JSONObject villains = update.getJSONObject("villain_gang");
-					Game.updateVillains(villains.getInt("position"), villains.getBoolean("is_active"));
-
-					// Update Dice
-					JSONArray dice = update.getJSONArray("dice_values");
-					int dice1 = dice.getInt(0);
-					int dice2 = dice.getInt(1);
-					infoPane.updateDice(dice1, dice2);
-				}
-
-				// Redraw locations according to new Location information.
-				List<Location> locs = new ArrayList<>();
-				if(update.has("locations")){
-					JSONArray locationObjects = update.getJSONArray("locations");
-
-					for(int i=0;i<locationObjects.length();i++){
-						String id = locationObjects.getJSONObject(i).getString("id");
-						int price = locationObjects.getJSONObject(i).getInt("price");
-						int position = locationObjects.getJSONObject(i).getInt("location");
-						int owner = locationObjects.getJSONObject(i).getInt("owner");
-						int houses = locationObjects.getJSONObject(i).getInt("houses");
-						java.awt.Color col = new java.awt.Color(locationObjects.getJSONObject(i).getInt("color"));
-						Color color = Color.rgb(col.getRed(), col.getGreen(), col.getBlue());
-						boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
-						locs.add(new Location(id,position,price,0,owner, color, isMortgaged, houses));
-					}
-					Game.updateLocations(locs);
-					Game.locationsSet = true;
-					if(!imagesPlaced){
-						boardCanvas.getImages();
-					}
-					boardCanvas.draw();
-					imagesPlaced = true;
-				}
-
-				infoPane.updateFeed(actionInfo);
-
-				if(Game.gameStarted){
-					int playerPos = 0;
-					for(Player p : Game.players){
-						if(p.getId() == Game.playerTurn) playerPos = p.getPosition();
-					}
-					Location locToDisplay = Game.getLocation(playerPos);
-					infoPane.updateLocationInfo(locToDisplay);
-				}
-			} catch (JSONException | IllegalArgumentException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
+				welcome =  loader.load();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			Scene welcomeScene = new Scene(welcome);
+			welcomeScene.getStylesheets().addAll(this.getClass().getResource("/client/resources/css/welcome.css").toExternalForm());
+			gameStage.setScene(welcomeScene);
 		});
 	}
 
@@ -209,7 +242,7 @@ public class InGameController {
 				e1.printStackTrace();
 			}
 		}
-				);
+		);
 
 		infoPane.getChildren().add(startButton);
 		layers.getChildren().add(boardWrapper);

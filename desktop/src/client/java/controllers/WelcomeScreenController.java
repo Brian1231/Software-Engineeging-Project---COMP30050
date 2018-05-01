@@ -1,5 +1,6 @@
 package client.java.controllers;
 
+import client.java.network.NetworkConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -8,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.json.JSONException;
 
 import java.io.IOException;
 
@@ -22,11 +24,12 @@ public class WelcomeScreenController {
     public void onNewGameClick(ActionEvent event){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/inGame.fxml"));
         Parent inGame = null;
+
         try {
             inGame = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Could not connect to the Server");
+            System.out.println("Could load fxml");
         }
 
         Scene gameScene = new Scene(inGame);
@@ -36,6 +39,7 @@ public class WelcomeScreenController {
 
         InGameController gameController = loader.getController();
         gameStage.setOnCloseRequest(e -> gameController.closeGame());
+        gameController.setGameStage(gameStage);
         //gameStage.setFullScreen(true);
         gameStage.setMaximized(true);
         gameStage.show();
@@ -56,6 +60,9 @@ public class WelcomeScreenController {
         rulesScene.getStylesheets().addAll(this.getClass().getResource("/client/resources/css/welcome.css").toExternalForm());
         Stage welcomeStage = (Stage)((Node) event.getSource()).getScene().getWindow();
         welcomeStage.setScene(rulesScene);
+    }
+
+    public void connectToServer(){
 
     }
 

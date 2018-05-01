@@ -21,7 +21,6 @@ public class NetworkConnection {
 	private ConnectionThread networkThread = new ConnectionThread();
 	private Consumer<JSONObject> onReceiveCallBack;
 
-
 	public NetworkConnection(String ip, int port, Consumer<JSONObject> function){
 		this.ip = ip;
 		this.port = port;
@@ -76,7 +75,14 @@ public class NetworkConnection {
 					}
 				}
 				closeConnection();
-			}catch(Exception e){e.printStackTrace();}
+			}catch(Exception e){
+				try {
+					gameActive=false;
+					onMessage("{f : falseConnection}");
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
+			}
 		}
 
 		void onMessage(String message) throws JSONException {
