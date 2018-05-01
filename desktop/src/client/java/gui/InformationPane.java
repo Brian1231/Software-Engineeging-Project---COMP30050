@@ -160,8 +160,8 @@ public class InformationPane extends Pane {
         diceRight.layoutXProperty().bind(widthProperty().divide(2).add(diceRight.widthProperty().divide(2)));
         diceRight.layoutYProperty().bind(heightProperty().subtract(heightProperty().divide(4.5)));
 
-        diceLeft.setFill(Color.WHITE);
-        diceRight.setFill(Color.WHITE);
+        diceLeft.setFill(Color.TRANSPARENT);
+        diceRight.setFill(Color.TRANSPARENT);
 
         getChildren().add(diceLeft);
         getChildren().add(diceRight);
