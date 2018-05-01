@@ -103,6 +103,7 @@ public class InGameController {
 				System.out.println("Current GameState: " + update.toString());
 
 				Game.playerTurn = update.getInt("player_turn");
+				infoPane.updatePlayerTurn(Game.playerTurn);
 				String actionInfo = update.getString("action_info");
 
 				// Redraw players according to new player positions
@@ -222,7 +223,6 @@ public class InGameController {
 
 		boardCanvas.draw();
 		playerCanvas.draw();
-
 	}
 
 	private void showGameOverScreen(){

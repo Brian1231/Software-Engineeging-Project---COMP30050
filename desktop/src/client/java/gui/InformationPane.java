@@ -76,7 +76,7 @@ public class InformationPane extends Pane {
 		getChildren().add(newsfeed);
 
 		Text welcome = new Text("Welcome to Interdimensional Panopoly!\n");
-		welcome.setFont(new Font("Verdana", 22));
+		welcome.setFont(new Font("Verdana", 18));
 		
 		welcome.setStyle("-fx-fill: rgb(254, 254, 254);");
 		messages.add(welcome);
@@ -178,7 +178,7 @@ public class InformationPane extends Pane {
 		int g = (int)(c.getGreen()*254);
 		int b = (int)(c.getBlue()*254);
 		newText.setStyle("-fx-fill: rgb("+r+", "+g+", "+b+");");
-		newText.setFont(new Font("Verdana", 20));
+		newText.setFont(new Font("Verdana", 18));
 		messages.add(newText);
 		if(messages.size()>6) messages.remove(0);
 		
@@ -208,6 +208,10 @@ public class InformationPane extends Pane {
 			tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
 		tileRent.setText("Rent: " + loc.getRent());
         tileInfo.setFill(new ImagePattern(loc.getImage()));
+
+        Color original = loc.getColour();
+        Color faded = Color.color(original.getRed(),original.getGreen(),original.getBlue(), 0.6);
+        infoBackground.setFill(faded);
 
         /*
         if(!getChildren().contains(mortgaged) && loc.isMortgaged()){
