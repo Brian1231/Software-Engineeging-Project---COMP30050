@@ -14,12 +14,16 @@ import javafx.scene.paint.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import org.json.JSONException;
 
 public class BoardCanvas extends ResizableCanvas {
 
 	private int currentTile;
 	private Pane wrapperPane = (Pane) this.getParent();
+	private ArrayList<Text> titles = new ArrayList<>();
 
 	public BoardCanvas() {
 		// Redraw canvas when size changes
@@ -27,6 +31,7 @@ public class BoardCanvas extends ResizableCanvas {
 
 		widthProperty().addListener(evt -> {
 			try {
+				removeTileTitles();
 				draw();
 			} catch (IOException | JSONException e) {
 				e.printStackTrace();
@@ -35,6 +40,7 @@ public class BoardCanvas extends ResizableCanvas {
 
 		heightProperty().addListener(evt -> {
 			try {
+				removeTileTitles();
 				draw();
 			} catch (IOException | JSONException e) {
 				e.printStackTrace();
@@ -167,6 +173,51 @@ public class BoardCanvas extends ResizableCanvas {
         }
 	}
 
+	private void addTileTitle(String title, double radius, Point2D center){
+
+		int titleLength = title.length();
+		int fontSize = 13;
+
+		double degreeStep;
+		double degree;
+
+		if(titleLength > 7){
+			degreeStep = 180.0/titleLength;
+			degree = 180.0 + degreeStep/2;
+		}
+		else{
+			degreeStep = 90.0/titleLength;
+			degree = 225.0 + degreeStep/2;
+		}
+
+		for(int i = 0; i < titleLength; i++){
+			// Letter position
+			double pointX = center.getX() + getWidth()/2 + radius*Math.cos(Math.toRadians(degree));
+			double pointY = center.getY() + getHeight()/2 + radius*Math.sin(Math.toRadians(degree));
+
+			// Offset to align Letter properly
+			pointX -= (fontSize / 3);
+			pointY += (fontSize / 3);
+
+			Text letter = new Text(pointX, pointY, String.valueOf(title.charAt(i)));
+			titles.add(letter);
+			letter.setTextAlignment(TextAlignment.CENTER);
+			letter.setFont(new Font("Verdana", fontSize));
+			letter.setFill(Color.WHITE);
+			letter.setEffect(new Glow(.8));
+			letter.setRotate(degree + 90);
+
+			Pane wrap = (Pane) this.getParent();
+			wrap.getChildren().add(letter);
+			degree += degreeStep;
+		}
+	}
+
+	public void removeTileTitles() {
+		Pane wrap = (Pane) this.getParent();
+		wrap.getChildren().removeAll(titles);
+	}
+
 	private void drawImagedTile(Point2D point, GraphicsContext g, Location location){
 
 		double width = getWidth();
@@ -196,11 +247,10 @@ public class BoardCanvas extends ResizableCanvas {
 
 		g.setEffect(null);
 
-		g.setFill(Color.GOLD);
-		if(location.getPosition()<20)
-			g.fillText(location.getName(), x + (width / 2), y + (height / 2) - width / 30);
-		else
-			g.fillText(location.getName(), x + (width / 2), y + (height / 2) - width / 30);
+		if(!location.getName().equals("Go")){
+			double titleRadius = width / 36;
+			addTileTitle(location.getName(), titleRadius, point);
+		}
 	}
 
 	private Image getImage(Location location){
