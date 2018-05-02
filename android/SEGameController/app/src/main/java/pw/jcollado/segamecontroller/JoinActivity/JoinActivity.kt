@@ -1,8 +1,7 @@
-package pw.jcollado.segamecontroller.JoinActivity
+package pw.jcollado.segamecontroller.joinActivity
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 
 import kotlinx.android.synthetic.main.activity_join.*
 import org.jetbrains.anko.*

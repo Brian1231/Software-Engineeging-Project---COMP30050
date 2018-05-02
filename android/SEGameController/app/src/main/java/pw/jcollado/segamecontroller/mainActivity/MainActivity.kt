@@ -4,24 +4,18 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.property_card.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
-import org.json.JSONObject
 import pw.jcollado.segamecontroller.R
-import pw.jcollado.segamecontroller.connections.AsyncResponse
-import pw.jcollado.segamecontroller.connections.ServerConnectionThread
+import pw.jcollado.segamecontroller.feedActivity.FeedActivity
 import pw.jcollado.segamecontroller.listPropertiesActivity.ListPropertiesActivity
-import org.json.JSONArray
-import pw.jcollado.segamecontroller.JoinActivity.JoinActivity
+import pw.jcollado.segamecontroller.joinActivity.JoinActivity
 import pw.jcollado.segamecontroller.model.*
 import pw.jcollado.segamecontroller.utils.getPropertyImageURL
 
@@ -96,6 +90,10 @@ class MainActivity : App() {
         return when (item.itemId) {
             R.id.propertiesMenu -> {
                 startActivity(Intent(this, ListPropertiesActivity::class.java))
+                true
+            }
+            R.id.feedMenu -> {
+                startActivity(Intent(this, FeedActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
