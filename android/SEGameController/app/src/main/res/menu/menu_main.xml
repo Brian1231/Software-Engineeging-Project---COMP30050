@@ -5,5 +5,8 @@
         android:icon="@drawable/ic_house"
         app:showAsAction="always"
         android:title="properties" />
-
+    <item android:id="@+id/feedMenu"
+        android:icon="@drawable/ic_feed"
+        app:showAsAction="always"
+        android:title="feed" />
 </menu>

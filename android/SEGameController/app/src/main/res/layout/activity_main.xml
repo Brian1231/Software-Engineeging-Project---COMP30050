@@ -59,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_weight="1"
         android:drawableLeft="@drawable/ic_money"
         android:drawablePadding="20dp"
@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_dices"
         android:drawablePadding="20dp"
@@ -96,7 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_pay"
         android:drawablePadding="20dp"
@@ -115,7 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_boost"
         android:drawablePadding="20dp"
@@ -135,7 +135,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_shopping_cart"
         android:drawablePadding="20dp"
@@ -154,7 +154,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_done"
         android:drawablePadding="20dp"
@@ -183,7 +183,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:text="1000 $"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toEndOf="@+id/balanceTitle"
@@ -195,7 +195,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="50dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="32dp"
+        app:layout_constraintGuide_begin="195dp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -203,10 +203,23 @@
         android:layout_width="21dp"
         android:layout_height="19dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="14dp"
         app:layout_constraintStart_toEndOf="@+id/balanceTX"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
         app:srcCompat="@drawable/schmeckles" />
+
+    <ImageView
+        android:id="@+id/positionImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/joinlogo" />
 
 
 </android.support.constraint.ConstraintLayout>

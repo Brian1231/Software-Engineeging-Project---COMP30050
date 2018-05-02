@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.property_card.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -21,6 +23,7 @@ import pw.jcollado.segamecontroller.listPropertiesActivity.ListPropertiesActivit
 import org.json.JSONArray
 import pw.jcollado.segamecontroller.JoinActivity.JoinActivity
 import pw.jcollado.segamecontroller.model.*
+import pw.jcollado.segamecontroller.utils.getPropertyImageURL
 
 
 class MainActivity : App() {
@@ -110,7 +113,10 @@ class MainActivity : App() {
             supportActionBar?.title = Player.character
             supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
             balanceTX.text = Player.balance.toString()
-            positionTX.text = Player.position.toString()
+            positionTX.text = Player.position
+
+            Picasso.get().load(getPropertyImageURL(Player.position)).placeholder(R.drawable.joinlogo).into(positionImage)
+
         }
     }
 
