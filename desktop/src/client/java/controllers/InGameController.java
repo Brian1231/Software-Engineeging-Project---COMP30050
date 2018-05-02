@@ -126,7 +126,6 @@ public class InGameController {
 						JSONArray playerObjects = update.getJSONArray("players");
 
 						for(int i=0;i<playerObjects.length();i++){
-							//p
 							int bal = playerObjects.getJSONObject(i).getInt("balance");
 							String balance = Integer.toString(bal);
 							int id = playerObjects.getJSONObject(i).getInt("id");
@@ -277,6 +276,4 @@ public class InGameController {
 		gameOverStage.setOnCloseRequest(e -> closeGame());
 		gameOverStage.show();
 	}
-
-
 }

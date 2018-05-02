@@ -139,6 +139,7 @@ public class PlayerCanvas extends ResizableCanvas {
 	}
 
 	public void animatePlayer(Player p, int newPos){
+		int duration = 4;
 		Polyline path = new Polyline();
 		int oldPosition = p.getPosition();
 
@@ -184,10 +185,13 @@ public class PlayerCanvas extends ResizableCanvas {
 				path.getPoints().addAll(new Double[]{playerX,playerY});
 			}
 		}
+		if(path.getPoints().size() <= 2){
+			duration = 1;
+		}
 
 		PathTransition trans = new PathTransition();
 		trans.setNode(p.playerToken);
-		trans.setDuration(Duration.seconds(4));
+		trans.setDuration(Duration.seconds(duration));
 		trans.setPath(path);
 		trans.setCycleCount(1);
 		trans.play();
@@ -197,6 +201,7 @@ public class PlayerCanvas extends ResizableCanvas {
 		p.playerToken.setCenterX(sub.get(0));
 		p.playerToken.setCenterY(sub.get(1));
 	}
+
 
 	// buggy at the moment
 	public void animatePlayerBackwards(Player p, int newPos){

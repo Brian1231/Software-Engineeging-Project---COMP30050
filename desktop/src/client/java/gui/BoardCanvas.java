@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.*;
 
 import java.io.IOException;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import javafx.scene.text.Font;
@@ -265,6 +266,18 @@ public class BoardCanvas extends ResizableCanvas {
 		}catch(Exception e){
 			return null;
 		}
+	}
+
+
+	private Image getImageUrl(Location location){
+		StringBuilder sb = new StringBuilder();
+		sb.append("http://52.48.249.220/worlds/");
+		sb.append(location.getName().trim().replace(":", ""));
+		sb.append(".jpg");
+
+		Image image = new Image(sb.toString());
+
+		return image;
 	}
 
 	public void getImages(){
