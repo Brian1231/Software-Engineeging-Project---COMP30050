@@ -1,7 +1,8 @@
-package client.java;
+package client.java.gameObjects;
 
 import javafx.beans.property.adapter.JavaBeanDoublePropertyBuilder;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -26,17 +27,19 @@ public class Player implements Serializable {
     private boolean movingForward = true;
 
     // Information Display objects
-    public Label playerNameLabel = new Label();
-    HBox money = new HBox(5);
-    Image currency = new Image("client/resources/images/Schmeckles.png");
-    public Label playerBalanceLabel = new Label();
-    public ProgressBar playerFuelBar = new ProgressBar();
+    private Label playerNameLabel = new Label();
+    private HBox money = new HBox(5);
+    private HBox gas = new HBox(5);
+    private Image currency = new Image("client/resources/images/Schmeckles.png");
+    private Image fuelIcon = new Image("client/resources/images/gasoline.png");
+    private Label playerBalanceLabel = new Label();
+    private ProgressBar playerFuelBar = new ProgressBar();
     public VBox stats = new VBox();
 
     // Token
     public Circle playerToken = new Circle(10);
 
-    private final PropertyChangeSupport pcs ;
+    private final PropertyChangeSupport pcs;
 
     public Player(String balance, int id, int position, Color colour, String character,double fuel, boolean movingForward) {
         this.balance = balance;
@@ -59,14 +62,25 @@ public class Player implements Serializable {
 
         playerNameLabel.setTextFill(colour);
         playerBalanceLabel.setTextFill(colour);
+
         ImageView c = new ImageView();
         c.setImage(currency);
         c.setFitHeight(20);
         c.setFitWidth(20);
         money.getChildren().addAll(c,playerBalanceLabel);
+
+        ImageView f = new ImageView();
+        f.setImage(fuelIcon);
+        f.setFitHeight(20);
+        f.setFitWidth(20);
+        gas.getChildren().addAll(f,playerFuelBar);
+
+        stats.setSpacing(5.0);
+        stats.setId("stats");
+        stats.setPadding(new Insets(5,5,5,5));
         stats.getChildren().add(playerNameLabel);
         stats.getChildren().add(money);
-        stats.getChildren().add(playerFuelBar);
+        stats.getChildren().add(gas);
     }
 
     @Override
@@ -79,10 +93,7 @@ public class Player implements Serializable {
         }
         final Player other = (Player) obj;
 
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+        return this.id == other.id;
     }
 
     public String getBalance() {

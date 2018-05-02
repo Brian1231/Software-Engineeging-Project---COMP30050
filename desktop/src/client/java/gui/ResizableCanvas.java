@@ -1,4 +1,4 @@
-package client.java;
+package client.java.gui;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,22 +11,19 @@ import javafx.geometry.Point2D;
 
 public class ResizableCanvas extends Canvas {
 
-    protected final double PI = 3.14159265359;
-    protected double step = 2*PI/40;
+    final double PI = 3.14159265359;
+    double step = 2*PI/40;
 
-    public ResizableCanvas() {
+    ResizableCanvas() {
         // Redraw canvas when size changes.
         widthProperty().addListener(evt -> {
 			try {
 				draw();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
+			} catch (IOException | JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		});
+        });
         heightProperty().addListener(evt -> {
 			try {
 				draw();
@@ -54,11 +51,11 @@ public class ResizableCanvas extends Canvas {
     }
 
     // Calculates curve proportions based on window size.
-    public double xAmplitude(){
+    private double xAmplitude(){
         return getWidth()/3.1;
     }
 
-    public double yAmplitude(){
+    private double yAmplitude(){
         return getHeight()/1.3;
     }
 

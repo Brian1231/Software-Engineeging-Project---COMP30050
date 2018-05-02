@@ -37,16 +37,6 @@ public class NamedLocationTest {
 		assertEquals("UCD", loc.getId());
     }
 
-    @Test
-    public void setId() {
-		loc.setId("Trinity");
-		assertEquals("Trinity", loc.getId());
-    }
-
-    @Test
-    public void getColor() {
-		assertEquals(Color.RED, loc.getColor());
-    }
 
     @Test
     public void getInfo() {

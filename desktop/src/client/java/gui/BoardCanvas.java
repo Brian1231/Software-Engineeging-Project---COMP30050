@@ -1,23 +1,34 @@
-package client.java;
+package client.java.gui;
 
+import client.java.main.Game;
+import client.java.gameObjects.Location;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import org.json.JSONException;
 
 public class BoardCanvas extends ResizableCanvas {
 
 	private int currentTile;
 	private Pane wrapperPane = (Pane) this.getParent();
+	private ArrayList<Text> titles = new ArrayList<>();
+	private HashMap<Integer, Label> mortLabels = new HashMap();
 
 	public BoardCanvas() {
 		// Redraw canvas when size changes
@@ -25,20 +36,18 @@ public class BoardCanvas extends ResizableCanvas {
 
 		widthProperty().addListener(evt -> {
 			try {
+				removeTileTitles();
 				draw();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (JSONException e) {
+			} catch (IOException | JSONException e) {
 				e.printStackTrace();
 			}
 		});
 
 		heightProperty().addListener(evt -> {
 			try {
+				removeTileTitles();
 				draw();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (JSONException e) {
+			} catch (IOException | JSONException e) {
 				e.printStackTrace();
 			}
 		});
@@ -167,12 +176,64 @@ public class BoardCanvas extends ResizableCanvas {
             default:
                 break;
         }
+
+		if(location.isMortgaged() && !location.isMortgagedLabelled()){
+			addMortgageLabel(point, location);
+		}
+
+		if(!location.isMortgaged() && location.isMortgagedLabelled()){
+			removeMortgageLabel(location);
+		}
+
+		if(location.isMortgaged() && location.isMortgagedLabelled()){
+			relocateMortgageLabels(point, location);
+		}
 	}
 
-	public void drawHouses(){
+	private void addTileTitle(String title, double radius, Point2D center){
 
+		int titleLength = title.length();
+		int fontSize = 13;
 
-    }
+		double degreeStep;
+		double degree;
+
+		if(titleLength > 7){
+			degreeStep = 180.0/titleLength;
+			degree = 180.0 + degreeStep/2;
+		}
+		else{
+			degreeStep = 90.0/titleLength;
+			degree = 225.0 + degreeStep/2;
+		}
+
+		for(int i = 0; i < titleLength; i++){
+			// Letter position
+			double pointX = center.getX() + getWidth()/2 + radius*Math.cos(Math.toRadians(degree));
+			double pointY = center.getY() + getHeight()/2 + radius*Math.sin(Math.toRadians(degree));
+
+			// Offset to align Letter properly
+			pointX -= (fontSize / 3);
+			pointY += (fontSize / 3);
+
+			Text letter = new Text(pointX, pointY, String.valueOf(title.charAt(i)));
+			titles.add(letter);
+			letter.setTextAlignment(TextAlignment.CENTER);
+			letter.setFont(new Font("Verdana", fontSize));
+			letter.setFill(Color.WHITE);
+			letter.setEffect(new Glow(.8));
+			letter.setRotate(degree + 90);
+
+			Pane wrap = (Pane) this.getParent();
+			wrap.getChildren().add(letter);
+			degree += degreeStep;
+		}
+	}
+
+	public void removeTileTitles() {
+		Pane wrap = (Pane) this.getParent();
+		wrap.getChildren().removeAll(titles);
+	}
 
 	private void drawImagedTile(Point2D point, GraphicsContext g, Location location){
 
@@ -203,26 +264,72 @@ public class BoardCanvas extends ResizableCanvas {
 
 		g.setEffect(null);
 
-		g.setFill(Color.GOLD);
-		if(location.getPosition()<20)
-			g.fillText(location.getName(), x + (width / 2), y + (height / 2) - width / 30);
-		else
-			g.fillText(location.getName(), x + (width / 2), y + (height / 2) - width / 30);
+		if(!location.getName().equals("Go")){
+			double titleRadius = width / 36;
+			addTileTitle(location.getName(), titleRadius, point);
+		}
+
+	}
+
+	private void addMortgageLabel(Point2D center, Location location){
+		Pane parent = (Pane) this.getParent();
+		Label mort = new Label("MORTGAGED");
+		mort.setTextFill(Color.RED);
+		mort.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,255,0.3), null, null)));
+
+		double pointX = center.getX() + getWidth()/2 - mort.getWidth()/2;
+		double pointY = center.getY() + getHeight()/2;
+
+		mort.setLayoutX(pointX);
+		mort.setLayoutY(pointY);
+
+		mortLabels.put(location.getPosition(), mort);
+		parent.getChildren().add(mort);
+		location.setMortgagedLabelled(true);
+	}
+
+	private void removeMortgageLabel(Location location){
+		Pane parent = (Pane) this.getParent();
+		Label mortLabel = mortLabels.get(location.getPosition());
+		mortLabels.remove(location.getPosition());
+		parent.getChildren().remove(mortLabel);
+		location.setMortgagedLabelled(false);
+	}
+
+	private void relocateMortgageLabels(Point2D center, Location location){
+		Pane parent = (Pane) this.getParent();
+		Label mortLabel = mortLabels.get(location.getPosition());
+
+		double pointX = center.getX() + getWidth()/2 - mortLabel.getWidth()/2;
+		double pointY = center.getY() + getHeight()/2;
+
+		mortLabel.setLayoutX(pointX);
+		mortLabel.setLayoutY(pointY);
 	}
 
 	private Image getImage(Location location){
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("/client/resources/images/worlds/");
-		sb.append(location.getName().trim().replace(":","").toString());
+		sb.append(location.getName().trim().replace(":", ""));
 		sb.append(".jpg");
 
 		try{
-			Image image = new Image( sb.toString() );
-			return image;
+			return new Image( sb.toString() );
 		}catch(Exception e){
 			return null;
 		}
+	}
+
+	private Image getImageUrl(Location location){
+		StringBuilder sb = new StringBuilder();
+		sb.append("http://52.48.249.220/worlds/");
+		sb.append(location.getName().trim().replace(":", ""));
+		sb.append(".jpg");
+
+		Image image = new Image(sb.toString());
+
+		return image;
 	}
 
 	public void getImages(){

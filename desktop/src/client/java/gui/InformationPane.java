@@ -1,14 +1,11 @@
-package client.java;
+package client.java.gui;
 
 
 import java.util.ArrayList;
 
-import client.java.controllers.InGameController;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.control.TextArea;
-
-import javafx.scene.effect.Glow;
-import javafx.scene.effect.Shadow;
+import client.java.main.Game;
+import client.java.gameObjects.Location;
+import client.java.gameObjects.Player;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -16,10 +13,10 @@ import javafx.scene.layout.*;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -31,9 +28,11 @@ public class InformationPane extends Pane {
 	private ImageView logo = new ImageView();
     private Circle eventLogger = new Circle();
     private TextFlow newsfeed = new TextFlow();
-    private ArrayList<Text> messages = new ArrayList<Text>();
+    private ArrayList<Text> messages = new ArrayList<>();
 
     private Circle tileInfo = new Circle();
+    private Arc infoBackground = new Arc();
+
     private Label tileName = new Label("");
     private Label tileCost = new Label("");
     private Label tileOwner = new Label("");
@@ -43,15 +42,15 @@ public class InformationPane extends Pane {
     private Label mortgaged = new Label("MORTGAGED");
     private Rectangle mortRect = new Rectangle();
 
-    Rectangle diceLeft = new Rectangle();
-    Rectangle diceRight = new Rectangle();
+    private Rectangle diceLeft = new Rectangle();
+    private Rectangle diceRight = new Rectangle();
     private ArrayList<Image> diceFaces = new ArrayList<>();
 
-    public BorderPane playerInfoLayout = new BorderPane();
-    HBox top = new HBox();
-    HBox bottom = new HBox();
-    Region spacing1 = new Region();
-    Region spacing2 = new Region();
+    private BorderPane playerInfoLayout = new BorderPane();
+    private HBox top = new HBox();
+    private HBox bottom = new HBox();
+    private Region spacing1 = new Region();
+    private Region spacing2 = new Region();
 
     public InformationPane() {
         //Title
@@ -70,35 +69,18 @@ public class InformationPane extends Pane {
         eventLogger.layoutYProperty().bind(heightProperty().divide(2));
         getChildren().add(eventLogger);
 
-		// TexArea
-		/*feed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
-		feed.prefHeightProperty().bind(eventLogger.radiusProperty().multiply(2));
-		feed.layoutXProperty().bind(eventLogger.layoutXProperty().subtract(eventLogger.radiusProperty()));
-		feed.layoutYProperty().bind(heightProperty().divide(2).subtract(feed.prefHeightProperty().divide(2)));
-		feed.setEditable(false);
-		feed.setWrapText(true);
-		feed.appendText("Welcome to Interdimensional Panopoly!\n");
-		feed.appendText("Press the start button when all players have joined.\n");
-		getChildren().add(feed);*/
-
         newsfeed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
         newsfeed.prefHeightProperty().bind(eventLogger.radiusProperty().multiply(2));
 		newsfeed.layoutXProperty().bind(eventLogger.layoutXProperty().subtract(eventLogger.radiusProperty()));
 		newsfeed.layoutYProperty().bind(heightProperty().divide(2).subtract(newsfeed.prefHeightProperty().divide(2)));
 		getChildren().add(newsfeed);
-		
-        //t1.setStyle("-fx-fill: #4F8A10;-fx-font-weight:bold;");
-        
+
 		Text welcome = new Text("Welcome to Interdimensional Panopoly!\n");
+		welcome.setFont(new Font("Verdana", 18));
 		
 		welcome.setStyle("-fx-fill: rgb(254, 254, 254);");
 		messages.add(welcome);
 		newsfeed.getChildren().add(messages.get(0));
-		
-		
-		
-        Glow g = new Glow(10);
-        //Shadow s = new Shadow(3, Color.RED);
 
 		// Current players location info
 		tileInfo.layoutXProperty().bind(widthProperty().subtract(widthProperty().divide(4.2)));
@@ -106,27 +88,39 @@ public class InformationPane extends Pane {
 		tileInfo.setFill(Color.BLACK);
 		tileInfo.setStroke(Color.GOLD);
 		tileInfo.radiusProperty().bind(widthProperty().divide(9));
-		tileInfo.setEffect(g);
+		//tileInfo.setEffect(g);
 		getChildren().add(tileInfo);
+
+		// Semi Circle
+        infoBackground.centerXProperty().bind(tileInfo.layoutXProperty());
+        infoBackground.centerYProperty().bind(tileInfo.layoutYProperty());
+        infoBackground.radiusXProperty().bind(tileInfo.radiusProperty());
+        infoBackground.radiusYProperty().bind(tileInfo.radiusProperty());
+        infoBackground.setStartAngle(180.0f);
+        infoBackground.setLength(180.0f);
+        infoBackground.setType(ArcType.ROUND);
+        infoBackground.setFill(Color.rgb(255,255,255,0.2));
+        getChildren().add(infoBackground);
+
 		// Tile name
 		tileName.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileName.widthProperty().divide(2)));
 		tileName.layoutYProperty().bind(tileInfo.layoutYProperty().subtract(tileInfo.radiusProperty().divide(2)));
-		tileName.setTextFill(Color.WHITE);
+		tileName.setTextFill(Color.BLACK);
 		getChildren().add(tileName);
 		// Tile Cost
 		tileCost.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileCost.widthProperty().divide(2)));
 		tileCost.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2)));
-		tileCost.setTextFill(Color.WHITE);
+		tileCost.setTextFill(Color.BLACK);
 		getChildren().add(tileCost);
         // Rent
         tileRent.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileRent.widthProperty().divide(2)));
         tileRent.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2.4)));
-        tileRent.setTextFill(Color.WHITE);
+        tileRent.setTextFill(Color.BLACK);
         getChildren().add(tileRent);
         // Owner
         tileOwner.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileOwner.widthProperty().divide(2)));
         tileOwner.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(3)));
-        tileOwner.setTextFill(Color.WHITE);
+        tileOwner.setTextFill(Color.BLACK);
         getChildren().add(tileOwner);
 		// Tile Image
         tileImage.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileImage.fitWidthProperty().divide(2)));
@@ -166,8 +160,8 @@ public class InformationPane extends Pane {
         diceRight.layoutXProperty().bind(widthProperty().divide(2).add(diceRight.widthProperty().divide(2)));
         diceRight.layoutYProperty().bind(heightProperty().subtract(heightProperty().divide(4.5)));
 
-        diceLeft.setFill(Color.WHITE);
-        diceRight.setFill(Color.WHITE);
+        diceLeft.setFill(Color.TRANSPARENT);
+        diceRight.setFill(Color.TRANSPARENT);
 
         getChildren().add(diceLeft);
         getChildren().add(diceRight);
@@ -184,6 +178,7 @@ public class InformationPane extends Pane {
 		int g = (int)(c.getGreen()*254);
 		int b = (int)(c.getBlue()*254);
 		newText.setStyle("-fx-fill: rgb("+r+", "+g+", "+b+");");
+		newText.setFont(new Font("Verdana", 18));
 		messages.add(newText);
 		if(messages.size()>6) messages.remove(0);
 		
@@ -199,17 +194,24 @@ public class InformationPane extends Pane {
 		//newsfeed.appendText(s + "\n");
 	}
 
+	public void removeLogo(){
+        getChildren().remove(tileImage);
+    }
+
 	public void updateLocationInfo(Location loc) {
 		tileName.setText(loc.getName());
 		tileInfo.setStroke(loc.getColour());
 		tileCost.setText("Price: $" + Integer.toString(loc.getPrice()));
-		tileImage.setImage(loc.getImage());
 		if(loc.getOwnerID()==0)
 			tileOwner.setText("Owner: " + " Unowned");
 		else
 			tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
 		tileRent.setText("Rent: " + loc.getRent());
-        tileInfo.setFill(loc.getColour());
+        tileInfo.setFill(new ImagePattern(loc.getImage()));
+
+        Color original = loc.getColour();
+        Color faded = Color.color(original.getRed(),original.getGreen(),original.getBlue(), 0.6);
+        infoBackground.setFill(faded);
 
         /*
         if(!getChildren().contains(mortgaged) && loc.isMortgaged()){
@@ -256,8 +258,10 @@ public class InformationPane extends Pane {
     }
 
     public void updateDice(int dice1, int dice2){
-        diceLeft.setFill(new ImagePattern(diceFaces.get(dice1-1)));
-        diceRight.setFill(new ImagePattern(diceFaces.get(dice2-1)));
+        if(dice1 != 0 && dice2 != 0){
+            diceLeft.setFill(new ImagePattern(diceFaces.get(dice1-1)));
+            diceRight.setFill(new ImagePattern(diceFaces.get(dice2-1)));
+        }
     }
 
     private void loadDiceImages(){
@@ -275,4 +279,20 @@ public class InformationPane extends Pane {
             }
         }
     }
+
+    public void updatePlayerTurn(int playerTurn){
+        Player currentPlayer = Game.getPlayer(playerTurn);
+
+        for(Player p : Game.observablePlayers){
+            if(p == currentPlayer){
+                p.stats.setBorder(new Border(new BorderStroke(currentPlayer.getColor(),BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            }
+            else{
+                p.stats.setBorder(null);
+            }
+        }
+
+    }
+
+
 }

@@ -31,10 +31,10 @@ public class RentalPropertyTest {
         prop.setMortgageAmount(50);
 
 
-        noc = new NOC_Manager();
+        noc = NOC_Manager.getNocManager();
         noc.setup();
         Character_noc ch = noc.getRandomChar();
-        player = new Player(1, "1.1.1.1",noc.getRandomChar(), noc.getVehicle(ch.getVehicle()));
+        player = new Player(1,ch, noc.getVehicle(ch.getVehicle()), Color.BLUE);
         prop.setOwner(player);
 
     }
@@ -132,7 +132,7 @@ public class RentalPropertyTest {
     @Test
     public void activateTrap() {
         Character_noc ch = noc.getRandomChar();
-        Player player2 = new Player(2, "1.1.1.1",noc.getRandomChar(), noc.getVehicle(ch.getVehicle()));
+        Player player2 = new Player(2,noc.getRandomChar(), noc.getVehicle(ch.getVehicle()), Color.BLUE);
         String result = player2.getCharName() + " activated " + prop.getOwner().getCharName() + "'s trap and now owes them an additional " + (prop.getPrice()/3) + ". ";
         assertEquals(result, prop.activateTrap(player2));
     }
@@ -143,6 +143,7 @@ public class RentalPropertyTest {
         prop.setPrice(150);
         prop.setOwner(player);
         prop.setLocation(15);
+        prop.setColour(Color.GRAY);
 
         try {
             JSONObject obj = this.prop.getInfo();

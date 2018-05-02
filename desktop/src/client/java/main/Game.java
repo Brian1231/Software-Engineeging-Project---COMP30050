@@ -1,5 +1,9 @@
-package client.java;
+package client.java.main;
 
+import client.java.gameObjects.Location;
+import client.java.gameObjects.Player;
+import client.java.gameObjects.VillainGang;
+import client.java.gui.PlayerCanvas;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
@@ -18,7 +22,7 @@ public class Game {
     public static Boolean gameStarted = false;
     public static int playerTurn;
     public static boolean locationsSet = false;
-    public static PlayerCanvas pCanvas;
+    private static PlayerCanvas pCanvas;
 
     // Player Methods
     // Updates players from server.
@@ -31,16 +35,15 @@ public class Game {
                 updatePlayerData(p,action);
             }
         }
-        // Not working right now
-        // for(Player ply : players){
-        //    if(!plyrs.contains(ply)){
-        //        removePlayer(ply);
-        //    }
-        // }
+        for (int i = 0; i< observablePlayers.size(); i++) {
+            if (!plyrs.contains(observablePlayers.get(i))) {
+                removePlayer(observablePlayers.get(i));
+            }
+        }
     }
 
     // Adds new player to player list.
-    public static void addPlayer(Player player){
+    private static void addPlayer(Player player){
         observablePlayers.add(player);
         pCanvas.addPlayerToken(player);
     }
@@ -77,10 +80,11 @@ public class Game {
         }
     }
 
-    // Removes player from the draw loop. (quits game etc)
-    public static void removePlayer(Player player){
+    // Removes player Token from draw loop
+    private static void removePlayer(Player player){
         if(observablePlayers.contains(player)){
-            observablePlayers.remove(player);
+            //observablePlayers.remove(player);
+            pCanvas.removePlayerToken(player);
         }
     }
 

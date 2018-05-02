@@ -8,11 +8,18 @@
 
 <BorderPane fx:id="base" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.java.controllers.WelcomeScreenController">
    <center>
-      <Button fx:id="newGameButton" mnemonicParsing="false" onAction="#onNewGameClick" text="New Game" BorderPane.alignment="CENTER">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
+      <VBox alignment="CENTER" spacing="20.0">
+         <Button fx:id="newGameButton" mnemonicParsing="false" onAction="#onNewGameClick" text="New Game">
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
+         <Button fx:id="rulesButton" mnemonicParsing="false" onAction="#onRulesClick" text="Rules">
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
+      </VBox>
    </center>
    <top>
       <ImageView fx:id="imageView"   pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">

@@ -1,5 +1,7 @@
-package client.java;
+package client.java.gui;
 
+import client.java.main.Game;
+import client.java.gameObjects.Player;
 import javafx.animation.PathTransition;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
@@ -70,9 +72,9 @@ public class PlayerCanvas extends ResizableCanvas {
 		}
 	}
 
-	public void drawVillains(GraphicsContext g, double width, double height){
+	private void drawVillains(GraphicsContext g, double width, double height){
 		if(Game.villainGang.isActive()){
-			int position = Game.villainGang.getPos();
+			int position = Game.villainGang.getPosition();
 			if(position>19&&position<39)position++;
 			double t = -PI/2 + step*position;
 
@@ -91,7 +93,7 @@ public class PlayerCanvas extends ResizableCanvas {
 	}
 
 	// Calculates each players x,y offset so they don't draw on top of each other.
-	public Point2D playerOffset(Player player){
+	private Point2D playerOffset(Player player){
 		double baseOffset = getWidth() / 80;
 		double offsetX;
 		double offsetY;
@@ -131,7 +133,13 @@ public class PlayerCanvas extends ResizableCanvas {
 		parent.getChildren().add(p.playerToken);
 	}
 
+	public void removePlayerToken(Player p){
+		Pane parent = (Pane) this.getParent();
+		parent.getChildren().remove(p.playerToken);
+	}
+
 	public void animatePlayer(Player p, int newPos){
+		int duration = 4;
 		Polyline path = new Polyline();
 		int oldPosition = p.getPosition();
 
@@ -177,10 +185,13 @@ public class PlayerCanvas extends ResizableCanvas {
 				path.getPoints().addAll(new Double[]{playerX,playerY});
 			}
 		}
+		if(path.getPoints().size() <= 2){
+			duration = 1;
+		}
 
 		PathTransition trans = new PathTransition();
 		trans.setNode(p.playerToken);
-		trans.setDuration(Duration.seconds(4));
+		trans.setDuration(Duration.seconds(duration));
 		trans.setPath(path);
 		trans.setCycleCount(1);
 		trans.play();
@@ -190,6 +201,7 @@ public class PlayerCanvas extends ResizableCanvas {
 		p.playerToken.setCenterX(sub.get(0));
 		p.playerToken.setCenterY(sub.get(1));
 	}
+
 
 	// buggy at the moment
 	public void animatePlayerBackwards(Player p, int newPos){

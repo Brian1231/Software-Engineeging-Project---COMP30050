@@ -36,7 +36,8 @@ public class DiceTest {
 		}
 		int TOTAL_ROLLS = 1000000;
 		for(int i = 0; i< TOTAL_ROLLS; i++){
-			int res = dice.rollDice(2, 6);
+			dice.roll();
+			int res = dice.getRollResult();
 			distribution[res-2]++;
 		}
 

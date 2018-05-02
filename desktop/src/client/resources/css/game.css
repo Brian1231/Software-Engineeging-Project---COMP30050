@@ -45,3 +45,7 @@
     -fx-padding: 0.40em;
 }
 
+#stats{
+    -fx-font-size: 18px;
+}
+

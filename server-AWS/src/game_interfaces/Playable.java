@@ -1,30 +1,20 @@
 package game_interfaces;
 
-import game.PrivateProperty;
+import game.RentalProperty;
 import noc_db.Character_noc;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 
-public interface Playable extends Identifiable {
-
-    String getIp();
+public interface Playable extends Identifiable{
 
     boolean hasRolled();
 
-    void resetRoll();
+    void reset();
 
     boolean hasBought();
 
-    void useBuy();
-
     boolean hasBoosted();
-
-    void resetBoost();
-
-    void resetBought();
 
     void useRoll();
 
@@ -44,13 +34,9 @@ public interface Playable extends Identifiable {
 
     boolean ownsThree(Color color);
 
-    JSONObject getInfo() throws JSONException;
-
     int getPos();
 
     int getID();
-
-    String getCanName();
 
     int getBalance();
 
@@ -60,29 +46,19 @@ public interface Playable extends Identifiable {
 
     String getCharName();
 
-    int getNetWorth();
+    String getCanName();
 
-    void setNetWorth(int netWorth);
+    int getNetWorth();
 
     void payMoney(int paid);
 
     void receiveMoney(int received);
 
-    ArrayList<PrivateProperty> getOwnedProperties();
+    ArrayList<RentalProperty> getOwnedProperties();
 
-    void addNewPropertyBought(PrivateProperty property);
+    void addNewPropertyBought(RentalProperty property);
 
-    void removePropertySold(PrivateProperty property);
-
-    void setColour(String colour);
-
-    String getColour();
-
-    void setRGB(int r, int g, int b);
-
-    void setRGB(Color colour);
-
-    Color getRGBColour();
+    void removePropertySold(RentalProperty property);
 
     Character_noc getCharacter();
 
@@ -91,8 +67,6 @@ public interface Playable extends Identifiable {
     void setDebt(int amount, Playable player);
 
     void setDebt(int amount);
-
-    void removeDebt();
 
     String getPossessive();
 

@@ -2,8 +2,12 @@ package game_interfaces;
 
 public interface Rollable {
 
-	int roll();
+	// get array of the dice values;
+	int[] getDiceValues();
 
-	// additional roll method for use with multiple die or diff number of sides on the die - portal dice maybe??
-	int rollDice(int numDice, int numSides);
+	// get the sum of the dice values
+	int getRollResult();
+
+	// roll the dice
+	void roll();
 }

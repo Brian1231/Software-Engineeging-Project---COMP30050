@@ -31,15 +31,14 @@ public class InvestmentPropertyTest {
 		prop.setPrice(200);
 		prop.setHousePrice(prop.getPrice()/2);
 		prop.setHotelPrice(prop.getPrice()/2);
-		prop.setRGB(Color.RED);
-		prop.setColour("RED");
+		prop.setColour(Color.RED);
 
 
 
-		noc = new NOC_Manager();
+		noc = NOC_Manager.getNocManager();
 		noc.setup();
 		Character_noc ch = noc.getRandomChar();
-		player = new Player(1, "1.1.1.1",noc.getRandomChar(), noc.getVehicle(ch.getVehicle()));
+		player = new Player(1, ch, noc.getVehicle(ch.getVehicle()), Color.BLUE);
 		prop.setOwner(player);
 	}
 
@@ -57,19 +56,6 @@ public class InvestmentPropertyTest {
 		assertEquals("UCD", prop.getId());
 	}
 
-
-	@Test
-	public void getNumHouses() {
-		prop.build(5);
-		assertEquals(4, prop.getNumHouses());
-	}
-
-	@Test
-	public void getNumHotels() {
-		prop.build(5);
-		assertEquals(1,prop.getNumHotels());
-	}
-
 	@Test
 	public void getNumHousesAndHotels() {
 		prop.build(5);
@@ -82,11 +68,11 @@ public class InvestmentPropertyTest {
 
 		prop.build(1);
 		assertNull(prop.getBuildDemolishError());
-		assertEquals(1, prop.getNumHouses());
+		assertEquals(1, prop.getNumHousesAndHotels());
 
 		prop.build(2);
 		assertNull(prop.getBuildDemolishError());
-		assertEquals(3, prop.getNumHouses());
+		assertEquals(3, prop.getNumHousesAndHotels());
 	}
 
 
@@ -94,13 +80,10 @@ public class InvestmentPropertyTest {
 	public void demolish() {
 		prop.build(5);
 		assertNull(prop.getBuildDemolishError());
-		assertEquals(4, prop.getNumHouses());
-		assertEquals(1, prop.getNumHotels());
-
+		assertEquals(5, prop.getNumHousesAndHotels());
 
 		prop.demolish(3);
-		assertEquals(2, prop.getNumHouses());
-		assertEquals(0, prop.getNumHotels());
+		assertEquals(2, prop.getNumHousesAndHotels());
 
 	}
 
@@ -179,41 +162,30 @@ public class InvestmentPropertyTest {
 	}
 
 	@Test
-	public void setColour() {
-		prop.setColour("GRAY");
-		assertEquals("GRAY", prop.getColour());
-	}
-
-	@Test
 	public void getColour() {
-		assertEquals("RED", prop.getColour());
-	}
-
-	@Test
-	public void setRGB() {
-		Color col = Color.BLUE;
-		prop.setRGB(col.getRed(), col.getGreen(), col.getBlue());
-		assertEquals(Color.BLUE, prop.getRGBColour());
+		assertEquals(Color.RED, prop.getColour());
 	}
 
 	@Test
 	public void setRGB1() {
-		prop.setRGB(Color.BLUE);
-		assertEquals(Color.BLUE, prop.getRGBColour());
+		prop.setColour(Color.BLUE);
+		assertEquals(Color.BLUE, prop.getColour());
 	}
 
 	@Test
 	public void getRGBColour() {
-		assertEquals(Color.RED, prop.getRGBColour());
+		assertEquals(Color.RED, prop.getColour());
 	}
 
 	@Test
 	public void getInfo() {
-		prop.setRGB(Color.BLUE);
+		prop.setColour(Color.BLUE);
+		prop.build(3);
 		try {
 			JSONObject obj = prop.getInfo();
 			assertEquals(Color.BLUE.getRGB(), obj.get("color"));
 			assertEquals(false, obj.get("is_mortgaged"));
+            assertEquals(3, obj.get("houses"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

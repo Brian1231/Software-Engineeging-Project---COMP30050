@@ -3,6 +3,7 @@ package main;
 import java.io.IOException;
 import java.net.InetAddress;
 
+import game.Dice;
 import game.GameState;
 import noc_db.NOC_Manager;
 import server.ClientUpdater;
@@ -18,6 +19,9 @@ public class Main {
 	public static NOC_Manager noc;
 	public static boolean isActive;
 
+	// create game dice object
+	public static Dice dice;
+
 	public static void main(String[] args) throws IOException {
 		isActive = false;
 
@@ -26,8 +30,10 @@ public class Main {
 		while(true){
 			if(!isActive){
 				isActive = true;
+				dice = new Dice();
+
 				//Create and populate noc list
-				noc = new NOC_Manager();
+				noc = NOC_Manager.getNocManager();
 				noc.setup();
 				
 				//Contains all information about current game state
@@ -37,7 +43,7 @@ public class Main {
 				clientUpdater = new ClientUpdater();
 				clientUpdater.setup(DESKTOPPORT);
 				clientUpdater.start();
-				clientUpdater.updateActionInfo("Connected");
+				gameState.updateActionInfo("Connected");
 				clientUpdater.updateDesktopBoard();
 				
 				//Thread used to allocate phone connections to an available port

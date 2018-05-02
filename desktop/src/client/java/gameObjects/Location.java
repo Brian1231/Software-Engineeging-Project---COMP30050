@@ -1,4 +1,4 @@
-package client.java;
+package client.java.gameObjects;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -18,9 +18,10 @@ public class Location {
     private boolean isMortgaged;
     private Image image;
     private int houses;
+
+    private boolean mortgagedLabelled = false;
     // Display objects.
     Circle Tile = new Circle();
-
 
     public Location(String name, int position, int price, int rent, int owner, Color c, boolean isMortgaged, int houses) {
         this.name = name;
@@ -43,10 +44,7 @@ public class Location {
         }
         final Location other = (Location) obj;
 
-        if (this.position != other.position){
-            return false;
-        }
-        return true;
+        return this.position == other.position;
     }
 
     public int getRent() {
@@ -119,5 +117,13 @@ public class Location {
 
     public void setHouses(int numHouses){
         houses = numHouses;
+    }
+
+    public boolean isMortgagedLabelled() {
+        return mortgagedLabelled;
+    }
+
+    public void setMortgagedLabelled(boolean mortgagedLabelled) {
+        this.mortgagedLabelled = mortgagedLabelled;
     }
 }

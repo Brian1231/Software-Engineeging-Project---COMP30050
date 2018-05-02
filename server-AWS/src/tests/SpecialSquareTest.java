@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
@@ -23,11 +24,11 @@ public class SpecialSquareTest {
     public void setUp() throws IOException {
         specialSquare = new SpecialSquare("UCD");
 
-        noc = new NOC_Manager();
+        noc = NOC_Manager.getNocManager();
         noc.setup();
 
         Character_noc ch = noc.getRandomChar();
-        player = new Player(1, "1.1.1.1",noc.getRandomChar(), noc.getVehicle(ch.getVehicle()));
+        player = new Player(1,ch, noc.getVehicle(ch.getVehicle()), Color.BLUE);
 
     }
 
@@ -58,7 +59,7 @@ public class SpecialSquareTest {
 
         specialSquare.setLocation(10);
         String result = "\n" + player.getCharName() + " was sent to intergalactic prison!\n"+
-            "Attempt to break free by rolling doubles or pay the fee of $1000.";
+            "Attempt to break free by rolling doubles or pay the fee of $500.";
         assertEquals(result, specialSquare.activate(player));
     }
 

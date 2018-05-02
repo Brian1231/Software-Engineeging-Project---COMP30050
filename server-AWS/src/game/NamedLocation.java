@@ -21,15 +21,7 @@ public class NamedLocation implements Identifiable, Locatable, JSONable{
 	public String getId() {
 		return this.identifier;
 	}
-
-	@Override
-	public void setId(String id) {
-		this.identifier = id;		
-	}
 	
-	public Color getColor(){
-		return Color.RED;
-	}
 	@Override
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info = new JSONObject();
@@ -37,7 +29,7 @@ public class NamedLocation implements Identifiable, Locatable, JSONable{
 		info.put("location", this.getLocation());
 		info.put("price", 0);
 		info.put("owner", 0);
-		info.put("color", this.getColor().getRGB());
+		info.put("color", Color.RED.getRGB());
 		info.put("houses", 0);
 		info.put("is_mortgaged", false);
 		info.put("hasTrap", false);

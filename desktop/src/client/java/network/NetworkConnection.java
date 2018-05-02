@@ -1,4 +1,4 @@
-package client.java;
+package client.java.network;
 
 import javafx.application.Platform;
 import org.json.JSONException;
@@ -21,7 +21,6 @@ public class NetworkConnection {
 	private ConnectionThread networkThread = new ConnectionThread();
 	private Consumer<JSONObject> onReceiveCallBack;
 
-
 	public NetworkConnection(String ip, int port, Consumer<JSONObject> function){
 		this.ip = ip;
 		this.port = port;
@@ -39,7 +38,7 @@ public class NetworkConnection {
 		writer.println(output.toString());
 	}
 
-	public void closeConnection() throws Exception {
+	private void closeConnection() throws Exception {
 		networkThread.socket.close();
 		Platform.exit();
 	}
@@ -76,10 +75,17 @@ public class NetworkConnection {
 					}
 				}
 				closeConnection();
-			}catch(Exception e){e.printStackTrace();}
+			}catch(Exception e){
+				try {
+					gameActive=false;
+					onMessage("{f : falseConnection}");
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
+			}
 		}
 
-		public void onMessage(String message) throws JSONException {
+		void onMessage(String message) throws JSONException {
 			JSONObject input = new JSONObject(message);
 			onReceiveCallBack.accept(input);
 		}

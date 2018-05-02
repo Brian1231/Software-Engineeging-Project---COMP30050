@@ -1,4 +1,4 @@
-package client.java;
+package client.java.gui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,9 +12,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class ConfirmBox {
+public class ConfirmBox{
 
-    static boolean answer;
+    private static boolean answer;
 
     public static boolean display(String title, String message){
         Stage window = new Stage();

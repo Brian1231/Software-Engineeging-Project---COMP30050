@@ -2,15 +2,15 @@ package tests;
 
 import game.Dice;
 import game.Player;
-import game.Station;
+
 import game.Utility;
 import noc_db.Character_noc;
 import noc_db.NOC_Manager;
-import noc_db.Vehicle_noc;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
@@ -42,10 +42,10 @@ public class UtilityTest {
 		util2 = new Utility("UCD2", 100, new int[]{4,10});
 		dice = new Dice();
 
-		noc = new NOC_Manager();
+		noc = NOC_Manager.getNocManager();
 		noc.setup();
 		Character_noc ch = noc.getRandomChar();
-		player = new Player(1, "1.1.1.1",noc.getRandomChar(), noc.getVehicle(ch.getVehicle()));
+		player = new Player(1,ch, noc.getVehicle(ch.getVehicle()), Color.BLUE);
     }
 
     @After
@@ -58,7 +58,8 @@ public class UtilityTest {
 
     @Test
     public void getRentalAmount() {
-		int diceRoll = dice.rollDice(2,6);
+		dice.roll();
+		int diceRoll = dice.getRollResult();
 
 		player.addNewPropertyBought(util1);
 		util1.setOwner(player);
