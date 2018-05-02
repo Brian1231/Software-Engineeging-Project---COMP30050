@@ -18,6 +18,8 @@ public class Location {
     private boolean isMortgaged;
     private Image image;
     private int houses;
+
+    private boolean mortgagedLabelled = false;
     // Display objects.
     Circle Tile = new Circle();
 
@@ -115,5 +117,13 @@ public class Location {
 
     public void setHouses(int numHouses){
         houses = numHouses;
+    }
+
+    public boolean isMortgagedLabelled() {
+        return mortgagedLabelled;
+    }
+
+    public void setMortgagedLabelled(boolean mortgagedLabelled) {
+        this.mortgagedLabelled = mortgagedLabelled;
     }
 }
