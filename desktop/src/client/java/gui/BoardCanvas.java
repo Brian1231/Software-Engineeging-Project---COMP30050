@@ -177,16 +177,16 @@ public class BoardCanvas extends ResizableCanvas {
                 break;
         }
 
+		if(location.isMortgaged() && location.isMortgagedLabelled()){
+			relocateMortgageLabels(point, location);
+		}
+
 		if(location.isMortgaged() && !location.isMortgagedLabelled()){
 			addMortgageLabel(point, location);
 		}
 
 		if(!location.isMortgaged() && location.isMortgagedLabelled()){
 			removeMortgageLabel(location);
-		}
-
-		if(location.isMortgaged() && location.isMortgagedLabelled()){
-			relocateMortgageLabels(point, location);
 		}
 	}
 
