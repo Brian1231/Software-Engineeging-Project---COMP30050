@@ -13,13 +13,11 @@ public class Main {
 
 	private static final int MAINPORT = 8080;
 	private static final int DESKTOPPORT = 8000;
+	public static boolean isActive;
 	public static GameState gameState;
 	public static ClientUpdater clientUpdater;
 	public static PortAllocator portAllocator;
 	public static NOC_Manager noc;
-	public static boolean isActive;
-
-	// create game dice object
 	public static Dice dice;
 
 	public static void main(String[] args) throws IOException {

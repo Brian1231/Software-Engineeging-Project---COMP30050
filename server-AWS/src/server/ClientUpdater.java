@@ -26,10 +26,9 @@ public class ClientUpdater extends Thread {
     }
 
     public void updateDesktopBoard() {
-        JSONObject output = null;
+        JSONObject output = new JSONObject();
         PrintWriter out = null;
         try {
-            output = new JSONObject("{}");
             output = Main.gameState.getInfoBoard();
             output.put("action_info", Main.gameState.getActionInfo());
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -41,10 +40,9 @@ public class ClientUpdater extends Thread {
     }
 
     public void updateDesktopBoardWithWinner(Player player) {
-        JSONObject output = null;
+    	JSONObject output = new JSONObject();
         PrintWriter out = null;
         try {
-            output = new JSONObject("{}");
             output = Main.gameState.getInfoBoard();
             output.put("action_info", Main.gameState.getActionInfo());
             output.put("winner", player.getID());
@@ -100,6 +98,7 @@ public class ClientUpdater extends Thread {
 //								if (Main.gameState.players.size() >=2) {
                                 Main.gameState.startGame();
                                 Main.gameState.updateActionInfo("\nGame has started! Good Luck!\n");
+                                Main.portAllocator.updatePlayers();
                                 Main.clientUpdater.updateDesktopPlayers();
 //								} else {
 //									Main.gameState.updateActionInfo("Must have at least 2 players to start the game!");

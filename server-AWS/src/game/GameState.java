@@ -348,24 +348,13 @@ public class GameState implements JSONable {
         return "Someone";
     }
 
-    public Player getWinner() {
-        Player winner = players.get(0);
-
-        for (Player p : players) {
-
-            if (p.getNetWorth() > winner.getNetWorth()) {
-                winner = p;
-            }
-        }
-        return winner;
-    }
-
     public void endGame() {
-        Player winningPlayer = getWinner();
+        Player winner = players.get(0);
+        for (Player p : players)  if (p.getNetWorth() > winner.getNetWorth()) winner = p;
 
         this.updateActionInfo("Game Over");
         Main.clientUpdater.updateDesktopPlayers();
-        Main.clientUpdater.updateDesktopBoardWithWinner(winningPlayer);
+        Main.clientUpdater.updateDesktopBoardWithWinner(winner);
         Main.portAllocator.endGame();
         Main.isActive = false;
     }
