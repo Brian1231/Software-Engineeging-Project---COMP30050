@@ -150,6 +150,7 @@ public class PortAllocator extends Thread{
 			pc.updatePlayer();
 			pc.kill();
 		}
+		this.playerConnections.clear();
 	}
 }
 

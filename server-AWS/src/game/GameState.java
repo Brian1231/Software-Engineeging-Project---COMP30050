@@ -18,7 +18,7 @@ import noc_db.World_noc;
 public class GameState implements JSONable {
 
     private Random rand = new Random();
-    public ArrayList<Player> players;
+    private ArrayList<Player> players;
     private ArrayList<Character_noc> playerCharacters;
     private ArrayList<NamedLocation> locations;
     private Map<String, Player> clientIPplayerIDMap;
@@ -30,13 +30,13 @@ public class GameState implements JSONable {
 
 
     public GameState() {
-        players = new ArrayList<Player>();
-        locations = new ArrayList<NamedLocation>();
-        playerCharacters = new ArrayList<Character_noc>();
-        clientIPplayerIDMap = new HashMap<String, Player>();
-        gameStarted = false;
-        playerTurn = 1;
-        villainGang = new VillainGang();
+        this.players = new ArrayList<Player>();
+        this.locations = new ArrayList<NamedLocation>();
+        this.playerCharacters = new ArrayList<Character_noc>();
+        this.clientIPplayerIDMap = new HashMap<String, Player>();
+        this.gameStarted = false;
+        this.playerTurn = 1;
+        this.villainGang = new VillainGang();
 
         // Tiles generation & setup
         ArrayList<NamedLocation> properties = new ArrayList<NamedLocation>();
@@ -91,9 +91,10 @@ public class GameState implements JSONable {
         int investmentPropCount = 0;
 
         for (int i = 0; i < locations.size(); i++) {
-            locations.get(i).setLocation(i);
-            if (locations.get(i) instanceof InvestmentProperty) {
-                InvestmentProperty prop = (InvestmentProperty) locations.get(i);
+        	NamedLocation namedLocation = locations.get(i);
+        	namedLocation.setLocation(i);
+            if (namedLocation instanceof InvestmentProperty) {
+                InvestmentProperty prop = (InvestmentProperty) namedLocation;
 
                 // setting Investment properties variables
                 prop.setPrice(Constants.INVESTMENT_PRICES[investmentPropCount]);
@@ -103,7 +104,6 @@ public class GameState implements JSONable {
                 prop.setMortgageAmount(Constants.INVESTMENT_MORTGAGE_VALUE[investmentPropCount]);
                 prop.setColour(Constants.INVESTMENT_COLOUR_GROUPS[colourIndex]);
 
-                // increments
                 colourCount++;
                 investmentPropCount++;
 
@@ -149,19 +149,18 @@ public class GameState implements JSONable {
             }
             Player newPlayer = new Player(newID, ch, Main.noc.getVehicle(ch.getVehicle()), Constants.playerColours[newID]);
             this.playerCharacters.add(ch);
-            players.add(newPlayer);
-            clientIPplayerIDMap.put(client_ip, newPlayer);
+            this.players.add(newPlayer);
+            this.clientIPplayerIDMap.put(client_ip, newPlayer);
             return newID;
         } else {
             return -1;
         }
-
     }
 
     public void removePlayer(Player player) {
         this.playerCharacters.remove(player.getCharacter());
         this.players.remove(player);
-        if (this.players.size() == 1)
+        if (this.players.size() <= 1)
             this.endGame();
         else {
             this.incrementPlayerTurn();
@@ -257,14 +256,14 @@ public class GameState implements JSONable {
                     return player.getCharName() + " did nothing.";
             }
         } else {
-            return "It's not your turn!";
+        	String[] notYourTurn = {"It's not your turn!", "Wait your turn!", "Hang on! It's not your turn", "Not you!"};
+            return notYourTurn[rand.nextInt(notYourTurn.length-1)];
         }
     }
 
     public void incrementPlayerTurn() {
         this.playerTurn++;
         if (this.playerTurn > this.players.size()) {
-
             this.playerTurn = 1;
         }
         Main.portAllocator.alertPlayer(this.playerTurn);

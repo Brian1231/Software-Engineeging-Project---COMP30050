@@ -23,8 +23,8 @@ public class PlayerConnection extends Thread{
 	private BufferedWriter out;
 	private boolean keepAlive;
 
-	public PlayerConnection(int id, int portNum){
-		this.port = portNum;
+	public PlayerConnection(int id, int port){
+		this.port = port;
 		this.playerID = id;
 		this.keepAlive = true;
 		try {
@@ -44,8 +44,7 @@ public class PlayerConnection extends Thread{
 			socket.close();
 			server.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 
 	}
@@ -60,7 +59,6 @@ public class PlayerConnection extends Thread{
 			e2.printStackTrace();
 		}
 
-
 		System.out.println("Connected Player to Port " +  + this.port);
 
 		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
@@ -72,10 +70,9 @@ public class PlayerConnection extends Thread{
 
 		BufferedReader reader = null;
 		try {
-
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		while(Main.isActive && this.keepAlive){
 			synchronized(this){
@@ -112,7 +109,6 @@ public class PlayerConnection extends Thread{
 								Main.portAllocator.updatePlayers();
 							}
 						}
-
 						System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
 					}
 				}
@@ -149,12 +145,9 @@ public class PlayerConnection extends Thread{
 			output.put("action_info", Main.gameState.getActionInfo());
 			out.write(output.toString()+ "\n");
 			out.flush();
-			//output = Main.gameState.getInfo();
 		} catch (JSONException | IOException e1) {
 			e1.printStackTrace();
 		}
-		//Output to desktop
-
 	}
 }
 
