@@ -26,4 +26,5 @@
     <string name="new_game">New game</string>
     <string name="no_feed">No feed</string>
     <string name="game_feed">Game Feed</string>
+    <string name="your_turn">It\'s your turn.</string>
 </resources>
