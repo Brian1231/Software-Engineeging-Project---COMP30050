@@ -251,6 +251,7 @@ public class GameState implements JSONable {
                 case "done":
 
                     return playerActions.done(player);
+                    
                 default:
 
                     return player.getCharName() + " did nothing.";

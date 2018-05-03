@@ -46,7 +46,6 @@ public class PlayerConnection extends Thread{
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-
 	}
 
 	public void setup(){
@@ -75,11 +74,11 @@ public class PlayerConnection extends Thread{
 			e.printStackTrace();
 		}
 		while(Main.isActive && this.keepAlive){
-			synchronized(this){
+			synchronized(Main.gameState){
 
 				try {
-
 					if(reader.ready()){
+						System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
 						String line = reader.readLine();
 						if (!line.isEmpty()) {
 							System.out.println("Message from Player "+this.playerID+": " + line);
@@ -87,10 +86,10 @@ public class PlayerConnection extends Thread{
 
 						//Parse JSONObject from input
 						JSONObject obj = new JSONObject(line);
-						int id = (int) obj.get("id");
+						int id = obj.getInt("id");
 						if(id == this.playerID){
-							String action = (String) obj.get("action");
-							String[] args = ((String) obj.get("args")).split(",");
+							String action = obj.getString("action");
+							String[] args =  obj.getString("args").split(",");
 							//Update Main.gamestate based on phone input and this.playerID
 							if(!action.equals("connect")){
 								String actionInfo = Main.gameState.playerAction(id, action, args);
@@ -104,12 +103,11 @@ public class PlayerConnection extends Thread{
 									Main.clientUpdater.updateDesktopBoard();
 								else
 									Main.clientUpdater.updateDesktopPlayers();
-
 								//Update all players
 								Main.portAllocator.updatePlayers();
 							}
 						}
-						System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
+						//System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
 					}
 				}
 				catch (IOException | JSONException e1) {

@@ -55,10 +55,9 @@ public class ClientUpdater extends Thread {
     }
 
     public void updateDesktopPlayers() {
-        JSONObject output = null;
+        JSONObject output = new JSONObject();
         PrintWriter out = null;
         try {
-            output = new JSONObject("{}");
             output = Main.gameState.getInfoPlayers();
             output.put("action_info", Main.gameState.getActionInfo());
             output.put("dice_values", Main.dice.getDiceValues());
@@ -79,9 +78,7 @@ public class ClientUpdater extends Thread {
         }
 
         while (Main.isActive) {
-            //synchronized(Main.gameState){ maybe better
-            synchronized (this) {
-
+            synchronized (Main.gameState) {
                 try {
                     //Input from desktop
                     if (reader.ready()) {
@@ -92,9 +89,10 @@ public class ClientUpdater extends Thread {
 
                         //Parse JSONObject from input
                         JSONObject obj = new JSONObject(line);
-                        int id = (int) obj.get("id");
+                        int id = obj.getInt("id");
                         if (id == 0) {
-                            if (obj.get("action").equals("start")) {
+                        	String action = obj.getString("action");
+                            if (action.equals("start")) {
 //								if (Main.gameState.players.size() >=2) {
                                 Main.gameState.startGame();
                                 Main.gameState.updateActionInfo("\nGame has started! Good Luck!\n");
@@ -104,12 +102,11 @@ public class ClientUpdater extends Thread {
 //									Main.gameState.updateActionInfo("Must have at least 2 players to start the game!");
 //								}
                             }
-                            if (obj.get("action").equals("end")) {
+                            if (action.equals("end")) {
                                 Main.gameState.endGame();
                             }
                         }
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

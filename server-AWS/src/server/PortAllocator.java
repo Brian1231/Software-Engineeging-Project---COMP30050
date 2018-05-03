@@ -47,7 +47,7 @@ public class PortAllocator extends Thread{
 
 			System.out.println("New Connection on Port "+this.port);
 
-			synchronized(this){
+			synchronized(Main.gameState){
 				try {
 					//Read input from client
 					BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
