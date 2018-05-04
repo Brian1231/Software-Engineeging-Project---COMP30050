@@ -162,7 +162,10 @@ public class PortAllocator extends Thread{
 		}
 	}
 
-
+	public void alertEveryone() {
+		for(PlayerConnection pc : this.playerConnections) pc.vibrate();
+	}
+	
 	public void endGame() {
 		for(PlayerConnection pc : this.playerConnections){
 			pc.updatePlayer();
@@ -170,5 +173,7 @@ public class PortAllocator extends Thread{
 		}
 		this.playerConnections.clear();
 	}
+
+	
 }
 

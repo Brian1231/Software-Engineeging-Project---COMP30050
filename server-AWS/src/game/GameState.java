@@ -209,6 +209,7 @@ public class GameState implements JSONable {
 
 	public void startAuction(RentalProperty prop, Player playerBuying, int price){
 		this.auction.auction(prop, playerBuying, price);
+		Main.portAllocator.alertEveryone();
 	}
 
 	public void finishAuction(){
@@ -246,7 +247,7 @@ public class GameState implements JSONable {
 			case "sell":
 
 				NamedLocation prop = this.locations.get(Integer.parseInt(args[0]));
-				return playerActions.sell(player, prop,100);
+				return playerActions.sell(player, prop, Integer.parseInt(args[1]));
 
 			case "bid":
 
@@ -286,7 +287,7 @@ public class GameState implements JSONable {
 
 			case "done":
 
-				return playerActions.done(player);
+				return playerActions.done(player, this.locations.get(player.getPos()));
 
 			default:
 

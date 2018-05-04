@@ -199,9 +199,20 @@ public class PlayerActions {
 		return " You cant demolish on " + loc.getId();
 	}
 
-	public String done(Player player) {
+	public String done(Player player, NamedLocation location) {
 		if(!player.isInDebt()){
 			if(player.hasRolled()){
+				if(location instanceof RentalProperty){
+					RentalProperty prop = (RentalProperty) location;
+					if(prop.isOwned()){
+						player.reset();
+						Main.gameState.incrementPlayerTurn();
+						Main.gameState.updateVillainGang();
+						return player.getCharName()+" finished their turn.";
+					}
+					Main.gameState.startAuction(prop, null, 1);
+					return player.getCharName()+" didn't buy " + prop.getId() + " so it's goes to the highest bidder!";
+				}
 				player.reset();
 				Main.gameState.incrementPlayerTurn();
 				Main.gameState.updateVillainGang();
