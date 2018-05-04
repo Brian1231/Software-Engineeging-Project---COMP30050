@@ -211,6 +211,7 @@ public class PlayerActions {
 						return player.getCharName()+" finished their turn.";
 					}
 					Main.gameState.startAuction(prop, null, 1);
+					Main.clientUpdater.updateDesktopAuction();
 					return player.getCharName()+" didn't buy " + prop.getId() + " so it's goes to the highest bidder!";
 				}
 				player.reset();

@@ -83,7 +83,10 @@ public class Auction implements JSONable{
 			info.put("player_selling", this.prop.getOwner().getID());
 		else
 			info.put("player_selling", 0);
-		info.put("player_buying", this.playerBuying.getID());
+		if(this.playerBuying != null)
+			info.put("player_buying", this.playerBuying.getID());
+		else
+			info.put("player_buying", 0);
 		info.put("price", this.price);
 		info.put("location", this.prop.getLocation());
 		return info;
