@@ -3,6 +3,7 @@ package client.java.gui;
 
 import java.util.ArrayList;
 
+import client.java.gameObjects.Auction;
 import client.java.main.Game;
 import client.java.gameObjects.Location;
 import client.java.gameObjects.Player;
@@ -21,6 +22,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import org.json.JSONObject;
 
 
 public class InformationPane extends Pane {
@@ -51,6 +53,15 @@ public class InformationPane extends Pane {
     private HBox bottom = new HBox();
     private Region spacing1 = new Region();
     private Region spacing2 = new Region();
+
+    // Auction
+    private Circle auctionCircle = new Circle();
+    private Circle auctionProp = new Circle();
+    private Label auctionName = new Label("");
+    private Label auctionHeading = new Label("AUCTION STARTED");
+    private Label auctionPrice = new Label("");
+    private Label highestBidder = new Label("");
+    private Label timer = new Label("10");
 
     public InformationPane() {
         //Title
@@ -165,6 +176,35 @@ public class InformationPane extends Pane {
 
         getChildren().add(diceLeft);
         getChildren().add(diceRight);
+
+        //Auction
+        auctionCircle.layoutXProperty().bind(tileInfo.layoutXProperty());
+        auctionCircle.layoutYProperty().bind(tileInfo.layoutYProperty());
+        auctionCircle.setFill(Color.WHITE);
+        auctionCircle.setStroke(Color.GOLD);
+        auctionCircle.radiusProperty().bind(tileInfo.radiusProperty().add(10));
+
+        auctionProp.layoutXProperty().bind(auctionCircle.layoutXProperty());
+        auctionProp.layoutYProperty().bind(auctionCircle.layoutYProperty());
+        auctionProp.radiusProperty().bind(auctionCircle.radiusProperty().divide(5));
+
+        auctionHeading.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(auctionHeading.widthProperty().divide(2)));
+        auctionHeading.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(auctionCircle.radiusProperty().divide(3)));
+        auctionHeading.setFont(new Font("Verdana", 50));
+
+        auctionName.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(auctionName.widthProperty().divide(2)));
+        auctionName.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionProp.radiusProperty().add(auctionProp.radiusProperty().divide(4))));
+
+        highestBidder.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(highestBidder.widthProperty().divide(2)));
+        highestBidder.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionCircle.radiusProperty().subtract(auctionCircle.radiusProperty().divide(7))));
+
+        auctionPrice.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(auctionPrice.widthProperty().divide(2)));
+        auctionPrice.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionCircle.radiusProperty().divide(4)));
+
+        timer.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(timer.widthProperty().divide(2)));
+        timer.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(auctionProp.radiusProperty().subtract(auctionProp.radiusProperty().divide(6))));
+        timer.setFont(new Font("Verdana", 60));
+        timer.setTextFill(Color.ORANGE);
     }
 
 	public void updateFeed(String s) {
@@ -230,8 +270,41 @@ public class InformationPane extends Pane {
             getChildren().remove(mortgaged);
         }
         */
-
 	}
+
+	public void addAuctionCircle(){
+        // Current players location info
+        getChildren().add(auctionCircle);
+        getChildren().add(auctionHeading);
+        getChildren().add(auctionName);
+        getChildren().add(auctionProp);
+        getChildren().add(auctionPrice);
+        getChildren().add(highestBidder);
+        getChildren().add(timer);
+    }
+
+    public void updateAuctionInfo(Auction auction){
+        ImagePattern locImg = new ImagePattern(auction.getLocation().getImage());
+        auctionProp.setFill(locImg);
+        auctionName.setText(auction.getLocation().getName());
+        auctionPrice.setText(Integer.toString(auction.getCurrentPrice()));
+        Player currentHighest = Game.getPlayer(auction.getHighestBidder());
+        highestBidder.setText(currentHighest.getCharacter());
+    }
+
+    public void updateTimer(int time){
+        timer.setText(Integer.toString(time));
+    }
+
+    public void removeAuctionCircle(){
+        getChildren().remove(auctionCircle);
+        getChildren().remove(auctionHeading);
+        getChildren().remove(auctionName);
+        getChildren().remove(auctionProp);
+        getChildren().remove(auctionPrice);
+        getChildren().remove(highestBidder);
+        getChildren().remove(timer);
+    }
 
     public void addPlayerInfo(Player player){
        VBox stats = player.stats;
