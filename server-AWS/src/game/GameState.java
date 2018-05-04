@@ -149,6 +149,9 @@ public class GameState implements JSONable {
             }
             Player newPlayer = new Player(newID, ch, Main.noc.getVehicle(ch.getVehicle()), Constants.playerColours[newID]);
             this.playerCharacters.add(ch);
+            Character_noc villain = Main.noc.getOpponent(newPlayer.getCharacter());
+            villain.setWeaponObject(Main.noc.getWeapon(villain.getWeapon()));
+            newPlayer.setVillain(villain);
             this.players.add(newPlayer);
             this.clientIPplayerIDMap.put(client_ip, newPlayer);
             return newID;

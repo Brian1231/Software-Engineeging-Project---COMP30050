@@ -28,6 +28,7 @@ public class Character_noc {
     private String Creation;
     private String FictionalWorld;
     private String Category;
+    private Weapon_noc weapon;
 
     private Random random = new Random();
 
@@ -122,6 +123,9 @@ public class Character_noc {
     public String getWeapon() {
         return this.WeaponOfChoice;
     }
+
+    public void setWeaponObject(Weapon_noc weapon) { this.weapon = weapon; }
+    public Weapon_noc getWeaponObject() { return this.weapon; }
 
     public String getVehicle() {
         return this.VehicleOfChoice;

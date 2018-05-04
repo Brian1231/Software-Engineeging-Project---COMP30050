@@ -33,6 +33,7 @@ public class Player implements Playable, JSONable{
 	private Playable playerOwed;
 	private ArrayList<RentalProperty> ownedProperties = new ArrayList<>();
 	private Character_noc character;
+	private Character_noc villain;
 	private Vehicle_noc vehicle;
 	
 	public Player(int playerId, Character_noc ch, Vehicle_noc vehicle, Color color){
@@ -128,6 +129,11 @@ public class Player implements Playable, JSONable{
 	}
 
 	@Override
+	public void setVillain(Character_noc villain) {
+		this.villain = villain;
+	}
+
+	@Override
 	public boolean incrementJailTurns(){
 		this.jailTurnCount++;
 		if(this.jailTurnCount==3){
@@ -185,6 +191,11 @@ public class Player implements Playable, JSONable{
 	@Override
 	public int getBalance(){
 		return this.balance;
+	}
+
+	@Override
+	public int getDebt() {
+		return this.debt;
 	}
 
 	@Override
@@ -331,6 +342,11 @@ public class Player implements Playable, JSONable{
 	@Override
 	public Character_noc getCharacter() {
 		return this.character;
+	}
+
+	@Override
+	public Character_noc getVillain() {
+		return this.villain;
 	}
 
 	@Override
