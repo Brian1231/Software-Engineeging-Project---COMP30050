@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import com.squareup.picasso.Picasso
@@ -13,6 +14,7 @@ import org.jetbrains.anko.noButton
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.yesButton
 import pw.jcollado.segamecontroller.R
+import pw.jcollado.segamecontroller.auctionActivity.AuctionActivity
 import pw.jcollado.segamecontroller.feedActivity.FeedActivity
 import pw.jcollado.segamecontroller.listPropertiesActivity.ListPropertiesActivity
 import pw.jcollado.segamecontroller.joinActivity.JoinActivity
@@ -94,6 +96,10 @@ class MainActivity : App() {
             }
             R.id.feedMenu -> {
                 startActivity(Intent(this, FeedActivity::class.java))
+                true
+            }
+            R.id.auctionMenu -> {
+                startActivity(Intent(this, AuctionActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
