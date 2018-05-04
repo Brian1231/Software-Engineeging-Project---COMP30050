@@ -180,7 +180,6 @@ public class BoardCanvas extends ResizableCanvas {
 		if(location.isMortgaged() && location.isMortgagedLabelled()){
 			relocateMortgageLabels(point, location);
 		}
-
 		if(location.isMortgaged() && !location.isMortgagedLabelled()){
 			addMortgageLabel(point, location);
 		}

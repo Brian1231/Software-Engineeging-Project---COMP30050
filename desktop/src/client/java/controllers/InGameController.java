@@ -71,12 +71,12 @@ public class InGameController {
 		setUpBoard();
 		Game.setPlayerCanvas(playerCanvas);
 		// Testing
-//		Player p1 = new Player("1500", 1, 0, Color.WHITE, "SuperMan", 1, true);
-//		Player p2 = new Player("2000", 2, 4, Color.RED, "Batman", 2, true);
-//		ArrayList<Player> ps = new ArrayList<>();
-//		ps.add(p1);
-//		ps.add(p2);
-//		Game.updatePlayers(ps,"");
+		Player p1 = new Player("1500", 1, 0, Color.WHITE, "SuperMan", 1, true);
+		Player p2 = new Player("2000", 2, 4, Color.RED, "Batman", 2, true);
+		ArrayList<Player> ps = new ArrayList<>();
+		ps.add(p1);
+		ps.add(p2);
+		Game.updatePlayers(ps,"");
 		try {
 			connection.startConnection();
 		} catch (Exception e1) {
@@ -196,7 +196,8 @@ public class InGameController {
 
 	private void onFalseConnection(){
 		Platform.runLater(() ->{
-			AlertBox.display("Error Connecting","Could not Connect to the Server.");
+			AlertBox.display("Error Connecting","Could not Connect to the Server.", gameStage);
+
 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/welcomeScreen.fxml"));
 			Parent welcome = null;
@@ -232,7 +233,7 @@ public class InGameController {
 				Game.gameStarted = true;
 				startButton.setText("End Game");
 				startButton.setOnAction(e2 -> {
-					boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?");
+					boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?", gameStage);
 					if (answer) {
 						showGameOverScreen();
 					}
