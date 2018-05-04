@@ -26,6 +26,11 @@ fun Context.loadDialog(con: Context,message:String){
         progressBar?.show()
 
 }
+
+fun Context.getPropertyImageURL(propertyName:String): String{
+  return "http://52.48.249.220/worlds/$propertyName.jpg"
+
+}
 fun Context.closeLoadingDialog(){
 
     progressBar?.dismiss()

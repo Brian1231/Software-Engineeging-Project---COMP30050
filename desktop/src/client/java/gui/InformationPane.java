@@ -180,7 +180,7 @@ public class InformationPane extends Pane {
 		newText.setStyle("-fx-fill: rgb("+r+", "+g+", "+b+");");
 		newText.setFont(new Font("Verdana", 18));
 		messages.add(newText);
-		if(messages.size()>6) messages.remove(0);
+		if(messages.size()>4) messages.remove(0);
 		
 		newsfeed.getChildren().clear();
 		for(int i=0;i<messages.size();i++){

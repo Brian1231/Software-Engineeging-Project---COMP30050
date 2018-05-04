@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="pw.jcollado.segamecontroller.JoinActivity.JoinActivity">
+    tools:context="pw.jcollado.segamecontroller.joinActivity.JoinActivity">
 
     <Button
         android:id="@+id/joinButton"

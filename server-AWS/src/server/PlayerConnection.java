@@ -23,8 +23,8 @@ public class PlayerConnection extends Thread{
 	private BufferedWriter out;
 	private boolean keepAlive;
 
-	public PlayerConnection(int id, int portNum){
-		this.port = portNum;
+	public PlayerConnection(int id, int port){
+		this.port = port;
 		this.playerID = id;
 		this.keepAlive = true;
 		try {
@@ -44,10 +44,8 @@ public class PlayerConnection extends Thread{
 			socket.close();
 			server.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
-
 	}
 
 	public void setup(){
@@ -60,7 +58,6 @@ public class PlayerConnection extends Thread{
 			e2.printStackTrace();
 		}
 
-
 		System.out.println("Connected Player to Port " +  + this.port);
 
 		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
@@ -72,17 +69,16 @@ public class PlayerConnection extends Thread{
 
 		BufferedReader reader = null;
 		try {
-
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		while(Main.isActive && this.keepAlive){
-			synchronized(this){
+			synchronized(Main.gameState){
 
 				try {
-
 					if(reader.ready()){
+						System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
 						String line = reader.readLine();
 						if (!line.isEmpty()) {
 							System.out.println("Message from Player "+this.playerID+": " + line);
@@ -90,10 +86,10 @@ public class PlayerConnection extends Thread{
 
 						//Parse JSONObject from input
 						JSONObject obj = new JSONObject(line);
-						int id = (int) obj.get("id");
+						int id = obj.getInt("id");
 						if(id == this.playerID){
-							String action = (String) obj.get("action");
-							String[] args = ((String) obj.get("args")).split(",");
+							String action = obj.getString("action");
+							String[] args =  obj.getString("args").split(",");
 							//Update Main.gamestate based on phone input and this.playerID
 							if(!action.equals("connect")){
 								String actionInfo = Main.gameState.playerAction(id, action, args);
@@ -107,13 +103,11 @@ public class PlayerConnection extends Thread{
 									Main.clientUpdater.updateDesktopBoard();
 								else
 									Main.clientUpdater.updateDesktopPlayers();
-
 								//Update all players
 								Main.portAllocator.updatePlayers();
 							}
 						}
-
-						System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
+						//System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
 					}
 				}
 				catch (IOException | JSONException e1) {
@@ -149,12 +143,9 @@ public class PlayerConnection extends Thread{
 			output.put("action_info", Main.gameState.getActionInfo());
 			out.write(output.toString()+ "\n");
 			out.flush();
-			//output = Main.gameState.getInfo();
 		} catch (JSONException | IOException e1) {
 			e1.printStackTrace();
 		}
-		//Output to desktop
-
 	}
 }
 

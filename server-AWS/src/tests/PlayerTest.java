@@ -327,7 +327,7 @@ public class PlayerTest {
 	@Test
 	public void isInDebt() {
 		assertFalse(player.isInDebt());
-		player.setDebt(100);
+		player.setDebt(100, null);
 		assertTrue(player.isInDebt());
 	}
 

@@ -84,7 +84,7 @@ public class ChanceTemplate {
 		StringBuilder sb = new StringBuilder();
 		sb.append(char1.getName()).append(" appears ").append(vehicle.getAffordance()).append(" ").append(vehicle.getDeterminer()).append(" ").append(vehicle.getVehicle()).append(". ");
 		sb.append(pronoun + " says that " + pronoun.toLowerCase() + " is tired of " + char1.getActivity() + " and wants some action. ");
-		sb.append(pronoun + " quickly readys " + them.toLowerCase() + " " + weapon.getWeapon() + " and begins " +  weapon.getAffordanceWithTarget("you") + "it. ");
+		sb.append(pronoun + " quickly readys " + possesion.toLowerCase() + " " + weapon.getWeapon() + " and begins " +  weapon.getAffordanceWithTarget("you") + " it. ");
 		sb.append("You decide to pay " + them.toLowerCase() + " to stop.");
 		return sb.toString(); 
 	}

@@ -13,10 +13,10 @@ import noc_db.Weapon_noc;
 
 public class VillainGang implements JSONable, VillainGangable {
 
-	private boolean isActive;
-	private int position;
-	private boolean isOnGo;
 	private int turnsToLive;
+	private int position;
+	private boolean isActive;
+	private boolean isOnGo;
 
 	public VillainGang(){
 		this.isActive = false;
@@ -80,7 +80,7 @@ public class VillainGang implements JSONable, VillainGangable {
     public String attackPlayer(Player player){
 		Random random = new Random();
 		int amount = 50 + 10*random.nextInt(26);
-		player.setDebt(amount);
+		player.setDebt(amount, null);
 		Character_noc playerCharacter = player.getCharacter();
 		Character_noc villain = Main.noc.getOpponent(playerCharacter);
 		Weapon_noc villainWeapon = Main.noc.getWeapon(villain.getWeapon());

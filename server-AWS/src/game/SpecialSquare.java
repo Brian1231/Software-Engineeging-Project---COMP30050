@@ -6,16 +6,15 @@ public class SpecialSquare extends NamedLocation{
 		super(name);
 	}
 	
-	
 	public String activate(Player player){
-		String res = "";
+		StringBuilder res = new StringBuilder();
 		switch (this.getLocation()){
 		//Go
 		case 0:
-			res+="\n"+player.getCharName() + " arrived at the galactic core.";
-			res+="\nThe fuel for " + player.getPossessive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up.";
+			res.append("\n"+player.getCharName() + " arrived at the galactic core.");
+			res.append("\nThe fuel for " + player.getPossessive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up.");
 			player.topUpFuel();
-			return res;
+			return res.toString();
 			//Go to jail
 		case 10:
 			player.sendToJail();

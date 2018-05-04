@@ -12,11 +12,12 @@ object Player {
 
      var character: String = ""
      var balance: Int = 0
-     var position: Int = 0
+     var position: String = ""
      var fuel: Int = 0
      var id: Int = 0
      var colour: Int = 0
      var properties: ArrayList<Property> = ArrayList()
+     var action_info:  ArrayList<String> = ArrayList()
 
 
 
