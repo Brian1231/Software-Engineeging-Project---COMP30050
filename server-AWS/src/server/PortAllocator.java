@@ -132,7 +132,8 @@ public class PortAllocator extends Thread{
 	}
 
 	public void removePlayer(int id) {
-		for(PlayerConnection pc : this.playerConnections){
+		for(int i=0;i<this.playerConnections.size();i++){
+			PlayerConnection pc = this.playerConnections.get(i);
 			if(pc.getPlayerId() == id) {
 				pc.kill();
 				this.playerConnections.remove(pc);
@@ -162,10 +163,10 @@ public class PortAllocator extends Thread{
 		}
 	}
 
-	public void alertEveryone() {
-		for(PlayerConnection pc : this.playerConnections) pc.vibrate();
+	public void alertEveryoneAuction() {
+		for(PlayerConnection pc : this.playerConnections) pc.auctionAlert();
 	}
-	
+
 	public void endGame() {
 		for(PlayerConnection pc : this.playerConnections){
 			pc.updatePlayer();
@@ -174,6 +175,6 @@ public class PortAllocator extends Thread{
 		this.playerConnections.clear();
 	}
 
-	
+
 }
 

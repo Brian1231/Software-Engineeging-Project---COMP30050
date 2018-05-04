@@ -314,7 +314,7 @@ public class PlayerTest {
 
 		assertEquals(prop2, player.getOwnedProperties().get(1));
 
-		player.removePropertySold(prop2);
+		player.removePropertySold(prop2, prop2.getPrice());
 
 		assertEquals(1,player.getOwnedProperties().size());
 	}

@@ -303,6 +303,8 @@ public class PlayerActions {
 		for(RentalProperty p : player.getOwnedProperties()){
 			p.setUnOwned();
 		}
+		Main.gameState.removePlayer(player);
+		
 		return player.getCharName() + " has declared bankruptcy and any property they own has been released. ";
 	}
 

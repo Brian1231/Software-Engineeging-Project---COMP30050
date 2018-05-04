@@ -49,6 +49,7 @@ public class Auction implements JSONable{
 			}
 		}
 		else if(!(playerBuying == null)){
+			prop.setOwner(playerBuying);
 			playerBuying.addNewPropertyBought(prop, price);
 			res = playerBuying.getCharName() + " bought " + prop.getId() + " for " + this.price + ".";
 		}
