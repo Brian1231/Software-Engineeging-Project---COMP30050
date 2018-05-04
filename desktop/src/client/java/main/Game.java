@@ -27,6 +27,7 @@ public class Game {
     private static boolean auctionActive;
     private static Auction auction = null;
     private static int auctionTimer;
+    public static ArrayList<Player> bankruptPlayers = new ArrayList<>();
 
 
     // Player Methods
@@ -90,6 +91,7 @@ public class Game {
         if(observablePlayers.contains(player)){
             pCanvas.removePlayerToken(player);
             observablePlayers.remove(player);
+            bankruptPlayers.add(player);
         }
     }
 

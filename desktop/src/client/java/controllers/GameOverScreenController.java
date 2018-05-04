@@ -19,7 +19,10 @@ public class GameOverScreenController {
     public VBox layout = new VBox();
     private Label gameOverLabel = new Label();
 
+    private int winner = 0;
+
     public void initialize(){
+
         gameOverLabel.setTextFill(Color.rgb(232, 142, 39));
         gameOverLabel.setText("GAME OVER");
         gameOverLabel.setFont(Font.font("Verdana", 70) );
@@ -29,14 +32,44 @@ public class GameOverScreenController {
         layout.getChildren().add(gameOverLabel);
         base.setCenter(layout);
 
-        // Just prints any player for now
-        for(Player p :Game.observablePlayers){
+    }
+
+    public void setWinner(int playerId){
+        this.winner = playerId;
+        if(winner != 0){
+            for(Player p :Game.bankruptPlayers){
+                Label pLabel = new Label();
+                pLabel.setText("Player " + p.getId() + ": " + p.getCharacter() + " lost");
+                pLabel.setTextFill(Color.rgb(232, 142, 39));
+                pLabel.setFont(Font.font("Verdana", 30));
+                layout.getChildren().add(pLabel);
+            }
+
+            Label winnerLabel = new Label();
+            Player winnerP = Game.getPlayer(winner);
+
+            winnerLabel.setText("Player " + winnerP + ": " + winnerP.getCharacter() + "won!" +  " Money: " + winnerP.getBalance());
+            winnerLabel.setTextFill(Color.rgb(232, 142, 39));
+            winnerLabel.setFont(Font.font("Verdana", 60));
+            layout.getChildren().add(winnerLabel);
+        }
+        else{
+            for(Player p : Game.observablePlayers){
                 Label pLabel = new Label();
                 pLabel.setText("Player " + p.getId() + ": " + p.getCharacter() + " won!");
                 pLabel.setTextFill(Color.rgb(232, 142, 39));
                 pLabel.setFont(Font.font("Verdana", 30));
                 layout.getChildren().add(pLabel);
-                break;
+            }
+            if(!Game.bankruptPlayers.isEmpty()){
+                for(Player p : Game.bankruptPlayers){
+                    Label pLabel = new Label();
+                    pLabel.setText("Player " + p.getId() + ": " + p.getCharacter() + " won!");
+                    pLabel.setTextFill(Color.rgb(232, 142, 39));
+                    pLabel.setFont(Font.font("Verdana", 30));
+                    layout.getChildren().add(pLabel);
+                }
+            }
         }
     }
 

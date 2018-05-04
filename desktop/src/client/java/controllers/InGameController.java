@@ -128,8 +128,14 @@ public class InGameController {
 						infoPane.updatePlayerTurn(Game.playerTurn);
 					}
 
+					if(update.has("winner")){
+						int winnerID = update.getInt("winner");
+						showGameOverScreen(winnerID);
+					}
+
 					String actionInfo = update.getString("action_info");
 
+					// Auctioning
 					if(update.has("auction")){
 						JSONObject auctionObject = update.getJSONObject("auction");
 
@@ -302,10 +308,21 @@ public class InGameController {
 				infoPane.removeLogo();
 				Game.gameStarted = true;
 				startButton.setText("End Game");
+				startButton.setOnAction(null);
+
 				startButton.setOnAction(e2 -> {
 					boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?", gameStage);
 					if (answer) {
-						showGameOverScreen();
+						try {
+							output.put("id", 0);
+							output.put("action", "end");
+							connection.send(output);
+						} catch (JSONException e1) {
+							e1.printStackTrace();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+						showGameOverScreen(0);
 					}
 				});
 			} catch (Exception e1) {
@@ -328,7 +345,7 @@ public class InGameController {
 		playerCanvas.draw();
 	}
 
-	private void showGameOverScreen(){
+	private void showGameOverScreen(int winnerID){
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/gameOverScreen.fxml"));
 		Parent gameOver = null;
 
@@ -338,12 +355,14 @@ public class InGameController {
 			e.printStackTrace();
 		}
 
+
 		Scene gameOverScene = new Scene(gameOver);
 		gameOverScene.getStylesheets().addAll(this.getClass().getResource("/client/resources/css/welcome.css").toExternalForm());
 		Stage gameOverStage = new Stage();
 		gameOverStage.setScene(gameOverScene);
 
-		//InGameController gameController = loader.getController();
+		GameOverScreenController gameOverController = loader.getController();
+		gameOverController.setWinner(winnerID);
 		gameOverStage.setOnCloseRequest(e -> closeGame());
 		gameOverStage.show();
 	}

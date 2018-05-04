@@ -9,7 +9,7 @@ public class Auction {
     int currentPrice;
     Location location;
     int time;
-    
+
     public Auction(int playerSelling, int highestBidder, int currentPrice, int position ) {
         this.playerSelling = playerSelling;
         this.highestBidder = highestBidder;
