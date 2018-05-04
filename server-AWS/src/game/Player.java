@@ -304,7 +304,15 @@ public class Player implements Playable, JSONable{
 		int worth = balance;
 		//Sum price of all owned properties
 		for (RentalProperty p: ownedProperties) {
-			worth += p.getPrice();
+			if(!p.isMortgaged()) {
+				worth += p.getPrice();
+			} else {
+				worth += p.getPrice()/2;
+			}
+			if (p instanceof InvestmentProperty) {
+				InvestmentProperty investmentProperty = (InvestmentProperty) p;
+				worth += investmentProperty.getNumHousesAndHotels() * investmentProperty.getHousePrice();
+			}
 		}
 		return worth;
 	}
