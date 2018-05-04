@@ -1,8 +1,8 @@
 .button{
-    -fx-border-color: #e88e27;
+    -fx-border-color: linear-gradient(#AC82FA, #FF0066);
     -fx-background-color: rgba(255,255,255,0.2);
     -fx-font-size: 20px;
-    -fx-text-fill: #e88e27;
+    -fx-text-fill: #26d7ff;
 }
 
 .button:hover{

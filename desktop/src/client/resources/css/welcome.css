@@ -7,7 +7,7 @@
 
 .button{
     -fx-border-width: 2px ;
-    -fx-border-color: #ff1e70;
+    -fx-border-color: linear-gradient(#AC82FA, #FF0066);
     -fx-background-color: rgba(255,255,255,0.2);
     -fx-font-size: 30px;
     -fx-text-fill: #26d7ff;
