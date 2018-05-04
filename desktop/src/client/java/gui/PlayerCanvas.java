@@ -41,7 +41,6 @@ public class PlayerCanvas extends ResizableCanvas {
 		GraphicsContext gc = getGraphicsContext2D();
 		gc.clearRect(0, 0, width, height);
 
-		//drawPlayers(gc, width, height);
 		drawVillains(gc, width, height);
 	}
 
@@ -72,6 +71,7 @@ public class PlayerCanvas extends ResizableCanvas {
 		}
 	}
 
+	// Draws Villains at their current location.
 	private void drawVillains(GraphicsContext g, double width, double height){
 		if(Game.villainGang.isActive()){
 			int position = Game.villainGang.getPosition();
@@ -118,6 +118,7 @@ public class PlayerCanvas extends ResizableCanvas {
 		return new Point2D(offsetX,offsetY);
 	}
 
+	// Adds player Token to the board when they join game
 	public void addPlayerToken(Player p){
 
 		double t = -PI/2 + step*p.getPosition();
@@ -133,11 +134,13 @@ public class PlayerCanvas extends ResizableCanvas {
 		parent.getChildren().add(p.playerToken);
 	}
 
+	// Removes player token on bankruptcy/quit
 	public void removePlayerToken(Player p){
 		Pane parent = (Pane) this.getParent();
 		parent.getChildren().remove(p.playerToken);
 	}
 
+	// Animates PLayer Movement on dice Roll / Boost
 	public void animatePlayer(Player p, int newPos){
 		int duration = 4;
 		Polyline path = new Polyline();
@@ -155,7 +158,6 @@ public class PlayerCanvas extends ResizableCanvas {
 			oldPosition = 20;
 		}
 
-		// Forward
 		// If passing go from left loop to right loop
 		if(newPos < oldPosition){
 			for(int i = oldPosition; i < 40; i++){
@@ -259,6 +261,7 @@ public class PlayerCanvas extends ResizableCanvas {
 		p.playerToken.setCenterY(sub.get(1));
 	}
 
+	// Relocates player on window Resize
 	public void relocatePlayer(Player p){
 
 		Pane parent = (Pane) this.getParent();

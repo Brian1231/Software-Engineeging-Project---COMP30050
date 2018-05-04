@@ -134,7 +134,6 @@ public class Game {
             locations.get(index).setColour(location.getColour());
             locations.get(index).setMortgaged(location.isMortgaged());
             locations.get(index).setHouses(location.getHouses());
-            // etc
         }
     }
 

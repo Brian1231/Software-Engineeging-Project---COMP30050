@@ -17,6 +17,7 @@ public class ConfirmBox{
     private static boolean answer;
 
     public static boolean display(String title, String message, Stage mainStage){
+        // Setting up pop up Window
         Stage window = new Stage();
         window.initStyle(StageStyle.UNDECORATED);
         window.initModality(Modality.APPLICATION_MODAL);
@@ -26,12 +27,14 @@ public class ConfirmBox{
         window.setX(mainStage.getScene().getWidth()/2 - window.getMinWidth()/2);
         window.setY(mainStage.getScene().getHeight()/2);
 
+        // Creating Nodes
         Label label = new Label();
         label.setText(message);
         label.setTextFill(Color.rgb(232, 142, 39));
         Button yesButton = new Button("YES");
         Button noButton = new Button("NO");
 
+        // Action Listeners
         yesButton.setOnAction(e-> {
             answer = true;
             window.close();
@@ -41,6 +44,7 @@ public class ConfirmBox{
             window.close();
         });
 
+        // Applying Layout
         VBox yLayout = new VBox(20);
         yLayout.setPadding(new Insets(20, 20, 20, 20));
         HBox xLayout = new HBox(20);
@@ -49,6 +53,7 @@ public class ConfirmBox{
         xLayout.getChildren().addAll(yesButton,noButton);
         yLayout.getChildren().addAll(label, xLayout);
 
+        // Showing Window
         Scene scene = new Scene(yLayout);
         scene.getStylesheets().add("/client/resources/css/alertBox.css");
         window.setScene(scene);

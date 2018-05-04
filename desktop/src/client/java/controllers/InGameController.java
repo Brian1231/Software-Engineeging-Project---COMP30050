@@ -60,6 +60,7 @@ public class InGameController {
 		}
 	});
 
+	// Initializes Game window
 	public void initialize() throws IOException, JSONException {
 		Game.initializeLocations();
 		Game.observablePlayers.addListener(new ListChangeListener<Player>() {
@@ -91,18 +92,6 @@ public class InGameController {
 		}
 	}
 
-	void closeGame() {
-		JSONObject output = new JSONObject();
-		try {
-			output.put("id", 0);
-			output.put("action", "end");
-			connection.send(output);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		connection.gameEnd();
-	}
-
 	public Stage getGameStage() {
 		return gameStage;
 	}
@@ -111,7 +100,7 @@ public class InGameController {
 		this.gameStage = gameStage;
 	}
 
-	// Called whenever a message/JSON is received form the server.
+	// Called whenever a message/JSON/update is received form the server.
 	private void onUpdateReceived(JSONObject update) throws JSONException {
 		// If desktop failed to connect to the server
 		if(update.has("f")){
@@ -120,7 +109,6 @@ public class InGameController {
 		else{
 			Platform.runLater(() -> {
 				try {
-
 					System.out.println("Current GameState: " + update.toString());
 
 					if(update.has("player_turn")){
@@ -150,12 +138,13 @@ public class InGameController {
 						infoPane.updateAuctionInfo(auct);
 
 						if(!Game.isAuctionActive()){
-							// Make an auction pop up window
+							// Shows Auction Information on Screen
 							infoPane.addAuctionCircle();
 							Game.setAuctionActive(true);
 							Game.setAuctionTimer(10);
 							Game.getAuction().setTime(10);
 
+							// Auction Countdown Timer
 							Timeline timeLine = new Timeline();
 							timeLine.setCycleCount(Timeline.INDEFINITE);
 							timeLine.getKeyFrames().add(
@@ -166,6 +155,7 @@ public class InGameController {
 										Game.getAuction().setTime(Game.getAuction().getTime()-1);
 										infoPane.updateTimer(Game.getAuction().getTime());
 
+										// Auction End
 										if(Game.getAuction().getTime() <= 0){
 											timeLine.stop();
 											JSONObject output = new JSONObject();
@@ -193,8 +183,7 @@ public class InGameController {
 						}
 					}
 
-					// Redraw players according to new player positions
-
+					// Update player information and Redraw players according to new player positions
 					if(update.has("players")){
 						List<Player> plyrs = new ArrayList<>();
 						JSONArray playerObjects = update.getJSONArray("players");
@@ -215,6 +204,7 @@ public class InGameController {
 						Game.updatePlayers(plyrs, actionInfo);
 						playerCanvas.draw();
 
+						// Update Villain Gang
 						JSONObject villains = update.getJSONObject("villain_gang");
 						Game.updateVillains(villains.getInt("position"), villains.getBoolean("is_active"));
 
@@ -225,7 +215,7 @@ public class InGameController {
 						infoPane.updateDice(dice1, dice2);
 					}
 
-					// Redraw locations according to new Location information.
+					// Updates location info and redraws locations according to new Location information.
 					List<Location> locs = new ArrayList<>();
 					if(update.has("locations")){
 						JSONArray locationObjects = update.getJSONArray("locations");
@@ -245,6 +235,7 @@ public class InGameController {
 
 						Game.updateLocations(locs);
 						Game.locationsSet = true;
+						// Load location images
 						if(!imagesPlaced){
 							boardCanvas.getImages();
 						}
@@ -253,6 +244,7 @@ public class InGameController {
 						imagesPlaced = true;
 					}
 
+					// Update Information Feed
 					infoPane.updateFeed(actionInfo);
 
 					if(Game.gameStarted){
@@ -270,10 +262,10 @@ public class InGameController {
 		}
 	}
 
+	// Returns To Welcome Screen
 	private void onFalseConnection(){
 		Platform.runLater(() ->{
 			AlertBox.display("Error Connecting","Could not Connect to the Server.", gameStage);
-
 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/welcomeScreen.fxml"));
 			Parent welcome = null;
@@ -288,6 +280,7 @@ public class InGameController {
 		});
 	}
 
+	// Adds main Gui elements
 	private void setUpBoard() throws IOException, JSONException{
 		Pane boardWrapper = new Pane();
 		boardWrapper.getChildren().add(boardCanvas);
@@ -345,6 +338,20 @@ public class InGameController {
 		playerCanvas.draw();
 	}
 
+	// Called on game exit
+	void closeGame() {
+		JSONObject output = new JSONObject();
+		try {
+			output.put("id", 0);
+			output.put("action", "end");
+			connection.send(output);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		connection.gameEnd();
+	}
+
+	// End Game
 	private void showGameOverScreen(int winnerID){
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/gameOverScreen.fxml"));
 		Parent gameOver = null;
@@ -354,7 +361,6 @@ public class InGameController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 
 		Scene gameOverScene = new Scene(gameOver);
 		gameOverScene.getStylesheets().addAll(this.getClass().getResource("/client/resources/css/welcome.css").toExternalForm());

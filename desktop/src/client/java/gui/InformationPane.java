@@ -27,27 +27,29 @@ import org.json.JSONObject;
 
 public class InformationPane extends Pane {
 
+    // General
 	private ImageView logo = new ImageView();
     private Circle eventLogger = new Circle();
     private TextFlow newsfeed = new TextFlow();
     private ArrayList<Text> messages = new ArrayList<>();
 
+    // Current Tile Info
     private Circle tileInfo = new Circle();
     private Arc infoBackground = new Arc();
-
     private Label tileName = new Label("");
     private Label tileCost = new Label("");
     private Label tileOwner = new Label("");
     private Label tileRent = new Label("");
     private ImageView tileImage = new ImageView();
-
     private Label mortgaged = new Label("MORTGAGED");
     private Rectangle mortRect = new Rectangle();
 
+    // Dice
     private Rectangle diceLeft = new Rectangle();
     private Rectangle diceRight = new Rectangle();
     private ArrayList<Image> diceFaces = new ArrayList<>();
 
+    // Player Stats in 4 Corners
     private BorderPane playerInfoLayout = new BorderPane();
     private HBox top = new HBox();
     private HBox bottom = new HBox();
@@ -63,6 +65,7 @@ public class InformationPane extends Pane {
     private Label highestBidder = new Label("");
     private Label timer = new Label("10");
 
+    // Initialisation
     public InformationPane() {
         //Title
     	logo.fitWidthProperty().bind(this.widthProperty().divide(2.5));
@@ -156,7 +159,7 @@ public class InformationPane extends Pane {
 //        mortgaged.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(3)));
 //        mortgaged.setRotate(-45);
 
-        //Dice
+        // Dice
         loadDiceImages();
 
         diceLeft.widthProperty().bind(widthProperty().divide(20));
@@ -177,40 +180,40 @@ public class InformationPane extends Pane {
         getChildren().add(diceLeft);
         getChildren().add(diceRight);
 
-        //Auction
+        // Auction
         auctionCircle.layoutXProperty().bind(tileInfo.layoutXProperty());
         auctionCircle.layoutYProperty().bind(tileInfo.layoutYProperty());
         auctionCircle.setFill(Color.WHITE);
         auctionCircle.setStroke(Color.GOLD);
         auctionCircle.radiusProperty().bind(tileInfo.radiusProperty().add(10));
-
+            // Property Image
         auctionProp.layoutXProperty().bind(auctionCircle.layoutXProperty());
         auctionProp.layoutYProperty().bind(auctionCircle.layoutYProperty());
         auctionProp.radiusProperty().bind(auctionCircle.radiusProperty().divide(5));
-
+            // "Auction Started"
         auctionHeading.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(auctionHeading.widthProperty().divide(2)));
         auctionHeading.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(auctionCircle.radiusProperty().divide(2)));
         auctionHeading.setFont(new Font("Verdana", 50));
-
+            // Property Name
         auctionName.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(auctionName.widthProperty().divide(2)));
         auctionName.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionProp.radiusProperty().add(auctionProp.radiusProperty().divide(4))));
-
+            // Current Highest Bidder
         highestBidder.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(highestBidder.widthProperty().divide(2)));
         highestBidder.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionCircle.radiusProperty().subtract(auctionCircle.radiusProperty().divide(7))));
-
+            // Current Auction Price
         auctionPrice.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(auctionPrice.widthProperty().divide(2)));
         auctionPrice.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionCircle.radiusProperty().divide(2)));
         auctionPrice.setFont(new Font("Verdana", 50));
-
+            // Auction Timer
         timer.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(timer.widthProperty().divide(2)));
         timer.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(auctionProp.radiusProperty().subtract(auctionProp.radiusProperty().divide(6))));
         timer.setFont(new Font("Verdana", 60));
         timer.setTextFill(Color.ORANGE);
     }
 
+    // Updates information Feed
 	public void updateFeed(String s) {
-		//Set color of text in infoPane to player color
-
+		// Set color of text in infoPane to player color
 		Color c = Color.WHITE;
 		for(Player p : Game.players) if(p.getId() == Game.playerTurn) c = p.getColor();
 	
@@ -235,10 +238,12 @@ public class InformationPane extends Pane {
 		//newsfeed.appendText(s + "\n");
 	}
 
+	// Removes "Interdimensional Panopoly" Logo from Tile Info Circle
 	public void removeLogo(){
         getChildren().remove(tileImage);
     }
 
+    // Updates current Tile information in Right Infinity Loop
 	public void updateLocationInfo(Location loc) {
 		tileName.setText(loc.getName());
 		tileInfo.setStroke(loc.getColour());
@@ -260,7 +265,6 @@ public class InformationPane extends Pane {
         Color faded = Color.color(original.getRed(),original.getGreen(),original.getBlue(), 0.6);
         if(loc.getPrice()>0 || loc.getRent()>0 || loc.getOwnerID()!=0)
         	infoBackground.setFill(faded);
-        	
 
         /*
         if(!getChildren().contains(mortgaged) && loc.isMortgaged()){
@@ -273,6 +277,7 @@ public class InformationPane extends Pane {
         */
 	}
 
+	// Add Auction Display
 	public void addAuctionCircle(){
         // Current players location info
         getChildren().add(auctionCircle);
@@ -284,6 +289,7 @@ public class InformationPane extends Pane {
         getChildren().add(timer);
     }
 
+    // Update Auction Display from server update
     public void updateAuctionInfo(Auction auction){
         ImagePattern locImg = new ImagePattern(auction.getLocation().getImage());
         auctionProp.setFill(locImg);
@@ -295,10 +301,12 @@ public class InformationPane extends Pane {
         }
     }
 
+    // Update auction countdown timer
     public void updateTimer(int time){
         timer.setText(Integer.toString(time));
     }
 
+    // Remove Auction display at Auction End
     public void removeAuctionCircle(){
         getChildren().remove(auctionCircle);
         getChildren().remove(auctionHeading);
@@ -309,6 +317,7 @@ public class InformationPane extends Pane {
         getChildren().remove(timer);
     }
 
+    // Adds a player's stats in 4 corners of window
     public void addPlayerInfo(Player player){
        VBox stats = player.stats;
 
@@ -327,6 +336,7 @@ public class InformationPane extends Pane {
         }
     }
 
+    // Removes a player's stats from window
     public void removePlayerInfo(Player player) {
         switch(player.getId()){
             case 1:     top.getChildren().remove(player.stats);
@@ -341,6 +351,7 @@ public class InformationPane extends Pane {
         }
     }
 
+    // Updates Dice Images
     public void updateDice(int dice1, int dice2){
         if(dice1 != 0 && dice2 != 0){
             diceLeft.setFill(new ImagePattern(diceFaces.get(dice1-1)));
@@ -348,6 +359,7 @@ public class InformationPane extends Pane {
         }
     }
 
+    // Loads Dice Images at Game start
     private void loadDiceImages(){
         for(int i = 1; i<=6; i++){
             StringBuilder sb = new StringBuilder();
@@ -364,6 +376,7 @@ public class InformationPane extends Pane {
         }
     }
 
+    // Indicates which Player's turn it is
     public void updatePlayerTurn(int playerTurn){
         Player currentPlayer = Game.getPlayer(playerTurn);
 
