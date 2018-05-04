@@ -111,10 +111,6 @@ open class JoinActivity : App(), AsyncResponse {
         val uriPath = ("android.resource://" + packageName + "/raw/galaxy" )
         val uri = Uri.parse(uriPath)
 
-        val mediaController = MediaController(this)
-
-       // background_vw.setMediaController(mediaController)
-
         try {
             background_vw.setVideoURI(uri)
             background_vw.requestFocus()
