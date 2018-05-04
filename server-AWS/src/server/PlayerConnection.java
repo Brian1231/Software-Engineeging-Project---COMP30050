@@ -78,7 +78,7 @@ public class PlayerConnection extends Thread{
 
 				try {
 					if(reader.ready()){
-						System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
+						//System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
 						String line = reader.readLine();
 						if (!line.isEmpty()) {
 							System.out.println("Message from Player "+this.playerID+": " + line);
@@ -98,7 +98,10 @@ public class PlayerConnection extends Thread{
 
 								//Update Desktop
 								Main.gameState.updateActionInfo(actionInfo);
-								if(action.equals("buy")||action.equals("sell")||action.equals("mortgage")||action.equals("redeem")||action.equals("trap")
+								if(action.equals("mortgage")||action.equals("redeem")){
+									Main.clientUpdater.updateDesktopAll();
+								}
+								else if(action.equals("buy")||action.equals("sell")||action.equals("trap")
 										||action.equals("build")||action.equals("demolish"))
 									Main.clientUpdater.updateDesktopBoard();
 								else
@@ -107,7 +110,7 @@ public class PlayerConnection extends Thread{
 								Main.portAllocator.updatePlayers();
 							}
 						}
-						//System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
+						System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
 					}
 				}
 				catch (IOException | JSONException e1) {

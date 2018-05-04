@@ -16,7 +16,7 @@ public class Station extends RentalProperty implements JSONable{
 	}
 
 	public int getRentalAmount() {
-		if (!this.isMortgaged() && this.isOwned()) {
+		if(this.isOwned()){
 			ArrayList<RentalProperty> properties = this.getOwner().getOwnedProperties();
 
 			int numStationsOwned = -1;
@@ -25,22 +25,21 @@ public class Station extends RentalProperty implements JSONable{
 					numStationsOwned++;
 				}
 			}
-			if(numStationsOwned >= 0) {
+			if(numStationsOwned >= 0)
 				return this.getAllRentAmounts()[numStationsOwned];
-			} else {
+			else
 				return 0;
-			}
-		} else {
-			System.out.println("Cant claim rent on station that is mortgaged");
-			return 0;
 		}
+
+		else
+			return 0;
 	}
-	
+
 	@Override
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info =  super.getInfo();
 		info.put("rent", this.getRentalAmount());
 		return info;
 	}
-	
+
 }

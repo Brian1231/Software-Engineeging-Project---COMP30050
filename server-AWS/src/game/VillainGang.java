@@ -7,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import game_interfaces.JSONable;
-import main.Main;
 import noc_db.Character_noc;
 import noc_db.Weapon_noc;
 
@@ -33,7 +32,12 @@ public class VillainGang implements JSONable, VillainGangable {
     public int position(){
 		return this.position;
 	}
-	
+
+	@Override
+	public int turnsToLive() {
+		return this.turnsToLive;
+	}
+
 	@Override
     public void activate(int location){
 		this.isActive = true;
@@ -62,7 +66,6 @@ public class VillainGang implements JSONable, VillainGangable {
 				this.position = (this.position+=1)%39;
 			}
 			else{
-				System.out.println("here");
 				this.position = (this.position+=1)%39;
 
 				//If we land on go going backwards
@@ -82,8 +85,8 @@ public class VillainGang implements JSONable, VillainGangable {
 		int amount = 50 + 10*random.nextInt(26);
 		player.setDebt(amount, null);
 		Character_noc playerCharacter = player.getCharacter();
-		Character_noc villain = Main.noc.getOpponent(playerCharacter);
-		Weapon_noc villainWeapon = Main.noc.getWeapon(villain.getWeapon());
+		Character_noc villain = player.getVillain();
+		Weapon_noc villainWeapon = villain.getWeaponObject();
 		
 		return villain.getName() + " steps forward from the gang of villains and immediately begins " +
 		villainWeapon.getAffordanceWithTarget(playerCharacter.getName()) + " " + villainWeapon.getDeterminer() + " " + villainWeapon.getWeapon() + ". "+

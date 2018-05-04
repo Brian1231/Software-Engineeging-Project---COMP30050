@@ -10,17 +10,20 @@ import kotlinx.android.synthetic.main.feed_item.view.*
 
 class FeedAdapter(val items : ArrayList<String>, val context: Context) : RecyclerView.Adapter<ViewHolderFeed>() {
 
+
     override fun getItemCount(): Int {
         return items.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolderFeed {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderFeed {
         return ViewHolderFeed(LayoutInflater.from(context).inflate(R.layout.feed_item, parent, false))
     }
 
-    override fun onBindViewHolder(holder: ViewHolderFeed?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolderFeed, position: Int) {
         holder?.feed_item_textView?.text = items[position]
     }
+
+
 }
 
 class ViewHolderFeed (view: View) : RecyclerView.ViewHolder(view) {

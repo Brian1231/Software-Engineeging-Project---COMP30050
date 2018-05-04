@@ -9,6 +9,8 @@ public interface VillainGangable {
 
     int position();
 
+    int turnsToLive();
+
     void activate(int location);
 
     void deactivate();

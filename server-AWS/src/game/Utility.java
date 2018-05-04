@@ -19,7 +19,7 @@ public class Utility extends RentalProperty implements JSONable{
 	}
 
 	public int getRentalAmount(int diceRoll) {
-		if (!this.isMortgaged() && this.isOwned()) {
+		if(this.isOwned()){
 			ArrayList<RentalProperty> properties = this.getOwner().getOwnedProperties();
 
 			int numUtilitiesOwned = 0;
@@ -36,13 +36,10 @@ public class Utility extends RentalProperty implements JSONable{
 			} else {
 				return 0;
 			}
-
-		} else {
-			System.out.println("Cant claim rent on utility that is mortgaged");
-			return 0;
 		}
+		return 0;
 	}
-	
+
 	@Override
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info =  super.getInfo();

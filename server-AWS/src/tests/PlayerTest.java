@@ -60,7 +60,7 @@ public class PlayerTest {
 		player.useRoll();
 		player.useBoost();
 		RentalProperty prop = new RentalProperty("UCD", 150);
-		player.addNewPropertyBought(prop);
+		player.addNewPropertyBought(prop, prop.getPrice());
 
 		player.reset();
 
@@ -74,7 +74,7 @@ public class PlayerTest {
 		assertFalse(player.hasBought());
 
 		RentalProperty prop = new RentalProperty("UCD", 150);
-		player.addNewPropertyBought(prop);
+		player.addNewPropertyBought(prop, prop.getPrice());
 
 		assertTrue(player.hasBought());
 	}
@@ -171,12 +171,12 @@ public class PlayerTest {
 		prop2.setColour(Color.BLUE);
 		prop3.setColour(Color.BLUE);
 
-		player.addNewPropertyBought(prop1);
-		player.addNewPropertyBought(prop2);
+		player.addNewPropertyBought(prop1, prop1.getPrice());
+		player.addNewPropertyBought(prop2, prop2.getPrice());
 		assertFalse(player.ownsThree(Color.BLUE));
 
 
-		player.addNewPropertyBought(prop3);
+		player.addNewPropertyBought(prop3, prop3.getPrice());
 		assertTrue(player.ownsThree(Color.BLUE));
 
 		assertFalse(player.ownsThree(Color.RED));
@@ -188,7 +188,7 @@ public class PlayerTest {
 		RentalProperty prop = new RentalProperty("UCD", 150);
 		prop.setOwner(player);
 
-		player.addNewPropertyBought(prop);
+		player.addNewPropertyBought(prop, prop.getPrice());
 		player.topUpFuel();
 		player.moveForward(10);
 
@@ -261,7 +261,7 @@ public class PlayerTest {
 	public void getNetWorth() {
 		assertEquals(1000, player.getNetWorth());
 		RentalProperty prop = new RentalProperty("UCD",150);
-		player.addNewPropertyBought(prop);
+		player.addNewPropertyBought(prop, prop.getPrice());
 		assertEquals(850, player.getBalance());
 		assertEquals(1000, player.getNetWorth());
 	}
@@ -285,8 +285,8 @@ public class PlayerTest {
 		RentalProperty prop1 = new RentalProperty("UCD1", 150);
 		RentalProperty prop2 = new RentalProperty("UCD2", 150);
 
-		player.addNewPropertyBought(prop1);
-		player.addNewPropertyBought(prop2);
+		player.addNewPropertyBought(prop1, prop1.getPrice());
+		player.addNewPropertyBought(prop2, prop2.getPrice());
 
 		assertEquals(prop1, player.getOwnedProperties().get(0));
 		assertEquals(prop2, player.getOwnedProperties().get(1));
@@ -298,8 +298,8 @@ public class PlayerTest {
 		RentalProperty prop2 = new RentalProperty("UCD2", 150);
 
 		assertEquals(0,player.getOwnedProperties().size());
-		player.addNewPropertyBought(prop1);
-		player.addNewPropertyBought(prop2);
+		player.addNewPropertyBought(prop1, prop1.getPrice());
+		player.addNewPropertyBought(prop2, prop2.getPrice());
 
 		assertEquals(2,player.getOwnedProperties().size());
 	}
@@ -309,8 +309,8 @@ public class PlayerTest {
 		RentalProperty prop1 = new RentalProperty("UCD1", 150);
 		RentalProperty prop2 = new RentalProperty("UCD2", 150);
 
-		player.addNewPropertyBought(prop1);
-		player.addNewPropertyBought(prop2);
+		player.addNewPropertyBought(prop1, prop1.getPrice());
+		player.addNewPropertyBought(prop2 ,prop2.getPrice());
 
 		assertEquals(prop2, player.getOwnedProperties().get(1));
 

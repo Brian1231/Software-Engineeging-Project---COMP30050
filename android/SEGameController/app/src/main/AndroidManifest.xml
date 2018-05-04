@@ -3,8 +3,7 @@
     package="pw.jcollado.segamecontroller">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -35,7 +34,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".feedActivity.FeedActivity"></activity>
+        <activity android:name=".feedActivity.FeedActivity" />
+        <activity android:name=".auctionActivity.AuctionActivity"></activity>
     </application>
 
 </manifest>

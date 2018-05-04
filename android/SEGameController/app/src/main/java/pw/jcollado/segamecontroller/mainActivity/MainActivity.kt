@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import com.squareup.picasso.Picasso
@@ -13,10 +14,12 @@ import org.jetbrains.anko.noButton
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.yesButton
 import pw.jcollado.segamecontroller.R
+import pw.jcollado.segamecontroller.auctionActivity.AuctionActivity
 import pw.jcollado.segamecontroller.feedActivity.FeedActivity
 import pw.jcollado.segamecontroller.listPropertiesActivity.ListPropertiesActivity
 import pw.jcollado.segamecontroller.joinActivity.JoinActivity
 import pw.jcollado.segamecontroller.model.*
+import pw.jcollado.segamecontroller.utils.getPlayerColor
 import pw.jcollado.segamecontroller.utils.getPropertyImageURL
 
 
@@ -96,6 +99,10 @@ class MainActivity : App() {
                 startActivity(Intent(this, FeedActivity::class.java))
                 true
             }
+            R.id.auctionMenu -> {
+                startActivity(Intent(this, AuctionActivity::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -104,12 +111,9 @@ class MainActivity : App() {
 
     override fun updateGameState(){
         runOnUiThread {
-            val intColor = Player.colour
-            val hexColor = "#" + Integer.toHexString(intColor).substring(2)
-            val color = Color.parseColor(hexColor)
 
             supportActionBar?.title = Player.character
-            supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
+            supportActionBar?.setBackgroundDrawable(getPlayerColor())
             balanceTX.text = Player.balance.toString()
             positionTX.text = Player.position
 

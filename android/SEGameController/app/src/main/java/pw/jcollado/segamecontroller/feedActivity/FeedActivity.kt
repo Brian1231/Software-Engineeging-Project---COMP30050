@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_feed.*
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.model.Player
 import pw.jcollado.segamecontroller.utils.FeedAdapter
-import java.util.*
+import pw.jcollado.segamecontroller.utils.getPlayerColor
 import kotlin.collections.ArrayList
 
 class FeedActivity : AppCompatActivity() {
@@ -39,6 +39,8 @@ class FeedActivity : AppCompatActivity() {
             actionBar.setHomeButtonEnabled(true)
             actionBar.setDisplayHomeAsUpEnabled(true)
             actionBar.title = getString(R.string.game_feed)
+            actionBar.setBackgroundDrawable(getPlayerColor())
+
 
         }
     }

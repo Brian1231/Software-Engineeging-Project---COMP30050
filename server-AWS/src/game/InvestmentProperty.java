@@ -25,72 +25,72 @@ public class InvestmentProperty extends RentalProperty implements Improvable, JS
 	public int getNumHousesAndHotels() {
 		return this.numHotels + this.numHouses;
 	}
-	
+
 	@Override
 	public boolean build(int numToBuild) {
 		switch (numToBuild) {
-			case 0:
-				this.setBuildDemolishError("Error, cant build 0 houses/hotels");
+		case 0:
+			this.setBuildDemolishError("Error, cant build 0 houses/hotels");
+			return false;
+		case 1:
+			if (numHouses == 4 && numHotels == 0) {
+				numHotels = 1;
+				return true;
+			} else if (numHouses < 4) {
+				numHouses += numToBuild;
+				return true;
+			} else {
+				this.setBuildDemolishError("Error, cant build that many houses/hotels");
 				return false;
-			case 1:
-				if (numHouses == 4 && numHotels == 0) {
-					numHotels = 1;
-					return true;
-				} else if (numHouses < 4) {
-					numHouses += numToBuild;
-					return true;
-				} else {
-					this.setBuildDemolishError("Error, cant build that many houses/hotels");
-					return false;
-				}
-			case 2:
-				if (numHouses == 3 && numHotels == 0) {
-					numHotels = 1;
-					numHouses += 1;
-					return true;
-				} else if (numHouses < 3) {
-					numHouses += numToBuild;
-					return true;
-				} else {
-					this.setBuildDemolishError("Error, cant build that many houses/hotels");
-					return false;
-				}
-			case 3:
-				if (numHouses == 2 && numHotels == 0) {
-					numHotels = 1;
-					numHouses += 2;
-					return true;
-				} else if (numHouses < 2) {
-					numHouses += numToBuild;
-					return true;
-				} else {
-					this.setBuildDemolishError("Error, cant build that many houses/hotels");
-					return false;
-				}
-			case 4:
-				if (numHouses == 1 && numHotels == 0) {
-					numHotels = 1;
-					numHouses += 3;
-					return true;
-				} else if (numHouses < 1) {
-					numHouses += numToBuild;
-					return true;
-				} else {
-					this.setBuildDemolishError("Error, cant build that many houses/hotels");
-					return false;
-				}
-			case 5:
-				if (numHouses == 0 && numHotels == 0) {
-					numHotels = 1;
-					numHouses += 4;
-					return true;
-				} else {
-					this.setBuildDemolishError("Error, cant build that many houses/hotels");
-					return false;
-				}
-			default:
-				this.setBuildDemolishError("Error, given wrong input");
+			}
+		case 2:
+			if (numHouses == 3 && numHotels == 0) {
+				numHotels = 1;
+				numHouses += 1;
+				return true;
+			} else if (numHouses < 3) {
+				numHouses += numToBuild;
+				return true;
+			} else {
+				this.setBuildDemolishError("Error, cant build that many houses/hotels");
 				return false;
+			}
+		case 3:
+			if (numHouses == 2 && numHotels == 0) {
+				numHotels = 1;
+				numHouses += 2;
+				return true;
+			} else if (numHouses < 2) {
+				numHouses += numToBuild;
+				return true;
+			} else {
+				this.setBuildDemolishError("Error, cant build that many houses/hotels");
+				return false;
+			}
+		case 4:
+			if (numHouses == 1 && numHotels == 0) {
+				numHotels = 1;
+				numHouses += 3;
+				return true;
+			} else if (numHouses < 1) {
+				numHouses += numToBuild;
+				return true;
+			} else {
+				this.setBuildDemolishError("Error, cant build that many houses/hotels");
+				return false;
+			}
+		case 5:
+			if (numHouses == 0 && numHotels == 0) {
+				numHotels = 1;
+				numHouses += 4;
+				return true;
+			} else {
+				this.setBuildDemolishError("Error, cant build that many houses/hotels");
+				return false;
+			}
+		default:
+			this.setBuildDemolishError("Error, given wrong input");
+			return false;
 		}
 	}
 
@@ -153,12 +153,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable, JS
 	}
 
 	public int getRentalAmount() {
-		if (!this.isMortgaged()) {
-			return this.getAllRentAmounts()[numHotels+numHouses];
-		} else {
-			System.out.println("Cant claim rent on investment property that is mortgaged");
-			return 0;
-		}
+		return this.getAllRentAmounts()[numHotels+numHouses];
 	}
 
 	@Override

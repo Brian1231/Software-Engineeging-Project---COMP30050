@@ -61,11 +61,11 @@ public class UtilityTest {
 		dice.roll();
 		int diceRoll = dice.getRollResult();
 
-		player.addNewPropertyBought(util1);
+		player.addNewPropertyBought(util1, util1.getPrice());
 		util1.setOwner(player);
 		assertEquals(diceRoll*4, util1.getRentalAmount(diceRoll));
 
-		player.addNewPropertyBought(util2);
+		player.addNewPropertyBought(util2, util2.getPrice());
 		util2.setOwner(player);
 		assertEquals(diceRoll*10, util1.getRentalAmount(diceRoll));
     }

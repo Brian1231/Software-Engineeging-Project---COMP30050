@@ -38,6 +38,20 @@ public class ClientUpdater extends Thread {
         //Output to desktop
         out.println(output.toString());
     }
+    
+    public void updateDesktopAuction() {
+        JSONObject output = new JSONObject();
+        PrintWriter out = null;
+        try {
+            output.put("auction", Main.gameState.getAuctionInfo());
+            output.put("action_info", Main.gameState.getActionInfo());
+            out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (JSONException | IOException e1) {
+            e1.printStackTrace();
+        }
+        //Output to desktop
+        out.println(output.toString());
+    }
 
     public void updateDesktopBoardWithWinner(Player player) {
     	JSONObject output = new JSONObject();
@@ -59,6 +73,21 @@ public class ClientUpdater extends Thread {
         PrintWriter out = null;
         try {
             output = Main.gameState.getInfoPlayers();
+            output.put("action_info", Main.gameState.getActionInfo());
+            output.put("dice_values", Main.dice.getDiceValues());
+            out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (JSONException | IOException e1) {
+            e1.printStackTrace();
+        }
+        //Output to desktop
+        out.println(output.toString());
+    }
+    
+    public void updateDesktopAll() {
+        JSONObject output = new JSONObject();
+        PrintWriter out = null;
+        try {
+            output = Main.gameState.getInfo();
             output.put("action_info", Main.gameState.getActionInfo());
             output.put("dice_values", Main.dice.getDiceValues());
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -104,6 +133,9 @@ public class ClientUpdater extends Thread {
                             }
                             if (action.equals("end")) {
                                 Main.gameState.endGame();
+                            }
+                            if (action.equals("auction_over")) {
+                                Main.gameState.finishAuction();
                             }
                         }
                     }

@@ -14,7 +14,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		InvestmentPropertyTest.class,
 		UtilityTest.class,
 		TaxSquareTest.class,
-		SpecialSquareTest.class
+		SpecialSquareTest.class,
+		VillainGangTest.class
 })
 
 public class TestSuite {

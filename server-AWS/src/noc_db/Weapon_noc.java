@@ -6,7 +6,7 @@ public class Weapon_noc {
 
 	private String determiner;
 	private String weapon;
-	private String affordances;
+	private String affordance;
 
 	private Random random = new Random();
 
@@ -15,11 +15,13 @@ public class Weapon_noc {
 		case 3:
 			this.determiner = info[0];
 			this.weapon = info[1];
-			this.affordances = info[2];
+			String[] affordances = info[2].split(", ");
+			this.affordance = affordances[random.nextInt(affordances.length)].trim();
 			break;
 		case 2:
 			this.weapon = info[0];
-			this.affordances = info[1];
+			affordances = info[1].split(", ");
+			this.affordance = affordances[random.nextInt(affordances.length)].trim();
 			break;
 		case 1:
 			this.weapon = info[0];
@@ -39,25 +41,22 @@ public class Weapon_noc {
 
 	
 	public String getAffordance(){
-		String aff[] = this.affordances.split(", ");
-		return aff[random.nextInt(aff.length)].trim();
+		return this.affordance;
 	}
 
 	public String getAffordanceWithTarget(String target){
-		if(this.affordances != null){
-			String aff[] = this.affordances.split(", ");
-			String afford =  aff[random.nextInt(aff.length)];
-			String s[] = afford.split(" ");
+		if(this.affordance != null){
+			String s[] = this.affordance.split(" ");
 			switch (s.length){
 			case 1:
-				return afford;
+				return affordance;
 			case 2:
 				return s[0] + " " + target + " " + s[1];
 			case 3:
 				return s[0] + " " + s[1]  + " " + target + " " + s[2];
 
 			}
-			return afford.trim();
+			return affordance.trim();
 		}
 		return "";
 

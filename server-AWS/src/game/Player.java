@@ -20,7 +20,7 @@ public class Player implements Playable, JSONable{
 	private int jailTurnCount;
 	private int balance;
 	private int position;
-	
+
 	private boolean hasRolled;
 	private boolean hasBought;
 	private boolean hasBoosted;
@@ -28,13 +28,14 @@ public class Player implements Playable, JSONable{
 	private boolean isInDebt;
 	private boolean isInJail;
 	private boolean movingForward;
-	
+
 	private Color rgbColour;
 	private Playable playerOwed;
 	private ArrayList<RentalProperty> ownedProperties = new ArrayList<>();
 	private Character_noc character;
+	private Character_noc villain;
 	private Vehicle_noc vehicle;
-	
+
 	public Player(int playerId, Character_noc ch, Vehicle_noc vehicle, Color color){
 		this.id = playerId;
 		this.balance = 1000;
@@ -63,7 +64,7 @@ public class Player implements Playable, JSONable{
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString(){
 		return "ID: " + this.id;
@@ -128,6 +129,11 @@ public class Player implements Playable, JSONable{
 	}
 
 	@Override
+	public void setVillain(Character_noc villain) {
+		this.villain = villain;
+	}
+
+	@Override
 	public boolean incrementJailTurns(){
 		this.jailTurnCount++;
 		if(this.jailTurnCount==3){
@@ -185,6 +191,11 @@ public class Player implements Playable, JSONable{
 	@Override
 	public int getBalance(){
 		return this.balance;
+	}
+
+	@Override
+	public int getDebt() {
+		return this.debt;
 	}
 
 	@Override
@@ -314,23 +325,30 @@ public class Player implements Playable, JSONable{
 	}
 
 	@Override
-	public void addNewPropertyBought(RentalProperty property) {
+	public void addNewPropertyBought(RentalProperty property, int price) {
 		ownedProperties.add(property);
 		// pay money out
-		payMoney(property.getPrice());
+		payMoney(price);
 		this.hasBought = true;
 	}
 
 	@Override
-	public void removePropertySold(RentalProperty property) {
-		ownedProperties.remove(property);
-		// receive money in
-		receiveMoney(property.getPrice());
+	public void removePropertySold(RentalProperty property, int price) {
+		if(ownedProperties.contains(property)){
+			ownedProperties.remove(property);
+			// receive money in
+			receiveMoney(price);
+		}
 	}
 
 	@Override
 	public Character_noc getCharacter() {
 		return this.character;
+	}
+
+	@Override
+	public Character_noc getVillain() {
+		return this.villain;
 	}
 
 	@Override

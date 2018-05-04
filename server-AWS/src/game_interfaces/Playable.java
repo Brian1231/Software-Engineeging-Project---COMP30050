@@ -14,6 +14,7 @@ public interface Playable extends Identifiable{
 	int getPos();
 	int getID();
 	int getBalance();
+	int getDebt();
 	
 	boolean hasRolled();
 	boolean ownsThree(Color color);
@@ -29,11 +30,12 @@ public interface Playable extends Identifiable{
 	void topUpFuel();
 	void sendToJail();
 	void releaseFromJail();
-	void addNewPropertyBought(RentalProperty property);
-	void removePropertySold(RentalProperty property);
+	void addNewPropertyBought(RentalProperty property, int price);
+	void removePropertySold(RentalProperty property, int price);
 	void payMoney(int paid);
 	void receiveMoney(int received);
 	void changeDirection();
+	void setVillain(Character_noc villain);
 	
 	String useBoost();
 	String moveForward(int spaces);
@@ -44,4 +46,6 @@ public interface Playable extends Identifiable{
 
 	ArrayList<RentalProperty> getOwnedProperties();
 	Character_noc getCharacter();
+	Character_noc getVillain();
+
 }
