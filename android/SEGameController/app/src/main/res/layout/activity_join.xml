@@ -50,22 +50,21 @@
         android:layout_marginTop="12dp"
         android:ems="10"
         android:focusableInTouchMode="true"
-        android:gravity="center"
-        android:text="AAAAAA"
+        android:gravity="center_horizontal"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/monopolyIV" />
 
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/background"
+    <VideoView
+        android:id="@+id/background_vw"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/galaxy"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

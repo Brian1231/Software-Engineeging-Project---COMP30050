@@ -14,6 +14,13 @@ import pw.jcollado.segamecontroller.mainActivity.MainActivity
 import pw.jcollado.segamecontroller.model.*
 import pw.jcollado.segamecontroller.utils.closeLoadingDialog
 import pw.jcollado.segamecontroller.utils.loadDialog
+import android.media.MediaPlayer
+import android.net.Uri
+import android.support.v4.media.session.MediaControllerCompat.setMediaController
+import android.widget.MediaController
+import android.widget.VideoView
+
+
 
 
 open class JoinActivity : App(), AsyncResponse {
@@ -26,9 +33,9 @@ open class JoinActivity : App(), AsyncResponse {
         savePort(8080)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
-        
+        resumeTX.bringToFront()
         monopolyIV.bringToFront()
-
+        setUpVideoView()
 
     }
 
@@ -99,4 +106,44 @@ open class JoinActivity : App(), AsyncResponse {
 
         }
     }
+
+    private fun setUpVideoView() {
+        // Prepara la URI del vídeo que será reproducido.
+        val uriPath = ("android.resource://" + packageName
+                + "/raw/galaxy" )
+        val uri = Uri.parse(uriPath)
+
+        // Se crean los controles multimedia.
+        val mediaController = MediaController(this)
+
+        // Asigna los controles multimedia a la VideoView.
+        background_vw.setMediaController(mediaController)
+
+        try {
+            // Asigna la URI del vídeo que será reproducido a la vista.
+            background_vw.setVideoURI(uri)
+            // Se asigna el foco a la VideoView.
+            background_vw.requestFocus()
+        } catch (e: Exception) {
+            Log.e("Error", e.message)
+            e.printStackTrace()
+        }
+
+        /*
+         * Se asigna un listener que nos informa cuando el vídeo
+         * está listo para ser reproducido.
+         */
+        background_vw.setOnPreparedListener(videoViewListener)
+    }
+
+    private val videoViewListener = MediaPlayer.OnPreparedListener { mediaPlayer ->
+        /*
+         * Se indica al reproductor multimedia que el vídeo
+         * se reproducirá en un loop (on repeat).
+         */
+        mediaPlayer.isLooping = true
+        background_vw.start()
+
+    }
+
 }
