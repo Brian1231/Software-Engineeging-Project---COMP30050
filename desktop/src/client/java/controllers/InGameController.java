@@ -197,7 +197,8 @@ public class InGameController {
 
 	private void onFalseConnection(){
 		Platform.runLater(() ->{
-			AlertBox.display("Error Connecting","Could not Connect to the Server.");
+			AlertBox.display("Error Connecting","Could not Connect to the Server.", gameStage);
+
 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/welcomeScreen.fxml"));
 			Parent welcome = null;
@@ -233,7 +234,7 @@ public class InGameController {
 				Game.gameStarted = true;
 				startButton.setText("End Game");
 				startButton.setOnAction(e2 -> {
-					boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?");
+					boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?", gameStage);
 					if (answer) {
 						showGameOverScreen();
 					}

@@ -83,8 +83,8 @@ public class Game {
     // Removes player Token from draw loop
     private static void removePlayer(Player player){
         if(observablePlayers.contains(player)){
-            //observablePlayers.remove(player);
             pCanvas.removePlayerToken(player);
+            observablePlayers.remove(player);
         }
     }
 

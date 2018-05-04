@@ -1,25 +1,25 @@
 
 #base{
--fx-background-image: url("/client/resources/images/space.jpg");
--fx-background-repeat: stretch;
--fx-background-size: 1200 800;
--fx-background-position: center center;
+    -fx-background-image: url("/client/resources/images/space.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
 }
 
 .button{
--fx-border-color: #e88e27;
--fx-background-color: rgba(255,255,255,0.2);
--fx-font-size: 30px;
--fx-text-fill: #e88e27;
+    -fx-border-width: 2px ;
+    -fx-border-color: #ff1e70;
+    -fx-background-color: rgba(255,255,255,0.2);
+    -fx-font-size: 30px;
+    -fx-text-fill: #26d7ff;
 }
 
 .button:hover{
--fx-background-color: rgba(255,255,255,0.5);
+    -fx-background-color: rgba(255,255,255,0.5);
 }
 
 #heading{
--fx-font-size: 50px;
--fx-text-fill: #e88e27;
+    -fx-font-size: 50px;
+    -fx-text-fill: #e88e27;
 }
 
 #imageView{
