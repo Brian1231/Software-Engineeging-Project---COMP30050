@@ -63,8 +63,9 @@ public class PortAllocator extends Thread{
 								}
 								JSONObject messageReceived = new JSONObject(line);
 								if(messageReceived.getInt("id") == -1){
+									
 									String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
-
+									System.out.println(client_ip);
 									//If we have not seen this player;s ip before, create a new connection
 									if(!ipIdMap.keySet().contains(client_ip) && ipIdMap.size()<4){
 										ipIdMap.put(client_ip, this.playerCount);//Maybe not needed, Just array of ip's could do

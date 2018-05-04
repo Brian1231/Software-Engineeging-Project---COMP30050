@@ -78,7 +78,7 @@ public class PlayerConnection extends Thread{
 
 				try {
 					if(reader.ready()){
-						System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
+						//System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
 						String line = reader.readLine();
 						if (!line.isEmpty()) {
 							System.out.println("Message from Player "+this.playerID+": " + line);
@@ -111,7 +111,7 @@ public class PlayerConnection extends Thread{
 								Main.portAllocator.updatePlayers();
 							}
 						}
-						//System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
+						System.out.println("Listening for player "+this.playerID+" on port " + this.port+" ...");
 					}
 				}
 				catch (IOException | JSONException e1) {

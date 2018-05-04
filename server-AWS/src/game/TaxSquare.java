@@ -22,8 +22,9 @@ public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 		
 		switch (type){
 		case 0:
-			player.setDebt(this.getFlatAmount(), null);
-			res+="\n"+player.getCharName()+" owes the flat amount of $"+this.getFlatAmount()+".";
+			int flatAmount = this.getFlatAmount();
+			player.setDebt(flatAmount, null);
+			res+="\n"+player.getCharName()+" owes the flat amount of $"+flatAmount+".";
 			return res;
 		case 1:
 			//Percent in range 5% - 30%
