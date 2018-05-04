@@ -43,7 +43,6 @@ public class ClientUpdater extends Thread {
         JSONObject output = new JSONObject();
         PrintWriter out = null;
         try {
-        	output.put("action_info", Main.gameState.getActionInfo());
             output.put("auction", Main.gameState.getAuctionInfo());
             out = new PrintWriter(socket.getOutputStream(), true);
         } catch (JSONException | IOException e1) {

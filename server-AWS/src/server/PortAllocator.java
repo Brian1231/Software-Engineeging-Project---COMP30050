@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +24,7 @@ public class PortAllocator extends Thread{
 	private int playerPortCount;
 	private int playerCount=1;
 	private ArrayList<PlayerConnection> playerConnections;
+	private ArrayList<String> blockedIps = new ArrayList<String>();
 	private HashMap<String, Integer> ipIdMap = new HashMap<String, Integer> ();
 
 	public PortAllocator(int portNum){
@@ -62,10 +64,9 @@ public class PortAllocator extends Thread{
 									System.out.println("Message from Phone: " + line);
 								}
 								JSONObject messageReceived = new JSONObject(line);
-								if(messageReceived.getInt("id") == -1){
-									
-									String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
-									System.out.println(client_ip);
+								String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
+								if(messageReceived.getInt("id") == -1 && !this.blockedIps.contains(client_ip)){
+
 									//If we have not seen this player;s ip before, create a new connection
 									if(!ipIdMap.keySet().contains(client_ip) && ipIdMap.size()<4){
 										ipIdMap.put(client_ip, this.playerCount);//Maybe not needed, Just array of ip's could do
@@ -126,6 +127,19 @@ public class PortAllocator extends Thread{
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			}
+		}
+	}
+
+	public void removePlayer(int id) {
+		for(PlayerConnection pc : this.playerConnections){
+			if(pc.getPlayerId() == id) {
+				pc.kill();
+				this.playerConnections.remove(pc);
+				for(Entry<String, Integer> pair : this.ipIdMap.entrySet()){
+					if(pair.getValue()  == id) this.blockedIps.add(pair.getKey());
+				}
+
 			}
 		}
 	}

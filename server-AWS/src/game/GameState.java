@@ -168,6 +168,7 @@ public class GameState implements JSONable {
 	public void removePlayer(Player player) {
 		this.removedPlayers.add(player.getID());
 		this.playerCharacters.remove(player.getCharacter());
+		Main.portAllocator.removePlayer(player.getID());
 		if (this.players.size() <= 1)
 			this.endGame();
 		else {
