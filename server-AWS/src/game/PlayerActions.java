@@ -199,9 +199,21 @@ public class PlayerActions {
 		return " You cant demolish on " + loc.getId();
 	}
 
-	public String done(Player player) {
+	public String done(Player player, NamedLocation location) {
 		if(!player.isInDebt()){
 			if(player.hasRolled()){
+				if(location instanceof RentalProperty){
+					RentalProperty prop = (RentalProperty) location;
+					if(prop.isOwned()){
+						player.reset();
+						Main.gameState.incrementPlayerTurn();
+						Main.gameState.updateVillainGang();
+						return player.getCharName()+" finished their turn.";
+					}
+					Main.gameState.startAuction(prop, null, 1);
+					Main.clientUpdater.updateDesktopAuction();
+					return player.getCharName()+" didn't buy " + prop.getId() + " so it's goes to the highest bidder!";
+				}
 				player.reset();
 				Main.gameState.incrementPlayerTurn();
 				Main.gameState.updateVillainGang();
@@ -291,6 +303,8 @@ public class PlayerActions {
 		for(RentalProperty p : player.getOwnedProperties()){
 			p.setUnOwned();
 		}
+		Main.gameState.removePlayer(player);
+		
 		return player.getCharName() + " has declared bankruptcy and any property they own has been released. ";
 	}
 

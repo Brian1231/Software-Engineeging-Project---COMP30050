@@ -3,14 +3,15 @@ package pw.jcollado.segamecontroller.auctionActivity
 import android.os.Bundle
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_auction.*
-import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.model.App
 import pw.jcollado.segamecontroller.model.Player
 import pw.jcollado.segamecontroller.model.Request
 import pw.jcollado.segamecontroller.model.preferences
 import pw.jcollado.segamecontroller.utils.getPlayerColor
+import com.warkiz.widget.IndicatorSeekBar
+import pw.jcollado.segamecontroller.R
+
 
 class AuctionActivity : App() {
 
@@ -25,17 +26,26 @@ class AuctionActivity : App() {
         setActionBar()
 
     }
+
     fun setSeekBar(){
-        priceSeekBar.max = Player.balance
-        priceSeekBar.setOnProgressChangeListener(object : DiscreteSeekBar.OnProgressChangeListener {
-            override fun onProgressChanged(seekBar: DiscreteSeekBar, value: Int, fromUser: Boolean) {
-              biddButton.text = "BID ${priceSeekBar.progress} SHM"
+        priceSeekBar.max = Player.balance as Float
+
+        priceSeekBar.setOnSeekChangeListener(object : IndicatorSeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: IndicatorSeekBar, progress: Int, progressFloat: Float, fromUserTouch: Boolean) {
+                biddButton.text = "BID ${priceSeekBar.progress} SHM"
+
             }
 
-            override fun onStartTrackingTouch(seekBar: DiscreteSeekBar) {}
+            override fun onSectionChanged(seekBar: IndicatorSeekBar, thumbPosOnTick: Int, textBelowTick: String, fromUserTouch: Boolean) {
+                //only callback on discrete series SeekBar type.
+            }
 
-            override fun onStopTrackingTouch(seekBar: DiscreteSeekBar) {}
+            override fun onStartTrackingTouch(seekBar: IndicatorSeekBar, thumbPosOnTick: Int) {}
+
+            override fun onStopTrackingTouch(seekBar: IndicatorSeekBar) {}
         })
+
     }
 
     private fun setActionBar() {

@@ -152,7 +152,7 @@ public class GameState implements JSONable {
 			while (this.playerCharacters.contains(ch)) {
 				ch = Main.noc.getRandomChar();
 			}
-			Player newPlayer = new Player(newID, ch, Main.noc.getVehicle(ch.getVehicle()), Constants.playerColours[newID]);
+			Player newPlayer = new Player(newID, ch, Main.noc.getVehicle(ch.getVehicle()), Constants.playerColours[newID-1]);
 			this.playerCharacters.add(ch);
 			Character_noc villain = Main.noc.getOpponent(newPlayer.getCharacter());
 			villain.setWeaponObject(Main.noc.getWeapon(villain.getWeapon()));
@@ -169,6 +169,7 @@ public class GameState implements JSONable {
 		this.removedPlayers.add(player.getID());
 		this.playerCharacters.remove(player.getCharacter());
 		Main.portAllocator.removePlayer(player.getID());
+		for(int i=0;i<this.players.size();i++) if(this.players.get(i).equals(player)) this.players.remove(player);
 		if (this.players.size() <= 1)
 			this.endGame();
 		else {
@@ -209,6 +210,7 @@ public class GameState implements JSONable {
 
 	public void startAuction(RentalProperty prop, Player playerBuying, int price){
 		this.auction.auction(prop, playerBuying, price);
+		Main.portAllocator.alertEveryoneAuction();
 	}
 
 	public void finishAuction(){
@@ -246,7 +248,7 @@ public class GameState implements JSONable {
 			case "sell":
 
 				NamedLocation prop = this.locations.get(Integer.parseInt(args[0]));
-				return playerActions.sell(player, prop,100);
+				return playerActions.sell(player, prop, Integer.parseInt(args[1]));
 
 			case "bid":
 
@@ -286,7 +288,7 @@ public class GameState implements JSONable {
 
 			case "done":
 
-				return playerActions.done(player);
+				return playerActions.done(player, this.locations.get(player.getPos()));
 
 			default:
 
@@ -300,7 +302,7 @@ public class GameState implements JSONable {
 
 	public void incrementPlayerTurn() {
 		this.playerTurn++;
-		if (this.playerTurn > this.players.size()) {
+		if (this.playerTurn > this.players.size()+removedPlayers.size()) {
 			this.playerTurn = 1;
 		}
 		if(this.removedPlayers.contains(this.playerTurn))
@@ -397,6 +399,7 @@ public class GameState implements JSONable {
 	}
 
 	public void endGame() {
+		System.out.println("here");
 		Player winner = players.get(0);
 		for (Player p : players)  if (p.getNetWorth() > winner.getNetWorth()) winner = p;
 

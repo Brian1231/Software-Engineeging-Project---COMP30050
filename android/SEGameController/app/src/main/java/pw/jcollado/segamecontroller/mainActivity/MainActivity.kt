@@ -1,5 +1,6 @@
 package pw.jcollado.segamecontroller.mainActivity
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -7,14 +8,16 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import com.squareup.picasso.Picasso
+import com.warkiz.widget.IndicatorSeekBar
+import kotlinx.android.synthetic.main.activity_auction.*
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.yesButton
 import pw.jcollado.segamecontroller.R
-import pw.jcollado.segamecontroller.auctionActivity.AuctionActivity
 import pw.jcollado.segamecontroller.feedActivity.FeedActivity
 import pw.jcollado.segamecontroller.listPropertiesActivity.ListPropertiesActivity
 import pw.jcollado.segamecontroller.joinActivity.JoinActivity
@@ -100,7 +103,8 @@ class MainActivity : App() {
                 true
             }
             R.id.auctionMenu -> {
-                startActivity(Intent(this, AuctionActivity::class.java))
+                //startActivity(Intent(this, AuctionActivity::class.java))
+                onBidButton()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -122,7 +126,44 @@ class MainActivity : App() {
         }
     }
 
+    fun onBidButton(){
+        val dialog = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.activity_auction,null)
+        dialog.setView(dialogView)
+        dialog.setCancelable(true)
+        val seekbar = dialogView.findViewById<IndicatorSeekBar>(R.id.priceSeekBar)
+        val buttonbid = dialogView.findViewById<Button>(R.id.biddButton)
 
+        val customDialog = dialog.create()
+        customDialog.show()
+        setSeekBar(seekbar,buttonbid)
+    }
+
+    fun setSeekBar(seekBar: IndicatorSeekBar, bidButton2: Button){
+        seekBar.max = Player.balance.toFloat()
+        bidButton2.text = "BID ${seekBar.progress} SHM"
+
+        seekBar.setOnSeekChangeListener(object : IndicatorSeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: IndicatorSeekBar, progress: Int, progressFloat: Float, fromUserTouch: Boolean) {
+                bidButton2.text = "BID $progress SHM"
+
+            }
+
+            override fun onSectionChanged(seekBar: IndicatorSeekBar, thumbPosOnTick: Int, textBelowTick: String, fromUserTouch: Boolean) {
+                //only callback on discrete series SeekBar type.
+            }
+
+            override fun onStartTrackingTouch(seekBar: IndicatorSeekBar, thumbPosOnTick: Int) {}
+
+            override fun onStopTrackingTouch(seekBar: IndicatorSeekBar) {}
+        })
+
+        bidButton2.onClick {
+            setMessageToServer(Request(preferences.playerID, "bid",seekBar.progress.toString()).toJSONString())
+
+        }
+    }
 
 
 

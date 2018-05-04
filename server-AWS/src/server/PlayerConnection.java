@@ -139,6 +139,19 @@ public class PlayerConnection extends Thread{
 		}	
 	}
 	
+	public void auctionAlert(){
+		JSONObject output = new JSONObject();
+		
+		try {
+			output.put("id", this.playerID);
+			output.put("action", "auction");
+			out.write(output.toString()+ "\n");
+			out.flush();
+		} catch (JSONException | IOException e) {
+			e.printStackTrace();
+		}	
+	}
+	
 	public void updatePlayer(){
 		JSONObject output;
 		try {

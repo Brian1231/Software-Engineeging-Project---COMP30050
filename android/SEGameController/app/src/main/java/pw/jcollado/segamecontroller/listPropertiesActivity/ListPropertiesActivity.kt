@@ -1,13 +1,17 @@
 package pw.jcollado.segamecontroller.listPropertiesActivity
 
+import android.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import com.warkiz.widget.IndicatorSeekBar
 import kotlinx.android.synthetic.main.activity_list_properties.*
 import org.jetbrains.anko.act
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.connections.AsyncResponse
@@ -42,7 +46,36 @@ class ListPropertiesActivity : App() {
     }
 
     fun sellButton(item: Property) {
-        setMessageToServer(Request(preferences.playerID, "sell", item.location).toJSONString())
+        val dialog = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.activity_auction,null)
+        dialog.setView(dialogView)
+        dialog.setCancelable(true)
+        val seekbar = dialogView.findViewById<IndicatorSeekBar>(R.id.priceSeekBar)
+        val buttonbid = dialogView.findViewById<Button>(R.id.biddButton)
+        val customDialog = dialog.create()
+        buttonbid.text = "SELL FOR ${seekbar.progress} SHM"
+        seekbar.max = (item.price * 5).toFloat()
+
+        customDialog.show()
+
+        buttonbid.onClick {
+            setMessageToServer(Request(preferences.playerID, "sell", "${item.location},${seekbar.progress}").toJSONString())
+
+        }
+        seekbar.setOnSeekChangeListener(object : IndicatorSeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: IndicatorSeekBar, progress: Int, progressFloat: Float, fromUserTouch: Boolean) {
+                buttonbid.text = "SELL FOR ${seekbar.progress} SHM"
+            }
+
+            override fun onSectionChanged(seekBar: IndicatorSeekBar, thumbPosOnTick: Int, textBelowTick: String, fromUserTouch: Boolean) {
+                //only callback on discrete series SeekBar type.
+            }
+
+            override fun onStartTrackingTouch(seekBar: IndicatorSeekBar, thumbPosOnTick: Int) {}
+
+            override fun onStopTrackingTouch(seekBar: IndicatorSeekBar) {}
+        })
     }
 
     fun mortgageButton(item: Property) {

@@ -3,21 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
 
+    android:paddingBottom="20dp"
+    android:paddingTop="10dp"
     tools:context=".auctionActivity.AuctionActivity">
 
-    <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+    <com.warkiz.widget.IndicatorSeekBar
         android:id="@+id/priceSeekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        app:dsb_max="500dp"
-        app:dsb_min="1dp"
-        app:dsb_value="100dp"
+        android:layout_marginTop="40dp"
+        app:isb_indicator_stay="true"
+        app:isb_max="500"
+        app:isb_min="1"
+        app:isb_progress="100"
+        app:isb_show_indicator="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,8 +30,9 @@
         android:id="@+id/biddButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_auction_black"
         android:drawablePadding="20dp"
@@ -36,6 +41,7 @@
         android:text="BID 100 SCHM"
         android:textColor="@color/accent"
         android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/priceSeekBar" />
 
