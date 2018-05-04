@@ -16,6 +16,7 @@ public class Auction implements JSONable{
 		this.prop = null;
 		this.price = 0;
 		this.playerBuying = null;
+		this.auctionInProgress = false;
 	}
 	
 	public void auction(RentalProperty prop, Player playerBuying, int price){

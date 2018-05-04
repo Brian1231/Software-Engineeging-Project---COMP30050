@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -28,12 +29,14 @@ public class GameState implements JSONable {
     private VillainGang villainGang;
     private Auction auction;
     private String actionInfo;
+    private List<Integer> removedPlayers;
 
 
     public GameState() {
         this.players = new ArrayList<Player>();
         this.locations = new ArrayList<NamedLocation>();
         this.playerCharacters = new ArrayList<Character_noc>();
+        this.removedPlayers = new ArrayList<Integer>();
         this.clientIPplayerIDMap = new HashMap<String, Player>();
         this.gameStarted = false;
         this.playerTurn = 1;
@@ -160,8 +163,8 @@ public class GameState implements JSONable {
     }
 
     public void removePlayer(Player player) {
+    	this.removedPlayers.add(player.getID());
         this.playerCharacters.remove(player.getCharacter());
-        this.players.remove(player);
         if (this.players.size() <= 1)
             this.endGame();
         else {
@@ -291,6 +294,8 @@ public class GameState implements JSONable {
         if (this.playerTurn > this.players.size()) {
             this.playerTurn = 1;
         }
+        if(this.removedPlayers.contains(this.playerTurn))
+        	this.incrementPlayerTurn();
         Main.portAllocator.alertPlayer(this.playerTurn);
     }
 
