@@ -1,8 +1,6 @@
 package pw.jcollado.segamecontroller.auctionActivity
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.SeekBar
 import kotlinx.android.synthetic.main.activity_auction.*
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -39,9 +37,10 @@ class AuctionActivity : App() {
     }
 
     private fun setActionBar() {
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
+        actionBar.setDisplayShowTitleEnabled(true)
+        actionBar.setHomeButtonEnabled(true)
+        actionBar.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = getString(R.string.auction)
 
     }
