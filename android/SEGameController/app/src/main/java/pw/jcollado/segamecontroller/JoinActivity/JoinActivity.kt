@@ -2,6 +2,7 @@ package pw.jcollado.segamecontroller.joinActivity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 
 import kotlinx.android.synthetic.main.activity_join.*
 import org.jetbrains.anko.*
@@ -23,8 +24,8 @@ open class JoinActivity : App(), AsyncResponse {
         setContentView(R.layout.activity_join)
         setupUI()
         savePort(8080)
-        supportActionBar!!.setDisplayShowTitleEnabled(false)
-        supportActionBar!!.hide()
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
         monopolyIV.bringToFront()
 
 
