@@ -16,13 +16,15 @@ public class ConfirmBox{
 
     private static boolean answer;
 
-    public static boolean display(String title, String message){
+    public static boolean display(String title, String message, Stage mainStage){
         Stage window = new Stage();
         window.initStyle(StageStyle.UNDECORATED);
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(300);
         window.setMinHeight(250);
+        window.setX(mainStage.getScene().getWidth()/2 - window.getMinWidth()/2);
+        window.setY(mainStage.getScene().getHeight()/2);
 
         Label label = new Label();
         label.setText(message);

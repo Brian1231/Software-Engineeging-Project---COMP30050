@@ -115,7 +115,6 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 		if (!this.isMortgaged()) {
 			return rentAmounts[0];
 		} else {
-			System.out.println("Cant claim rent on rental property that is mortgaged");
 			return 0;
 		}
 	}

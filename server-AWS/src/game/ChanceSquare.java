@@ -30,7 +30,7 @@ public class ChanceSquare extends NamedLocation{
 			//Lose money
 		case 1:
 			amount = 50 + 10*random.nextInt(26);
-			player.setDebt(amount);
+			player.setDebt(amount, null);
 			res+="\n" + player.getCharName() + " owes $" + amount + ".";
 			break;
 			//Change direction

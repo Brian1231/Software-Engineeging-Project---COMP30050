@@ -180,7 +180,7 @@ public class InformationPane extends Pane {
 		newText.setStyle("-fx-fill: rgb("+r+", "+g+", "+b+");");
 		newText.setFont(new Font("Verdana", 18));
 		messages.add(newText);
-		if(messages.size()>6) messages.remove(0);
+		if(messages.size()>4) messages.remove(0);
 		
 		newsfeed.getChildren().clear();
 		for(int i=0;i<messages.size();i++){
@@ -201,17 +201,25 @@ public class InformationPane extends Pane {
 	public void updateLocationInfo(Location loc) {
 		tileName.setText(loc.getName());
 		tileInfo.setStroke(loc.getColour());
-		tileCost.setText("Price: $" + Integer.toString(loc.getPrice()));
 		if(loc.getOwnerID()==0)
-			tileOwner.setText("Owner: " + " Unowned");
+			tileOwner.setText("");
 		else
 			tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
-		tileRent.setText("Rent: " + loc.getRent());
+		if(loc.getRent()>0)
+			tileRent.setText("Rent: " + loc.getRent());
+		else
+			tileRent.setText("");
+		if(loc.getPrice()>0)
+			tileCost.setText("Price: $" + Integer.toString(loc.getPrice()));
+		else
+			tileCost.setText("");
         tileInfo.setFill(new ImagePattern(loc.getImage()));
 
         Color original = loc.getColour();
         Color faded = Color.color(original.getRed(),original.getGreen(),original.getBlue(), 0.6);
-        infoBackground.setFill(faded);
+        if(loc.getPrice()>0 || loc.getRent()>0 || loc.getOwnerID()!=0)
+        	infoBackground.setFill(faded);
+        	
 
         /*
         if(!getChildren().contains(mortgaged) && loc.isMortgaged()){

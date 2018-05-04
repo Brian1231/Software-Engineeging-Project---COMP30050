@@ -159,13 +159,14 @@ public class InGameController {
 						for(int i=0;i<locationObjects.length();i++){
 							String id = locationObjects.getJSONObject(i).getString("id");
 							int price = locationObjects.getJSONObject(i).getInt("price");
+							int rent = locationObjects.getJSONObject(i).getInt("rent");
 							int position = locationObjects.getJSONObject(i).getInt("location");
 							int owner = locationObjects.getJSONObject(i).getInt("owner");
 							int houses = locationObjects.getJSONObject(i).getInt("houses");
 							java.awt.Color col = new java.awt.Color(locationObjects.getJSONObject(i).getInt("color"));
 							Color color = Color.rgb(col.getRed(), col.getGreen(), col.getBlue());
 							boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
-							locs.add(new Location(id,position,price,0,owner, color, isMortgaged, houses));
+							locs.add(new Location(id,position,price,rent,owner, color, isMortgaged, houses));
 						}
 						Game.updateLocations(locs);
 						Game.locationsSet = true;
@@ -196,7 +197,8 @@ public class InGameController {
 
 	private void onFalseConnection(){
 		Platform.runLater(() ->{
-			AlertBox.display("Error Connecting","Could not Connect to the Server.");
+			AlertBox.display("Error Connecting","Could not Connect to the Server.", gameStage);
+
 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/welcomeScreen.fxml"));
 			Parent welcome = null;
@@ -232,7 +234,7 @@ public class InGameController {
 				Game.gameStarted = true;
 				startButton.setText("End Game");
 				startButton.setOnAction(e2 -> {
-					boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?");
+					boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?", gameStage);
 					if (answer) {
 						showGameOverScreen();
 					}

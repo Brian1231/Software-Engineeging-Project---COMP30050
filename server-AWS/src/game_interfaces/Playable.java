@@ -1,5 +1,6 @@
 package game_interfaces;
 
+import game.Player;
 import game.RentalProperty;
 import noc_db.Character_noc;
 
@@ -8,67 +9,39 @@ import java.util.ArrayList;
 
 public interface Playable extends Identifiable{
 
-    boolean hasRolled();
+	int getNetWorth();
+	int getFuel();
+	int getPos();
+	int getID();
+	int getBalance();
+	
+	boolean hasRolled();
+	boolean ownsThree(Color color);
+	boolean incrementJailTurns();
+	boolean isInJail();
+	boolean hasBought();
+	boolean hasBoosted();
+	boolean isInDebt();
 
-    void reset();
+	void setDebt(int amount, Player player);
+	void reset();
+	void useRoll();
+	void topUpFuel();
+	void sendToJail();
+	void releaseFromJail();
+	void addNewPropertyBought(RentalProperty property);
+	void removePropertySold(RentalProperty property);
+	void payMoney(int paid);
+	void receiveMoney(int received);
+	void changeDirection();
+	
+	String useBoost();
+	String moveForward(int spaces);
+	String getCharName();
+	String getCanName();
+	String getPossessive();
+	String payDebt();
 
-    boolean hasBought();
-
-    boolean hasBoosted();
-
-    void useRoll();
-
-    void topUpFuel();
-
-    int getFuel();
-
-    void sendToJail();
-
-    void releaseFromJail();
-
-    boolean isInJail();
-
-    void changeDirection();
-
-    boolean incrementJailTurns();
-
-    boolean ownsThree(Color color);
-
-    int getPos();
-
-    int getID();
-
-    int getBalance();
-
-    String useBoost();
-
-    String moveForward(int spaces);
-
-    String getCharName();
-
-    String getCanName();
-
-    int getNetWorth();
-
-    void payMoney(int paid);
-
-    void receiveMoney(int received);
-
-    ArrayList<RentalProperty> getOwnedProperties();
-
-    void addNewPropertyBought(RentalProperty property);
-
-    void removePropertySold(RentalProperty property);
-
-    Character_noc getCharacter();
-
-    boolean isInDebt();
-
-    void setDebt(int amount, Playable player);
-
-    void setDebt(int amount);
-
-    String getPossessive();
-
-    String payDebt();
+	ArrayList<RentalProperty> getOwnedProperties();
+	Character_noc getCharacter();
 }

@@ -56,6 +56,15 @@ public class Player implements Playable, JSONable{
 	}
 
 	@Override
+	public boolean equals(Object obj){
+		if(obj instanceof Player){
+			Player other = (Player) obj;
+			return this.id == other.getID();
+		}
+		return false;
+	}
+	
+	@Override
 	public String toString(){
 		return "ID: " + this.id;
 	}
@@ -197,12 +206,12 @@ public class Player implements Playable, JSONable{
 
 			}
 			else{
-				String res = "";
+				StringBuilder res = new StringBuilder();
 				this.position = (this.position + spaces)%39;
 
 				//Check if we pass go
 				if((oldPos<20 && this.position>19) || (oldPos>20 && this.position>=0 && this.position<20)){
-					res+= this.getCharName() +" passed go and received $100.\n";
+					res.append(this.getCharName() +" passed go and received $100.\n");
 					this.receiveMoney(100);
 				}
 
@@ -216,8 +225,8 @@ public class Player implements Playable, JSONable{
 				if(oldPos<20 && this.position>20){
 					this.position--;
 				}
-
-				return res+this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
+				res.append(this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle());
+				return res.toString();
 			}
 		}
 		else{
@@ -235,7 +244,7 @@ public class Player implements Playable, JSONable{
 				return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
 			}
 			else{
-				String res = "";
+				StringBuilder res = new StringBuilder();
 				if(this.position-spaces>=0)
 					this.position = (this.position - spaces);
 				else{
@@ -245,7 +254,7 @@ public class Player implements Playable, JSONable{
 
 				//Check if we pass go
 				if((oldPos>20 && this.position<=20) || (this.position>=20 && oldPos>0 && oldPos<20)){
-					res+= this.getCharName() +" passed go and received $100.\n";
+					res.append(this.getCharName() +" passed go and received $100.\n");
 					this.receiveMoney(100);
 				}
 
@@ -259,8 +268,8 @@ public class Player implements Playable, JSONable{
 				if((oldPos>20 && this.position<20)){
 					this.position++;
 				}
-
-				return res+this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
+				res.append(this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle());
+				return res.toString();
 			}
 		}
 	}
@@ -282,9 +291,8 @@ public class Player implements Playable, JSONable{
 	@Override
 	public int getNetWorth() {
 		int worth = balance;
-		// add on price of all owned properties
-		for (RentalProperty p: ownedProperties
-				) {
+		//Sum price of all owned properties
+		for (RentalProperty p: ownedProperties) {
 			worth += p.getPrice();
 		}
 		return worth;
@@ -331,14 +339,8 @@ public class Player implements Playable, JSONable{
 	}
 
 	@Override
-	public void setDebt(int amount, Playable player){
+	public void setDebt(int amount, Player player){
 		this.playerOwed = player;
-		this.debt += amount;
-		this.isInDebt = true;
-	}
-
-	@Override
-	public void setDebt(int amount){
 		this.debt += amount;
 		this.isInDebt = true;
 	}

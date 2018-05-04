@@ -33,6 +33,7 @@ public class NamedLocation implements Identifiable, Locatable, JSONable{
 		info.put("houses", 0);
 		info.put("is_mortgaged", false);
 		info.put("hasTrap", false);
+		info.put("rent", 0);
 		return info;
 	}
 	@Override

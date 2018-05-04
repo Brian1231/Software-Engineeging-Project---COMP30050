@@ -12,34 +12,34 @@ public class PlayerActions {
 	public String roll(Player player, int id, ArrayList<NamedLocation> locations) {
 		if(!player.hasRolled()) {
 			Main.dice.roll();
+			StringBuilder res = new StringBuilder();
 			int[] dice_values = Main.dice.getDiceValues();
 			if(!player.isInJail()){
 				int spaces = Main.dice.getRollResult();
-				String res = player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".";
-				res += landedOn(player, locations.get(player.getPos()), spaces);
-				res += Main.gameState.villainGangCheck(player);
+				res.append(player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".");
+				res.append(landedOn(player, locations.get(player.getPos()), spaces));
+				res.append(Main.gameState.villainGangCheck(player));
 				if(dice_values[0] == dice_values[1])
-					res += player.getCharName() + " rolled doubles! Roll again!";
+					res.append(player.getCharName() + " rolled doubles! Roll again!");
 				else
 					player.useRoll();
-				return res;
+				return res.toString();
 			}
-			String res = player.getCharName() +" attempts to escape prison...\n";
+			res.append(player.getCharName() +" attempts to escape prison...\n");
 			if(dice_values[0] == dice_values[1]){
-				res+=player.getCharName()+" has successfully escaped prison!";
+				res.append(player.getCharName()+" has successfully escaped prison!");
 				player.releaseFromJail();
-				return res;
+				return res.toString();
 			}
 			player.useRoll();
-			res+=player.getCharName()+"'s escape plan fails miserably.";
+			res.append(player.getCharName()+"'s escape plan fails miserably.");
 			if(player.incrementJailTurns()){
-				res+=player.getCharName()+" has spent their time in prison and will be released next turn.";
+				res.append(player.getCharName()+" has spent their time in prison and will be released next turn.");
 			}
-			return res;
+			return res.toString();
 		}
 		return player.getCanName() + " has already rolled this turn.";
 	}
-
 
 	public String buy(Player player, NamedLocation tile, int id) {
 
@@ -88,7 +88,6 @@ public class PlayerActions {
 		return "You can't sell that.";
 	}
 
-
 	public String mortgage(Player player, NamedLocation loc, int id)  {
 		if (loc instanceof RentalProperty) {
 			RentalProperty property = (RentalProperty) loc;
@@ -106,7 +105,6 @@ public class PlayerActions {
 		}
 		return "You can't mortgage that.";
 	}
-
 
 	public String redeem(Player player, NamedLocation loc, int id) {
 		if (loc instanceof RentalProperty) {
@@ -132,10 +130,11 @@ public class PlayerActions {
 				if (!player.hasBoosted()) {
 					if(!player.isInDebt()){
 						if (player.getFuel() > 0) {
-							String res = player.useBoost()  +" and landed on "+ locations.get(player.getPos()).getId()+".";
-							res += landedOn(player, locations.get(player.getPos()), 1);
-							res += Main.gameState.villainGangCheck(player);
-							return res;
+							StringBuilder res = new StringBuilder();
+							res.append(player.useBoost()  +" and landed on "+ locations.get(player.getPos()).getId()+".");
+							res.append(landedOn(player, locations.get(player.getPos()), 1));
+							res.append(Main.gameState.villainGangCheck(player));
+							return res.toString();
 						}
 						return "Your vehicle is out of fuel!";
 					}
@@ -160,10 +159,10 @@ public class PlayerActions {
 									return player.getCharName() + " built " + numToBuild + " houses on " + property.getId() + ".";
 								else
 									return player.getCharName() + " built " + numToBuild + " house on " + property.getId() + ".";
-							} else {
+							} 
+							else {
 								return property.getBuildDemolishError();
 							}
-
 						}
 						return "You need to own the full colour group before you can improve a property!";
 					}
@@ -176,7 +175,6 @@ public class PlayerActions {
 		return " You cant improve " + loc.getId();
 	}
 
-
 	public String demolish(Player player, NamedLocation loc, int numToDemolish, int id) {
 		if (loc instanceof InvestmentProperty) {
 			InvestmentProperty property = (InvestmentProperty) loc;
@@ -188,7 +186,8 @@ public class PlayerActions {
 								return player.getCharName() + " demolished " + numToDemolish + " houses on " + property.getId() + ".";
 							else
 								return player.getCharName() + " demolished " + numToDemolish + " house on " + property.getId() + ".";
-						} else {
+						} 
+						else {
 							return property.getBuildDemolishError();
 						}
 					}
@@ -202,7 +201,6 @@ public class PlayerActions {
 	}
 
 	public String done(Player player) {
-
 		if(!player.isInDebt()){
 			if(player.hasRolled()){
 				player.reset();
@@ -213,8 +211,6 @@ public class PlayerActions {
 			return "You must roll the dice before ending your turn.";
 		}
 		return "You must pay your debt before ending your turn.";
-		
-
 	}
 
 	private String landedOn(Player player, NamedLocation location, int spaces){
@@ -222,30 +218,30 @@ public class PlayerActions {
 			RentalProperty property = (RentalProperty) location;
 			if(property.isOwned()){
 				if(!property.getOwner().equals(player)){
-
-					String res = "\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ".";
+					StringBuilder res = new StringBuilder();
+					res.append("\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ".");
 					if(property instanceof InvestmentProperty){
 						InvestmentProperty p = (InvestmentProperty) property;
 						player.setDebt(p.getRentalAmount(), property.getOwner());
-						res+=player.getCharName() + " owes " + property.getOwner().getCharName() + " " + p.getRentalAmount() + ". ";
-						if(p.hasTrap()) res+= p.activateTrap(player);
-						return res;
+						res.append(player.getCharName() + " owes " + property.getOwner().getCharName() + " " + p.getRentalAmount() + ". ");
+						if(p.hasTrap()) res.append(p.activateTrap(player));
+						return res.toString();
 					}
 					else if(property instanceof Station){
 						//Station
 						Station s = (Station) property;
 						player.setDebt(s.getRentalAmount(), property.getOwner());
-						res+=player.getCharName() + " owes " + property.getOwner().getCharName() + " " + s.getRentalAmount() + ". ";
-						if(s.hasTrap()) res += s.activateTrap(player);
-						return res;
+						res.append(player.getCharName() + " owes " + property.getOwner().getCharName() + " " + s.getRentalAmount() + ". ");
+						if(s.hasTrap()) res.append(s.activateTrap(player));
+						return res.toString();
 					}
 					else{
 						//Utility
 						Utility u = (Utility) property;
 						player.setDebt(u.getRentalAmount(spaces), property.getOwner());
-						res+=player.getCharName() + " owes " + property.getOwner().getCharName() + " " + u.getRentalAmount(spaces) + ". ";
-						if(u.hasTrap()) res += u.activateTrap(player);
-						return res;
+						res.append(player.getCharName() + " owes " + property.getOwner().getCharName() + " " + u.getRentalAmount(spaces) + ". ");
+						if(u.hasTrap()) res.append(u.activateTrap(player));
+						return res.toString();
 					}
 				}
 				return "\nYou own "+ property.getId() + ".";	
@@ -295,6 +291,4 @@ public class PlayerActions {
 		}
 		return player.getCharName() + " has declared bankruptcy and any property they own has been released. ";
 	}
-
-
 }
