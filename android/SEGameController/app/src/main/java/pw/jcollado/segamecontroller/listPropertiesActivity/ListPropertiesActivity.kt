@@ -13,6 +13,7 @@ import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.connections.AsyncResponse
 import pw.jcollado.segamecontroller.model.*
 import pw.jcollado.segamecontroller.utils.CardsAdapter
+import pw.jcollado.segamecontroller.utils.getPlayerColor
 
 class ListPropertiesActivity : App() {
     var properties: ArrayList<Property> = ArrayList()
@@ -86,6 +87,8 @@ class ListPropertiesActivity : App() {
             actionBar.setHomeButtonEnabled(true)
             actionBar.setDisplayHomeAsUpEnabled(true)
             actionBar.title = getString(R.string.properties)
+            actionBar.setBackgroundDrawable(getPlayerColor())
+
 
         }
     }

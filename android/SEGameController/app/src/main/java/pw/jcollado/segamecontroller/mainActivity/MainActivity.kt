@@ -19,6 +19,7 @@ import pw.jcollado.segamecontroller.feedActivity.FeedActivity
 import pw.jcollado.segamecontroller.listPropertiesActivity.ListPropertiesActivity
 import pw.jcollado.segamecontroller.joinActivity.JoinActivity
 import pw.jcollado.segamecontroller.model.*
+import pw.jcollado.segamecontroller.utils.getPlayerColor
 import pw.jcollado.segamecontroller.utils.getPropertyImageURL
 
 
@@ -110,12 +111,9 @@ class MainActivity : App() {
 
     override fun updateGameState(){
         runOnUiThread {
-            val intColor = Player.colour
-            val hexColor = "#" + Integer.toHexString(intColor).substring(2)
-            val color = Color.parseColor(hexColor)
 
             supportActionBar?.title = Player.character
-            supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
+            supportActionBar?.setBackgroundDrawable(getPlayerColor())
             balanceTX.text = Player.balance.toString()
             positionTX.text = Player.position
 
