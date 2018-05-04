@@ -35,6 +35,7 @@
         android:layout_width="383dp"
         android:layout_height="181dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -49,20 +50,23 @@
         android:layout_marginTop="12dp"
         android:ems="10"
         android:focusableInTouchMode="true"
-        android:gravity="center"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/monopolyIV" />
 
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/background"
+    <VideoView
+        android:id="@+id/background_vw"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/galaxy"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/monopolyIV" />
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

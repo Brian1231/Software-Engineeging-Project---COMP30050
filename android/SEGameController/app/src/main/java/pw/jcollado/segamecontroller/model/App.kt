@@ -78,10 +78,18 @@ abstract class App : AppCompatActivity(), AsyncResponse {
     fun parseResponsetoPlayer(response: String) {
         val responseJSON = JSONObject(response)
 
-        if (responseJSON.has("action") && responseJSON.getString("action") == "vibrate" && responseJSON.getInt("id") == Player.id){
-            runOnUiThread{
-            toast(getString(R.string.your_turn))
-            }
+        if (responseJSON.has("action")) {
+                    if(responseJSON.getString("action") == "vibrate" && responseJSON.getInt("id") == Player.id){
+                        runOnUiThread{
+                            toast(getString(R.string.your_turn))
+                        }
+                    }
+                    else if(responseJSON.getString("action") == "auction"){
+                        runOnUiThread{
+                            toast(getString(R.string.action_auction))
+                        }
+                    }
+
             var v:Vibrator =  getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             // Vibrate for 500 milliseconds
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

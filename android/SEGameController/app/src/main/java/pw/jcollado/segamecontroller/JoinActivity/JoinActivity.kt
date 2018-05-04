@@ -2,6 +2,7 @@ package pw.jcollado.segamecontroller.joinActivity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 
 import kotlinx.android.synthetic.main.activity_join.*
 import org.jetbrains.anko.*
@@ -13,6 +14,13 @@ import pw.jcollado.segamecontroller.mainActivity.MainActivity
 import pw.jcollado.segamecontroller.model.*
 import pw.jcollado.segamecontroller.utils.closeLoadingDialog
 import pw.jcollado.segamecontroller.utils.loadDialog
+import android.media.MediaPlayer
+import android.net.Uri
+import android.support.v4.media.session.MediaControllerCompat.setMediaController
+import android.widget.MediaController
+import android.widget.VideoView
+
+
 
 
 open class JoinActivity : App(), AsyncResponse {
@@ -23,10 +31,11 @@ open class JoinActivity : App(), AsyncResponse {
         setContentView(R.layout.activity_join)
         setupUI()
         savePort(8080)
-        supportActionBar!!.setDisplayShowTitleEnabled(false)
-        supportActionBar!!.hide()
-        monopolyIV.bringToFront()
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
+        resumeTX.bringToFront()
+        monopolyIV.bringToFront()
+        setUpVideoView()
 
     }
 
@@ -97,4 +106,27 @@ open class JoinActivity : App(), AsyncResponse {
 
         }
     }
+
+    private fun setUpVideoView() {
+        val uriPath = ("android.resource://" + packageName + "/raw/galaxy" )
+        val uri = Uri.parse(uriPath)
+
+        try {
+            background_vw.setVideoURI(uri)
+            background_vw.requestFocus()
+        } catch (e: Exception) {
+            Log.e("Error", e.message)
+            e.printStackTrace()
+        }
+
+        background_vw.setOnPreparedListener(videoViewListener)
+    }
+
+    private val videoViewListener = MediaPlayer.OnPreparedListener { mediaPlayer ->
+
+        mediaPlayer.isLooping = true
+        background_vw.start()
+
+    }
+
 }

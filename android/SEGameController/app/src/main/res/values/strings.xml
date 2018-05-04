@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SEGameController</string>
-    <string name="roll_dices">Roll dices</string>
+    <string name="roll_dices">Roll dice</string>
     <string name="buy_property">Buy Property</string>
     <string name="main_screen">Monopoly Controller</string>
     <string name="balence_string">Bank Balance:</string>
@@ -16,7 +16,7 @@
     <string name="boost">Boost</string>
     <string name="sell">Sell</string>
     <string name="demolish">Demolish</string>
-    <string name="pay">Pay the debt</string>
+    <string name="pay">Pay debt</string>
     <string name="trap">Place a trap</string>
     <string name="hasTrap">1 trap</string>
     <string name="noTrap">0 traps </string>
@@ -28,4 +28,5 @@
     <string name="game_feed">Game Feed</string>
     <string name="your_turn">It\'s your turn.</string>
     <string name="auction">Auction</string>
+    <string name="action_auction">Auction started!</string>
 </resources>
