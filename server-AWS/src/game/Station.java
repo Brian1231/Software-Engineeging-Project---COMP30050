@@ -2,7 +2,12 @@ package game;
 
 import java.util.ArrayList;
 
-public class Station extends RentalProperty {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import game_interfaces.JSONable;
+
+public class Station extends RentalProperty implements JSONable{
 
 	public Station(String name, int price, int[] rentAmounts) {
 		super(name, price);
@@ -29,6 +34,13 @@ public class Station extends RentalProperty {
 			System.out.println("Cant claim rent on station that is mortgaged");
 			return 0;
 		}
+	}
+	
+	@Override
+	public JSONObject getInfo() throws JSONException {
+		JSONObject info =  super.getInfo();
+		info.put("rent", this.getRentalAmount());
+		return info;
 	}
 	
 }

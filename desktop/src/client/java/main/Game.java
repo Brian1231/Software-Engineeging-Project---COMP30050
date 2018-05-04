@@ -122,7 +122,7 @@ public class Game {
             int index = locations.indexOf(location);
             locations.get(index).setName(location.getName());
             locations.get(index).setRent(location.getRent());
-            locations.get(index).setPrice(location.getPosition());
+            locations.get(index).setPrice(location.getPrice());
             locations.get(index).setOwnerID(location.getOwnerID());
             locations.get(index).setColour(location.getColour());
             locations.get(index).setMortgaged(location.isMortgaged());

@@ -2,7 +2,13 @@ package game;
 
 import java.util.ArrayList;
 
-public class Utility extends RentalProperty {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import game_interfaces.JSONable;
+import main.Main;
+
+public class Utility extends RentalProperty implements JSONable{
 
 	private int[] rentMultipliers;
 
@@ -35,5 +41,12 @@ public class Utility extends RentalProperty {
 			System.out.println("Cant claim rent on utility that is mortgaged");
 			return 0;
 		}
+	}
+	
+	@Override
+	public JSONObject getInfo() throws JSONException {
+		JSONObject info =  super.getInfo();
+		info.put("rent", this.getRentalAmount(Main.dice.getRollResult()));
+		return info;
 	}
 }
