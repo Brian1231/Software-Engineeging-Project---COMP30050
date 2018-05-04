@@ -9,7 +9,6 @@ import kotlinx.android.synthetic.main.activity_feed.*
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.model.Player
 import pw.jcollado.segamecontroller.utils.FeedAdapter
-import java.util.*
 import kotlin.collections.ArrayList
 
 class FeedActivity : AppCompatActivity() {
