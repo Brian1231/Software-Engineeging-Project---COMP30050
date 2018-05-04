@@ -31,7 +31,7 @@ public interface Playable extends Identifiable{
 	void sendToJail();
 	void releaseFromJail();
 	void addNewPropertyBought(RentalProperty property, int price);
-	void removePropertySold(RentalProperty property);
+	void removePropertySold(RentalProperty property, int price);
 	void payMoney(int paid);
 	void receiveMoney(int received);
 	void changeDirection();
