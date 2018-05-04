@@ -66,19 +66,19 @@ public class StationTest {
 
     @Test
     public void getRentalAmount() {
-		player.addNewPropertyBought(station1);
+		player.addNewPropertyBought(station1, station1.getPrice());
 		station1.setOwner(player);
 		assertEquals(10, station1.getRentalAmount());
 
-		player.addNewPropertyBought(station2);
+		player.addNewPropertyBought(station2, station2.getPrice());
 		station2.setOwner(player);
 		assertEquals(20, station1.getRentalAmount());
 
-		player.addNewPropertyBought(station3);
+		player.addNewPropertyBought(station3, station3.getPrice());
 		station3.setOwner(player);
 		assertEquals(30, station1.getRentalAmount());
 
-		player.addNewPropertyBought(station4);
+		player.addNewPropertyBought(station4, station4.getPrice());
 		station4.setOwner(player);
 		assertEquals(40, station1.getRentalAmount());
     }

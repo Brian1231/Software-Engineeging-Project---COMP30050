@@ -24,13 +24,12 @@ val preferences: Prefs by lazy {
 }
 
 abstract class App : AppCompatActivity(), AsyncResponse {
-    var listActivity: ListPropertiesActivity? = null
-   // var onList = false
 
     companion object {
         var prefs: Prefs? = null
         var gamethread: ServerConnectionThread? = null
-
+        var listActivity: ListPropertiesActivity? = null
+        var isList = false
 
     }
 
@@ -58,9 +57,7 @@ abstract class App : AppCompatActivity(), AsyncResponse {
     fun killGameThread() {
         gamethread?.kill()
     }
-    fun setActivityResponse(activity: ListPropertiesActivity){
-        listActivity = activity
-    }
+
 
     override fun handleResponse(response: String?) {
 
@@ -121,9 +118,12 @@ abstract class App : AppCompatActivity(), AsyncResponse {
             }
 
             updateGameState()
-            if (listActivity != null) {
-                listActivity!!.updateProperties()
+            runOnUiThread {
+                if (isList) {
+                    listActivity!!.updateProperties()
+                    listActivity!!.updateProperties()
 
+                }
             }
         }
 

@@ -325,10 +325,10 @@ public class Player implements Playable, JSONable{
 	}
 
 	@Override
-	public void addNewPropertyBought(RentalProperty property) {
+	public void addNewPropertyBought(RentalProperty property, int price) {
 		ownedProperties.add(property);
 		// pay money out
-		payMoney(property.getPrice());
+		payMoney(price);
 		this.hasBought = true;
 	}
 

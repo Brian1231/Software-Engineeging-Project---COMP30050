@@ -30,7 +30,7 @@ public interface Playable extends Identifiable{
 	void topUpFuel();
 	void sendToJail();
 	void releaseFromJail();
-	void addNewPropertyBought(RentalProperty property);
+	void addNewPropertyBought(RentalProperty property, int price);
 	void removePropertySold(RentalProperty property);
 	void payMoney(int paid);
 	void receiveMoney(int received);
