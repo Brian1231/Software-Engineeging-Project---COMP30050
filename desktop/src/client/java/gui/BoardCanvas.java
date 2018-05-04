@@ -168,7 +168,12 @@ public class BoardCanvas extends ResizableCanvas {
                 g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width /15);
                 g.strokeOval(x + (width / 2) - width / 32, y + (height / 2) - width / 32, width / 16, width / 16);
                 break;
-            case 4:
+			case 4:
+				g.strokeOval(x + (width / 2) - width / 28, y + (height / 2) - width / 28, width / 14, width / 14);
+				g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
+				g.strokeOval(x + (width / 2) - width / 32, y + (height / 2) - width / 32, width / 16, width / 16);
+				g.strokeOval(x + (width / 2) - width / 34, y + (height / 2) - width / 34, width / 17, width / 17);
+            case 5:
                 g.setLineWidth(5);
                 g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
                 g.setLineWidth(1);

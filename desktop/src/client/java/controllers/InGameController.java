@@ -1,13 +1,18 @@
 package client.java.controllers;
 
+import client.java.gameObjects.Auction;
 import client.java.gameObjects.Location;
 import client.java.gameObjects.Player;
 import client.java.gui.*;
 import client.java.main.Game;
 import client.java.network.NetworkConnection;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
@@ -19,6 +24,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,6 +32,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 public class InGameController {
 
@@ -116,13 +123,74 @@ public class InGameController {
 
 					System.out.println("Current GameState: " + update.toString());
 
-					Game.playerTurn = update.getInt("player_turn");
-					infoPane.updatePlayerTurn(Game.playerTurn);
+					if(update.has("player_turn")){
+						Game.playerTurn = update.getInt("player_turn");
+						infoPane.updatePlayerTurn(Game.playerTurn);
+					}
+
 					String actionInfo = update.getString("action_info");
 
+					if(update.has("auction")){
+						JSONObject auctionObject = update.getJSONObject("auction");
+
+						int player_selling = auctionObject.getInt("player_selling");
+						int player_buying = auctionObject.getInt("player_buying");
+						int highest_bid = auctionObject.getInt("price");
+						int position = auctionObject.getInt("location");
+
+						Auction auct = new Auction(player_selling,player_buying,highest_bid,position);
+						Game.setAuction(auct);
+
+						infoPane.updateAuctionInfo(auct);
+
+						if(!Game.isAuctionActive()){
+							// Make an auction pop up window
+							infoPane.addAuctionCircle();
+							Game.setAuctionActive(true);
+							Game.setAuctionTimer(10);
+							Game.getAuction().setTime(10);
+
+							Timeline timeLine = new Timeline();
+							timeLine.setCycleCount(Timeline.INDEFINITE);
+							timeLine.getKeyFrames().add(
+								new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent event) {
+
+										Game.getAuction().setTime(Game.getAuction().getTime()-1);
+										infoPane.updateTimer(Game.getAuction().getTime());
+
+										if(Game.getAuction().getTime() <= 0){
+											timeLine.stop();
+											JSONObject output = new JSONObject();
+											try {
+												output.put("id", 0);
+												output.put("action", "auction_over");
+												connection.send(output);
+											} catch (JSONException e) {
+												e.printStackTrace();
+											} catch (Exception e) {
+												e.printStackTrace();
+											}
+											infoPane.removeAuctionCircle();
+											Game.setAuctionActive(false);
+										}
+									}
+								}
+								));
+							timeLine.playFromStart();
+						}
+						else{
+							infoPane.updateAuctionInfo(auct);
+							Game.setAuctionTimer(10);
+							Game.getAuction().setTime(10);
+						}
+					}
+
 					// Redraw players according to new player positions
-					List<Player> plyrs = new ArrayList<>();
+
 					if(update.has("players")){
+						List<Player> plyrs = new ArrayList<>();
 						JSONArray playerObjects = update.getJSONArray("players");
 
 						for(int i=0;i<playerObjects.length();i++){
@@ -168,6 +236,7 @@ public class InGameController {
 							boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
 							locs.add(new Location(id,position,price,rent,owner, color, isMortgaged, houses));
 						}
+
 						Game.updateLocations(locs);
 						Game.locationsSet = true;
 						if(!imagesPlaced){

@@ -1,5 +1,6 @@
 package client.java.main;
 
+import client.java.gameObjects.Auction;
 import client.java.gameObjects.Location;
 import client.java.gameObjects.Player;
 import client.java.gameObjects.VillainGang;
@@ -23,6 +24,10 @@ public class Game {
     public static int playerTurn;
     public static boolean locationsSet = false;
     private static PlayerCanvas pCanvas;
+    private static boolean auctionActive;
+    private static Auction auction = null;
+    private static int auctionTimer;
+
 
     // Player Methods
     // Updates players from server.
@@ -140,7 +145,31 @@ public class Game {
         return null;
     }
 
+    public static boolean isAuctionActive() {
+        return auctionActive;
+    }
+
+    public static void setAuctionActive(boolean auctionActive) {
+        Game.auctionActive = auctionActive;
+    }
+
+    public static Auction getAuction() {
+        return auction;
+    }
+
+    public static void setAuction(Auction auction) {
+        Game.auction = auction;
+    }
+
     public static void setPlayerCanvas(PlayerCanvas canvas){
         pCanvas = canvas;
+    }
+
+    public static int getAuctionTimer() {
+        return auctionTimer;
+    }
+
+    public static void setAuctionTimer(int auctionTimer) {
+        Game.auctionTimer = auctionTimer;
     }
 }
