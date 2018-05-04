@@ -159,13 +159,14 @@ public class InGameController {
 						for(int i=0;i<locationObjects.length();i++){
 							String id = locationObjects.getJSONObject(i).getString("id");
 							int price = locationObjects.getJSONObject(i).getInt("price");
+							int rent = locationObjects.getJSONObject(i).getInt("rent");
 							int position = locationObjects.getJSONObject(i).getInt("location");
 							int owner = locationObjects.getJSONObject(i).getInt("owner");
 							int houses = locationObjects.getJSONObject(i).getInt("houses");
 							java.awt.Color col = new java.awt.Color(locationObjects.getJSONObject(i).getInt("color"));
 							Color color = Color.rgb(col.getRed(), col.getGreen(), col.getBlue());
 							boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
-							locs.add(new Location(id,position,price,0,owner, color, isMortgaged, houses));
+							locs.add(new Location(id,position,price,rent,owner, color, isMortgaged, houses));
 						}
 						Game.updateLocations(locs);
 						Game.locationsSet = true;

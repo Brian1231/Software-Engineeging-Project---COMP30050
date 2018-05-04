@@ -41,7 +41,6 @@ public class PlayerActions {
 		return player.getCanName() + " has already rolled this turn.";
 	}
 
-
 	public String buy(Player player, NamedLocation tile, int id) {
 
 		if (tile instanceof RentalProperty) {
@@ -89,7 +88,6 @@ public class PlayerActions {
 		return "You can't sell that.";
 	}
 
-
 	public String mortgage(Player player, NamedLocation loc, int id)  {
 		if (loc instanceof RentalProperty) {
 			RentalProperty property = (RentalProperty) loc;
@@ -107,7 +105,6 @@ public class PlayerActions {
 		}
 		return "You can't mortgage that.";
 	}
-
 
 	public String redeem(Player player, NamedLocation loc, int id) {
 		if (loc instanceof RentalProperty) {
@@ -162,10 +159,10 @@ public class PlayerActions {
 									return player.getCharName() + " built " + numToBuild + " houses on " + property.getId() + ".";
 								else
 									return player.getCharName() + " built " + numToBuild + " house on " + property.getId() + ".";
-							} else {
+							} 
+							else {
 								return property.getBuildDemolishError();
 							}
-
 						}
 						return "You need to own the full colour group before you can improve a property!";
 					}
@@ -178,7 +175,6 @@ public class PlayerActions {
 		return " You cant improve " + loc.getId();
 	}
 
-
 	public String demolish(Player player, NamedLocation loc, int numToDemolish, int id) {
 		if (loc instanceof InvestmentProperty) {
 			InvestmentProperty property = (InvestmentProperty) loc;
@@ -190,7 +186,8 @@ public class PlayerActions {
 								return player.getCharName() + " demolished " + numToDemolish + " houses on " + property.getId() + ".";
 							else
 								return player.getCharName() + " demolished " + numToDemolish + " house on " + property.getId() + ".";
-						} else {
+						} 
+						else {
 							return property.getBuildDemolishError();
 						}
 					}
@@ -204,7 +201,6 @@ public class PlayerActions {
 	}
 
 	public String done(Player player) {
-
 		if(!player.isInDebt()){
 			if(player.hasRolled()){
 				player.reset();
@@ -215,8 +211,6 @@ public class PlayerActions {
 			return "You must roll the dice before ending your turn.";
 		}
 		return "You must pay your debt before ending your turn.";
-		
-
 	}
 
 	private String landedOn(Player player, NamedLocation location, int spaces){
@@ -297,6 +291,4 @@ public class PlayerActions {
 		}
 		return player.getCharName() + " has declared bankruptcy and any property they own has been released. ";
 	}
-
-
 }
