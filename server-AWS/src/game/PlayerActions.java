@@ -296,11 +296,14 @@ public class PlayerActions {
 
 	public String bid(Player player, int price) {
 		if(Main.gameState.auctionInProgress()){
-			if(Main.gameState.updateAuction(player, price)){
-				Main.clientUpdater.updateDesktopAuction();
-				return player.getCharName() + " bids " + price;
+			if(Main.gameState.isValidBid(player)){
+				if(Main.gameState.updateAuction(player, price)){
+					Main.clientUpdater.updateDesktopAuction();
+					return player.getCharName() + " bids " + price;
+				}
+				return "You need to bid more!";
 			}
-			return "You need to bid more!";
+			return "You can't bid on your own property!";
 		}
 		return "There's no auction in progress.";
 	}

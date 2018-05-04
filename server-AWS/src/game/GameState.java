@@ -198,6 +198,11 @@ public class GameState implements JSONable {
 	public boolean auctionInProgress(){
 		return this.auction.auctionInProgress();
 	}
+	
+	public boolean isValidBid(Player player){
+		return this.auction.isValidBid(player);
+	}
+	
 	public boolean updateAuction(Player player, int price){
 		return this.auction.update(player, price);
 	}
@@ -325,6 +330,7 @@ public class GameState implements JSONable {
 		info.put("locations", jsonLocations);
 		info.put("player_turn", this.playerTurn);
 		info.put("game_started", this.gameStarted);
+		info.put("villain_gang", this.villainGang.getInfo());
 		return info;
 
 	}

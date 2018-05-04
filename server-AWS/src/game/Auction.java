@@ -10,12 +10,14 @@ public class Auction implements JSONable{
 	private RentalProperty prop;
 	private int price;
 	private Player playerBuying;
+	private Player playerSelling;
 	private boolean auctionInProgress;
 	
 	public Auction(){
 		this.prop = null;
 		this.price = 0;
 		this.playerBuying = null;
+		this.playerSelling = null;
 		this.auctionInProgress = false;
 	}
 	
@@ -24,6 +26,7 @@ public class Auction implements JSONable{
 		this.price = price;
 		this.prop = prop;
 		this.playerBuying = playerBuying;
+		this.playerSelling = prop.getOwner();
 	}
 	
 	public void reset(){
@@ -36,6 +39,8 @@ public class Auction implements JSONable{
 		
 		prop.setOwner(playerBuying);
 		playerBuying.addNewPropertyBought(prop, price);
+		playerSelling.removePropertySold(prop, price);
+		
 		String res = playerBuying.getCharName() + " bought " + prop.getId() + " for " + this.price + ".";
 		
 		this.prop = null;
@@ -66,5 +71,9 @@ public class Auction implements JSONable{
         info.put("price", this.price);
         info.put("location", this.prop.getLocation());
 		return info;
+	}
+
+	public boolean isValidBid(Player player) {
+		return !player.equals(playerSelling);
 	}
 }
