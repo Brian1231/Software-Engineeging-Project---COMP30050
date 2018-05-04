@@ -23,6 +23,9 @@ open class JoinActivity : App(), AsyncResponse {
         setContentView(R.layout.activity_join)
         setupUI()
         savePort(8080)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
+        supportActionBar!!.hide()
+        monopolyIV.bringToFront()
 
 
     }
@@ -60,7 +63,7 @@ open class JoinActivity : App(), AsyncResponse {
 
     private fun getResponseID(response: String){
 
-        Log.i("lol",response)
+        Log.i("response",response)
         if(response.contains("port")){
             val responseRequest = RequestFunctions().portFromJSONString(response)
             responseRequest?.id?.let { saveUserID(it) }
