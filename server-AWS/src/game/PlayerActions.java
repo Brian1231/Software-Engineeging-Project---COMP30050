@@ -48,7 +48,7 @@ public class PlayerActions {
 			if (!prop.isOwned()) {
 				if (player.getBalance() >= prop.getPrice()) {
 					prop.setOwner(player);
-					player.addNewPropertyBought(prop);
+					player.addNewPropertyBought(prop, prop.getPrice());
 					return player.getCharName() + " bought " + prop.getId() + " for " + prop.getPrice() + ".";
 				}
 				return "You can't afford this property.";
@@ -62,7 +62,7 @@ public class PlayerActions {
 	}
 
 
-	public String sell(Player player, NamedLocation loc, int id) {
+	public String sell(Player player, NamedLocation loc, int price) {
 		if (loc instanceof RentalProperty) {
 			RentalProperty property = (RentalProperty) loc;
 			if (property.isOwned()) {
@@ -70,22 +70,21 @@ public class PlayerActions {
 					if (property instanceof RentalProperty) {
 						RentalProperty rental = (RentalProperty) property;
 						if (!rental.isMortgaged()) {
-							property.setUnOwned();
-							player.removePropertySold(property);
-							return player.getCharName() + " sold " + property.getId() + " for " + property.getPrice() + ".";
+							Main.gameState.startAuction(rental, player, price);
+							Main.clientUpdater.updateDesktopAuction();
+							return player.getCharName() + " is auctioning " + property.getId() + " for " + property.getPrice() + "!";
 						}
-						return "You can't sell a mortgaged property.";
+						return "You can't auction a mortgaged property.";
 					}
-					property.setOwner(null);
-					player.removePropertySold(property);
-					player.receiveMoney(property.getPrice());
-					return "Player " + id + " sold " + property.getId() + " for " + property.getPrice() + ".";
+					Main.gameState.startAuction(property, player, price);
+					Main.clientUpdater.updateDesktopAuction();
+					return player.getCharName() + " is auctioning " + property.getId() + " for " + property.getPrice() + "!";
 				}
 				return "You don't own that property.";
 			}
 			return "That property is unowned.";
 		}
-		return "You can't sell that.";
+		return "You can't auction that.";
 	}
 
 	public String mortgage(Player player, NamedLocation loc, int id)  {
@@ -218,31 +217,34 @@ public class PlayerActions {
 			RentalProperty property = (RentalProperty) location;
 			if(property.isOwned()){
 				if(!property.getOwner().equals(player)){
-					StringBuilder res = new StringBuilder();
-					res.append("\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ".");
-					if(property instanceof InvestmentProperty){
-						InvestmentProperty p = (InvestmentProperty) property;
-						player.setDebt(p.getRentalAmount(), property.getOwner());
-						res.append(player.getCharName() + " owes " + property.getOwner().getCharName() + " " + p.getRentalAmount() + ". ");
-						if(p.hasTrap()) res.append(p.activateTrap(player));
-						return res.toString();
+					if(!property.isMortgaged()){
+						StringBuilder res = new StringBuilder();
+						res.append("\n"+ property.getId() + " is owned by " + property.getOwner().getCharName() + ".");
+						if(property instanceof InvestmentProperty){
+							InvestmentProperty p = (InvestmentProperty) property;
+							player.setDebt(p.getRentalAmount(), property.getOwner());
+							res.append(player.getCharName() + " owes " + property.getOwner().getCharName() + " " + p.getRentalAmount() + ". ");
+							if(p.hasTrap()) res.append(p.activateTrap(player));
+							return res.toString();
+						}
+						else if(property instanceof Station){
+							//Station
+							Station s = (Station) property;
+							player.setDebt(s.getRentalAmount(), property.getOwner());
+							res.append(player.getCharName() + " owes " + property.getOwner().getCharName() + " " + s.getRentalAmount() + ". ");
+							if(s.hasTrap()) res.append(s.activateTrap(player));
+							return res.toString();
+						}
+						else{
+							//Utility
+							Utility u = (Utility) property;
+							player.setDebt(u.getRentalAmount(spaces), property.getOwner());
+							res.append(player.getCharName() + " owes " + property.getOwner().getCharName() + " " + u.getRentalAmount(spaces) + ". ");
+							if(u.hasTrap()) res.append(u.activateTrap(player));
+							return res.toString();
+						}
 					}
-					else if(property instanceof Station){
-						//Station
-						Station s = (Station) property;
-						player.setDebt(s.getRentalAmount(), property.getOwner());
-						res.append(player.getCharName() + " owes " + property.getOwner().getCharName() + " " + s.getRentalAmount() + ". ");
-						if(s.hasTrap()) res.append(s.activateTrap(player));
-						return res.toString();
-					}
-					else{
-						//Utility
-						Utility u = (Utility) property;
-						player.setDebt(u.getRentalAmount(spaces), property.getOwner());
-						res.append(player.getCharName() + " owes " + property.getOwner().getCharName() + " " + u.getRentalAmount(spaces) + ". ");
-						if(u.hasTrap()) res.append(u.activateTrap(player));
-						return res.toString();
-					}
+					return property.getId() + " is mortgaged";
 				}
 				return "\nYou own "+ property.getId() + ".";	
 			}
@@ -290,5 +292,16 @@ public class PlayerActions {
 			p.setUnOwned();
 		}
 		return player.getCharName() + " has declared bankruptcy and any property they own has been released. ";
+	}
+
+	public String bid(Player player, int price) {
+		if(Main.gameState.auctionInProgress()){
+			if(Main.gameState.updateAuction(player, price)){
+				Main.clientUpdater.updateDesktopAuction();
+				return player.getCharName() + " bids " + price;
+			}
+			return "You need to bid more!";
+		}
+		return "There's no auction in progress.";
 	}
 }

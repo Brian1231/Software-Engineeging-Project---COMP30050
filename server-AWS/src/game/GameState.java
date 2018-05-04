@@ -26,6 +26,7 @@ public class GameState implements JSONable {
     private int playerTurn;
     private PlayerActions playerActions = new PlayerActions();
     private VillainGang villainGang;
+    private Auction auction;
     private String actionInfo;
 
 
@@ -37,6 +38,7 @@ public class GameState implements JSONable {
         this.gameStarted = false;
         this.playerTurn = 1;
         this.villainGang = new VillainGang();
+        this.auction = new Auction();
 
         // Tiles generation & setup
         ArrayList<NamedLocation> properties = new ArrayList<NamedLocation>();
@@ -186,13 +188,30 @@ public class GameState implements JSONable {
         return "";
     }
 
+    public boolean auctionInProgress(){
+    	return this.auction.auctionInProgress();
+    }
+    public boolean updateAuction(Player player, int price){
+    	return this.auction.update(player, price);
+    }
+    
+    public void startAuction(RentalProperty prop, Player playerBuying, int price){
+    	this.auction.auction(prop, playerBuying, price);
+    }
+    
+    public void finishAuction(){
+    	Main.gameState.updateActionInfo(this.auction.finish());
+    	Main.clientUpdater.updateDesktopPlayers();
+    	Main.portAllocator.updatePlayers();
+    }
+    
     /**
      * Returns result of player action
      */
     public String playerAction(int id, String action, String[] args) {
 
         //Check if its the correct players turn
-        if (this.playerTurn == id && this.gameStarted) {
+        if ((this.playerTurn == id && this.gameStarted) || (this.auctionInProgress() && action.equals("bid"))) {
             //Get player from id
             Player player = null;
             for (Player p : this.players) {
@@ -214,7 +233,12 @@ public class GameState implements JSONable {
 
                 case "sell":
 
-                    return playerActions.sell(player, this.locations.get(Integer.parseInt(args[0])), id);
+                	NamedLocation prop = this.locations.get(Integer.parseInt(args[0]));
+                    return playerActions.sell(player, prop, Integer.parseInt(args[1]));
+                    
+                case "bid":
+
+                    return playerActions.bid(player, Integer.parseInt(args[0]));
 
                 case "mortgage":
 
@@ -339,6 +363,15 @@ public class GameState implements JSONable {
 
         return info;
 
+    }
+    
+    public JSONObject getAuctionInfo(){
+    	try {
+			return this.auction.getInfo();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+    	return null;
     }
 
     public String getPlayerName(int id) {

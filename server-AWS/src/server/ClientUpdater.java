@@ -38,6 +38,19 @@ public class ClientUpdater extends Thread {
         //Output to desktop
         out.println(output.toString());
     }
+    
+    public void updateDesktopAuction() {
+        JSONObject output = new JSONObject();
+        PrintWriter out = null;
+        try {
+            output.put("auction", Main.gameState.getAuctionInfo());
+            out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (JSONException | IOException e1) {
+            e1.printStackTrace();
+        }
+        //Output to desktop
+        out.println(output.toString());
+    }
 
     public void updateDesktopBoardWithWinner(Player player) {
     	JSONObject output = new JSONObject();
@@ -104,6 +117,9 @@ public class ClientUpdater extends Thread {
                             }
                             if (action.equals("end")) {
                                 Main.gameState.endGame();
+                            }
+                            if (action.equals("auction_over")) {
+                                Main.gameState.finishAuction();
                             }
                         }
                     }
