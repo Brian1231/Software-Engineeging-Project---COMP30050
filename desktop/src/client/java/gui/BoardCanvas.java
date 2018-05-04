@@ -2,6 +2,8 @@ package client.java.gui;
 
 import client.java.main.Game;
 import client.java.gameObjects.Location;
+import com.sun.javafx.tk.FontLoader;
+import com.sun.javafx.tk.Toolkit;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -182,18 +184,18 @@ public class BoardCanvas extends ResizableCanvas {
                 break;
         }
 
+		if(location.isMortgaged() && location.isMortgagedLabelled()){
+			relocateMortgageLabels(point, location);
+		}
 
 		if(location.isMortgaged() && !location.isMortgagedLabelled()){
-			addMortgageLabel(point, location);
+			addMortgageLabel(point , location);
 		}
 
 		if(!location.isMortgaged() && location.isMortgagedLabelled()){
 			removeMortgageLabel(location);
 		}
 
-		if(location.isMortgaged() && location.isMortgagedLabelled()){
-			relocateMortgageLabels(point, location);
-		}
 	}
 
 	private void addTileTitle(String title, double radius, Point2D center){
@@ -249,7 +251,6 @@ public class BoardCanvas extends ResizableCanvas {
 		double y = point.getY();
 
 		Image image = location.getImage();
-		ColorAdjust ca = new ColorAdjust();
 
 		if(image != null) {
 			try {
@@ -274,28 +275,26 @@ public class BoardCanvas extends ResizableCanvas {
 			double titleRadius = width / 36;
 			addTileTitle(location.getName(), titleRadius, point);
 		}
-
 	}
 
 	private void addMortgageLabel(Point2D center, Location location){
 		Pane parent = (Pane) this.getParent();
 		Label mort = new Label("MORTGAGED");
+		mort.setFont(new Font("Verdana", 15));
 		mort.setTextFill(Color.RED);
-		mort.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,255,0.3), null, null)));
+		mort.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,255,0.4), null, null)));
 
-		double pointX = center.getX() + getWidth()/2 - mort.getPrefWidth()/2;
+		double pointX = center.getX() + (getWidth()/2) - (getWidth() / 42);
 		double pointY = center.getY() + getHeight()/2;
 
 		mort.setLayoutX(pointX);
 		mort.setLayoutY(pointY);
 
-		System.out.println("mortX: " + mort.getLayoutX() + "mortY:" + mort.getLayoutY());
+		System.out.println("mortX: " + mort.getLayoutX() + "mortY: " + mort.getLayoutY());
 
 		mortLabels.put(location.getPosition(), mort);
 		parent.getChildren().add(mort);
 
-		pointX = center.getX() + getWidth()/2 - mort.getWidth()/2;
-		mort.setLayoutX(pointX);
 		location.setMortgagedLabelled(true);
 	}
 
@@ -313,7 +312,7 @@ public class BoardCanvas extends ResizableCanvas {
 		double pointX = center.getX() + getWidth()/2 - mortLabel.getWidth()/2;
 		double pointY = center.getY() + getHeight()/2;
 
-		System.out.println("(r)mortX: " + mortLabel.getLayoutX() + "(r)mortY:" + mortLabel.getLayoutY());
+		System.out.println("(r)mortX: " + mortLabel.getLayoutX() + "(r)mortY: " + mortLabel.getLayoutY());
 
 		mortLabel.setLayoutX(pointX);
 		mortLabel.setLayoutY(pointY);
