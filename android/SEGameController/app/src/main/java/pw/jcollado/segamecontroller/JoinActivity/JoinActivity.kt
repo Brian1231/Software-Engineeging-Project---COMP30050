@@ -26,6 +26,7 @@ open class JoinActivity : App(), AsyncResponse {
         savePort(8080)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
+        
         monopolyIV.bringToFront()
 
 
