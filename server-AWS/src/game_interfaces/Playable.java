@@ -17,7 +17,7 @@ public interface Playable extends Identifiable{
 	int getDebt();
 	
 	boolean hasRolled();
-	boolean ownsThree(Color color);
+	boolean ownsThree(int color);
 	boolean incrementJailTurns();
 	boolean isInJail();
 	boolean hasBought();

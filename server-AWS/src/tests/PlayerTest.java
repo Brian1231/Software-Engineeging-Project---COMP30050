@@ -173,13 +173,13 @@ public class PlayerTest {
 
 		player.addNewPropertyBought(prop1, prop1.getPrice());
 		player.addNewPropertyBought(prop2, prop2.getPrice());
-		assertFalse(player.ownsThree(Color.BLUE));
+		assertFalse(player.ownsThree(Color.BLUE.getRGB()));
 
 
 		player.addNewPropertyBought(prop3, prop3.getPrice());
-		assertTrue(player.ownsThree(Color.BLUE));
+		assertTrue(player.ownsThree(Color.BLUE.getRGB()));
 
-		assertFalse(player.ownsThree(Color.RED));
+		assertFalse(player.ownsThree(Color.RED.getRGB()));
 
 	}
 

@@ -30,7 +30,6 @@ public class InvestmentPropertyTest {
 		prop.setRentAmounts(new int[]{10,20,30,40});
 		prop.setPrice(200);
 		prop.setHousePrice(prop.getPrice()/2);
-		prop.setHotelPrice(prop.getPrice()/2);
 		prop.setColour(Color.RED);
 
 
@@ -59,7 +58,7 @@ public class InvestmentPropertyTest {
 	@Test
 	public void getNumHousesAndHotels() {
 		prop.build(5);
-		assertEquals(5, prop.getNumHousesAndHotels());
+		assertEquals(5, prop.getNumHouses());
 	}
 
 	@Test
@@ -68,11 +67,11 @@ public class InvestmentPropertyTest {
 
 		prop.build(1);
 		assertNull(prop.getBuildDemolishError());
-		assertEquals(1, prop.getNumHousesAndHotels());
+		assertEquals(1, prop.getNumHouses());
 
 		prop.build(2);
 		assertNull(prop.getBuildDemolishError());
-		assertEquals(3, prop.getNumHousesAndHotels());
+		assertEquals(3, prop.getNumHouses());
 	}
 
 
@@ -80,33 +79,21 @@ public class InvestmentPropertyTest {
 	public void demolish() {
 		prop.build(5);
 		assertNull(prop.getBuildDemolishError());
-		assertEquals(5, prop.getNumHousesAndHotels());
+		assertEquals(5, prop.getNumHouses());
 
 		prop.demolish(3);
-		assertEquals(2, prop.getNumHousesAndHotels());
+		assertEquals(2, prop.getNumHouses());
 
 	}
 
 	@Test
 	public void buildDemolishErrorTest() {
-		assertFalse(prop.build(6));
-		assertNotNull(prop.getBuildDemolishError());
-
-		prop.setBuildDemolishError(null);
-
-		assertFalse(prop.build(-1));
-		assertNotNull(prop.getBuildDemolishError());
-
-		prop.setBuildDemolishError(null);
-
 		assertFalse(prop.demolish(1));
-		assertNotNull(prop.getBuildDemolishError());
+		assertEquals("Error, there is no upgrades left to remove", prop.getBuildDemolishError());
 
-		prop.setBuildDemolishError(null);
-
-		prop.build(5);
-		assertFalse(prop.demolish(6));
-		assertNotNull(prop.getBuildDemolishError());
+		prop.build(1);
+		assertTrue(prop.build(1));
+		assertNull(prop.getBuildDemolishError());
 
 	}
 
@@ -116,15 +103,17 @@ public class InvestmentPropertyTest {
 	public void getBuildDemolishError() {
 		assertNull(prop.getBuildDemolishError());
 
-		prop.build(-1);
-		assertEquals("Error, given wrong input", prop.getBuildDemolishError());
+		prop.build(5);
+		prop.build(1);
+		assertEquals("Error, you already have the max number of upgrades", prop.getBuildDemolishError());
 	}
 
 	@Test
 	public void setBuildDemolishError() {
+		prop.build(5);
 		assertNull(prop.getBuildDemolishError());
 
-		prop.build(-1);
+		prop.build(1);
 		assertNotNull(prop.getBuildDemolishError());
 	}
 
@@ -140,17 +129,6 @@ public class InvestmentPropertyTest {
 	}
 
 	@Test
-	public void getHotelPrice() {
-		assertEquals(100, prop.getHotelPrice());
-	}
-
-	@Test
-	public void setHotelPrice() {
-		prop.setHotelPrice(150);
-		assertEquals(150, prop.getHotelPrice());
-	}
-
-	@Test
 	public void getRentalAmount() {
 		assertEquals(10, prop.getRentalAmount());
 
@@ -163,18 +141,18 @@ public class InvestmentPropertyTest {
 
 	@Test
 	public void getColour() {
-		assertEquals(Color.RED, prop.getColour());
+		assertEquals(Color.RED.getRGB(), prop.getColour());
 	}
 
 	@Test
 	public void setRGB1() {
 		prop.setColour(Color.BLUE);
-		assertEquals(Color.BLUE, prop.getColour());
+		assertEquals(Color.BLUE.getRGB(), prop.getColour());
 	}
 
 	@Test
 	public void getRGBColour() {
-		assertEquals(Color.RED, prop.getColour());
+		assertEquals(Color.RED.getRGB(), prop.getColour());
 	}
 
 	@Test

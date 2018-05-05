@@ -82,13 +82,9 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (property instanceof RentalProperty) {
 						RentalProperty rental = (RentalProperty) property;
-						if (!rental.isMortgaged()) {
-							Main.gameState.startAuction(rental, player, price);
-							Main.clientUpdater.updateDesktopAuction();
-							return player.getCharName() + " is auctioning " + property.getId() + " for "
-									+ property.getPrice() + "!";
+						if (rental.isMortgaged()) {
+							return "You can't auction a mortgaged property.";
 						}
-						return "You can't auction a mortgaged property.";
 					}
 					Main.gameState.startAuction(property, player, price);
 					Main.clientUpdater.updateDesktopAuction();
@@ -181,14 +177,16 @@ public class PlayerActions {
 			if (property.isOwned()) {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
-						if (player.ownsThree(property.getColour())) {
-							if (property.build(numToBuild)) {
-								player.payMoney(property.getHousePrice());
-								return player.getCharName() + " upgraded " + property.getId() + ".";
-							} 
-							else {
-								return property.getBuildDemolishError();
+						if (player.getBalance() >= property.getHousePrice()) {
+							if (player.ownsThree(property.getColour())) {
+								if (property.build(numToBuild)) {
+									player.payMoney(property.getHousePrice());
+									return player.getCharName() + " upgraded " + property.getId() + ".";
+								} else {
+									return property.getBuildDemolishError();
+								}
 							}
+							return "You do not have enough money to upgrade the property!";
 						}
 						return "You need to own the full colour group before you can upgrade a property!";
 					}

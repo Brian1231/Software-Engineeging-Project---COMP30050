@@ -12,9 +12,4 @@ public interface Ownable extends Identifiable {
 
     // bool to check is tile owned or not
     boolean isOwned();
-
-    // all game components have a type
-    // type of location = property/jail/station/utility/tax etc
-    String getType();
-    void setType(String type);
 }

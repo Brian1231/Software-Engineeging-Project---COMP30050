@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Interdimensional Controller
+    </string>
+    <string name="roll_dices">Roll dice</string>
+    <string name="buy_property">Buy Property</string>
+    <string name="main_screen">Monopoly Controller</string>
+    <string name="balence_string">Bank Balance:</string>
+    <string name="build">Upgrade</string>
+    <string name="mortgage">Mortgage</string>
+    <string name="properties">Properties</string>
+    <string name="marving_gardens">Marving Gardens</string>
+    <string name="join_game">Join the game!</string>
+    <string name="no_properties">You don\'t have any property</string>
+    <string name="finish_turn">Finish Turn</string>
+    <string name="connecting">Connecting to the server...</string>
+    <string name="position_text">Position:</string>
+    <string name="boost">Boost</string>
+    <string name="sell">Sell</string>
+    <string name="demolish">Downgrade</string>
+    <string name="pay">Pay debt</string>
+    <string name="trap">Place a trap</string>
+    <string name="hasTrap">1 trap</string>
+    <string name="noTrap">0 traps </string>
+    <string name="bankrupt">Bankruptcy</string>
+    <string name="character_name_resume">You were playing as: </string>
+    <string name="resume_game">Resume game</string>
+    <string name="new_game">New game</string>
+    <string name="no_feed">No feed</string>
+    <string name="game_feed">Game Feed</string>
+    <string name="your_turn">It\'s your turn.</string>
+    <string name="auction">Auction</string>
+    <string name="action_auction">Auction started!</string>
+    <string name="play_local">Change to local server</string>
+    <string name="play_online">Change to remote server</string>
+    <string name="title_ip">Introduce the IP of the local server:</string>
+    <string name="error_server">Error with the server</string>
+    <string name="playing_remote">You were playing in remote server</string>
+    <string name="playing_local">You were playing in local server with IP:</string>
+    <string name="you_bid">You bid:</string>
+</resources>

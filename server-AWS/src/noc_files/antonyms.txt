@@ -1,4 +1,3 @@
-Root	Antonym
 elongated	stunted
 thinskinned	thickskinned
 tactful	tactless

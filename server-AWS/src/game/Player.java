@@ -29,6 +29,7 @@ public class Player implements Playable, JSONable{
 	private boolean isInJail;
 	private boolean movingForward;
 
+
 	private Color rgbColour;
 	private Playable playerOwed;
 	private ArrayList<RentalProperty> ownedProperties = new ArrayList<>();
@@ -145,12 +146,12 @@ public class Player implements Playable, JSONable{
 	}
 
 	@Override
-	public boolean ownsThree(Color color){
+	public boolean ownsThree(int color){
 		int count = 0;
 		for(RentalProperty prop : this.ownedProperties){
 			if(prop instanceof InvestmentProperty){
 				InvestmentProperty investment = (InvestmentProperty) prop;
-				if(investment.getColour().equals(color))
+				if(investment.getColour() == color)
 					count++;
 			}
 		}
