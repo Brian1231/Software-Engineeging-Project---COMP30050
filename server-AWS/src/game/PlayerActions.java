@@ -183,20 +183,10 @@ public class PlayerActions {
 					if (!property.isMortgaged()) {
 						if (player.ownsThree(property.getColour())) {
 							if (property.build(numToBuild)) {
-<<<<<<< HEAD
 								player.payMoney(property.getHousePrice());
 								return player.getCharName() + " upgraded " + property.getId() + ".";
 							} 
 							else {
-=======
-								if (numToBuild > 1)
-									return player.getCharName() + " built " + numToBuild + " houses on "
-											+ property.getId() + ".";
-								else
-									return player.getCharName() + " built " + numToBuild + " house on "
-											+ property.getId() + ".";
-							} else {
->>>>>>> e40b27128942785a1b3a8cb214072c78ce8b7639
 								return property.getBuildDemolishError();
 							}
 						}
@@ -218,20 +208,10 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
 						if (property.demolish(numToDemolish)) {
-<<<<<<< HEAD
 							player.receiveMoney(property.getHouseSellValue());
 							return player.getCharName() + " downgrade " + property.getId() + ".";
 						} 
 						else {
-=======
-							if (numToDemolish > 1)
-								return player.getCharName() + " demolished " + numToDemolish + " houses on "
-										+ property.getId() + ".";
-							else
-								return player.getCharName() + " demolished " + numToDemolish + " house on "
-										+ property.getId() + ".";
-						} else {
->>>>>>> e40b27128942785a1b3a8cb214072c78ce8b7639
 							return property.getBuildDemolishError();
 						}
 					}
@@ -328,12 +308,8 @@ public class PlayerActions {
 			if (property.isOwned()) {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
-<<<<<<< HEAD
 						if(!property.hasTrap()){
 							player.payMoney(property.getTrapPrice());
-=======
-						if (!property.hasTrap()) {
->>>>>>> e40b27128942785a1b3a8cb214072c78ce8b7639
 							return property.setTrap();
 						}
 						return property.getId() + " already has a trap set!";
