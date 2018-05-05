@@ -90,7 +90,7 @@ public class VillainGang implements JSONable, VillainGangable {
 		
 		return villain.getName() + " steps forward from the gang of villains and immediately begins " +
 		villainWeapon.getAffordanceWithTarget(playerCharacter.getName()) + " " + villainWeapon.getDeterminer() + " " + villainWeapon.getWeapon() + ". "+
-		playerCharacter.getName() + " loses " + amount + ". ";
+		playerCharacter.getName() + " loses " + amount + " SHM. ";
 	}
 	
 	@Override

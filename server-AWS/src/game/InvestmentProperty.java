@@ -29,7 +29,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable, JS
 	public boolean build(int numToBuild) {
 
 		if (getNumHouses() == 5) {
-			this.setBuildDemolishError("Error, you already have the max number of upgrades");
+			this.setBuildDemolishError("Hold Up! You already have the max number of upgrades!");
 			return false;
 		} else {
 			numHouses+=numToBuild;
@@ -41,7 +41,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable, JS
 	@Override
 	public boolean demolish(int numToDemolish) {
 		if (getNumHouses() == 0 ) {
-			this.setBuildDemolishError("Error, there is no upgrades left to remove");
+			this.setBuildDemolishError("Careful! There is no upgrades left to remove!");
 			return false;
 		} else {
 			this.numHouses -= numToDemolish;

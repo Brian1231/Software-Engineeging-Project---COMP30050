@@ -28,13 +28,13 @@ public class ChanceSquare extends NamedLocation implements Activatable{
 		case 0:
 			int amount = 50 + 10*random.nextInt(26);
 			player.receiveMoney(amount);
-			res+="\n" + player.getCharName() + " receives $" + amount + ".";
+			res+="\n" + player.getCharName() + " receives " + amount + " SHM.";
 			break;
 			//Lose money
 		case 1:
 			amount = 50 + 10*random.nextInt(26);
 			player.setDebt(amount, null);
-			res+="\n" + player.getCharName() + " owes $" + amount + ".";
+			res+="\n" + player.getCharName() + " owes " + amount + " SHM.";
 			break;
 			//Change direction
 		case 2:

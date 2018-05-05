@@ -136,9 +136,9 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 		if (this.getOwner().getBalance() > this.trapPrice) {
 			this.hasTrap = true;
 			this.getOwner().payMoney(this.trapPrice);
-			return this.getOwner().getCharName() + " paid " + this.trapPrice + " and set a trap at " + this.getId() + ". ";
+			return this.getOwner().getCharName() + " paid " + this.trapPrice + " SHM and set a trap at " + this.getId() + ". ";
 		} else
-			return "You can't afford the cost of " + this.trapPrice + " to set a trap.";
+			return "You can't afford the cost of " + this.trapPrice + " SHM to set a trap.";
 	}
 
 	@Override
@@ -146,7 +146,7 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 		if (!player.equals(this.getOwner())) {
 			int trapAmount = this.getPrice() / 3;
 			player.setDebt(trapAmount, this.getOwner());
-			return player.getCharName() + " activated " + this.getOwner().getCharName() + "'s trap and now owes them an additional " + trapAmount + ". ";
+			return player.getCharName() + " activated " + this.getOwner().getCharName() + "'s trap and now owes them an additional " + trapAmount + " SHM. ";
 		}
 		return "";
 	}

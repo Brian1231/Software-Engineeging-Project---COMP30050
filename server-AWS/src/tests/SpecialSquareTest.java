@@ -59,7 +59,7 @@ public class SpecialSquareTest {
 
         specialSquare.setLocation(10);
         String result = "\n" + player.getCharName() + " was sent to intergalactic prison!\n"+
-            "Attempt to break free by rolling doubles or pay the fee of $500.";
+            "Attempt to break free by rolling doubles or pay the fee of 500 SHM.";
         assertEquals(result, specialSquare.activate(player));
     }
 
