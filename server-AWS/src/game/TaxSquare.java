@@ -7,13 +7,17 @@ import game_interfaces.Playable;
 import game_interfaces.Taxable;
 import main.Main;
 import noc_db.Character_noc;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 
 	private final Random random = new Random();
+	private String type;
 
 	public TaxSquare(String name) {
 		super(name);
+		this.setType("Tax");
 	}
 
 	public String activate(Player player){
@@ -49,5 +53,17 @@ public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 	@Override
 	public int getFlatAmount() {
 		return 50 + 10*random.nextInt(26);
+	}
+
+	@Override
+	public String getType() {
+		return this.type;
+	}
+
+	@Override
+	public JSONObject getInfo() throws JSONException {
+		JSONObject info = super.getInfo();
+		info.put("type", this.getType());
+		return info;
 	}
 }

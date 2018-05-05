@@ -17,7 +17,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable, JS
 	// Must declare investment properties with the full array of rent prices
 	public InvestmentProperty(String name) {
 		super(name, 0);
-		this.setType("Investment");
+		setType("Investment");
 	}
 
 	@Override
@@ -33,6 +33,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable, JS
 			return false;
 		} else {
 			numHouses+=numToBuild;
+			this.setBuildDemolishError(null);
 			return true;
 		}
 	}
@@ -44,6 +45,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable, JS
 			return false;
 		} else {
 			this.numHouses -= numToDemolish;
+			this.setBuildDemolishError(null);
 			return true;
 		}
 	}
@@ -83,6 +85,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable, JS
 		JSONObject info =  super.getInfo();
 		info.put("houses", this.getNumHouses());
 		info.put("rent", this.getRentalAmount());
+		info.put("type", this.getType());
 		return info;
 	}
 }

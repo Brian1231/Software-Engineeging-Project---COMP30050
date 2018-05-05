@@ -10,6 +10,7 @@ public class ChanceSquare extends NamedLocation{
 	
 	public ChanceSquare(String s){
 		super(s);
+		this.setType("Chance");
 	}
 	
 	public String getChance(Character_noc ch, int type){

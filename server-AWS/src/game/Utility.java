@@ -14,7 +14,7 @@ public class Utility extends RentalProperty implements JSONable{
 
 	public Utility(String name, int price, int[] rentMultipliers) {
 		super(name, price);
-		super.setType("Utility");
+		this.setType("Utility");
 		this.rentMultipliers = rentMultipliers;
 	}
 
@@ -44,6 +44,7 @@ public class Utility extends RentalProperty implements JSONable{
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info =  super.getInfo();
 		info.put("rent", this.getRentalAmount(Main.dice.getRollResult()));
+		info.put("type", this.getType());
 		return info;
 	}
 }

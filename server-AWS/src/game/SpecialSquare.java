@@ -4,6 +4,7 @@ public class SpecialSquare extends NamedLocation{
 
 	public SpecialSquare(String name) {
 		super(name);
+		this.setType("Special");
 	}
 	
 	public String activate(Player player){
