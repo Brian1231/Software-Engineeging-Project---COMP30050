@@ -311,7 +311,7 @@ public class Player implements Playable, JSONable{
 			}
 			if (p instanceof InvestmentProperty) {
 				InvestmentProperty investmentProperty = (InvestmentProperty) p;
-				worth += investmentProperty.getNumHousesAndHotels() * investmentProperty.getHousePrice();
+				worth += investmentProperty.getNumHouses() * investmentProperty.getHousePrice();
 			}
 		}
 		return worth;

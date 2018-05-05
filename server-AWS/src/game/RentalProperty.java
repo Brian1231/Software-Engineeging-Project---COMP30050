@@ -16,6 +16,7 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 
 	private int price;
 	private int mortgageAmount;
+	private int trapPrice;
 	private int[] rentAmounts;
 	private boolean isMortgaged = false;
 	private boolean hasTrap;
@@ -23,6 +24,7 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 	private Player owner;
 	private String type;
 	private Color colour;
+	
 
 	public RentalProperty(String name, int price) {
 		super(name);
@@ -30,6 +32,7 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 		this.hasTrap = false;
 		this.setType("Rental");
 		this.colour = Color.RED;
+		this.trapPrice = this.price / 5;
 	}
 
 	@Override
@@ -130,19 +133,23 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 	}
 
 	@Override
+	public int getTrapPrice() {
+		return this.getPrice();
+	}
+
+	@Override
 	public boolean hasTrap() {
 		return this.hasTrap;
 	}
 
 	@Override
 	public String setTrap() {
-		int trapCost = this.getPrice() / 5;
-		if (this.getOwner().getBalance() > trapCost) {
+		if (this.getOwner().getBalance() > this.trapPrice) {
 			this.hasTrap = true;
-			this.getOwner().payMoney(trapCost);
-			return this.getOwner().getCharName() + " paid " + trapCost + " and set a trap at " + this.getId() + ". ";
+			this.getOwner().payMoney(this.trapPrice);
+			return this.getOwner().getCharName() + " paid " + this.trapPrice + " and set a trap at " + this.getId() + ". ";
 		} else
-			return "You can't afford the cost of " + trapCost + " to set a trap.";
+			return "You can't afford the cost of " + this.trapPrice + " to set a trap.";
 	}
 
 	@Override

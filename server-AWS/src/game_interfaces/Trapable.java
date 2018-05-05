@@ -4,6 +4,7 @@ import game.Player;
 
 public interface Trapable {
 
+    int getTrapPrice();
     boolean hasTrap();
 
     String setTrap();

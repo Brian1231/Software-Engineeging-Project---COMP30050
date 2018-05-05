@@ -183,17 +183,14 @@ public class PlayerActions {
 					if (!property.isMortgaged()) {
 						if (player.ownsThree(property.getColour())) {
 							if (property.build(numToBuild)) {
-								if (numToBuild > 1)
-									return player.getCharName() + " built " + numToBuild + " houses on "
-											+ property.getId() + ".";
-								else
-									return player.getCharName() + " built " + numToBuild + " house on "
-											+ property.getId() + ".";
-							} else {
+								player.payMoney(property.getHousePrice());
+								return player.getCharName() + " upgraded " + property.getId() + ".";
+							} 
+							else {
 								return property.getBuildDemolishError();
 							}
 						}
-						return "You need to own the full colour group before you can improve a property!";
+						return "You need to own the full colour group before you can upgrade a property!";
 					}
 					return property.getId() + " is mortgaged! ";
 				}
@@ -201,7 +198,7 @@ public class PlayerActions {
 			}
 			return property.getId() + " is unowned.";
 		}
-		return " You cant improve " + loc.getId();
+		return " You cant upgrade " + loc.getId();
 	}
 
 	public String demolish(Player player, NamedLocation loc, int numToDemolish, int id) {
@@ -211,13 +208,10 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
 						if (property.demolish(numToDemolish)) {
-							if (numToDemolish > 1)
-								return player.getCharName() + " demolished " + numToDemolish + " houses on "
-										+ property.getId() + ".";
-							else
-								return player.getCharName() + " demolished " + numToDemolish + " house on "
-										+ property.getId() + ".";
-						} else {
+							player.receiveMoney(property.getHouseSellValue());
+							return player.getCharName() + " downgrade " + property.getId() + ".";
+						} 
+						else {
 							return property.getBuildDemolishError();
 						}
 					}
@@ -227,7 +221,7 @@ public class PlayerActions {
 			}
 			return property.getId() + " is unowned.";
 		}
-		return " You cant demolish on " + loc.getId();
+		return " You cant downgrade on " + loc.getId();
 	}
 
 	public String done(Player player, NamedLocation location) {
@@ -314,7 +308,8 @@ public class PlayerActions {
 			if (property.isOwned()) {
 				if (property.getOwner().equals(player)) {
 					if (!property.isMortgaged()) {
-						if (!property.hasTrap()) {
+						if(!property.hasTrap()){
+							player.payMoney(property.getTrapPrice());
 							return property.setTrap();
 						}
 						return property.getId() + " already has a trap set!";

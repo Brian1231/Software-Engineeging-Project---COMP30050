@@ -107,7 +107,6 @@ public class GameState implements JSONable {
 				prop.setPrice(Constants.INVESTMENT_PRICES[investmentPropCount]);
 				prop.setRentAmounts(Constants.INVESTMENT_RENTS[investmentPropCount]);
 				prop.setHousePrice(Constants.HOUSE_PRICES[investmentPropCount]);
-				prop.setHotelPrice(Constants.HOUSE_PRICES[investmentPropCount]);
 				prop.setMortgageAmount(Constants.INVESTMENT_MORTGAGE_VALUE[investmentPropCount]);
 				prop.setColour(Constants.INVESTMENT_COLOUR_GROUPS[colourIndex]);
 
