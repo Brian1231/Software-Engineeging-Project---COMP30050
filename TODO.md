@@ -11,4 +11,5 @@ TODO:
 - [ ] gain money when demolish
 - [ ] desktop lose money on trap setting (only on finish turn currently)
 - [ ] add cant “build/demolish/trap” as prop mortgaged
+- [ ] comments
 

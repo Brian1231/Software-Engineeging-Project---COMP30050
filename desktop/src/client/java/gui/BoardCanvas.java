@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -320,6 +322,9 @@ public class BoardCanvas extends ResizableCanvas {
 
 	private Image getImage(Location location){
 
+		if(location.getName().equals("Go")){
+			
+		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("/client/resources/images/worlds/");
 		sb.append(location.getName().trim().replace(":", ""));
@@ -332,22 +337,24 @@ public class BoardCanvas extends ResizableCanvas {
 		}
 	}
 
-	private Image getImageUrl(Location location){
-		StringBuilder sb = new StringBuilder();
-		sb.append("http://52.48.249.220/worlds/");
-		sb.append(location.getName().trim().replace(":", ""));
-		sb.append(".jpg");
-
-		Image image = new Image(sb.toString());
-
-		return image;
-	}
-
 	public void getImages(){
 		for(Location loc : Game.locations){
 			loc.setImage(getImage(loc));
 		}
 	}
 
+	public void addCenterTile(){
+		Pane parent = (Pane) this.getParent();
+
+		Image centerImage = new Image("client/resources/images/univers.gif");
+		ImagePattern cImage = new ImagePattern(centerImage);
+
+		Circle centerCircle = new Circle();
+		centerCircle.centerXProperty().bind(parent.widthProperty().divide(2));
+		centerCircle.centerYProperty().bind(parent.heightProperty().divide(2));
+		centerCircle.radiusProperty().bind(parent.widthProperty().divide(41));
+		centerCircle.setFill(cImage);
+		parent.getChildren().add(centerCircle);
+	}
 
 }
