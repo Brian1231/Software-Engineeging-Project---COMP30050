@@ -4,7 +4,7 @@
     <string name="buy_property">Buy Property</string>
     <string name="main_screen">Monopoly Controller</string>
     <string name="balence_string">Bank Balance:</string>
-    <string name="build">Build</string>
+    <string name="build">Upgrade</string>
     <string name="mortgage">Mortgage</string>
     <string name="properties">Properties</string>
     <string name="marving_gardens">Marving Gardens</string>
@@ -15,7 +15,7 @@
     <string name="position_text">Position:</string>
     <string name="boost">Boost</string>
     <string name="sell">Sell</string>
-    <string name="demolish">Demolish</string>
+    <string name="demolish">Downgrade</string>
     <string name="pay">Pay debt</string>
     <string name="trap">Place a trap</string>
     <string name="hasTrap">1 trap</string>
