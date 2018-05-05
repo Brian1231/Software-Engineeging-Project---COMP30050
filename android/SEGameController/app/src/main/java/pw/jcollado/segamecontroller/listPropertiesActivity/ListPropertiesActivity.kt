@@ -60,13 +60,13 @@ class ListPropertiesActivity : App() {
 
         buttonbid.onClick {
             setMessageToServer(Request(preferences.playerID, "sell", "${item.location},${seekbar.progress}").toJSONString())
+            customDialog.dismiss()
 
         }
         seekbar.setOnSeekChangeListener(object : IndicatorSeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: IndicatorSeekBar, progress: Int, progressFloat: Float, fromUserTouch: Boolean) {
                 buttonbid.text = "SELL FOR ${seekbar.progress} SHM"
-                customDialog.dismiss()
             }
 
             override fun onSectionChanged(seekBar: IndicatorSeekBar, thumbPosOnTick: Int, textBelowTick: String, fromUserTouch: Boolean) {

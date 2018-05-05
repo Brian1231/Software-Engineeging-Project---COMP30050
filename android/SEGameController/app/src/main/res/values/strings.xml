@@ -29,4 +29,11 @@
     <string name="your_turn">It\'s your turn.</string>
     <string name="auction">Auction</string>
     <string name="action_auction">Auction started!</string>
+    <string name="play_local">Change to local server</string>
+    <string name="play_online">Change to remote server</string>
+    <string name="title_ip">Introduce the IP of the local server:</string>
+    <string name="error_server">Error with the server</string>
+    <string name="playing_remote">You were playing in remote server</string>
+    <string name="playing_local">You were playing in local server with IP:</string>
+    <string name="you_bid">You bid:</string>
 </resources>
