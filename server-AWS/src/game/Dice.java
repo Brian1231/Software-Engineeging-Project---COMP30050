@@ -27,7 +27,10 @@ public class Dice implements Rollable{
 
 	@Override
 	public void roll() {
-		//int[] dice = {(rand.nextInt(6) + 1), (rand.nextInt(6) + 1)};
-		this.diceValues = new int[]{0, 1};
+		int[] dice = {(rand.nextInt(6) + 1), (rand.nextInt(6) + 1)};
+		this.diceValues = dice;
+
+		// un-comment below line to set dice to 1 for testing
+//		this.diceValues = new int[]{0, 1};
 	}
 }
