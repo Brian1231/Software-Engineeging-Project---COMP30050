@@ -105,9 +105,9 @@ public class GameState implements JSONable {
 		}
 
 		//Other tiles
-		SpecialSquare go = new SpecialSquare("Go");
-		go.setColour(Constants.SPECIAL_COLOURS[4]);
-		locations.add(0, go);
+		SpecialSquare galacticCore = new SpecialSquare("Galactic Core");
+		galacticCore.setColour(Constants.SPECIAL_COLOURS[4]);
+		locations.add(0, galacticCore);
 		SpecialSquare gotojail = new SpecialSquare("Go to Intergalactic Prison");
 		gotojail.setColour(Constants.SPECIAL_COLOURS[4]);
 		locations.add(10, gotojail);
