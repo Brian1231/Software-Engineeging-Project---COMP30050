@@ -106,4 +106,8 @@ public final class Constants {
         Color.WHITE, Color.ORANGE,
         Color.BLUE, Color.PINK
     };
+
+    public static final Color[] OTHER_TILE_COLOURS = new Color[] {
+
+    };
 }

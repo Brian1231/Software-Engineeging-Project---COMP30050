@@ -5,5 +5,5 @@ import java.awt.*;
 public interface Colourable {
 
 	void setColour(Color colour);
-	Color getColour();
+	int getColour();
 }

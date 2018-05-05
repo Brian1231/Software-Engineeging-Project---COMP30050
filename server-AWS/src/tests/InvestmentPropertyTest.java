@@ -141,18 +141,18 @@ public class InvestmentPropertyTest {
 
 	@Test
 	public void getColour() {
-		assertEquals(Color.RED, prop.getColour());
+		assertEquals(Color.RED.getRGB(), prop.getColour());
 	}
 
 	@Test
 	public void setRGB1() {
 		prop.setColour(Color.BLUE);
-		assertEquals(Color.BLUE, prop.getColour());
+		assertEquals(Color.BLUE.getRGB(), prop.getColour());
 	}
 
 	@Test
 	public void getRGBColour() {
-		assertEquals(Color.RED, prop.getColour());
+		assertEquals(Color.RED.getRGB(), prop.getColour());
 	}
 
 	@Test
