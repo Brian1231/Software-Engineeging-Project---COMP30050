@@ -16,6 +16,12 @@ import main.Main;
 import noc_db.Character_noc;
 import noc_db.World_noc;
 
+/*
+ * This class contains the current state of the game.
+ * It is updated as the game progresses.
+ * 
+ * */
+
 public class GameState implements JSONable {
 
 	private Random rand = new Random();
@@ -33,6 +39,9 @@ public class GameState implements JSONable {
 	private List<Integer> removedPlayers;
 
 
+	/*
+	 * Generate initial game state with all procedurally generated properties in GameState constructor
+	 * */
 	public GameState() {
 		this.players = new ArrayList<Player>();
 		this.locations = new ArrayList<NamedLocation>();
@@ -97,6 +106,7 @@ public class GameState implements JSONable {
 		int colourIndex = 0;
 		int investmentPropCount = 0;
 
+		//Setup Investment properties
 		for (int i = 0; i < locations.size(); i++) {
 			NamedLocation namedLocation = locations.get(i);
 			namedLocation.setLocation(i);
@@ -124,10 +134,12 @@ public class GameState implements JSONable {
 		return this.gameStarted;
 	}
 	
+	//Add to list of pending actions
 	public void addPendingAction(int id, String action){
 		this.pendingActions.put(id, action);
 	}
 	
+	//Execute any pending actions
 	public String doPendingAction(){
 		StringBuilder res = new StringBuilder();
 		for(Entry<Integer, String> action : this.pendingActions.entrySet()){
@@ -137,6 +149,7 @@ public class GameState implements JSONable {
 		return res.toString();
 	}
 
+	//Get most recent newsfeed message
 	public String getActionInfo() {
 		return this.actionInfo;
 	}
@@ -145,6 +158,9 @@ public class GameState implements JSONable {
 		this.actionInfo = s;
 	}
 
+	/*
+	 * Set start game boolean and pick random player to start game
+	 * */
 	public void startGame() {
 		this.gameStarted = true;
 		if (this.players.size() == 0) {
@@ -159,6 +175,7 @@ public class GameState implements JSONable {
 	 */
 	public int addPlayer(String androidId) {
 		int newID = players.size() + 1;
+		//Check if this is a reconnecting player that we've seen before
 		if(!this.seenAndroidIds.contains(androidId)){
 			this.seenAndroidIds.add(androidId);
 			//Get random unused character
@@ -166,6 +183,7 @@ public class GameState implements JSONable {
 			while (this.playerCharacters.contains(ch)) {
 				ch = Main.noc.getRandomChar();
 			}
+			//Create new player with character
 			Player newPlayer = new Player(newID, ch, Main.noc.getVehicle(ch.getVehicle()), Constants.playerColours[newID-1]);
 			this.playerCharacters.add(ch);
 			Character_noc villain = Main.noc.getOpponent(newPlayer.getCharacter());
@@ -178,6 +196,10 @@ public class GameState implements JSONable {
 			return -1;
 	}
 
+	/*
+	 * Completely remove player from game state.
+	 * Add to blocked list in PortAllocator so player can't reconnect
+	 * */
 	public void removePlayer(Player player) {
 		this.removedPlayers.add(player.getID());
 		this.playerCharacters.remove(player.getCharacter());
@@ -202,6 +224,9 @@ public class GameState implements JSONable {
 		return this.villainGang.isActive();
 	}
 
+	/*
+	 * Check if villain gang should attack anyone
+	 * */
 	public String villainGangCheck(Player player) {
 		if (this.villainGang.isActive() && this.villainGang.position() == player.getPos()) {
 			return this.villainGang.attackPlayer(player);
@@ -221,6 +246,7 @@ public class GameState implements JSONable {
 		return this.auction.isValidBid(player);
 	}
 	
+	//Update current auction
 	public boolean updateAuction(Player player, int price){
 		return this.auction.update(player, price);
 	}
