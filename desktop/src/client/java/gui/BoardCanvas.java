@@ -209,12 +209,16 @@ public class BoardCanvas extends ResizableCanvas {
 	private void addTileTitle(String title, double radius, Point2D center){
 
 		int titleLength = title.length();
-		int fontSize = 13;
+		int fontSize = 16;
 
 		double degreeStep;
 		double degree;
 
-		if(titleLength > 7){
+		if(titleLength >16){
+			degreeStep = 220.0/titleLength;
+			degree = 160.0 + degreeStep/2;
+		}
+		else if(titleLength > 7){
 			degreeStep = 180.0/titleLength;
 			degree = 180.0 + degreeStep/2;
 		}
@@ -274,7 +278,6 @@ public class BoardCanvas extends ResizableCanvas {
 		}
 
 		if(location.getType().equals("investment")){
-			System.out.println("investment property");
 			g.setStroke(Color.TRANSPARENT);
 		}
 		else{
@@ -339,13 +342,11 @@ public class BoardCanvas extends ResizableCanvas {
 		Pane parent = (Pane) this.getParent();
 		Label typeLabel = new Label(location.getType().toUpperCase());
 		typeLabel.setFont(new Font("Verdana", 15));
-
-		typeLabel.setTextFill(Color.YELLOW);
-
-		typeLabel.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,255,0.6), null, null)));
+		typeLabel.setTextFill(Color.GREEN);
+		typeLabel.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,255,1.0), null, null)));
 
 		double pointX = center.getX() + (getWidth()/2) - (getWidth() / 42);
-		double pointY = center.getY() + getHeight()/2 - getWidth() / 44;
+		double pointY = center.getY() + getHeight()/2 - getWidth() / 43;
 
 		typeLabel.setLayoutX(pointX);
 		typeLabel.setLayoutY(pointY);
@@ -360,7 +361,7 @@ public class BoardCanvas extends ResizableCanvas {
 		Label typeLabel = typeLabels.get(location.getPosition());
 
 		double pointX = center.getX() + getWidth()/2 - typeLabel.getWidth()/2;
-		double pointY = center.getY() + getHeight()/2 - getWidth() / 44;
+		double pointY = center.getY() + getHeight()/2 - getWidth() / 43;
 
 		typeLabel.setLayoutX(pointX);
 		typeLabel.setLayoutY(pointY);

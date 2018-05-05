@@ -96,13 +96,6 @@ public class InGameController {
 		});
 		setUpBoard();
 		Game.setPlayerCanvas(playerCanvas);
-		// Testing
-//		Player p1 = new Player("1500", 1, 0, Color.WHITE, "SuperMan", 1, true);
-//		Player p2 = new Player("2000", 2, 4, Color.RED, "Batman", 2, true);
-//		ArrayList<Player> ps = new ArrayList<>();
-//		ps.add(p1);
-//		ps.add(p2);
-//		Game.updatePlayers(ps,"");
 		try {
 			connection.startConnection();
 		} catch (Exception e1) {
