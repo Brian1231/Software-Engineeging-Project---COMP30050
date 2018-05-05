@@ -22,9 +22,7 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 	private boolean hasTrap;
 	private boolean isOwned;
 	private Player owner;
-	private String type;
 	private Color colour;
-	
 
 	public RentalProperty(String name, int price) {
 		super(name);

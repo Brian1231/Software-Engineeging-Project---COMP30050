@@ -83,6 +83,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable, JS
 		JSONObject info =  super.getInfo();
 		info.put("houses", this.getNumHouses());
 		info.put("rent", this.getRentalAmount());
+		info.put("type", this.getType());
 		return info;
 	}
 }

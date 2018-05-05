@@ -1,11 +1,14 @@
 package game;
 
-public class SpecialSquare extends NamedLocation{
+import game_interfaces.Activatable;
+
+public class SpecialSquare extends NamedLocation implements Activatable{
 
 	public SpecialSquare(String name) {
 		super(name);
 	}
 	
+	@Override
 	public String activate(Player player){
 		StringBuilder res = new StringBuilder();
 		switch (this.getLocation()){

@@ -39,6 +39,7 @@ public class Station extends RentalProperty implements JSONable{
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info =  super.getInfo();
 		info.put("rent", this.getRentalAmount());
+		info.put("type", this.getType());
 		return info;
 	}
 
