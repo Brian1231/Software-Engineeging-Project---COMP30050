@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">SEGameController</string>
+    <string name="app_name">Interdimensional Controller
+    </string>
     <string name="roll_dices">Roll dice</string>
     <string name="buy_property">Buy Property</string>
     <string name="main_screen">Monopoly Controller</string>
