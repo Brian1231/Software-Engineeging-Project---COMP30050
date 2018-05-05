@@ -20,6 +20,10 @@
     -fx-text-fill: #b8d86e;
 }
 
+.Label{
+    -fx-font-family: "Verdana";
+}
+
 .button{
     -fx-border-color: linear-gradient(#AC82FA, #FF0066);
     -fx-background-color: rgb(255,255,255,0.2);

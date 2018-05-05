@@ -18,20 +18,20 @@ public class Location {
     private boolean isMortgaged;
     private Image image;
     private int houses;
-
+    private String type;
     private boolean mortgagedLabelled = false;
-    // Display objects.
-    Circle Tile = new Circle();
+    private boolean typeLabelled = false;
 
-    public Location(String name, int position, int price, int rent, int owner, Color c, boolean isMortgaged, int houses) {
+    public Location(String name, int position, int price, int rent, int owner, Color c, boolean isMortgaged, int houses, String type) {
         this.name = name;
         this.position = position;
         this.price = price;
         this.rent = rent;
+        this.houses = houses;
         this.ownerID = owner;
         this.colour = c;
         this.isMortgaged = isMortgaged;
-        this.houses = houses;
+        this.type = type;
     }
 
     @Override
@@ -125,5 +125,21 @@ public class Location {
 
     public void setMortgagedLabelled(boolean mortgagedLabelled) {
         this.mortgagedLabelled = mortgagedLabelled;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public boolean isTypeLabelled() {
+        return typeLabelled;
+    }
+
+    public void setTypeLabelled(boolean typeLabelled) {
+        this.typeLabelled = typeLabelled;
     }
 }

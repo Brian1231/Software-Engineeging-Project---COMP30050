@@ -16,7 +16,7 @@ public class LocationTest {
 
     @Before
     public void setUp() throws Exception {
-        loc = new Location("UCD", 0, 150, 50, 1, javafx.scene.paint.Color.RED, false, 0);
+        loc = new Location("UCD", 0, 150, 50, 1, javafx.scene.paint.Color.RED, false, 0, "");
     }
 
     @After
@@ -26,7 +26,7 @@ public class LocationTest {
 
     @Test
     public void equals() {
-        Location loc2 = new Location("UCD", 0, 150, 50, 1, javafx.scene.paint.Color.RED, false, 0);
+        Location loc2 = new Location("UCD", 0, 150, 50, 1, javafx.scene.paint.Color.RED, false, 0, "");
 
         assertTrue(loc.equals(loc2));
     }

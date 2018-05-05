@@ -62,13 +62,13 @@ public class InGameController {
     "Evicting squatters...",
     "Securing Intergalactic Prison"
     };
-    static int loadTime = 6;
+    static int loadTime = 7;
 
 
 	private boolean imagesPlaced = false;
 
 	// Networking.
-	private final static String IP = "192.168.0.147";
+	private final static String IP = "52.48.249.220";
 	private final static int PORT = 8000;
 	private NetworkConnection connection = new NetworkConnection(IP,PORT, input -> {
 		try {
@@ -279,7 +279,13 @@ public class InGameController {
 							java.awt.Color col = new java.awt.Color(locationObjects.getJSONObject(i).getInt("color"));
 							Color color = Color.rgb(col.getRed(), col.getGreen(), col.getBlue());
 							boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
-							locs.add(new Location(id,position,price,rent,owner, color, isMortgaged, houses));
+							if(locationObjects.getJSONObject(i).has("type")){
+								String type = locationObjects.getJSONObject(i).getString("type");
+								locs.add(new Location(id,position,price,rent,owner, color, isMortgaged, houses, type));
+							}
+							else{
+								locs.add(new Location(id,position,price,rent,owner, color, isMortgaged, houses, ""));
+							}
 						}
 
 						Game.updateLocations(locs);

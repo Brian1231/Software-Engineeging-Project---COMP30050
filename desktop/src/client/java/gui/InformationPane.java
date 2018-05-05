@@ -38,6 +38,7 @@ public class InformationPane extends Pane {
     // Current Tile Info
     private Circle tileInfo = new Circle();
     private Arc infoBackground = new Arc();
+    private Label tileType = new Label("");
     private Label tileName = new Label("");
     private Label tileCost = new Label("");
     private Label tileOwner = new Label("");
@@ -125,14 +126,19 @@ public class InformationPane extends Pane {
         infoBackground.setFill(Color.rgb(255,255,255,0.2));
         getChildren().add(infoBackground);
 
+        // Tile Type
+        tileType.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileType.widthProperty().divide(2)));
+        tileType.layoutYProperty().bind(tileInfo.layoutYProperty());
+        tileType.setTextFill(Color.BLACK);
+        getChildren().add(tileType);
 		// Tile name
 		tileName.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileName.widthProperty().divide(2)));
-		tileName.layoutYProperty().bind(tileInfo.layoutYProperty().subtract(tileInfo.radiusProperty().divide(2)));
+		tileName.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2)));
 		tileName.setTextFill(Color.BLACK);
 		getChildren().add(tileName);
 		// Tile Cost
 		tileCost.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileCost.widthProperty().divide(2)));
-		tileCost.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2)));
+		tileCost.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2.2)));
 		tileCost.setTextFill(Color.BLACK);
 		getChildren().add(tileCost);
         // Rent
@@ -142,7 +148,7 @@ public class InformationPane extends Pane {
         getChildren().add(tileRent);
         // Owner
         tileOwner.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileOwner.widthProperty().divide(2)));
-        tileOwner.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(3)));
+        tileOwner.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2.6)));
         tileOwner.setTextFill(Color.BLACK);
         getChildren().add(tileOwner);
 		// Tile Image
@@ -262,26 +268,39 @@ public class InformationPane extends Pane {
 
     // Updates current Tile information in Right Infinity Loop
 	public void updateLocationInfo(Location loc) {
-		tileName.setText(loc.getName());
-		tileInfo.setStroke(loc.getColour());
-		if(loc.getOwnerID()==0)
-			tileOwner.setText("");
-		else
-			tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
-		if(loc.getRent()>0)
-			tileRent.setText("Rent: " + loc.getRent());
-		else
-			tileRent.setText("");
-		if(loc.getPrice()>0)
-			tileCost.setText("Price: $" + Integer.toString(loc.getPrice()));
-		else
-			tileCost.setText("");
+        tileName.setText(loc.getName());
+        tileInfo.setStroke(loc.getColour());
+
+        if(loc.getOwnerID()==0)
+            tileOwner.setText("");
+        else
+            tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
+        if(loc.getRent()>0)
+            tileRent.setText("Rent: " + loc.getRent());
+        else
+            tileRent.setText("");
+        if(loc.getPrice()>0)
+            tileCost.setText("Price: $" + Integer.toString(loc.getPrice()));
+        else
+            tileCost.setText("");
         tileInfo.setFill(new ImagePattern(loc.getImage()));
 
         Color original = loc.getColour();
         Color faded = Color.color(original.getRed(),original.getGreen(),original.getBlue(), 0.6);
-        if(loc.getPrice()>0 || loc.getRent()>0 || loc.getOwnerID()!=0)
-        	infoBackground.setFill(faded);
+        infoBackground.setFill(faded);
+
+        if(loc.getType().equals("investment")){
+            tileType.setText("investment");
+        }
+        else if(loc.getType().equals("tax")){
+            tileType.setText("tax");
+        }
+        else if(loc.getType().equals("utility")){
+            tileType.setText("utility");
+        }
+        else if(loc.getType().equals("station")){
+            tileType.setText("station");
+        }
 
         /*
         if(!getChildren().contains(mortgaged) && loc.isMortgaged()){

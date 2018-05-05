@@ -2,15 +2,11 @@ package client.java.gui;
 
 import client.java.main.Game;
 import client.java.gameObjects.Location;
-import com.sun.javafx.tk.FontLoader;
-import com.sun.javafx.tk.Toolkit;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -33,6 +29,7 @@ public class BoardCanvas extends ResizableCanvas {
 	private Pane wrapperPane = (Pane) this.getParent();
 	private ArrayList<Text> titles = new ArrayList<>();
 	private HashMap<Integer, Label> mortLabels = new HashMap();
+	private HashMap<Integer, Label> typeLabels = new HashMap();
 
 	public BoardCanvas() {
 		// Redraw canvas when size changes
@@ -165,11 +162,11 @@ public class BoardCanvas extends ResizableCanvas {
                 break;
             case 2:
                 g.strokeOval(x + (width / 2) - width / 28, y + (height / 2) - width / 28, width / 14, width / 14);
-                g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width /15);
+                g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
                 break;
             case 3:
                 g.strokeOval(x + (width / 2) - width / 28, y + (height / 2) - width / 28, width / 14, width / 14);
-                g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width /15);
+                g.strokeOval(x + (width / 2) - width / 30, y + (height / 2) - width / 30, width / 15, width / 15);
                 g.strokeOval(x + (width / 2) - width / 32, y + (height / 2) - width / 32, width / 16, width / 16);
                 break;
 			case 4:
@@ -197,6 +194,15 @@ public class BoardCanvas extends ResizableCanvas {
 		if(!location.isMortgaged() && location.isMortgagedLabelled()){
 			removeMortgageLabel(location);
 		}
+
+		if((location.getType().equals("utility") || location.getType().equals("tax") || location.getType().equals("station")) && location.isTypeLabelled()) {
+			relocateTypeLabels(point,location);
+		}
+
+		if((location.getType().equals("utility") || location.getType().equals("tax") || location.getType().equals("station")) && !location.isTypeLabelled()){
+			addTypeLabel(point, location);
+		}
+
 
 	}
 
@@ -267,11 +273,22 @@ public class BoardCanvas extends ResizableCanvas {
 			g.setFill(Color.BLACK);
 		}
 
-		g.setStroke(Color.TRANSPARENT);
+		if(location.getType().equals("investment")){
+			System.out.println("investment property");
+			g.setStroke(Color.TRANSPARENT);
+		}
+		else{
+			g.setStroke(location.getColour());
+			g.setLineWidth(10);
+		}
+
 		g.fillOval(x + (width / 2) - width / 42, y + (height / 2) - width / 42, width / 21, width / 21);
 		g.strokeOval(x + (width / 2) - width / 42, y + (height / 2) - width / 42, width / 21, width / 21);
 
 		g.setEffect(null);
+		g.setStroke(null);
+		g.setLineWidth(1);
+
 
 		if(!location.getName().equals("Go")){
 			double titleRadius = width / 36;
@@ -284,7 +301,7 @@ public class BoardCanvas extends ResizableCanvas {
 		Label mort = new Label("MORTGAGED");
 		mort.setFont(new Font("Verdana", 15));
 		mort.setTextFill(Color.RED);
-		mort.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,255,0.4), null, null)));
+		mort.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,255,0.6), null, null)));
 
 		double pointX = center.getX() + (getWidth()/2) - (getWidth() / 42);
 		double pointY = center.getY() + getHeight()/2;
@@ -314,16 +331,45 @@ public class BoardCanvas extends ResizableCanvas {
 		double pointX = center.getX() + getWidth()/2 - mortLabel.getWidth()/2;
 		double pointY = center.getY() + getHeight()/2;
 
-		System.out.println("(r)mortX: " + mortLabel.getLayoutX() + "(r)mortY: " + mortLabel.getLayoutY());
-
 		mortLabel.setLayoutX(pointX);
 		mortLabel.setLayoutY(pointY);
 	}
 
+	private void addTypeLabel(Point2D center, Location location){
+		Pane parent = (Pane) this.getParent();
+		Label typeLabel = new Label(location.getType().toUpperCase());
+		typeLabel.setFont(new Font("Verdana", 15));
+
+		typeLabel.setTextFill(Color.YELLOW);
+
+		typeLabel.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,255,0.6), null, null)));
+
+		double pointX = center.getX() + (getWidth()/2) - (getWidth() / 42);
+		double pointY = center.getY() + getHeight()/2 - getWidth() / 44;
+
+		typeLabel.setLayoutX(pointX);
+		typeLabel.setLayoutY(pointY);
+
+		typeLabels.put(location.getPosition(), typeLabel);
+		parent.getChildren().add(typeLabel);
+
+		location.setTypeLabelled(true);
+	}
+
+	private void relocateTypeLabels(Point2D center, Location location){
+		Label typeLabel = typeLabels.get(location.getPosition());
+
+		double pointX = center.getX() + getWidth()/2 - typeLabel.getWidth()/2;
+		double pointY = center.getY() + getHeight()/2 - getWidth() / 44;
+
+		typeLabel.setLayoutX(pointX);
+		typeLabel.setLayoutY(pointY);
+	}
+
 	private Image getImage(Location location){
 
-		if(location.getName().equals("Go")){
-			
+		if(location.getPosition() == 0){
+			return new Image("/client/resources/images/worlds/Galactic Core.gif");
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("/client/resources/images/worlds/");
@@ -337,16 +383,34 @@ public class BoardCanvas extends ResizableCanvas {
 		}
 	}
 
+//	public void getUrlImage(Location location){
+//		if(location.getPosition() == 0){
+//			return new Image("/client/resources/images/worlds/Galactic Core.gif");
+//		}
+//
+//		StringBuilder sb = new StringBuilder();
+//		sb.append("/client/resources/images/worlds/");
+//		sb.append(location.getName().trim().replace(":", ""));
+//		sb.append(".jpg");
+//
+//		try{
+//			return new Image( sb.toString() );
+//		}catch(Exception e){
+//			return null;
+//		}
+//	}
+
 	public void getImages(){
 		for(Location loc : Game.locations){
 			loc.setImage(getImage(loc));
 		}
 	}
 
+
 	public void addCenterTile(){
 		Pane parent = (Pane) this.getParent();
 
-		Image centerImage = new Image("client/resources/images/univers.gif");
+		Image centerImage = new Image("client/resources/images/worlds/Galactic Core.gif");
 		ImagePattern cImage = new ImagePattern(centerImage);
 
 		Circle centerCircle = new Circle();
