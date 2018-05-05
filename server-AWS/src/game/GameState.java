@@ -1,7 +1,9 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import main.Constants;
@@ -21,6 +23,7 @@ public class GameState implements JSONable {
 	private ArrayList<Character_noc> playerCharacters;
 	private ArrayList<String> seenAndroidIds;
 	private ArrayList<NamedLocation> locations;
+	private HashMap<Integer, String> pendingActions;
 	private boolean gameStarted;
 	private int playerTurn;
 	private PlayerActions playerActions = new PlayerActions();
@@ -40,6 +43,7 @@ public class GameState implements JSONable {
 		this.villainGang = new VillainGang();
 		this.auction = new Auction();
 		this.seenAndroidIds = new ArrayList<String>();
+		this.pendingActions = new HashMap<Integer, String>(); 
 
 		// Tiles generation & setup
 		ArrayList<NamedLocation> properties = new ArrayList<NamedLocation>();
@@ -103,7 +107,6 @@ public class GameState implements JSONable {
 				prop.setPrice(Constants.INVESTMENT_PRICES[investmentPropCount]);
 				prop.setRentAmounts(Constants.INVESTMENT_RENTS[investmentPropCount]);
 				prop.setHousePrice(Constants.HOUSE_PRICES[investmentPropCount]);
-				prop.setHotelPrice(Constants.HOUSE_PRICES[investmentPropCount]);
 				prop.setMortgageAmount(Constants.INVESTMENT_MORTGAGE_VALUE[investmentPropCount]);
 				prop.setColour(Constants.INVESTMENT_COLOUR_GROUPS[colourIndex]);
 
@@ -119,6 +122,19 @@ public class GameState implements JSONable {
 
 	public boolean isStarted() {
 		return this.gameStarted;
+	}
+	
+	public void addPendingAction(int id, String action){
+		this.pendingActions.put(id, action);
+	}
+	
+	public String doPendingAction(){
+		StringBuilder res = new StringBuilder();
+		for(Entry<Integer, String> action : this.pendingActions.entrySet()){
+			res.append(this.playerAction(action.getKey(), action.getValue(), null));
+		}
+		this.pendingActions.clear();
+		return res.toString();
 	}
 
 	public String getActionInfo() {
@@ -226,7 +242,7 @@ public class GameState implements JSONable {
 	public String playerAction(int id, String action, String[] args) {
 
 		//Check if its the correct players turn
-		if ((this.playerTurn == id && this.gameStarted) || (this.auctionInProgress() && action.equals("bid"))) {
+		if ((this.playerTurn == id && this.gameStarted && !this.auctionInProgress()) || (this.auctionInProgress() && action.equals("bid"))) {
 			//Get player from id
 			Player player = null;
 			for (Player p : this.players) {

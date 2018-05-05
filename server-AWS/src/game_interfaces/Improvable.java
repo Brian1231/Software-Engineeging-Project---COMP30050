@@ -3,7 +3,7 @@ package game_interfaces;
 public interface Improvable extends Ownable {
 
     // get number of built houses and hotels on a property
-    int getNumHousesAndHotels();
+    int getNumHouses();
 
     // build or demolish a house/s or property/ies
     boolean build(int numToBuild);
@@ -16,7 +16,5 @@ public interface Improvable extends Ownable {
     int getHousePrice();
     void setHousePrice(int housePrice);
 
-    // get and set the price of building a hotel
-    int getHotelPrice();
-    void setHotelPrice(int hotelPrice);
+    int getHouseSellValue();
 }

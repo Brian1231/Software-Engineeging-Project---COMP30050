@@ -13,6 +13,8 @@ class Prefs (context: Context) {
     private val PLAYER_ID = "PlayerID"
     private val PORT = "PORT"
     private val CHARACTER = "CHARACTER"
+    private val IP = "IP"
+    private val GAMEMODE = "GAMEMODE"
 
     val prefs: SharedPreferences = context.defaultSharedPreferences
 
@@ -25,4 +27,11 @@ class Prefs (context: Context) {
     var character: String
         get() = prefs.getString(CHARACTER, "character")
         set(value) = prefs.edit().putString(CHARACTER, value).apply()
+    var gamemode: String
+        get() = prefs.getString(GAMEMODE, "remote")
+        set(value) = prefs.edit().putString(GAMEMODE, value).apply()
+    var ip: String
+        get() = prefs.getString(IP, "52.48.249.220")
+        set(value) = prefs.edit().putString(IP, value).apply()
+
 }

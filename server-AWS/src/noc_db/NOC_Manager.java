@@ -258,6 +258,4 @@ public class NOC_Manager {
 		}
 		return "";
 	}
-
-
 }

@@ -65,13 +65,13 @@ public class PortAllocator extends Thread{
 								}
 								JSONObject messageReceived = new JSONObject(line);
 								String androidId = messageReceived.getString("args");
-								//String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
+
 								if(messageReceived.getInt("id") == -1 && !this.blockedAndroidIds.contains(androidId) && androidId != null){
 
 									//If we have not seen this player;s id before, create a new connection
 									if(!androidIdMap.keySet().contains(androidId) && androidIdMap.size()<4){
 										androidIdMap.put(androidId, this.playerCount);//Maybe not needed, Just array of ip's could do
-
+										
 										playerConnections.add(new PlayerConnection(this.playerCount, this.playerPortCount, androidId));
 
 										BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));

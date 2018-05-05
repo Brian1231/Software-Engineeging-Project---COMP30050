@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 import pw.jcollado.segamecontroller.R
 import pw.jcollado.segamecontroller.feedActivity.FeedActivity
@@ -161,7 +162,7 @@ class MainActivity : App() {
 
         bidButton2.onClick {
             setMessageToServer(Request(preferences.playerID, "bid",seekBar.progress.toString()).toJSONString())
-
+            toast("${getString(R.string.you_bid)} ${seekBar.progress} SHM")
         }
     }
 

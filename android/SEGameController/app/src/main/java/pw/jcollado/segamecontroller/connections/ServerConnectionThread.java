@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class ServerConnectionThread extends Thread {
 
-    public final static String IP = "192.168.0.147";
+    public static String IP = "192.168.0.147";
 
     private ArrayList<String> messages;
     private int port;
