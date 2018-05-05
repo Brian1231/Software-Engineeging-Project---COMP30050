@@ -16,6 +16,7 @@ import pw.jcollado.segamecontroller.utils.closeLoadingDialog
 import pw.jcollado.segamecontroller.utils.loadDialog
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Handler
 import android.provider.Settings.Secure;
 import com.afollestad.materialdialogs.MaterialDialog
 import android.text.InputType
@@ -23,6 +24,7 @@ import android.text.InputType
 
 open class JoinActivity : App(), AsyncResponse {
     open lateinit var gamethread: ServerConnectionThread
+    private val handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,11 +88,19 @@ open class JoinActivity : App(), AsyncResponse {
             }
         }
 
+        handler.postDelayed({
+            runOnUiThread {
+                closeLoadingDialog()
+                toast(getString(R.string.error_server))
+            }
+        }, 10000)
+
     }
     private fun changeModeToRemote(){
         changeModeButton.text = getString(R.string.play_local)
         preferences.gamemode = "remote"
         preferences.ip = "52.48.249.220"
+        modeTX.text = ""
     }
     private fun changeModeToLocal(){
         changeModeButton.text = getString(R.string.play_online)
@@ -103,6 +113,7 @@ open class JoinActivity : App(), AsyncResponse {
                 .inputType(InputType.TYPE_CLASS_TEXT)
                 .input("192.168.1.20", "", { _, input ->
                    preferences.ip = input.toString()
+                    modeTX.text = "IP: $input"
                     changeModeToLocal()
                 }).show()
         }
@@ -145,7 +156,10 @@ open class JoinActivity : App(), AsyncResponse {
         when (response) {
             null -> response?.let { toast(it) }
             "" -> toast(response)
-            else ->  getResponseID(response)
+            else -> {
+                getResponseID(response)
+                handler.removeCallbacksAndMessages(null)
+            }
 
         }
     }
