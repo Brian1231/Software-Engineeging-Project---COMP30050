@@ -16,13 +16,16 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.json.JSONArray;
@@ -30,14 +33,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 public class InGameController {
 
 	private Stage gameStage;
-
 	@FXML
 	public BorderPane rootPane;
 	// Stacks each layer on top of each other.
@@ -49,6 +51,19 @@ public class InGameController {
 	private Pane loadingPane = new Pane();
 
 	Button startButton = new Button("START GAME");
+
+	String[] loadStrings = {
+	"Entering Game!",
+    "Generating Worlds...",
+    "Expanding Universe...",
+    "Stabilising Dimensions...",
+    "Calculating orbits...",
+    "Charging Portals...",
+    "Evicting squatters...",
+    "Securing Intergalactic Prison"
+    };
+    static int loadTime = 6;
+
 
 	private boolean imagesPlaced = false;
 
@@ -316,13 +331,68 @@ public class InGameController {
 
 	// Adds main Gui elements
 	private void setUpBoard() throws IOException, JSONException{
-		Pane boardWrapper = new Pane();
-		boardWrapper.getChildren().add(boardCanvas);
-
-		Pane playerWrapper = new Pane();
-		playerWrapper.getChildren().add(playerCanvas);
-
 		// Loading Screen
+        Image l = new Image("client/resources/images/load.gif");
+        ImageView loadImage = new ImageView(l);
+        loadImage.fitWidthProperty().bind(loadingPane.widthProperty());
+        loadImage.fitHeightProperty().bind(loadingPane.heightProperty());
+        loadingPane.getChildren().add(loadImage);
+
+        Label loadDetails = new Label("");
+        loadDetails.setFont(new Font("Verdana", 50));
+        loadDetails.setTextFill(Color.WHITE);
+        loadDetails.layoutXProperty().bind(loadingPane.widthProperty().divide(2).subtract(loadDetails.widthProperty().divide(2)));
+        loadDetails.layoutYProperty().bind(loadingPane.heightProperty().subtract(100));
+        loadingPane.getChildren().add(loadDetails);
+
+        // Loading Message Timeline
+        Timeline timeLine = new Timeline();
+        timeLine.setCycleCount(Timeline.INDEFINITE);
+        timeLine.getKeyFrames().add(
+                new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+
+                        Platform.runLater(()->{
+                            loadDetails.setText(loadStrings[loadTime]);
+                        });
+
+                        loadTime--;
+
+                        // Finished Loading
+                        if(loadTime < 0){
+                            timeLine.stop();
+                            Platform.runLater(()-> {
+                                layers.getChildren().remove(loadingPane);
+                                layers.getChildren().remove(loadDetails);
+                            });
+                        }
+                    }
+                }
+                ));
+        timeLine.playFromStart();
+
+        Pane boardWrapper = new Pane();
+        boardWrapper.getChildren().add(boardCanvas);
+
+        Pane playerWrapper = new Pane();
+        playerWrapper.getChildren().add(playerCanvas);
+
+        infoPane.getChildren().add(startButton);
+
+        layers.getChildren().add(boardWrapper);
+        layers.getChildren().add(playerWrapper);
+        layers.getChildren().add(infoPane);
+        layers.getChildren().add(loadingPane);
+
+        rootPane.setCenter(layers);
+        boardCanvas.widthProperty().bind(rootPane.widthProperty());
+        boardCanvas.heightProperty().bind(rootPane.heightProperty());
+        playerCanvas.widthProperty().bind(rootPane.widthProperty());
+        playerCanvas.heightProperty().bind(rootPane.heightProperty());
+
+        boardCanvas.draw();
+        playerCanvas.draw();
 
 		// Start game button
 		startButton.layoutXProperty().bind(boardWrapper.widthProperty().divide(2).subtract(startButton.widthProperty().divide(2)));
@@ -340,19 +410,6 @@ public class InGameController {
 		}
 		);
 
-		infoPane.getChildren().add(startButton);
-		layers.getChildren().add(boardWrapper);
-		layers.getChildren().add(playerWrapper);
-		layers.getChildren().add(infoPane);
-		layers.getChildren().add(loadingPane);
-		rootPane.setCenter(layers);
-		boardCanvas.widthProperty().bind(rootPane.widthProperty());
-		boardCanvas.heightProperty().bind(rootPane.heightProperty());
-		playerCanvas.widthProperty().bind(rootPane.widthProperty());
-		playerCanvas.heightProperty().bind(rootPane.heightProperty());
-
-		boardCanvas.draw();
-		playerCanvas.draw();
 	}
 
 	// Called on game exit
