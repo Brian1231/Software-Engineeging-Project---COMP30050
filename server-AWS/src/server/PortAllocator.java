@@ -24,8 +24,8 @@ public class PortAllocator extends Thread{
 	private int playerPortCount;
 	private int playerCount=1;
 	private ArrayList<PlayerConnection> playerConnections;
-	private ArrayList<String> blockedIps = new ArrayList<String>();
-	private HashMap<String, Integer> ipIdMap = new HashMap<String, Integer> ();
+	private ArrayList<String> blockedAndroidIds = new ArrayList<String>();
+	private HashMap<String, Integer> androidIdMap = new HashMap<String, Integer> ();
 
 	public PortAllocator(int portNum){
 		this.port = portNum;
@@ -64,14 +64,15 @@ public class PortAllocator extends Thread{
 									System.out.println("Message from Phone: " + line);
 								}
 								JSONObject messageReceived = new JSONObject(line);
-								String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
-								if(messageReceived.getInt("id") == -1 && !this.blockedIps.contains(client_ip)){
+								String androidId = messageReceived.getString("args");
+								//String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
+								if(messageReceived.getInt("id") == -1 && !this.blockedAndroidIds.contains(androidId) && androidId != null){
 
-									//If we have not seen this player;s ip before, create a new connection
-									if(!ipIdMap.keySet().contains(client_ip) && ipIdMap.size()<4){
-										ipIdMap.put(client_ip, this.playerCount);//Maybe not needed, Just array of ip's could do
+									//If we have not seen this player;s id before, create a new connection
+									if(!androidIdMap.keySet().contains(androidId) && androidIdMap.size()<4){
+										androidIdMap.put(androidId, this.playerCount);//Maybe not needed, Just array of ip's could do
 
-										playerConnections.add(new PlayerConnection(this.playerCount, this.playerPortCount));
+										playerConnections.add(new PlayerConnection(this.playerCount, this.playerPortCount, androidId));
 
 										BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 										JSONObject response = new JSONObject();
@@ -84,9 +85,9 @@ public class PortAllocator extends Thread{
 										this.playerPortCount++;
 									}
 									//Attempt to reconnect player we've seen before
-									else if (ipIdMap.size()<4){
+									else if (androidIdMap.size()<4){
 
-										int id = ipIdMap.get(client_ip);
+										int id = androidIdMap.get(androidId);
 										System.out.println("Reconnecting player " + id + " ...");
 										for(int i=0;i<this.playerConnections.size();i++){
 											PlayerConnection pc = this.playerConnections.get(i);
@@ -98,7 +99,7 @@ public class PortAllocator extends Thread{
 											}
 										}
 										int port = 8080+id;
-										playerConnections.add(new PlayerConnection(id, port));
+										playerConnections.add(new PlayerConnection(id, port, androidId));
 
 										BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 										JSONObject response = new JSONObject();
@@ -137,8 +138,8 @@ public class PortAllocator extends Thread{
 			if(pc.getPlayerId() == id) {
 				pc.kill();
 				this.playerConnections.remove(pc);
-				for(Entry<String, Integer> pair : this.ipIdMap.entrySet()){
-					if(pair.getValue()  == id) this.blockedIps.add(pair.getKey());
+				for(Entry<String, Integer> pair : this.androidIdMap.entrySet()){
+					if(pair.getValue()  == id) this.blockedAndroidIds.add(pair.getKey());
 				}
 
 			}

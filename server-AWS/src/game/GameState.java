@@ -1,9 +1,7 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import main.Constants;
@@ -21,8 +19,8 @@ public class GameState implements JSONable {
 	private Random rand = new Random();
 	private ArrayList<Player> players;
 	private ArrayList<Character_noc> playerCharacters;
+	private ArrayList<String> seenAndroidIds;
 	private ArrayList<NamedLocation> locations;
-	private Map<String, Player> clientIPplayerIDMap;
 	private boolean gameStarted;
 	private int playerTurn;
 	private PlayerActions playerActions = new PlayerActions();
@@ -37,11 +35,11 @@ public class GameState implements JSONable {
 		this.locations = new ArrayList<NamedLocation>();
 		this.playerCharacters = new ArrayList<Character_noc>();
 		this.removedPlayers = new ArrayList<Integer>();
-		this.clientIPplayerIDMap = new HashMap<String, Player>();
 		this.gameStarted = false;
 		this.playerTurn = 1;
 		this.villainGang = new VillainGang();
 		this.auction = new Auction();
+		this.seenAndroidIds = new ArrayList<String>();
 
 		// Tiles generation & setup
 		ArrayList<NamedLocation> properties = new ArrayList<NamedLocation>();
@@ -143,10 +141,10 @@ public class GameState implements JSONable {
 	/**
 	 * Returns new player ID or -1
 	 */
-	public int addPlayer(String client_ip) {
+	public int addPlayer(String androidId) {
 		int newID = players.size() + 1;
-		if (!clientIPplayerIDMap.containsKey(client_ip)) {
-
+		if(!this.seenAndroidIds.contains(androidId)){
+			this.seenAndroidIds.add(androidId);
 			//Get random unused character
 			Character_noc ch = Main.noc.getRandomChar();
 			while (this.playerCharacters.contains(ch)) {
@@ -158,11 +156,10 @@ public class GameState implements JSONable {
 			villain.setWeaponObject(Main.noc.getWeapon(villain.getWeapon()));
 			newPlayer.setVillain(villain);
 			this.players.add(newPlayer);
-			this.clientIPplayerIDMap.put(client_ip, newPlayer);
 			return newID;
-		} else {
-			return -1;
 		}
+		else
+			return -1;
 	}
 
 	public void removePlayer(Player player) {
@@ -198,6 +195,10 @@ public class GameState implements JSONable {
 
 	public boolean auctionInProgress(){
 		return this.auction.auctionInProgress();
+	}
+	
+	public int numberOfPlayers(){
+		return this.players.size();
 	}
 	
 	public boolean isValidBid(Player player){
@@ -399,7 +400,7 @@ public class GameState implements JSONable {
 	}
 
 	public void endGame() {
-		System.out.println("here");
+		System.out.println("GAME OVER");
 		Player winner = players.get(0);
 		for (Player p : players)  if (p.getNetWorth() > winner.getNetWorth()) winner = p;
 
