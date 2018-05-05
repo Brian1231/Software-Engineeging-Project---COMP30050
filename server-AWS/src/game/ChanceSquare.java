@@ -11,7 +11,7 @@ public class ChanceSquare extends NamedLocation implements Activatable{
 	
 	public ChanceSquare(String s){
 		super(s);
-		this.setType("Chance");
+		this.setType("chance");
 	}
 	
 	public String getChance(Character_noc ch, int type){

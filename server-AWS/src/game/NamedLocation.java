@@ -18,7 +18,7 @@ public class NamedLocation implements Identifiable, Locatable, JSONable, Typeabl
 
 	public NamedLocation(String name){
 		this.identifier = name;
-		this.type = "NamedLocation";
+		this.type = "named_location";
 	}
 	@Override
 	public String getId() {

@@ -12,7 +12,7 @@ public class Station extends RentalProperty implements JSONable{
 	public Station(String name, int price, int[] rentAmounts) {
 		super(name, price);
 		super.setRentAmounts(rentAmounts);
-		this.setType("Station");
+		this.setType("station");
 	}
 
 	public int getRentalAmount() {

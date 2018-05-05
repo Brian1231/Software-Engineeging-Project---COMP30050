@@ -17,7 +17,7 @@ public class InvestmentProperty extends RentalProperty implements Improvable, JS
 	// Must declare investment properties with the full array of rent prices
 	public InvestmentProperty(String name) {
 		super(name, 0);
-		setType("Investment");
+		setType("investment");
 	}
 
 	@Override

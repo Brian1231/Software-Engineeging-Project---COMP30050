@@ -6,7 +6,7 @@ public class SpecialSquare extends NamedLocation implements Activatable{
 
 	public SpecialSquare(String name) {
 		super(name);
-		this.setType("Special");
+		this.setType("special");
 	}
 	
 	@Override

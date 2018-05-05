@@ -14,7 +14,7 @@ public class Utility extends RentalProperty implements JSONable{
 
 	public Utility(String name, int price, int[] rentMultipliers) {
 		super(name, price);
-		this.setType("Utility");
+		this.setType("utility");
 		this.rentMultipliers = rentMultipliers;
 	}
 

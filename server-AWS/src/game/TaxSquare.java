@@ -18,7 +18,7 @@ public class TaxSquare extends NamedLocation implements Taxable, JSONable, Activ
 
 	public TaxSquare(String name) {
 		super(name);
-		this.setType("Tax");
+		this.setType("tax");
 	}
 
 	@Override

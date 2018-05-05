@@ -28,7 +28,7 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 		super(name);
 		this.price = price;
 		this.hasTrap = false;
-		this.setType("Rental");
+		this.setType("rental");
 		this.colour = Color.RED;
 		this.trapPrice = this.price / 5;
 	}
