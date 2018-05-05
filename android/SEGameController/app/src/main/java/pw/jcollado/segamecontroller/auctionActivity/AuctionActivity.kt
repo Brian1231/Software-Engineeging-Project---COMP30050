@@ -28,7 +28,7 @@ class AuctionActivity : App() {
     }
 
     fun setSeekBar(){
-        priceSeekBar.max = Player.balance as Float
+        priceSeekBar.max = Player.balance.toFloat()
 
         priceSeekBar.setOnSeekChangeListener(object : IndicatorSeekBar.OnSeekBarChangeListener {
 

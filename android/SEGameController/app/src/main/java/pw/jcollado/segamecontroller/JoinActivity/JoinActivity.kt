@@ -16,9 +16,8 @@ import pw.jcollado.segamecontroller.utils.closeLoadingDialog
 import pw.jcollado.segamecontroller.utils.loadDialog
 import android.media.MediaPlayer
 import android.net.Uri
-import android.support.v4.media.session.MediaControllerCompat.setMediaController
-import android.widget.MediaController
-import android.widget.VideoView
+import android.provider.Settings.Secure;
+
 
 
 
@@ -54,8 +53,9 @@ open class JoinActivity : App(), AsyncResponse {
         runOnUiThread {
             loadDialog(this, getString(R.string.connecting))
         }
-
-        val joinGameRequest = Request(-1,"connect","0")
+       var androidId = Secure.getString(applicationContext.getContentResolver(), Secure.ANDROID_ID)
+        Log.i("id",androidId)
+        val joinGameRequest = Request(-1,"connect",androidId)
         val jsonStringRequest = joinGameRequest.toJSONString()
         try {
             gamethread = ServerConnectionThread(this, preferences.port)
