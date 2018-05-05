@@ -62,7 +62,7 @@ public class Auction implements JSONable{
 		this.price = 0;
 		this.playerBuying = null;
 		this.auctionInProgress = false;
-		Main.gameState.doPendingAction();
+		res += "\n" + Main.gameState.doPendingAction();
 		return res;
 	}
 

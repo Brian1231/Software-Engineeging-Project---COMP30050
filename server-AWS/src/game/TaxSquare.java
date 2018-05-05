@@ -30,7 +30,7 @@ public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 			//Percent in range 5% - 30%
 			double percentage = (0.05 + (random.nextInt(26)*0.01));
 			int amount = this.getIncomePercentage(player, percentage);
-			res+="\n"+player.getCharName()+" owes "+percentage*100+"% of their net worth. That's $"+amount+".";
+			res+="\n"+player.getCharName()+" owes "+Math.round(percentage*100)+"% of their net worth. That's $"+amount+".";
 			player.setDebt(amount, null);
 			return res;
 		}
