@@ -91,9 +91,9 @@
 
     <Button
         android:id="@+id/payButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_marginEnd="35dp"
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_pay"
@@ -101,9 +101,11 @@
         android:drawableStart="@drawable/ic_pay"
         android:gravity="center_vertical"
         android:text="@string/pay"
+        android:textAlignment="center"
         android:textColor="@color/accent"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/buyButton"
         app:layout_constraintTop_toBottomOf="@+id/buyButton" />
 
     <Button
@@ -127,7 +129,7 @@
         android:id="@+id/buyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_marginEnd="35dp"
         android:layout_marginTop="15dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_shopping_cart"
@@ -137,7 +139,7 @@
         android:text="@string/buy_property"
         android:textColor="@color/accent"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/positionTX" />
 
     <Button
