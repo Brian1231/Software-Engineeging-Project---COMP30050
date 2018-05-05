@@ -379,7 +379,6 @@ public class InGameController {
         playerWrapper.getChildren().add(playerCanvas);
 
         infoPane.getChildren().add(startButton);
-
         layers.getChildren().add(boardWrapper);
         layers.getChildren().add(playerWrapper);
         layers.getChildren().add(infoPane);
@@ -392,6 +391,7 @@ public class InGameController {
         playerCanvas.heightProperty().bind(rootPane.heightProperty());
 
         boardCanvas.draw();
+        boardCanvas.addCenterTile();
         playerCanvas.draw();
 
 		// Start game button
@@ -409,7 +409,6 @@ public class InGameController {
 			}
 		}
 		);
-
 	}
 
 	// Called on game exit
