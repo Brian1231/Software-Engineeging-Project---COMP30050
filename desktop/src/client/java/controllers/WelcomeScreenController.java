@@ -62,8 +62,4 @@ public class WelcomeScreenController {
         welcomeStage.setScene(rulesScene);
     }
 
-    public void connectToServer(){
-
-    }
-
 }
