@@ -2,12 +2,17 @@ package client.java.controllers;
 
 import client.java.network.NetworkConnection;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.json.JSONException;
 
@@ -16,12 +21,45 @@ import java.io.IOException;
 
 public class WelcomeScreenController {
 
+    @FXML
     public BorderPane base;
     public Button newGameButton;
     public Button rulesButton;
+    public Button localGameButton;
+    public VBox layout;
+
+    private String ip = "52.48.249.220";
 
     // New game
     public void onNewGameClick(ActionEvent event){
+        linkToGameStage(event);
+    }
+
+    public void onLocalGameClick(ActionEvent event){
+        Label ipLabel = new Label("Server IP Address: ");
+        ipLabel.setId("input");
+        Button submitIpButton = new Button("Submit");
+        Button cancelButton = new Button("cancel");
+        TextField textField = new TextField ();
+        textField.setMaxWidth(200);
+
+        layout.getChildren().removeAll(localGameButton, newGameButton, rulesButton);
+        layout.getChildren().addAll(ipLabel,textField,submitIpButton, cancelButton);
+
+        cancelButton.setOnAction(e -> {
+            layout.getChildren().removeAll(ipLabel,textField,submitIpButton,cancelButton);
+            layout.getChildren().addAll(localGameButton, newGameButton, rulesButton);
+        });
+
+        submitIpButton.setOnAction(e -> {
+            if(!textField.getText().equals("")){
+                this.ip = textField.getText();
+                linkToGameStage(e);
+            }
+        });
+    }
+
+    public void linkToGameStage(ActionEvent event){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/inGame.fxml"));
         Parent inGame = null;
 
@@ -29,7 +67,7 @@ public class WelcomeScreenController {
             inGame = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Could load fxml");
+            System.out.println("Could not load fxml");
         }
 
         Scene gameScene = new Scene(inGame);
@@ -39,11 +77,13 @@ public class WelcomeScreenController {
 
         InGameController gameController = loader.getController();
         gameStage.setOnCloseRequest(e -> gameController.closeGame());
+        gameController.setServerIP(ip);
         gameController.setGameStage(gameStage);
         //gameStage.setFullScreen(true);
         gameStage.setMaximized(true);
         gameStage.show();
     }
+
 
     // Open Rules Page
     public void onRulesClick(ActionEvent event){

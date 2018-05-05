@@ -68,7 +68,7 @@ public class InGameController {
 	private boolean imagesPlaced = false;
 
 	// Networking.
-	private final static String IP = "52.48.249.220";
+	private String IP = "52.48.249.220";
 	private final static int PORT = 8000;
 	private NetworkConnection connection = new NetworkConnection(IP,PORT, input -> {
 		try {
@@ -116,6 +116,10 @@ public class InGameController {
 
 	public void setGameStage(Stage gameStage) {
 		this.gameStage = gameStage;
+	}
+
+	public void setServerIP(String ipAddress){
+		this.IP = ipAddress;
 	}
 
 	// Called whenever a message/JSON/update is received form the server.
@@ -358,15 +362,14 @@ public class InGameController {
                 new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
+						loadTime--;
 
                         Platform.runLater(()->{
                             loadDetails.setText(loadStrings[loadTime]);
                         });
 
-                        loadTime--;
-
                         // Finished Loading
-                        if(loadTime < 0){
+                        if(loadTime <= 0){
                             timeLine.stop();
                             Platform.runLater(()-> {
                                 layers.getChildren().remove(loadingPane);
