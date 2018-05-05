@@ -16,24 +16,15 @@ public class PlayerActions {
 			int[] dice_values = Main.dice.getDiceValues();
 			if(!player.isInJail()){
 
-
 				if(locations.get(player.getPos()) instanceof RentalProperty){
 					RentalProperty prop = (RentalProperty) locations.get(player.getPos());
-					if(prop.isOwned()){
-
-						int spaces = Main.dice.getRollResult();
-						res.append(player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".");
-						res.append(landedOn(player, locations.get(player.getPos()), spaces));
-						res.append(Main.gameState.villainGangCheck(player));
-						if(dice_values[0] == dice_values[1])
-							res.append(player.getCharName() + " rolled doubles! Roll again!");
-						else
-							player.useRoll();
-						return res.toString();
+					if(!prop.isOwned()){
+						Main.gameState.addPendingAction(player.getID(), "roll");
+						Main.gameState.startAuction(prop, null, 1);
+						Main.clientUpdater.updateDesktopAuction();
+						return player.getCharName()+" didn't buy " + prop.getId() + " so it's goes to the highest bidder!";
 					}
-					Main.gameState.startAuction(prop, null, 1);
-					Main.clientUpdater.updateDesktopAuction();
-					return player.getCharName()+" didn't buy " + prop.getId() + " so it's goes to the highest bidder!";
+
 				}
 				int spaces = Main.dice.getRollResult();
 				res.append(player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".");
@@ -45,8 +36,8 @@ public class PlayerActions {
 					player.useRoll();
 				return res.toString();
 			}
-			
-			
+
+
 			res.append(player.getCharName() +" attempts to escape prison...\n");
 			if(dice_values[0] == dice_values[1]){
 				res.append(player.getCharName()+" has successfully escaped prison!");
@@ -154,27 +145,18 @@ public class PlayerActions {
 
 							if(locations.get(player.getPos()) instanceof RentalProperty){
 								RentalProperty prop = (RentalProperty) locations.get(player.getPos());
-								if(prop.isOwned()){
-
-									StringBuilder res = new StringBuilder();
-									res.append(player.useBoost()  +" and landed on "+ locations.get(player.getPos()).getId()+".");
-									res.append(landedOn(player, locations.get(player.getPos()), 1));
-									res.append(Main.gameState.villainGangCheck(player));
-									return res.toString();
-
+								if(!prop.isOwned()){
+									Main.gameState.addPendingAction(player.getID(), "boost");
+									Main.gameState.startAuction(prop, null, 1);
+									Main.clientUpdater.updateDesktopAuction();
+									return player.getCharName()+" didn't buy " + prop.getId() + " so it's goes to the highest bidder!";
 								}
-								Main.gameState.startAuction(prop, null, 1);
-								Main.clientUpdater.updateDesktopAuction();
-								return player.getCharName()+" didn't buy " + prop.getId() + " so it's goes to the highest bidder!";
-
 							}
 							StringBuilder res = new StringBuilder();
 							res.append(player.useBoost()  +" and landed on "+ locations.get(player.getPos()).getId()+".");
 							res.append(landedOn(player, locations.get(player.getPos()), 1));
 							res.append(Main.gameState.villainGangCheck(player));
 							return res.toString();
-
-
 						}
 						return "Your vehicle is out of fuel!";
 					}
@@ -245,15 +227,11 @@ public class PlayerActions {
 			if(player.hasRolled()){
 				if(location instanceof RentalProperty){
 					RentalProperty prop = (RentalProperty) location;
-					if(prop.isOwned()){
-						player.reset();
-						Main.gameState.incrementPlayerTurn();
-						Main.gameState.updateVillainGang();
-						return player.getCharName()+" finished their turn.";
+					if(!prop.isOwned()){
+						Main.gameState.startAuction(prop, null, 1);
+						Main.clientUpdater.updateDesktopAuction();
+						return player.getCharName()+" didn't buy " + prop.getId() + " so it's goes to the highest bidder!";
 					}
-					Main.gameState.startAuction(prop, null, 1);
-					Main.clientUpdater.updateDesktopAuction();
-					return player.getCharName()+" didn't buy " + prop.getId() + " so it's goes to the highest bidder!";
 				}
 				player.reset();
 				Main.gameState.incrementPlayerTurn();

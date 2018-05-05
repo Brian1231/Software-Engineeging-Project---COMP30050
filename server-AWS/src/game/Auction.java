@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import game_interfaces.JSONable;
+import main.Main;
 
 public class Auction implements JSONable{
 
@@ -61,6 +62,7 @@ public class Auction implements JSONable{
 		this.price = 0;
 		this.playerBuying = null;
 		this.auctionInProgress = false;
+		Main.gameState.doPendingAction();
 		return res;
 	}
 
