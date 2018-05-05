@@ -344,7 +344,7 @@ public class InGameController {
 		layers.getChildren().add(boardWrapper);
 		layers.getChildren().add(playerWrapper);
 		layers.getChildren().add(infoPane);
-		//layers.getChildren().add(loadingPane);
+		layers.getChildren().add(loadingPane);
 		rootPane.setCenter(layers);
 		boardCanvas.widthProperty().bind(rootPane.widthProperty());
 		boardCanvas.heightProperty().bind(rootPane.heightProperty());
