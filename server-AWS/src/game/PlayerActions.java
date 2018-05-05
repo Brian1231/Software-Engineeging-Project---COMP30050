@@ -15,6 +15,26 @@ public class PlayerActions {
 			StringBuilder res = new StringBuilder();
 			int[] dice_values = Main.dice.getDiceValues();
 			if(!player.isInJail()){
+
+
+				if(locations.get(player.getPos()) instanceof RentalProperty){
+					RentalProperty prop = (RentalProperty) locations.get(player.getPos());
+					if(prop.isOwned()){
+
+						int spaces = Main.dice.getRollResult();
+						res.append(player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".");
+						res.append(landedOn(player, locations.get(player.getPos()), spaces));
+						res.append(Main.gameState.villainGangCheck(player));
+						if(dice_values[0] == dice_values[1])
+							res.append(player.getCharName() + " rolled doubles! Roll again!");
+						else
+							player.useRoll();
+						return res.toString();
+					}
+					Main.gameState.startAuction(prop, null, 1);
+					Main.clientUpdater.updateDesktopAuction();
+					return player.getCharName()+" didn't buy " + prop.getId() + " so it's goes to the highest bidder!";
+				}
 				int spaces = Main.dice.getRollResult();
 				res.append(player.moveForward(spaces)  +" and arrived at "+ locations.get(player.getPos()).getId()+".");
 				res.append(landedOn(player, locations.get(player.getPos()), spaces));
@@ -25,6 +45,8 @@ public class PlayerActions {
 					player.useRoll();
 				return res.toString();
 			}
+			
+			
 			res.append(player.getCharName() +" attempts to escape prison...\n");
 			if(dice_values[0] == dice_values[1]){
 				res.append(player.getCharName()+" has successfully escaped prison!");
@@ -129,11 +151,30 @@ public class PlayerActions {
 				if (!player.hasBoosted()) {
 					if(!player.isInDebt()){
 						if (player.getFuel() > 0) {
+
+							if(locations.get(player.getPos()) instanceof RentalProperty){
+								RentalProperty prop = (RentalProperty) locations.get(player.getPos());
+								if(prop.isOwned()){
+
+									StringBuilder res = new StringBuilder();
+									res.append(player.useBoost()  +" and landed on "+ locations.get(player.getPos()).getId()+".");
+									res.append(landedOn(player, locations.get(player.getPos()), 1));
+									res.append(Main.gameState.villainGangCheck(player));
+									return res.toString();
+
+								}
+								Main.gameState.startAuction(prop, null, 1);
+								Main.clientUpdater.updateDesktopAuction();
+								return player.getCharName()+" didn't buy " + prop.getId() + " so it's goes to the highest bidder!";
+
+							}
 							StringBuilder res = new StringBuilder();
 							res.append(player.useBoost()  +" and landed on "+ locations.get(player.getPos()).getId()+".");
 							res.append(landedOn(player, locations.get(player.getPos()), 1));
 							res.append(Main.gameState.villainGangCheck(player));
 							return res.toString();
+
+
 						}
 						return "Your vehicle is out of fuel!";
 					}
@@ -304,7 +345,7 @@ public class PlayerActions {
 			p.setUnOwned();
 		}
 		Main.gameState.removePlayer(player);
-		
+
 		return player.getCharName() + " has declared bankruptcy and any property they own has been released. ";
 	}
 

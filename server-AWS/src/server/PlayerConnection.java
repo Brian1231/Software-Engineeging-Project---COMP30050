@@ -20,13 +20,15 @@ public class PlayerConnection extends Thread{
 	private Socket socket;
 	private int port;
 	private int playerID;
+	private String androidId;
 	private BufferedWriter out;
 	private boolean keepAlive;
 
-	public PlayerConnection(int id, int port){
+	public PlayerConnection(int id, int port, String androidId){
 		this.port = port;
 		this.playerID = id;
 		this.keepAlive = true;
+		this.androidId = androidId;
 		try {
 			server = new ServerSocket(this.port);
 		} catch (IOException e) {
@@ -60,8 +62,8 @@ public class PlayerConnection extends Thread{
 
 		System.out.println("Connected Player to Port " +  + this.port);
 
-		String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
-		Main.gameState.addPlayer(client_ip);
+		//String client_ip = socket.getRemoteSocketAddress().toString().replace("/","").split(":")[0];
+		Main.gameState.addPlayer(this.androidId);
 		Main.gameState.updateActionInfo("Player "+ this.playerID+" has joined the game as "+Main.gameState.getPlayerName(this.playerID)+".");
 		Main.clientUpdater.updateDesktopPlayers();
 	}
