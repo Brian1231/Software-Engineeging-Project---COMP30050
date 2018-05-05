@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package pw.jcollado.segamecontroller.model
 
 import android.content.Context
@@ -95,6 +97,7 @@ abstract class App : AppCompatActivity(), AsyncResponse {
                 v.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE))
             } else {
                 //deprecated in API 26
+
                 v.vibrate(300)
             }
         } else {
