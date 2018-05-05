@@ -1,4 +1,3 @@
-Root	Comparative
 able	abler
 absurd	absurder
 acute	acuter

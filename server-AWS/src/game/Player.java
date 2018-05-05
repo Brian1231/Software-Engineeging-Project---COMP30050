@@ -29,6 +29,7 @@ public class Player implements Playable, JSONable{
 	private boolean isInJail;
 	private boolean movingForward;
 
+
 	private Color rgbColour;
 	private Playable playerOwed;
 	private ArrayList<RentalProperty> ownedProperties = new ArrayList<>();

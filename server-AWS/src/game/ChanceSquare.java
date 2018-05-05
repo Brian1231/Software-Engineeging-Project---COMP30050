@@ -2,20 +2,23 @@ package game;
 
 import java.util.Random;
 
+import game_interfaces.Activatable;
 import main.Main;
 import noc_db.Character_noc;
 
-public class ChanceSquare extends NamedLocation{
+public class ChanceSquare extends NamedLocation implements Activatable{
 
 	
 	public ChanceSquare(String s){
 		super(s);
+		this.setType("chance");
 	}
 	
 	public String getChance(Character_noc ch, int type){
 		return new ChanceTemplate(ch).getTemplateType(type);
 	}
 	
+	@Override
 	public String activate(Player player){
 		Random random = new Random();
 		int chanceType = random.nextInt(4);

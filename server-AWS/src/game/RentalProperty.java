@@ -22,15 +22,13 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 	private boolean hasTrap;
 	private boolean isOwned;
 	private Player owner;
-	private String type;
 	private Color colour;
-	
 
 	public RentalProperty(String name, int price) {
 		super(name);
 		this.price = price;
 		this.hasTrap = false;
-		this.setType("Rental");
+		this.setType("rental");
 		this.colour = Color.RED;
 		this.trapPrice = this.price / 5;
 	}
@@ -64,16 +62,6 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 	@Override
 	public void setPrice(int price) {
 		this.price = price;
-	}
-
-	@Override
-	public String getType() {
-		return this.type;
-	}
-
-	@Override
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	@Override
@@ -173,6 +161,7 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 		info.put("color", this.colour.getRGB());
 		info.put("hasTrap", this.hasTrap);
 		info.put("is_mortgaged", this.isMortgaged());
+		info.put("type", this.getType());
 		return info;
 	}
 

@@ -1,4 +1,3 @@
-Root	Superlative
 able	ablest
 hilarious	most hilarious
 absolute	most absolute

@@ -8,8 +8,6 @@ public final class Constants {
         // private constructor so cant be instantiated as all variables are public static final
     }
 
-
-
     // Investment property price constants - 24 total - each row is a new colour group
     public static final int[] INVESTMENT_PRICES = {
         60,60,60,
