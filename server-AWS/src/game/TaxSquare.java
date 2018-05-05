@@ -2,6 +2,7 @@ package game;
 
 import java.util.Random;
 
+import game_interfaces.Activatable;
 import game_interfaces.JSONable;
 import game_interfaces.Playable;
 import game_interfaces.Taxable;
@@ -10,7 +11,7 @@ import noc_db.Character_noc;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TaxSquare extends NamedLocation implements Taxable, JSONable {
+public class TaxSquare extends NamedLocation implements Taxable, JSONable, Activatable {
 
 	private final Random random = new Random();
 	private String type;
@@ -20,6 +21,7 @@ public class TaxSquare extends NamedLocation implements Taxable, JSONable {
 		this.setType("Tax");
 	}
 
+	@Override
 	public String activate(Player player){
 		int type = random.nextInt(2);
 		String res = "\n"+this.getText(Main.noc.getOpponent(player.getCharacter()), type);
