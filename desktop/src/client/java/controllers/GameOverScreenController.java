@@ -40,16 +40,16 @@ public class GameOverScreenController {
                 Label pLabel = new Label();
                 pLabel.setText("Player " + p.getId() + ": " + p.getCharacter() + " lost");
                 pLabel.setTextFill(Color.rgb(232, 142, 39));
-                pLabel.setFont(Font.font("Verdana", 30));
+                pLabel.setFont(Font.font("Verdana", 20));
                 layout.getChildren().add(pLabel);
             }
 
             Label winnerLabel = new Label();
             Player winnerP = Game.getPlayer(winner);
 
-            winnerLabel.setText("Player " + winnerP.getCharacter() + ": " + winnerP.getCharacter() + "won!" +  " Money: " + winnerP.getBalance());
+            winnerLabel.setText("Player " + winnerP.getId() + ": " + winnerP.getCharacter() + "won!" +  " Money: " + winnerP.getBalance());
             winnerLabel.setTextFill(Color.rgb(232, 142, 39));
-            winnerLabel.setFont(Font.font("Verdana", 60));
+            winnerLabel.setFont(Font.font("Verdana", 20));
             layout.getChildren().add(winnerLabel);
         }
         else{
@@ -57,7 +57,7 @@ public class GameOverScreenController {
                 Label pLabel = new Label();
                 pLabel.setText("Player " + p.getId() + ": " + p.getCharacter() + " won!");
                 pLabel.setTextFill(Color.rgb(232, 142, 39));
-                pLabel.setFont(Font.font("Verdana", 30));
+                pLabel.setFont(Font.font("Verdana", 20));
                 layout.getChildren().add(pLabel);
             }
             if(!Game.bankruptPlayers.isEmpty()){
@@ -65,7 +65,7 @@ public class GameOverScreenController {
                     Label pLabel = new Label();
                     pLabel.setText("Player " + p.getId() + ": " + p.getCharacter() + " lost!");
                     pLabel.setTextFill(Color.rgb(232, 142, 39));
-                    pLabel.setFont(Font.font("Verdana", 30));
+                    pLabel.setFont(Font.font("Verdana", 20));
                     layout.getChildren().add(pLabel);
                 }
             }

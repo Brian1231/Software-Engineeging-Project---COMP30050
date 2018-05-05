@@ -27,6 +27,8 @@ import org.json.JSONObject;
 
 public class InformationPane extends Pane {
 
+    Image currency;
+
     // General
 	private ImageView logo = new ImageView();
     private Circle eventLogger = new Circle();
@@ -58,15 +60,22 @@ public class InformationPane extends Pane {
 
     // Auction
     private Circle auctionCircle = new Circle();
+    private Label auctionHeading = new Label("AUCTION STARTED");
     private Circle auctionProp = new Circle();
     private Label auctionName = new Label("");
-    private Label auctionHeading = new Label("AUCTION STARTED");
     private Label auctionPrice = new Label("");
     private Label highestBidder = new Label("");
+    private Label playerSelling = new Label("");
     private Label timer = new Label("10");
+    HBox current_Price = new HBox(3);
+
+
 
     // Initialisation
     public InformationPane() {
+        // Load Images
+        currency = new Image("/client/resources/images/Schmeckles.png");
+
         //Title
     	logo.fitWidthProperty().bind(this.widthProperty().divide(2.5));
     	logo.fitHeightProperty().bind(this.heightProperty().divide(5));
@@ -186,14 +195,22 @@ public class InformationPane extends Pane {
         auctionCircle.setFill(Color.WHITE);
         auctionCircle.setStroke(Color.GOLD);
         auctionCircle.radiusProperty().bind(tileInfo.radiusProperty().add(10));
+            // "Auction Started"
+        auctionHeading.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(auctionHeading.widthProperty().divide(2)));
+        auctionHeading.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(auctionCircle.radiusProperty().divide(1.5)));
+        auctionHeading.setFont(new Font("Verdana", 30));
+            // Player who is selling the property
+        playerSelling.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(playerSelling.widthProperty().divide(2)));
+        playerSelling.layoutYProperty().bind(auctionHeading.layoutYProperty().add(auctionHeading.heightProperty().add(20)));
+            // Auction Timer
+        timer.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(timer.widthProperty().divide(2)));
+        timer.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(auctionProp.radiusProperty().subtract(auctionProp.radiusProperty().divide(6))));
+        timer.setFont(new Font("Verdana", 60));
+        timer.setTextFill(Color.ORANGE);
             // Property Image
         auctionProp.layoutXProperty().bind(auctionCircle.layoutXProperty());
         auctionProp.layoutYProperty().bind(auctionCircle.layoutYProperty());
-        auctionProp.radiusProperty().bind(auctionCircle.radiusProperty().divide(5));
-            // "Auction Started"
-        auctionHeading.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(auctionHeading.widthProperty().divide(2)));
-        auctionHeading.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(auctionCircle.radiusProperty().divide(2)));
-        auctionHeading.setFont(new Font("Verdana", 50));
+        auctionProp.radiusProperty().bind(auctionCircle.radiusProperty().divide(4));
             // Property Name
         auctionName.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(auctionName.widthProperty().divide(2)));
         auctionName.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionProp.radiusProperty().add(auctionProp.radiusProperty().divide(4))));
@@ -201,14 +218,14 @@ public class InformationPane extends Pane {
         highestBidder.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(highestBidder.widthProperty().divide(2)));
         highestBidder.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionCircle.radiusProperty().subtract(auctionCircle.radiusProperty().divide(7))));
             // Current Auction Price
-        auctionPrice.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(auctionPrice.widthProperty().divide(2)));
-        auctionPrice.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionCircle.radiusProperty().divide(2)));
+        ImageView cur = new ImageView();
+        cur.setImage(currency);
+        cur.setFitWidth(30);
+        cur.setFitHeight(30);
+        current_Price.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(current_Price.widthProperty().divide(2)));
+        current_Price.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionCircle.radiusProperty().divide(2)));
+        current_Price.getChildren().addAll(cur, auctionPrice);
         auctionPrice.setFont(new Font("Verdana", 50));
-            // Auction Timer
-        timer.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(timer.widthProperty().divide(2)));
-        timer.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(auctionProp.radiusProperty().subtract(auctionProp.radiusProperty().divide(6))));
-        timer.setFont(new Font("Verdana", 60));
-        timer.setTextFill(Color.ORANGE);
     }
 
     // Updates information Feed
@@ -282,9 +299,10 @@ public class InformationPane extends Pane {
         // Current players location info
         getChildren().add(auctionCircle);
         getChildren().add(auctionHeading);
+        getChildren().add(playerSelling);
         getChildren().add(auctionName);
         getChildren().add(auctionProp);
-        getChildren().add(auctionPrice);
+        getChildren().add(current_Price);
         getChildren().add(highestBidder);
         getChildren().add(timer);
     }
@@ -292,12 +310,16 @@ public class InformationPane extends Pane {
     // Update Auction Display from server update
     public void updateAuctionInfo(Auction auction){
         ImagePattern locImg = new ImagePattern(auction.getLocation().getImage());
+        Player pSelling = Game.getPlayer(auction.getPlayerSelling());
+        if(pSelling != null){
+            playerSelling.setText(pSelling.getCharacter() + " is auctioning: ");
+        }
         auctionProp.setFill(locImg);
         auctionName.setText(auction.getLocation().getName());
         auctionPrice.setText(Integer.toString(auction.getCurrentPrice()));
         Player currentHighest = Game.getPlayer(auction.getHighestBidder());
         if(currentHighest != null){
-            highestBidder.setText(currentHighest.getCharacter());
+            highestBidder.setText("Highest Bidder: " + currentHighest.getCharacter());
         }
     }
 
@@ -310,11 +332,15 @@ public class InformationPane extends Pane {
     public void removeAuctionCircle(){
         getChildren().remove(auctionCircle);
         getChildren().remove(auctionHeading);
+        getChildren().remove(playerSelling);
         getChildren().remove(auctionName);
         getChildren().remove(auctionProp);
-        getChildren().remove(auctionPrice);
+        getChildren().remove(current_Price);
         getChildren().remove(highestBidder);
         getChildren().remove(timer);
+        playerSelling.setText("");
+        auctionPrice.setText("");
+        highestBidder.setText("");
     }
 
     // Adds a player's stats in 4 corners of window

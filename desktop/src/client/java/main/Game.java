@@ -108,7 +108,7 @@ public class Game {
     public static void initializeLocations(){
         for(int index = 0; index<39; index++){
             String initName = Integer.toString(index);
-            locations.add(new Location(initName, index, 0,0,0, Color.GOLD, true, 0));
+            locations.add(new Location(initName, index, 0,0,0, Color.GOLD, false, 0));
         }
     }
 
@@ -172,5 +172,13 @@ public class Game {
 
     public static void setAuctionTimer(int auctionTimer) {
         Game.auctionTimer = auctionTimer;
+    }
+
+    public static Boolean getGameStarted() {
+        return gameStarted;
+    }
+
+    public static void setGameStarted(Boolean gameStarted) {
+        Game.gameStarted = gameStarted;
     }
 }

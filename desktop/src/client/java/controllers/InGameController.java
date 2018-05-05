@@ -46,11 +46,14 @@ public class InGameController {
 	private BoardCanvas boardCanvas = new BoardCanvas();
 	private PlayerCanvas playerCanvas = new PlayerCanvas();
 	private InformationPane infoPane = new InformationPane();
+	private Pane loadingPane = new Pane();
+
+	Button startButton = new Button("START GAME");
 
 	private boolean imagesPlaced = false;
 
 	// Networking.
-	private final static String IP = "52.48.249.220";
+	private final static String IP = "192.168.0.147";
 	private final static int PORT = 8000;
 	private NetworkConnection connection = new NetworkConnection(IP,PORT, input -> {
 		try {
@@ -102,6 +105,8 @@ public class InGameController {
 
 	// Called whenever a message/JSON/update is received form the server.
 	private void onUpdateReceived(JSONObject update) throws JSONException {
+
+
 		// If desktop failed to connect to the server
 		if(update.has("f")){
 			onFalseConnection();
@@ -109,6 +114,35 @@ public class InGameController {
 		else{
 			Platform.runLater(() -> {
 				try {
+					if(update.has("game_started") && !Game.getGameStarted()){
+
+						boolean gstart = update.getBoolean("game_started");
+
+						if(gstart){
+							infoPane.removeLogo();
+							Game.gameStarted = true;
+							startButton.setText("End Game");
+							startButton.setOnAction(null);
+
+							startButton.setOnAction(e2 -> {
+								boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?", gameStage);
+								if (answer) {
+									try {
+										JSONObject output = new JSONObject();
+										output.put("id", 0);
+										output.put("action", "end");
+										connection.send(output);
+									} catch (JSONException e1) {
+										e1.printStackTrace();
+									} catch (Exception e1) {
+										e1.printStackTrace();
+									}
+									showGameOverScreen(0);
+								}
+							});
+						}
+					}
+
 					System.out.println("Current GameState: " + update.toString());
 
 					if(update.has("player_turn")){
@@ -288,8 +322,9 @@ public class InGameController {
 		Pane playerWrapper = new Pane();
 		playerWrapper.getChildren().add(playerCanvas);
 
+		// Loading Screen
+
 		// Start game button
-		Button startButton = new Button("START GAME");
 		startButton.layoutXProperty().bind(boardWrapper.widthProperty().divide(2).subtract(startButton.widthProperty().divide(2)));
 		startButton.layoutYProperty().bind(boardWrapper.heightProperty().subtract(80));
 		startButton.setOnAction(e -> {
@@ -298,26 +333,7 @@ public class InGameController {
 				output.put("id", 0);
 				output.put("action", "start");
 				connection.send(output);
-				infoPane.removeLogo();
-				Game.gameStarted = true;
-				startButton.setText("End Game");
-				startButton.setOnAction(null);
 
-				startButton.setOnAction(e2 -> {
-					boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?", gameStage);
-					if (answer) {
-						try {
-							output.put("id", 0);
-							output.put("action", "end");
-							connection.send(output);
-						} catch (JSONException e1) {
-							e1.printStackTrace();
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-						showGameOverScreen(0);
-					}
-				});
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -328,6 +344,7 @@ public class InGameController {
 		layers.getChildren().add(boardWrapper);
 		layers.getChildren().add(playerWrapper);
 		layers.getChildren().add(infoPane);
+		layers.getChildren().add(loadingPane);
 		rootPane.setCenter(layers);
 		boardCanvas.widthProperty().bind(rootPane.widthProperty());
 		boardCanvas.heightProperty().bind(rootPane.heightProperty());
