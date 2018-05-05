@@ -337,7 +337,8 @@ public class Player implements Playable, JSONable{
 		ownedProperties.add(property);
 		// pay money out
 		payMoney(price);
-		this.hasBought = true;
+		if(price == property.getPrice())
+			this.hasBought = true;
 	}
 
 	@Override

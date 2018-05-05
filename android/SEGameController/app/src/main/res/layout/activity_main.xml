@@ -31,7 +31,7 @@
         android:id="@+id/balanceTitle2"
         android:layout_width="wrap_content"
         android:layout_height="23dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="35dp"
         android:layout_marginTop="20dp"
         android:layout_weight="1"
         android:drawableLeft="@drawable/ic_location"
@@ -59,7 +59,7 @@
         android:id="@+id/balanceTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="35dp"
         android:layout_marginTop="12dp"
         android:layout_weight="1"
         android:drawableLeft="@drawable/ic_money"
@@ -76,8 +76,7 @@
         android:id="@+id/rollButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="35dp"
         android:layout_marginTop="15dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_dices"
@@ -87,7 +86,6 @@
         android:text="@string/roll_dices"
         android:textColor="@color/accent"
         android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/balanceTitle2" />
 
@@ -95,8 +93,7 @@
         android:id="@+id/payButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_pay"
@@ -106,7 +103,6 @@
         android:text="@string/pay"
         android:textColor="@color/accent"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/buyButton" />
 
@@ -114,8 +110,7 @@
         android:id="@+id/boostButton"
         android:layout_width="126dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="35dp"
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_boost"
@@ -125,8 +120,6 @@
         android:text="@string/boost"
         android:textColor="@color/accent"
         android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.617"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rollButton" />
 
@@ -134,8 +127,7 @@
         android:id="@+id/buyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="15dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_shopping_cart"
@@ -145,7 +137,6 @@
         android:text="@string/buy_property"
         android:textColor="@color/accent"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/positionTX" />
 

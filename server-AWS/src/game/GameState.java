@@ -128,15 +128,13 @@ public class GameState implements JSONable {
 		this.pendingActions.put(id, action);
 	}
 	
-	public void doPendingAction(){
+	public String doPendingAction(){
 		StringBuilder res = new StringBuilder();
 		for(Entry<Integer, String> action : this.pendingActions.entrySet()){
 			res.append(this.playerAction(action.getKey(), action.getValue(), null));
 		}
 		this.pendingActions.clear();
-		this.updateActionInfo(res.toString());
-		Main.clientUpdater.updateDesktopAll();
-		Main.portAllocator.updatePlayers();
+		return res.toString();
 	}
 
 	public String getActionInfo() {

@@ -50,12 +50,16 @@ class CardsAdapter(val items: List<Property>,val sellFunction: (Property) -> Uni
 
             if (item.hasTrap){trapTX.text = resources.getString(R.string.hasTrap)}
             else{trapTX.text = resources.getString(R.string.noTrap)}
-            if (item.houses > 4){
-                houses.text = "1 hotel"
+            if(item.houses == 1){
+                houses.text = "${item.houses} upgrade"
+
             }
             else{
-                 houses.text = "${item.houses} houses"
-             }
+                houses.text = "${item.houses} upgrades"
+
+            }
+
+
 
             if (!item.is_mortgaged) {
                 infoRL.alpha = 1F
