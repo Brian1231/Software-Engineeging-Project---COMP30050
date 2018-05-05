@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +68,9 @@ public class GameState implements JSONable {
 		//3 Tax squares
 		for (int i = 0; i < 3; i++) {
 			randomWorld = Main.noc.getRandomWorld();
-			properties.add(new TaxSquare(randomWorld.getWorld()));
+			TaxSquare tax = new TaxSquare(randomWorld.getWorld());
+			tax.setColour(Constants.SPECIAL_COLOURS[0]);
+			properties.add(tax);
 		}
 
 		//Stations
@@ -75,6 +78,7 @@ public class GameState implements JSONable {
 			randomWorld = Main.noc.getRandomWorld();
 			Station station = new Station(randomWorld.getWorld(), Constants.STATION_PRICES[i], Constants.STATION_RENTS[i]);
 			station.setMortgageAmount(Constants.STATION_MORTGAGE_VALUE[i]);
+			station.setColour(Constants.SPECIAL_COLOURS[1]);
 			properties.add(station);
 		}
 
@@ -83,12 +87,15 @@ public class GameState implements JSONable {
 			randomWorld = Main.noc.getRandomWorld();
 			Utility utility = new Utility(randomWorld.getWorld(), Constants.UTILITY_PRICES[i], Constants.UTILITY_RENTS[i]);
 			utility.setMortgageAmount(Constants.UTILITY_MORTGAGE_VALUE[i]);
+			utility.setColour(Constants.SPECIAL_COLOURS[2]);
 			properties.add(utility);
 		}
 
 		//Chance Squares
 		for (int i = 0; i < 3; i++) {
-			properties.add(new ChanceSquare("Interdimensional TV"));
+			ChanceSquare chance = new ChanceSquare("Interdimensional TV");
+			chance.setColour(Constants.SPECIAL_COLOURS[3]);
+			properties.add(chance);
 		}
 
 		//Shuffle Tiles
@@ -98,9 +105,15 @@ public class GameState implements JSONable {
 		}
 
 		//Other tiles
-		locations.add(0, new SpecialSquare("Go"));
-		locations.add(10, new SpecialSquare("Go to Intergalactic Prison"));
-		locations.add(29, new SpecialSquare("Intergalactic Prison"));
+		SpecialSquare go = new SpecialSquare("Go");
+		go.setColour(Constants.SPECIAL_COLOURS[4]);
+		locations.add(0, go);
+		SpecialSquare gotojail = new SpecialSquare("Go to Intergalactic Prison");
+		gotojail.setColour(Constants.SPECIAL_COLOURS[4]);
+		locations.add(10, gotojail);
+		SpecialSquare jail= new SpecialSquare("Intergalactic Prison");
+		jail.setColour(Constants.SPECIAL_COLOURS[4]);
+		locations.add(29,jail);
 
 		int colourCount = 0;
 		int colourIndex = 0;
@@ -141,6 +154,7 @@ public class GameState implements JSONable {
 	
 	//Execute any pending actions
 	public String doPendingAction(){
+		
 		StringBuilder res = new StringBuilder();
 		for(Entry<Integer, String> action : this.pendingActions.entrySet()){
 			res.append(this.playerAction(action.getKey(), action.getValue(), null));
@@ -149,7 +163,7 @@ public class GameState implements JSONable {
 		return res.toString();
 	}
 
-	//Get most recent newsfeed message
+	//Get most recent news feed message
 	public String getActionInfo() {
 		return this.actionInfo;
 	}
@@ -443,8 +457,8 @@ public class GameState implements JSONable {
 
 	public void endGame() {
 		System.out.println("GAME OVER");
-		Player winner = players.get(0);
-		for (Player p : players)  if (p.getNetWorth() > winner.getNetWorth()) winner = p;
+		Player winner = this.players.get(0);
+		for (Player p : this.players)  if (p.getNetWorth() > winner.getNetWorth()) winner = p;
 
 		this.updateActionInfo("Game Over");
 		Main.clientUpdater.updateDesktopPlayers();

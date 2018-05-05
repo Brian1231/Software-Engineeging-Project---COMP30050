@@ -82,13 +82,9 @@ public class PlayerActions {
 				if (property.getOwner().equals(player)) {
 					if (property instanceof RentalProperty) {
 						RentalProperty rental = (RentalProperty) property;
-						if (!rental.isMortgaged()) {
-							Main.gameState.startAuction(rental, player, price);
-							Main.clientUpdater.updateDesktopAuction();
-							return player.getCharName() + " is auctioning " + property.getId() + " for "
-									+ property.getPrice() + "!";
+						if (rental.isMortgaged()) {
+							return "You can't auction a mortgaged property.";
 						}
-						return "You can't auction a mortgaged property.";
 					}
 					Main.gameState.startAuction(property, player, price);
 					Main.clientUpdater.updateDesktopAuction();

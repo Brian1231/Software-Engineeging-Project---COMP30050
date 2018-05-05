@@ -106,6 +106,16 @@ public final class Constants {
         Color.WHITE, Color.ORANGE,
         Color.BLUE, Color.PINK
     };
+    
+    //Special colours
+    public static final Color[] SPECIAL_COLOURS = new Color[]{
+    	Color.RED, //Tax
+    	Color.BLACK, //Stations
+    	Color.MAGENTA, //Utilities
+    	Color.YELLOW, //Chance
+    	Color.LIGHT_GRAY //Special tiles	
+    };
+    
 
     public static final Color[] OTHER_TILE_COLOURS = new Color[] {
 
