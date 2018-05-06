@@ -24,6 +24,17 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+/*
+    This class represents the information layer of the game screen.
+    It Displays:
+                Player information.
+                Magnified Location information.
+                News feed.
+                Dice.
+                Auctions.
+                Game Logo.
+ */
+
 public class InformationPane extends Pane {
 
     private Image currency;
@@ -69,8 +80,6 @@ public class InformationPane extends Pane {
     private Label highestBidder = new Label("");
     private Label playerSelling = new Label("");
     private Label timer = new Label("10");
-    HBox current_Price = new HBox(3);
-
 
     // Initialisation
     public InformationPane() {

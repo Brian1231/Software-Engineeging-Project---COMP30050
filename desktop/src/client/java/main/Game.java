@@ -14,6 +14,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+     Holds up to date gameState information received by the server.
+     Methods and variables are static in order to provide access to all other desktop classes.
+ */
+
 public class Game {
 
     public static ArrayList<Location> locations = new ArrayList<>();

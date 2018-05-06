@@ -1,5 +1,9 @@
 package client.java.gameObjects;
 
+/*
+	Represents data for a Villain gang in the Game.
+ */
+
 public class VillainGang {
 
 	private int position;

@@ -12,6 +12,14 @@ import java.net.Inet4Address;
 import java.net.Socket;
 import java.util.function.Consumer;
 
+/*
+	Handles all network activity.
+	Connects to server.
+	Receives messages from server.
+	Sends messages to the server.
+
+	Contains an inner class which provides a thread in order to perform all network tasks on a separate thread to the ui thread.
+ */
 
 public class NetworkConnection {
 

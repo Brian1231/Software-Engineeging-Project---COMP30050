@@ -8,6 +8,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/*
+	This is where execution begins for the desktop application.
+	Main task of this class is to set up the welcome screen and link to it.
+ */
+
 public class Client extends Application {
 
 	@Override

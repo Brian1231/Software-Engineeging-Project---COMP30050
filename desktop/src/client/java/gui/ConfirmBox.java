@@ -12,6 +12,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/*
+    Box which appears to ask for user input.
+ */
+
 public class ConfirmBox{
 
     private static boolean answer;

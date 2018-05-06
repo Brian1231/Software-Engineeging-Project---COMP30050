@@ -9,8 +9,12 @@ import org.json.JSONException;
 
 import javafx.geometry.Point2D;
 
-// JavaFx canvas' are not resizeable by default
-// Override of Canvas class in order to facilitate Canvas resizing on window resize
+/*
+    JavaFx canvas' are not resizeable by default
+    Override of Canvas class in order to facilitate Canvas resizing on window resize
+
+    Also contains lemniscate method which calculates the infinity board shape.
+ */
 
 public class ResizableCanvas extends Canvas {
 

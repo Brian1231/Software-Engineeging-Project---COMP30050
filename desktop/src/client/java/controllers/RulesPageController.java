@@ -16,6 +16,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/*
+	This class handles all activity while in the Rules page of our game.
+	Links back to the welcome screen.
+ */
+
 public class RulesPageController {
 
 	@FXML

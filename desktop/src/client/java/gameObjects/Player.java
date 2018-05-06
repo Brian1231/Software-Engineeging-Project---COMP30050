@@ -16,6 +16,11 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 
+/*
+    Represents a players data.
+    Also contains Player display Items.
+ */
+
 public class Player implements Serializable {
     // Player data
     private String balance;
@@ -56,7 +61,7 @@ public class Player implements Serializable {
     }
 
     // Setups Player Information for corner of Screen
-    public void setupPlayerStats(){
+    private void setupPlayerStats(){
         try {
             playerNameLabel.textProperty().bind(new JavaBeanStringPropertyBuilder().bean(this).name("character").build().concat(" Player: " + id));
             playerBalanceLabel.textProperty().bind(new JavaBeanStringPropertyBuilder().bean(this).name("balance").build());

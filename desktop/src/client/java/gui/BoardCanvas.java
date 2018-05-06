@@ -25,6 +25,14 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import org.json.JSONException;
 
+/*
+	This class represents the Game board.
+	Displays:
+			Board Background.
+			Board Shape.
+			Board Locations.
+ */
+
 public class BoardCanvas extends ResizableCanvas {
 
 	private ArrayList<Text> titles = new ArrayList<>();

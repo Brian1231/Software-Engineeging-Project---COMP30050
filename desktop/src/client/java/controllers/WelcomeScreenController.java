@@ -15,6 +15,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/*
+    This Class Handles all activity while in the initial welcome screen of the game.
+    Links to the Game screen.
+    Links to the rule Page.
+ */
 
 public class WelcomeScreenController {
 

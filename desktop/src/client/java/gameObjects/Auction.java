@@ -2,13 +2,17 @@ package client.java.gameObjects;
 
 import client.java.main.Game;
 
+/*
+    Represents an in Game auction.
+ */
+
 public class Auction {
 
-    int playerSelling;
-    int highestBidder;
-    int currentPrice;
-    Location location;
-    int time;
+    private int playerSelling;
+    private int highestBidder;
+    private int currentPrice;
+    private Location location;
+    private int time;
 
     public Auction(int playerSelling, int highestBidder, int currentPrice, int position ) {
         this.playerSelling = playerSelling;

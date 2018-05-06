@@ -11,6 +11,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+/*
+    This class Handles all activity for the game over screen.
+ */
+
 public class GameOverScreenController {
 
     @FXML

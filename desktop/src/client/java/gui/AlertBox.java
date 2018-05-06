@@ -12,6 +12,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/*
+    Box which appears to inform players of an event.
+ */
+
 public class AlertBox {
 
     public static void display(String title, String message, Stage mainStage){

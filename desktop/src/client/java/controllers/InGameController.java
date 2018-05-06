@@ -36,6 +36,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+	This Class handles all activity while in the game screen.
+	Sets up the board and handles all updates from the server in order to display the gameState on the board
+ */
+
 public class InGameController {
 
 	private Stage gameStage;

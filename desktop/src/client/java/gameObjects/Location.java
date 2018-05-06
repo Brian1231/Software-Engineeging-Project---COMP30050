@@ -3,6 +3,11 @@ package client.java.gameObjects;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+/*
+    Represents a locations data.
+ */
+
+
 public class Location {
 
     // Data

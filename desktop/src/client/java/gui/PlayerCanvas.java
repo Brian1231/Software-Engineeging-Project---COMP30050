@@ -13,6 +13,14 @@ import javafx.util.Duration;
 
 import java.util.List;
 
+/*
+    This class represents the Player layer of the game screen.
+    It Displays:
+                Player Tokens.
+                Villain Tokens.
+
+    Also handles player animations.
+ */
 
 public class PlayerCanvas extends ResizableCanvas {
 
