@@ -6,6 +6,10 @@ import game_interfaces.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/*
+ * Super class for all tile objects in our game
+ * 
+ * */
 public class NamedLocation implements Identifiable, Locatable, JSONable, Typeable, Colourable {
 
 	private String identifier;

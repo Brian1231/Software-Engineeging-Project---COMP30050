@@ -42,6 +42,10 @@ public class Auction implements JSONable{
 		this.playerBuying = null;
 		this.auctionInProgress = false;
 	}
+	
+	/*
+	 * Settle the auction once it finishes
+	 * */
 	public String finish(){
 
 		String res = "";
@@ -64,10 +68,8 @@ public class Auction implements JSONable{
 			res = "No one bought " + prop.getId() + ". It remains unowned. ";
 		}
 
-		this.prop = null;
-		this.price = 0;
-		this.playerBuying = null;
-		this.auctionInProgress = false;
+		this.reset();
+		//Check for any pending actions and execute them
 		res += "\n" + Main.gameState.doPendingAction();
 		return res;
 	}
@@ -76,6 +78,10 @@ public class Auction implements JSONable{
 		return this.auctionInProgress;
 	}
 
+	/*
+	 * If a player makes a bid, update the current highest bidder
+	 * 
+	 * */
 	public boolean update(Player player, int price){
 		if(price>this.price){
 			this.playerBuying = player;
@@ -85,6 +91,9 @@ public class Auction implements JSONable{
 		return false;
 	}
 
+	/*
+	 * Get the auction information to send to the desktop
+	 * */
 	@Override
 	public JSONObject getInfo() throws JSONException {
 		JSONObject info = new JSONObject();

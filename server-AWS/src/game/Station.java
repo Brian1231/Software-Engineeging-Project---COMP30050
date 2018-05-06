@@ -7,6 +7,10 @@ import org.json.JSONObject;
 
 import game_interfaces.JSONable;
 
+/*
+ * Class for station tiles
+ * 
+ * */
 public class Station extends RentalProperty implements JSONable{
 
 	public Station(String name, int price, int[] rentAmounts) {
@@ -15,22 +19,23 @@ public class Station extends RentalProperty implements JSONable{
 		this.setType("station");
 	}
 
+	/*
+	 * Rent is based on number of stations owned. Maximum of 4
+	 * 
+	 * */
 	public int getRentalAmount() {
 		if(this.isOwned()){
 			ArrayList<RentalProperty> properties = this.getOwner().getOwnedProperties();
-
 			int numStationsOwned = 0;
 			for (RentalProperty p : properties) {
-				if (p.getOwner()  == this.getOwner()) {
+				if (p.getOwner()  == this.getOwner())
 					numStationsOwned++;
-				}
 			}
 			if(numStationsOwned > 0)
 				return this.getAllRentAmounts()[numStationsOwned-1];
 			else
 				return 0;
 		}
-
 		else
 			return 0;
 	}

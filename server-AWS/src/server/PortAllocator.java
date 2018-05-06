@@ -16,6 +16,11 @@ import org.json.JSONObject;
 
 import main.Main;
 
+/*
+ * This class runs on its own thread and is used to listen for connections from android apps and allocate them a port.
+ * 
+ * */
+
 public class PortAllocator extends Thread{
 
 	private ServerSocket server;
@@ -25,6 +30,7 @@ public class PortAllocator extends Thread{
 	private int playerCount=1;
 	private ArrayList<PlayerConnection> playerConnections;
 	private ArrayList<String> blockedAndroidIds = new ArrayList<String>();
+	//Map of current andoid ids to their player id
 	private HashMap<String, Integer> androidIdMap = new HashMap<String, Integer> ();
 
 	public PortAllocator(int portNum){
@@ -67,12 +73,15 @@ public class PortAllocator extends Thread{
 
 							if(messageReceived.getInt("id") == -1 && !this.blockedAndroidIds.contains(androidId) && androidId != null){
 
-								//If we have not seen this player;s id before, create a new connection
+								//If we have not seen this players id before, create a new connection
 								if(!androidIdMap.keySet().contains(androidId) && androidIdMap.size()<4 && !Main.gameState.isStarted()){
-									androidIdMap.put(androidId, this.playerCount);//Maybe not needed, Just array of ip's could do
+									//Store android ID
+									androidIdMap.put(androidId, this.playerCount);
 
+									//Create new player thread with port
 									playerConnections.add(new PlayerConnection(this.playerCount, this.playerPortCount, androidId));
 
+									//Tell android what port to connect to
 									BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 									JSONObject response = new JSONObject();
 									response.put("id", playerCount);
@@ -86,8 +95,10 @@ public class PortAllocator extends Thread{
 								//Attempt to reconnect player we've seen before
 								else if (androidIdMap.size()<4){
 
+									//Get id associated with android ID
 									int id = androidIdMap.get(androidId);
 									System.out.println("Reconnecting player " + id + " ...");
+									//Kill related thread
 									for(int i=0;i<this.playerConnections.size();i++){
 										PlayerConnection pc = this.playerConnections.get(i);
 										if(pc.getPlayerId() == id){
@@ -98,9 +109,11 @@ public class PortAllocator extends Thread{
 											this.playerConnections.remove(pc);
 										}
 									}
+									//Recreate connection on same port
 									int port = 8080+id;
 									playerConnections.add(new PlayerConnection(id, port, androidId));
 
+									//Tell android to connect to port
 									BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 									JSONObject response = new JSONObject();
 									response.put("id", id);
@@ -109,6 +122,7 @@ public class PortAllocator extends Thread{
 									out.flush();
 								}
 
+								//Initiate any new connections
 								for(PlayerConnection pc : playerConnections){
 									if(!pc.isAlive()){
 										pc.setup();
@@ -131,6 +145,7 @@ public class PortAllocator extends Thread{
 		}
 	}
 
+	//If a player goes bankrupt ensure they can't rejoin by blocking their android ID
 	public void removePlayer(int id) {
 		for(int i=0;i<this.playerConnections.size();i++){
 			PlayerConnection pc = this.playerConnections.get(i);

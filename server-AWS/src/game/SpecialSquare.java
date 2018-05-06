@@ -2,6 +2,11 @@ package game;
 
 import game_interfaces.Activatable;
 
+
+/*
+ * Class for Go, go to jail and jail tiles
+ * 
+ * */
 public class SpecialSquare extends NamedLocation implements Activatable{
 
 	public SpecialSquare(String name) {
@@ -17,7 +22,7 @@ public class SpecialSquare extends NamedLocation implements Activatable{
 		case 0:
 			res.append("\n"+player.getCharName() + " arrived at the galactic core.");
 			res.append("\nThe fuel for " + player.getPossessive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up.");
-			player.topUpFuel();
+			player.topUpFuel(); //Top up a players fuel if they land at the centre
 			return res.toString();
 			//Go to jail
 		case 10:
@@ -31,6 +36,4 @@ public class SpecialSquare extends NamedLocation implements Activatable{
 			return "";
 		}
 	}
-
-	
 }

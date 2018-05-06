@@ -4,15 +4,15 @@ import game_interfaces.JSONable;
 import game_interfaces.Mortgageable;
 import game_interfaces.Ownable;
 import game_interfaces.Trapable;
-import game_interfaces.Colourable;
 import game_interfaces.Rentable;
 import game_interfaces.Playable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.awt.Color;
-
-public class RentalProperty extends NamedLocation implements Ownable, Rentable, Mortgageable, JSONable, Trapable, Colourable {
+/*
+ * Super class for any ownable property type
+ * */
+public class RentalProperty extends NamedLocation implements Ownable, Rentable, Mortgageable, JSONable, Trapable{
 
 	private int price;
 	private int mortgageAmount;
@@ -22,7 +22,6 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 	private boolean hasTrap;
 	private boolean isOwned;
 	private Player owner;
-	private Color colour;
 
 	public RentalProperty(String name, int price) {
 		super(name);
@@ -30,7 +29,6 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 		this.trapPrice = this.price / 5;
 		this.hasTrap = false;
 		this.setType("rental");
-		this.colour = Color.RED;
 	}
 
 	@Override
@@ -44,9 +42,14 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 		this.owner = (Player) player;
 	}
 
+	//Release property and demolish all houses
 	public void setUnOwned() {
 		this.owner = null;
 		this.isOwned = false;
+		if(this instanceof InvestmentProperty){
+			InvestmentProperty prop = (InvestmentProperty) this;
+			prop.demolish(prop.getNumHouses());
+		}
 	}
 
 	@Override

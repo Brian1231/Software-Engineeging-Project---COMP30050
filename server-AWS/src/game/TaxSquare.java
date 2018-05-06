@@ -8,6 +8,12 @@ import game_interfaces.Taxable;
 import main.Main;
 import noc_db.Character_noc;
 
+/*
+ * This class represents the Tax tiles in our game.
+ * These tiles are represented by a fictional world from te NOC list
+ * 
+ * */
+
 public class TaxSquare extends NamedLocation implements Taxable, Activatable {
 
 	private final Random random = new Random();

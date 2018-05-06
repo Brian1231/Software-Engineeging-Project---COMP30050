@@ -5,10 +5,14 @@ import java.util.Random;
 
 import main.Main;
 
+/*
+ * Class used to hold methods to process player commands
+ * 
+ * */
 public class PlayerActions {
 
 	Random random = new Random();
-
+	
 	public String roll(Player player, int id, ArrayList<NamedLocation> locations) {
 		if(!player.hasRolled()) {
 			Main.dice.roll();
@@ -19,19 +23,22 @@ public class PlayerActions {
 				if (locations.get(player.getPos()) instanceof RentalProperty) {
 					RentalProperty prop = (RentalProperty) locations.get(player.getPos());
 					if (!prop.isOwned()) {
-						Main.gameState.addPendingAction(player.getID(), "roll");
-						Main.gameState.startAuction(prop, null, 1);
+						//Rolling away from unowned property
+						Main.gameState.addPendingAction(player.getID(), "roll"); //Save roll action to be executed after auction
+						Main.gameState.startAuction(prop, null, 1); //Initiate auction
 						Main.clientUpdater.updateDesktopAuction();
 						return player.getCharName() + " didn't buy " + prop.getId()
 						+ " so it's goes to the highest bidder!";
 					}
 
 				}
+				//Roll to move player around board
 				int spaces = Main.dice.getRollResult();
 				res.append(
 						player.moveForward(spaces) + " and arrived at " + locations.get(player.getPos()).getId() + ".");
 				res.append(landedOn(player, locations.get(player.getPos()), spaces));
 				res.append(Main.gameState.villainGangCheck(player));
+				//Check for doubles. If so roll again
 				if (dice_values[0] == dice_values[1])
 					res.append(player.getCharName() + " rolled doubles! Roll again!");
 				else
@@ -39,6 +46,7 @@ public class PlayerActions {
 				return res.toString();
 			}
 
+			//Roll to escape prison
 			res.append(player.getCharName() + " attempts to escape prison...\n");
 			if (dice_values[0] == dice_values[1]) {
 				res.append(player.getCharName() + " has successfully escaped prison!");
@@ -47,6 +55,7 @@ public class PlayerActions {
 			}
 			player.useRoll();
 			res.append(player.getCharName() + "'s escape plan fails miserably.");
+			//Check how long the player has spent in jail
 			if (player.incrementJailTurns()) {
 				res.append(player.getCharName() + " has spent their time in prison and will be released next turn.");
 			}
@@ -75,6 +84,7 @@ public class PlayerActions {
 		return "You can't buy that.";
 	}
 
+	//Put a property up for auction
 	public String sell(Player player, NamedLocation loc, int price) {
 		if (loc instanceof RentalProperty) {
 			RentalProperty property = (RentalProperty) loc;
@@ -143,10 +153,10 @@ public class PlayerActions {
 					if (!player.hasBoosted()) {
 						if (!player.isInDebt()) {
 							if (player.getFuel() > 0) {
-
 								if (locations.get(player.getPos()) instanceof RentalProperty) {
 									RentalProperty prop = (RentalProperty) locations.get(player.getPos());
 									if (!prop.isOwned()) {
+										//Boosting away from an unowned property. Start an auction first
 										Main.gameState.addPendingAction(player.getID(), "boost");
 										Main.gameState.startAuction(prop, null, 1);
 										Main.clientUpdater.updateDesktopAuction();
@@ -232,6 +242,7 @@ public class PlayerActions {
 				if (location instanceof RentalProperty) {
 					RentalProperty prop = (RentalProperty) location;
 					if (!prop.isOwned()) {
+						//Ending turn on an unowned property. Auction it off first
 						Main.gameState.addPendingAction(player.getID(), "done");
 						Main.gameState.startAuction(prop, null, 1);
 						Main.clientUpdater.updateDesktopAuction();
@@ -249,6 +260,7 @@ public class PlayerActions {
 		return "You must pay your debt of " + player.getDebt() + " SMH before ending your turn.";
 	}
 
+	//Checks for player landing on a new tile
 	private String landedOn(Player player, NamedLocation location, int spaces) {
 		if (location instanceof RentalProperty) {
 			RentalProperty property = (RentalProperty) location;
@@ -289,7 +301,6 @@ public class PlayerActions {
 				}
 				return "\nYou own " + property.getId() + ".";
 			}
-
 			return "\n" + property.getId() + " is unowned. It can be purchased for " + property.getPrice() + " SHM.";
 		} else if (location instanceof TaxSquare) {
 			TaxSquare tax = (TaxSquare) location;
@@ -330,7 +341,6 @@ public class PlayerActions {
 			p.setUnOwned();
 		}
 		Main.gameState.removePlayer(player);
-
 		return player.getCharName() + " has declared bankruptcy and any property they own has been released.";
 	}
 

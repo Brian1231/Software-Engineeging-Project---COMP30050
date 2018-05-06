@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -126,7 +125,7 @@ public class GameState implements JSONable {
 			if (namedLocation instanceof InvestmentProperty) {
 				InvestmentProperty prop = (InvestmentProperty) namedLocation;
 
-				// setting Investment properties variables
+				// setting Investment properties constants
 				prop.setPrice(Constants.INVESTMENT_PRICES[investmentPropCount]);
 				prop.setRentAmounts(Constants.INVESTMENT_RENTS[investmentPropCount]);
 				prop.setHousePrice(Constants.HOUSE_PRICES[investmentPropCount]);
@@ -168,6 +167,7 @@ public class GameState implements JSONable {
 		return this.actionInfo;
 	}
 
+	//Update the most recent game feed string
 	public void updateActionInfo(String s) {
 		this.actionInfo = s;
 	}
@@ -394,6 +394,9 @@ public class GameState implements JSONable {
 
 	}
 
+	/*
+	 * Get JSON info of all players
+	 * */
 	public JSONObject getInfoPlayers() throws JSONException {
 		JSONObject info = new JSONObject();
 
@@ -439,13 +442,8 @@ public class GameState implements JSONable {
 		return info;
 	}
 
-	public JSONObject getAuctionInfo(){
-		try {
+	public JSONObject getAuctionInfo() throws JSONException{
 			return this.auction.getInfo();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	public String getPlayerName(int id) {
@@ -455,6 +453,9 @@ public class GameState implements JSONable {
 		return "Someone";
 	}
 
+	/*
+	 * When game ends, calculate winner and kill all threads
+	 * */
 	public void endGame() {
 		System.out.println("GAME OVER");
 		Player winner = this.players.get(0);

@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.sun.org.apache.bcel.internal.util.ClassLoader;
-
+/*
+ * This class is used to contain all information regarding the noc list.
+ * The noc list is loaded into objects held in array lists in this class.
+ * These objects may be retrieved using relevant methods here.
+ * */
 public class NOC_Manager {
 
 	public static NOC_Manager nocManager;
