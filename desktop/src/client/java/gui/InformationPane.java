@@ -231,6 +231,13 @@ public class InformationPane extends Pane {
 		messages.add(newText);
 		if(messages.size()>4) messages.remove(0);
 		
+		int totalMessageLength = 0;
+		for(Text tex : messages) totalMessageLength += tex.getText().length();
+		if(totalMessageLength>300) messages.remove(0);
+		totalMessageLength = 0;
+		for(Text tex : messages) totalMessageLength += tex.getText().length();
+		if(totalMessageLength>300) messages.remove(0);
+		
 		newsfeed.getChildren().clear();
 		for(int i=0;i<messages.size();i++){
 			Text m = messages.get(i);
