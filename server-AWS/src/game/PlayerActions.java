@@ -23,7 +23,7 @@ public class PlayerActions {
 						Main.gameState.startAuction(prop, null, 1);
 						Main.clientUpdater.updateDesktopAuction();
 						return player.getCharName() + " didn't buy " + prop.getId()
-								+ " so it's goes to the highest bidder!";
+						+ " so it's goes to the highest bidder!";
 					}
 
 				}
@@ -89,7 +89,7 @@ public class PlayerActions {
 					Main.gameState.startAuction(property, player, price);
 					Main.clientUpdater.updateDesktopAuction();
 					return player.getCharName() + " is auctioning " + property.getId() + " for " + property.getPrice()
-							+ " SHM!";
+					+ " SHM!";
 				}
 				return "You don't own that property.";
 			}
@@ -106,7 +106,7 @@ public class PlayerActions {
 					if (!property.isMortgaged()) {
 						property.mortgage(player);
 						return player.getCharName() + " mortgaged " + property.getId() + " and received "
-								+ property.getMortgageAmount() + " SHM.";
+						+ property.getMortgageAmount() + " SHM.";
 					}
 					return property.getId() + " is already mortgaged! ";
 				}
@@ -125,7 +125,7 @@ public class PlayerActions {
 					if (property.isMortgaged()) {
 						property.redeem(player);
 						return player.getCharName() + " redeemed " + property.getId() + " for "
-								+ property.getRedeemAmount() + " SHM.";
+						+ property.getRedeemAmount() + " SHM.";
 					}
 					return property.getId() + " isn't mortgaged! ";
 				}
@@ -137,38 +137,41 @@ public class PlayerActions {
 	}
 
 	public String boost(Player player, ArrayList<NamedLocation> locations) {
-		if (player.hasRolled()) {
-			if (!player.hasBought()) {
-				if (!player.hasBoosted()) {
-					if (!player.isInDebt()) {
-						if (player.getFuel() > 0) {
+		if(!player.isInJail()){
+			if (player.hasRolled()) {
+				if (!player.hasBought()) {
+					if (!player.hasBoosted()) {
+						if (!player.isInDebt()) {
+							if (player.getFuel() > 0) {
 
-							if (locations.get(player.getPos()) instanceof RentalProperty) {
-								RentalProperty prop = (RentalProperty) locations.get(player.getPos());
-								if (!prop.isOwned()) {
-									Main.gameState.addPendingAction(player.getID(), "boost");
-									Main.gameState.startAuction(prop, null, 1);
-									Main.clientUpdater.updateDesktopAuction();
-									return player.getCharName() + " didn't buy " + prop.getId()
-											+ " so it's goes to the highest bidder!";
+								if (locations.get(player.getPos()) instanceof RentalProperty) {
+									RentalProperty prop = (RentalProperty) locations.get(player.getPos());
+									if (!prop.isOwned()) {
+										Main.gameState.addPendingAction(player.getID(), "boost");
+										Main.gameState.startAuction(prop, null, 1);
+										Main.clientUpdater.updateDesktopAuction();
+										return player.getCharName() + " didn't buy " + prop.getId()
+										+ " so it's goes to the highest bidder!";
+									}
 								}
+								StringBuilder res = new StringBuilder();
+								res.append(player.useBoost() + " and landed on " + locations.get(player.getPos()).getId()
+										+ ".");
+								res.append(landedOn(player, locations.get(player.getPos()), 1));
+								res.append(Main.gameState.villainGangCheck(player));
+								return res.toString();
 							}
-							StringBuilder res = new StringBuilder();
-							res.append(player.useBoost() + " and landed on " + locations.get(player.getPos()).getId()
-									+ ".");
-							res.append(landedOn(player, locations.get(player.getPos()), 1));
-							res.append(Main.gameState.villainGangCheck(player));
-							return res.toString();
+							return "Your vehicle is out of fuel!";
 						}
-						return "Your vehicle is out of fuel!";
+						return "You can't run away from your debt of " + player.getDebt() + " SHM!";
 					}
-					return "You can't run away from your debt of " + player.getDebt() + " SHM!";
+					return "You've already used your vehicle this turn!";
 				}
-				return "You've already used your vehicle this turn!";
+				return "You can't use your vehicle after buying a property!";
 			}
-			return "You can't use your vehicle after buying a property!";
+			return "You must roll before using your vehicle.";
 		}
-		return "You must roll before using your vehicle.";
+		return "You can't boost your way out of jail!";
 	}
 
 	public String build(Player player, NamedLocation loc, int numToBuild, int id) {
@@ -233,7 +236,7 @@ public class PlayerActions {
 						Main.gameState.startAuction(prop, null, 1);
 						Main.clientUpdater.updateDesktopAuction();
 						return player.getCharName() + " didn't buy " + prop.getId()
-								+ " so it's goes to the highest bidder!";
+						+ " so it's goes to the highest bidder!";
 					}
 				}
 				player.reset();
