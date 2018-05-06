@@ -91,33 +91,52 @@ public final class Constants {
     };
 
 
+
+    // ALL COLOURS USED WITH RGB VALUES FOR EASE OF CHANGING FOR CLARITY
+
+    public static final Color MAGENTA = new Color(255, 0, 255);
+    public static final Color GREEN = new Color(0, 255, 0);
+    public static final Color BLACK = new Color(0, 0, 0);
+    public static final Color RED = new Color(255, 0, 0);
+    public static final Color WHITE = new Color(255, 255, 255);
+    public static final Color ORANGE = new Color(255, 200, 0);
+    public final static Color CYAN = new Color(0, 255, 255);
+    public final static Color BLUE = new Color(0, 0, 255);
+    public final static Color LIGHT_GRAY = new Color(192, 192, 192);
+    public final static Color YELLOW = new Color(255, 255, 0);
+    public final static Color PINK = new Color(255, 175, 175);
+    public final static Color GRAY = new Color(128, 128, 128);
+    public final static Color DARK_GRAY = new Color(64, 64, 64);
+
+
+
     // Player colours
     public static final Color[] playerColours = {
-        new Color(66,229,244),
-        new Color(26,224,59),
-        new Color(242, 50, 226),
-        new Color(255, 244, 43)
+        CYAN, // Player 1
+        GREEN, // Player 2
+        MAGENTA, // Player 3
+        YELLOW // Player 4
     };
+
 
     // Investment property colour groups
     public static final Color[] INVESTMENT_COLOUR_GROUPS = new Color[]{
-        Color.CYAN, Color.GREEN,
-        Color.MAGENTA, Color.YELLOW,
-        Color.WHITE, Color.ORANGE,
-        Color.BLUE, Color.PINK
+        CYAN,
+        GREEN,
+        MAGENTA,
+        YELLOW,
+        WHITE,
+        ORANGE,
+        BLUE,
+        PINK
     };
     
     //Special colours
-    public static final Color[] SPECIAL_COLOURS = new Color[]{
-    	Color.RED, //Tax
-    	Color.BLACK, //Stations
-    	Color.MAGENTA, //Utilities
-    	Color.YELLOW, //Chance
-    	Color.LIGHT_GRAY //Special tiles	
-    };
-    
-
-    public static final Color[] OTHER_TILE_COLOURS = new Color[] {
-
+    public static final Color[] SPECIAL_COLOURS = {
+    	RED, //Tax
+        BLACK, //Stations
+    	MAGENTA, //Utilities
+    	YELLOW, //Chance
+    	LIGHT_GRAY //Special tiles
     };
 }
