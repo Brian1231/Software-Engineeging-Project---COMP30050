@@ -71,12 +71,12 @@ public class Game {
             // Only animates movement when action contains "spaces".
             if(oldData.getPosition() != player.getPosition()){
                 if(action.contains("spaces")){
-//                    if(oldData.isMovingForward()){
+                    if(oldData.isMovingForward()){
                            pCanvas.animatePlayer(oldData,player.getPosition());
-//                    }
-//                    else{
-//                        pCanvas.animatePlayerBackwards(oldData,player.getPosition());
-//                    }
+                    }
+                    else{
+                        pCanvas.animatePlayerBackwards(oldData,player.getPosition());
+                    }
                     observablePlayers.get(index).setPosition(player.getPosition());
                 }else{
                     observablePlayers.get(index).setPosition(player.getPosition());

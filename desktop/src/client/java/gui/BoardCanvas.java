@@ -395,7 +395,7 @@ public class BoardCanvas extends ResizableCanvas {
 
 		try {
 			URL url = new URL(sb.toString());
-			//System.out.println("url: " + url);
+			System.out.println("url: " + url);
 
 			try{
 				return new Image( url.toString() );

@@ -417,8 +417,6 @@ public class InGameController {
 		);
 	}
 
-
-
 	// Called on game exit
 	void closeGame() {
 		JSONObject output = new JSONObject();

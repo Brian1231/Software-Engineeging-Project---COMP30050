@@ -207,17 +207,23 @@ public class PlayerCanvas extends ResizableCanvas {
 
 	// buggy at the moment
 	public void animatePlayerBackwards(Player p, int newPos){
+		int duration = 4;
+
 		Polyline path = new Polyline();
 		int oldPosition = p.getPosition();
 
 		// if inside left loop
-		//if(oldPosition > 19 && oldPosition < 39)oldPosition++;
-		//if(newPos>19&&newPos<39)newPos++;
+		if(oldPosition > 19 && oldPosition < 39)oldPosition++;
+		if(newPos>19&&newPos<39)newPos++;
+//
+//		// if landing on Go coming from left loop
+//		if(newPos == 0 && oldPosition > 20)newPos = 20;
 
-		// if landing on Go coming from left loop
-		//if(newPos == 0 && oldPosition > 0 && oldPosition > 20)newPos = 20;
+		// if entering left loop from go
+		if(oldPosition == 0 ){
+			oldPosition = 40;
+		}
 
-		// Backwards
 		// If passing go from left loop to right loop
 		if(newPos > oldPosition){
 			for(int i = oldPosition; i > 0; i--){
