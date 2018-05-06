@@ -14,6 +14,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.*;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -366,14 +368,15 @@ public class BoardCanvas extends ResizableCanvas {
 		typeLabel.setLayoutY(pointY);
 	}
 
+	// Depreciated
 	private Image getImage(Location location){
 
 		if(location.getPosition() == 0){
-			return new Image("/client/resources/images/worlds/Galactic Core.gif");
+			return new Image("/client/resources/images/Galactic Core.gif");
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("/client/resources/images/worlds/");
-		sb.append(location.getName().trim().replace(":", ""));
+		sb.append(location.getName());
 		sb.append(".jpg");
 
 		try{
@@ -385,24 +388,33 @@ public class BoardCanvas extends ResizableCanvas {
 
 	public Image getUrlImage(Location location){
 		if(location.getPosition() == 0){
-			return new Image("/client/resources/images/worlds/Galactic Core.gif");
+			return new Image("/client/resources/images/Galactic Core.gif");
 		}
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("http://52.48.249.220/worlds/");
-		sb.append(location.getName());
+		sb.append(location.getName().replace(" ","%20"));
 		sb.append(".jpg");
 
-		try{
-			return new Image( sb.toString() );
-		}catch(Exception e){
-			return null;
+		try {
+			URL url = new URL(sb.toString());
+			//System.out.println("url: " + url);
+
+			try{
+				return new Image( url.toString() );
+			}catch(Exception e){
+				return null;
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public void getImages(){
 		for(Location loc : Game.locations){
-			loc.setImage(getImage(loc));
+			Image urlImg = getUrlImage(loc);
+			loc.setImage(urlImg);
 		}
 	}
 
@@ -410,7 +422,7 @@ public class BoardCanvas extends ResizableCanvas {
 	public void addCenterTile(){
 		Pane parent = (Pane) this.getParent();
 
-		Image centerImage = new Image("client/resources/images/worlds/Galactic Core.gif");
+		Image centerImage = new Image("client/resources/images/Galactic Core.gif");
 		ImagePattern cImage = new ImagePattern(centerImage);
 
 		Circle centerCircle = new Circle();
