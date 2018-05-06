@@ -25,8 +25,8 @@ public class Station extends RentalProperty implements JSONable{
 					numStationsOwned++;
 				}
 			}
-			if(numStationsOwned >= 0)
-				return this.getAllRentAmounts()[numStationsOwned];
+			if(numStationsOwned > 0)
+				return this.getAllRentAmounts()[numStationsOwned-1];
 			else
 				return 0;
 		}

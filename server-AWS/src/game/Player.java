@@ -53,7 +53,7 @@ public class Player implements Playable, JSONable{
 		this.fuel = 1;
 		this.character = ch;
 		this.vehicle = vehicle;
-		this.movingForward = true;
+		this.movingForward = false;
 		this.rgbColour = color;
 	}
 
