@@ -292,7 +292,6 @@ public class BoardCanvas extends ResizableCanvas {
 		g.setStroke(null);
 		g.setLineWidth(1);
 
-
 		if(!location.getName().equals("Go")){
 			double titleRadius = width / 36;
 			addTileTitle(location.getName(), titleRadius, point);
@@ -384,22 +383,22 @@ public class BoardCanvas extends ResizableCanvas {
 		}
 	}
 
-//	public void getUrlImage(Location location){
-//		if(location.getPosition() == 0){
-//			return new Image("/client/resources/images/worlds/Galactic Core.gif");
-//		}
-//
-//		StringBuilder sb = new StringBuilder();
-//		sb.append("/client/resources/images/worlds/");
-//		sb.append(location.getName().trim().replace(":", ""));
-//		sb.append(".jpg");
-//
-//		try{
-//			return new Image( sb.toString() );
-//		}catch(Exception e){
-//			return null;
-//		}
-//	}
+	public Image getUrlImage(Location location){
+		if(location.getPosition() == 0){
+			return new Image("/client/resources/images/worlds/Galactic Core.gif");
+		}
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("http://52.48.249.220/worlds/");
+		sb.append(location.getName());
+		sb.append(".jpg");
+
+		try{
+			return new Image( sb.toString() );
+		}catch(Exception e){
+			return null;
+		}
+	}
 
 	public void getImages(){
 		for(Location loc : Game.locations){

@@ -20,8 +20,12 @@
     -fx-text-fill: #b8d86e;
 }
 
-.Label{
+.label{
     -fx-font-family: "Verdana";
+}
+
+#infolabel{
+    -fx-font-size: 17px;
 }
 
 .button{

@@ -7,6 +7,7 @@ import client.java.gameObjects.Auction;
 import client.java.main.Game;
 import client.java.gameObjects.Location;
 import client.java.gameObjects.Player;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -44,8 +45,8 @@ public class InformationPane extends Pane {
     private Label tileOwner = new Label("");
     private Label tileRent = new Label("");
     private ImageView tileImage = new ImageView();
-    private Label mortgaged = new Label("MORTGAGED");
-    private Rectangle mortRect = new Rectangle();
+    private VBox infoLayout = new VBox(10);
+    private Label mortgaged = new Label("");
 
     // Dice
     private Rectangle diceLeft = new Rectangle();
@@ -101,7 +102,6 @@ public class InformationPane extends Pane {
 
 		Text welcome = new Text("Welcome to Interdimensional Panopoly!\n");
 		welcome.setFont(new Font("Verdana", 18));
-		
 		welcome.setStyle("-fx-fill: rgb(254, 254, 254);");
 		messages.add(welcome);
 		newsfeed.getChildren().add(messages.get(0));
@@ -126,31 +126,24 @@ public class InformationPane extends Pane {
         infoBackground.setFill(Color.rgb(255,255,255,0.2));
         getChildren().add(infoBackground);
 
-        // Tile Type
-        tileType.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileType.widthProperty().divide(2)));
-        tileType.layoutYProperty().bind(tileInfo.layoutYProperty());
-        tileType.setTextFill(Color.BLACK);
-        getChildren().add(tileType);
-		// Tile name
-		tileName.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileName.widthProperty().divide(2)));
-		tileName.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2)));
-		tileName.setTextFill(Color.BLACK);
-		getChildren().add(tileName);
-		// Tile Cost
-		tileCost.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileCost.widthProperty().divide(2)));
-		tileCost.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2.2)));
-		tileCost.setTextFill(Color.BLACK);
-		getChildren().add(tileCost);
-        // Rent
-        tileRent.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileRent.widthProperty().divide(2)));
-        tileRent.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2.4)));
-        tileRent.setTextFill(Color.BLACK);
-        getChildren().add(tileRent);
-        // Owner
-        tileOwner.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileOwner.widthProperty().divide(2)));
-        tileOwner.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(2.6)));
-        tileOwner.setTextFill(Color.BLACK);
-        getChildren().add(tileOwner);
+        // Tile Text Info
+        tileType.setId("infolabel");
+        tileName.setId("infolabel");
+        tileCost.setId("infolabel");
+        tileRent.setId("infolabel");
+        tileOwner.setId("infolabel");
+
+        // Mortgaged
+        mortgaged.setFont(Font.font("Verdana",50));
+        mortgaged.setTextFill(Color.RED);
+
+        // Tile labels layout
+        infoLayout.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(infoLayout.widthProperty().divide(2)));
+        infoLayout.layoutYProperty().bind(tileInfo.layoutYProperty());
+        infoLayout.getChildren().addAll(tileType, tileName, tileCost, tileRent, tileOwner, mortgaged);
+        infoLayout.setAlignment(Pos.CENTER);
+        getChildren().add(infoLayout);
+
 		// Tile Image
         tileImage.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileImage.fitWidthProperty().divide(2)));
         tileImage.layoutYProperty().bind(tileInfo.layoutYProperty().subtract(tileImage.fitHeightProperty().divide(2)));
@@ -167,12 +160,6 @@ public class InformationPane extends Pane {
         top.setMaxHeight(200);
         getChildren().add(playerInfoLayout);
 
-        // Mortgaged banner.
-//        mortgaged.setFont(Font.font("Verdana",50));
-//        mortgaged.setTextFill(Color.RED);
-//        mortgaged.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(mortgaged.widthProperty().divide(2)));
-//        mortgaged.layoutYProperty().bind(tileInfo.layoutYProperty().add(tileInfo.radiusProperty().divide(3)));
-//        mortgaged.setRotate(-45);
 
         // Dice
         loadDiceImages();
@@ -258,7 +245,6 @@ public class InformationPane extends Pane {
 				m.setOpacity(((double)i/(double)messages.size()+0.2));
 			newsfeed.getChildren().add(m);
 		}
-		//newsfeed.appendText(s + "\n");
 	}
 
 	// Removes "Interdimensional Panopoly" Logo from Tile Info Circle
@@ -271,46 +257,48 @@ public class InformationPane extends Pane {
         tileName.setText(loc.getName());
         tileInfo.setStroke(loc.getColour());
 
-        if(loc.getOwnerID()==0)
-            tileOwner.setText("");
+        if(loc.getOwnerID()==0){
+            if(loc.getType().equals("investment") || loc.getType().equals("utility") || loc.getType().equals("station")){
+                tileOwner.setText("Owner: Intergalactic Banking Assoc");
+            }
+            else{
+                tileOwner.setText("");
+            }
+        }
         else
             tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
         if(loc.getRent()>0)
-            tileRent.setText("Rent: " + loc.getRent());
+            tileRent.setText("Rent: " + loc.getRent() + " Shm");
         else
             tileRent.setText("");
         if(loc.getPrice()>0)
-            tileCost.setText("Price: $" + Integer.toString(loc.getPrice()));
+            tileCost.setText("Price: " + Integer.toString(loc.getPrice()) + " Shm");
         else
             tileCost.setText("");
         tileInfo.setFill(new ImagePattern(loc.getImage()));
+        if(loc.isMortgaged()){
+            mortgaged.setText("MORTGAGED");
+        }
+        else{
+            mortgaged.setText("");
+        }
 
         Color original = loc.getColour();
         Color faded = Color.color(original.getRed(),original.getGreen(),original.getBlue(), 0.6);
         infoBackground.setFill(faded);
 
         if(loc.getType().equals("investment")){
-            tileType.setText("investment");
+            tileType.setText("Investment Property");
         }
         else if(loc.getType().equals("tax")){
-            tileType.setText("tax");
+            tileType.setText("Tax");
         }
         else if(loc.getType().equals("utility")){
-            tileType.setText("utility");
+            tileType.setText("Utility");
         }
         else if(loc.getType().equals("station")){
-            tileType.setText("station");
+            tileType.setText("Station");
         }
-
-        /*
-        if(!getChildren().contains(mortgaged) && loc.isMortgaged()){
-            getChildren().add(mortgaged);
-        }
-
-        if(getChildren().contains(mortgaged) && !loc.isMortgaged()){
-            getChildren().remove(mortgaged);
-        }
-        */
 	}
 
 	// Add Auction Display

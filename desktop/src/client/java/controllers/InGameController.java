@@ -33,7 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +59,7 @@ public class InGameController {
     "Calculating orbits...",
     "Charging Portals...",
     "Evicting squatters...",
-    "Securing Intergalactic Prison"
+    "Securing Intergalactic Prison..."
     };
     static int loadTime = 7;
 
