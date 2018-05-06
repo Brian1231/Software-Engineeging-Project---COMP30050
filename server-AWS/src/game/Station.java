@@ -19,7 +19,7 @@ public class Station extends RentalProperty implements JSONable{
 		if(this.isOwned()){
 			ArrayList<RentalProperty> properties = this.getOwner().getOwnedProperties();
 
-			int numStationsOwned = -1;
+			int numStationsOwned = 0;
 			for (RentalProperty p : properties) {
 				if (p.getOwner()  == this.getOwner()) {
 					numStationsOwned++;

@@ -29,7 +29,6 @@ public class Player implements Playable, JSONable{
 	private boolean isInJail;
 	private boolean movingForward;
 
-
 	private Color rgbColour;
 	private Playable playerOwed;
 	private ArrayList<RentalProperty> ownedProperties = new ArrayList<>();
@@ -39,7 +38,7 @@ public class Player implements Playable, JSONable{
 
 	public Player(int playerId, Character_noc ch, Vehicle_noc vehicle, Color color){
 		this.id = playerId;
-		this.balance = 1000;
+		this.balance = 1500;
 		this.position = 0;
 		this.debt = 0;
 		this.jailTurnCount = 0;
@@ -53,7 +52,7 @@ public class Player implements Playable, JSONable{
 		this.fuel = 1;
 		this.character = ch;
 		this.vehicle = vehicle;
-		this.movingForward = false;
+		this.movingForward = false;//fix memooimnjnjjnibhbubkgbggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
 		this.rgbColour = color;
 	}
 
@@ -408,13 +407,13 @@ public class Player implements Playable, JSONable{
 			}
 			return "You're not in debt!";
 		}
-		if(this.balance >=500){
-			this.payMoney(500);
+		if(this.balance >=50){
+			this.payMoney(50);
 			this.jailTurnCount = 0;
 			this.isInJail = false;
-			return this.getCharName() + " paid 500 SHM and was released from jail.";
+			return this.getCharName() + " paid 50 SHM and was released from jail.";
 		}
-		return "You can't afford to the fee of 500 SHM";
+		return "You can't afford to the fee of 50 SHM";
 	}
 
 }

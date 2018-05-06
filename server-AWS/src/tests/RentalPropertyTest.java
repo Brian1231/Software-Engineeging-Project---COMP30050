@@ -125,7 +125,7 @@ public class RentalPropertyTest {
 
     @Test
     public void setTrap() {
-        String result = prop.getOwner().getCharName() + " paid " + (prop.getPrice()/5) + " and set a trap at " + prop.getId() + ". ";
+        String result = prop.getOwner().getCharName() + " paid " + (prop.getPrice()/5) + " SHM and set a trap at " + prop.getId() + ". ";
         assertEquals(result, prop.setTrap());
     }
 
@@ -133,7 +133,7 @@ public class RentalPropertyTest {
     public void activateTrap() {
         Character_noc ch = noc.getRandomChar();
         Player player2 = new Player(2,noc.getRandomChar(), noc.getVehicle(ch.getVehicle()), Color.BLUE);
-        String result = player2.getCharName() + " activated " + prop.getOwner().getCharName() + "'s trap and now owes them an additional " + (prop.getPrice()/3) + ". ";
+        String result = player2.getCharName() + " activated " + prop.getOwner().getCharName() + "'s trap and now owes them an additional " + (prop.getPrice()/3) + " SHM. ";
         assertEquals(result, prop.activateTrap(player2));
     }
 

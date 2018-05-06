@@ -5,7 +5,9 @@ import org.json.JSONObject;
 
 import game_interfaces.JSONable;
 import main.Main;
-
+/*
+ * This class contains all information about any current auction
+ * */
 public class Auction implements JSONable{
 
 	private RentalProperty prop;
@@ -22,6 +24,10 @@ public class Auction implements JSONable{
 		this.auctionInProgress = false;
 	}
 
+	/*
+	*When a player puts a property up for auction or when the bank auction a property
+	*
+	*/
 	public void auction(RentalProperty prop, Player playerBuying, int price){
 		this.auctionInProgress = true;
 		this.price = price;

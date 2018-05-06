@@ -60,7 +60,7 @@ public class StationTest {
 
 	@Test
 	public void typeTest() {
-		assertEquals("Station", station1.getType());
+		assertEquals("station", station1.getType());
 	}
 
 

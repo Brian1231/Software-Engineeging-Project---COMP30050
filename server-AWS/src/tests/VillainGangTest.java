@@ -98,7 +98,7 @@ public class VillainGangTest {
 
         String expected = villain.getName() + " steps forward from the gang of villains and immediately begins " +
             villainWeapon.getAffordanceWithTarget(player.getCharacter().getName()) + " " + villainWeapon.getDeterminer() + " " + villainWeapon.getWeapon() + ". "+
-            player.getCharacter().getName() + " loses " + amount + ". ";
+            player.getCharacter().getName() + " loses " + amount + " SHM. ";
 
         assertEquals(expected, result);
     }

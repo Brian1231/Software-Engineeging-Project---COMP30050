@@ -89,7 +89,7 @@ public class InvestmentPropertyTest {
 	@Test
 	public void buildDemolishErrorTest() {
 		assertFalse(prop.demolish(1));
-		assertEquals("Error, there is no upgrades left to remove", prop.getBuildDemolishError());
+		assertEquals("Careful! There is no upgrades left to remove!", prop.getBuildDemolishError());
 
 		prop.build(1);
 		assertTrue(prop.build(1));
@@ -105,7 +105,7 @@ public class InvestmentPropertyTest {
 
 		prop.build(5);
 		prop.build(1);
-		assertEquals("Error, you already have the max number of upgrades", prop.getBuildDemolishError());
+		assertEquals("Hold Up! You already have the max number of upgrades!", prop.getBuildDemolishError());
 	}
 
 	@Test
