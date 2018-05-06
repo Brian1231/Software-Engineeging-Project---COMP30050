@@ -223,7 +223,7 @@ public class Player implements Playable, JSONable{
 
 				//Check if we pass go
 				if((oldPos<20 && this.position>19) || (oldPos>20 && this.position>=0 && this.position<20)){
-					res.append(this.getCharName() +" passed go and received $100.\n");
+					res.append(this.getCharName() +" passed the Galactic Core and received 100 SHM.\n");
 					this.receiveMoney(100);
 				}
 
@@ -266,7 +266,7 @@ public class Player implements Playable, JSONable{
 
 				//Check if we pass go
 				if((oldPos>20 && this.position<=20) || (this.position>=20 && oldPos>0 && oldPos<20)){
-					res.append(this.getCharName() +" passed go and received $100.\n");
+					res.append(this.getCharName() +" passed the Galactic Core and received 100 SHM.\n");
 					this.receiveMoney(100);
 				}
 
@@ -384,7 +384,7 @@ public class Player implements Playable, JSONable{
 			if(this.isInDebt){
 				if(this.balance >= this.debt){
 					if(this.playerOwed != null){
-						String res = this.getCharName() + " paid " + this.playerOwed.getCharName() + " " + debt + ".";
+						String res = this.getCharName() + " paid " + this.playerOwed.getCharName() + " " + debt + " SHM.";
 						this.playerOwed.receiveMoney(this.debt);
 						this.payMoney(debt);
 						this.debt = 0;
@@ -394,7 +394,7 @@ public class Player implements Playable, JSONable{
 						return res;
 					}
 					else{
-						String res = this.getCharName() + " paid "+this.getPossessive().toLowerCase()+" debt of " + debt + ".";
+						String res = this.getCharName() + " paid "+this.getPossessive().toLowerCase()+" debt of " + debt + " SHM.";
 						this.payMoney(debt);
 						this.debt = 0;
 						this.isInDebt = false;
@@ -409,9 +409,9 @@ public class Player implements Playable, JSONable{
 			this.payMoney(500);
 			this.jailTurnCount = 0;
 			this.isInJail = false;
-			return this.getCharName() + " paid $500 and was released from jail.";
+			return this.getCharName() + " paid 500 SHM and was released from jail.";
 		}
-		return "You can't afford to the fee of $500";
+		return "You can't afford to the fee of 500 SHM";
 	}
 
 }

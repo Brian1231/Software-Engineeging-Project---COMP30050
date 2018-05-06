@@ -23,7 +23,7 @@ public class PlayerActions {
 						Main.gameState.startAuction(prop, null, 1);
 						Main.clientUpdater.updateDesktopAuction();
 						return player.getCharName() + " didn't buy " + prop.getId()
-								+ " so it's goes to the highest bidder!";
+						+ " so it's goes to the highest bidder!";
 					}
 
 				}
@@ -63,7 +63,7 @@ public class PlayerActions {
 				if (player.getBalance() >= prop.getPrice()) {
 					prop.setOwner(player);
 					player.addNewPropertyBought(prop, prop.getPrice());
-					return player.getCharName() + " bought " + prop.getId() + " for " + prop.getPrice() + ".";
+					return player.getCharName() + " bought " + prop.getId() + " for " + prop.getPrice() + " SHM.";
 				}
 				return "You can't afford this property.";
 			}
@@ -89,7 +89,7 @@ public class PlayerActions {
 					Main.gameState.startAuction(property, player, price);
 					Main.clientUpdater.updateDesktopAuction();
 					return player.getCharName() + " is auctioning " + property.getId() + " for " + property.getPrice()
-							+ "!";
+					+ " SHM!";
 				}
 				return "You don't own that property.";
 			}
@@ -106,7 +106,7 @@ public class PlayerActions {
 					if (!property.isMortgaged()) {
 						property.mortgage(player);
 						return player.getCharName() + " mortgaged " + property.getId() + " and received "
-								+ property.getMortgageAmount() + ".";
+						+ property.getMortgageAmount() + " SHM.";
 					}
 					return property.getId() + " is already mortgaged! ";
 				}
@@ -125,7 +125,7 @@ public class PlayerActions {
 					if (property.isMortgaged()) {
 						property.redeem(player);
 						return player.getCharName() + " redeemed " + property.getId() + " for "
-								+ property.getRedeemAmount() + ".";
+						+ property.getRedeemAmount() + " SHM.";
 					}
 					return property.getId() + " isn't mortgaged! ";
 				}
@@ -137,38 +137,41 @@ public class PlayerActions {
 	}
 
 	public String boost(Player player, ArrayList<NamedLocation> locations) {
-		if (player.hasRolled()) {
-			if (!player.hasBought()) {
-				if (!player.hasBoosted()) {
-					if (!player.isInDebt()) {
-						if (player.getFuel() > 0) {
+		if(!player.isInJail()){
+			if (player.hasRolled()) {
+				if (!player.hasBought()) {
+					if (!player.hasBoosted()) {
+						if (!player.isInDebt()) {
+							if (player.getFuel() > 0) {
 
-							if (locations.get(player.getPos()) instanceof RentalProperty) {
-								RentalProperty prop = (RentalProperty) locations.get(player.getPos());
-								if (!prop.isOwned()) {
-									Main.gameState.addPendingAction(player.getID(), "boost");
-									Main.gameState.startAuction(prop, null, 1);
-									Main.clientUpdater.updateDesktopAuction();
-									return player.getCharName() + " didn't buy " + prop.getId()
-											+ " so it's goes to the highest bidder!";
+								if (locations.get(player.getPos()) instanceof RentalProperty) {
+									RentalProperty prop = (RentalProperty) locations.get(player.getPos());
+									if (!prop.isOwned()) {
+										Main.gameState.addPendingAction(player.getID(), "boost");
+										Main.gameState.startAuction(prop, null, 1);
+										Main.clientUpdater.updateDesktopAuction();
+										return player.getCharName() + " didn't buy " + prop.getId()
+										+ " so it's goes to the highest bidder!";
+									}
 								}
+								StringBuilder res = new StringBuilder();
+								res.append(player.useBoost() + " and landed on " + locations.get(player.getPos()).getId()
+										+ ".");
+								res.append(landedOn(player, locations.get(player.getPos()), 1));
+								res.append(Main.gameState.villainGangCheck(player));
+								return res.toString();
 							}
-							StringBuilder res = new StringBuilder();
-							res.append(player.useBoost() + " and landed on " + locations.get(player.getPos()).getId()
-									+ ".");
-							res.append(landedOn(player, locations.get(player.getPos()), 1));
-							res.append(Main.gameState.villainGangCheck(player));
-							return res.toString();
+							return "Your vehicle is out of fuel!";
 						}
-						return "Your vehicle is out of fuel!";
+						return "You can't run away from your debt of " + player.getDebt() + " SHM!";
 					}
-					return "You can't run away from your debt!";
+					return "You've already used your vehicle this turn!";
 				}
-				return "You've already used your vehicle this turn!";
+				return "You can't use your vehicle after buying a property!";
 			}
-			return "You can't use your vehicle after buying a property!";
+			return "You must roll before using your vehicle.";
 		}
-		return "You must roll before using your vehicle.";
+		return "You can't boost your way out of jail!";
 	}
 
 	public String build(Player player, NamedLocation loc, int numToBuild, int id) {
@@ -181,12 +184,13 @@ public class PlayerActions {
 							if (player.ownsThree(property.getColour())) {
 								if (property.build(numToBuild)) {
 									player.payMoney(property.getHousePrice());
-									return player.getCharName() + " upgraded " + property.getId() + ".";
+									return player.getCharName() + " upgraded " + property.getId() + " for " + property.getHousePrice() + " SHM.";
 								} else {
 									return property.getBuildDemolishError();
 								}
 							}
-							return "You do not have enough money to upgrade the property!";
+							int diff = (property.getHousePrice() - player.getBalance());
+							return "You do not have enough money to upgrade the property! You need " + diff + " SHM more!";
 						}
 						return "You need to own the full colour group before you can upgrade a property!";
 					}
@@ -207,7 +211,7 @@ public class PlayerActions {
 					if (!property.isMortgaged()) {
 						if (property.demolish(numToDemolish)) {
 							player.receiveMoney(property.getHouseSellValue());
-							return player.getCharName() + " downgrade " + property.getId() + ".";
+							return player.getCharName() + " downgraded " + property.getId() + " and received " + property.getHouseSellValue() + " SHM.";
 						} 
 						else {
 							return property.getBuildDemolishError();
@@ -232,7 +236,7 @@ public class PlayerActions {
 						Main.gameState.startAuction(prop, null, 1);
 						Main.clientUpdater.updateDesktopAuction();
 						return player.getCharName() + " didn't buy " + prop.getId()
-								+ " so it's goes to the highest bidder!";
+						+ " so it's goes to the highest bidder!";
 					}
 				}
 				player.reset();
@@ -242,7 +246,7 @@ public class PlayerActions {
 			}
 			return "You must roll the dice before ending your turn.";
 		}
-		return "You must pay your debt before ending your turn.";
+		return "You must pay your debt of " + player.getDebt() + " SMH before ending your turn.";
 	}
 
 	private String landedOn(Player player, NamedLocation location, int spaces) {
@@ -257,7 +261,7 @@ public class PlayerActions {
 							InvestmentProperty p = (InvestmentProperty) property;
 							player.setDebt(p.getRentalAmount(), property.getOwner());
 							res.append(player.getCharName() + " owes " + property.getOwner().getCharName() + " "
-									+ p.getRentalAmount() + ". ");
+									+ p.getRentalAmount() + " SHM. ");
 							if (p.hasTrap())
 								res.append(p.activateTrap(player));
 							return res.toString();
@@ -266,7 +270,7 @@ public class PlayerActions {
 							Station s = (Station) property;
 							player.setDebt(s.getRentalAmount(), property.getOwner());
 							res.append(player.getCharName() + " owes " + property.getOwner().getCharName() + " "
-									+ s.getRentalAmount() + ". ");
+									+ s.getRentalAmount() + " SHM. ");
 							if (s.hasTrap())
 								res.append(s.activateTrap(player));
 							return res.toString();
@@ -275,7 +279,7 @@ public class PlayerActions {
 							Utility u = (Utility) property;
 							player.setDebt(u.getRentalAmount(spaces), property.getOwner());
 							res.append(player.getCharName() + " owes " + property.getOwner().getCharName() + " "
-									+ u.getRentalAmount(spaces) + ". ");
+									+ u.getRentalAmount(spaces) + " SHM. ");
 							if (u.hasTrap())
 								res.append(u.activateTrap(player));
 							return res.toString();
@@ -286,7 +290,7 @@ public class PlayerActions {
 				return "\nYou own " + property.getId() + ".";
 			}
 
-			return "\n" + property.getId() + " is unowned. It can be purchased for $" + property.getPrice() + ".";
+			return "\n" + property.getId() + " is unowned. It can be purchased for " + property.getPrice() + " SHM.";
 		} else if (location instanceof TaxSquare) {
 			TaxSquare tax = (TaxSquare) location;
 			return tax.activate(player);
@@ -327,7 +331,7 @@ public class PlayerActions {
 		}
 		Main.gameState.removePlayer(player);
 
-		return player.getCharName() + " has declared bankruptcy and any property they own has been released. ";
+		return player.getCharName() + " has declared bankruptcy and any property they own has been released.";
 	}
 
 	public String bid(Player player, int price) {
@@ -335,7 +339,7 @@ public class PlayerActions {
 			if (Main.gameState.isValidBid(player)) {
 				if (Main.gameState.updateAuction(player, price)) {
 					Main.clientUpdater.updateDesktopAuction();
-					return player.getCharName() + " bids " + price;
+					return player.getCharName() + " bids " + price + " SHM.";
 				}
 				return "You need to bid more!";
 			}

@@ -46,13 +46,13 @@ public class Auction implements JSONable{
 				prop.setOwner(playerBuying);
 				playerBuying.addNewPropertyBought(prop, price);
 				playerSelling.removePropertySold(prop, price);
-				res = playerBuying.getCharName() + " bought " + prop.getId() + " for " + this.price + ".";
+				res = playerBuying.getCharName() + " bought " + prop.getId() + " for " + this.price + " SHM.";
 			}
 		}
 		else if(!(playerBuying == null)){
 			prop.setOwner(playerBuying);
 			playerBuying.addNewPropertyBought(prop, price);
-			res = playerBuying.getCharName() + " bought " + prop.getId() + " for " + this.price + ".";
+			res = playerBuying.getCharName() + " bought " + prop.getId() + " for " + this.price + " SHM.";
 		}
 		else if(!(prop == null)){
 			res = "No one bought " + prop.getId() + ". It remains unowned. ";
