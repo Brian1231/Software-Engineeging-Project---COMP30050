@@ -43,10 +43,12 @@ public class InformationPane extends Pane {
     private Label tileName = new Label("");
     private Label tileCost = new Label("");
     private Label tileOwner = new Label("");
+    private Label mortgaged = new Label("");
     private Label tileRent = new Label("");
     private ImageView tileImage = new ImageView();
     private VBox infoLayout = new VBox(10);
-    private Label mortgaged = new Label("");
+    private VBox upperAuctionLayout = new VBox(10);
+    private VBox lowerAuctionLayout = new VBox(10);
 
     // Dice
     private Rectangle diceLeft = new Rectangle();
@@ -112,7 +114,6 @@ public class InformationPane extends Pane {
 		tileInfo.setFill(Color.BLACK);
 		tileInfo.setStroke(Color.GOLD);
 		tileInfo.radiusProperty().bind(widthProperty().divide(9));
-		//tileInfo.setEffect(g);
 		getChildren().add(tileInfo);
 
 		// Semi Circle
@@ -160,65 +161,11 @@ public class InformationPane extends Pane {
         top.setMaxHeight(200);
         getChildren().add(playerInfoLayout);
 
-
         // Dice
-        loadDiceImages();
+        setupDiceLayout();
 
-        diceLeft.widthProperty().bind(widthProperty().divide(20));
-        diceLeft.heightProperty().bind(widthProperty().divide(20));
-
-        diceRight.widthProperty().bind(widthProperty().divide(20));
-        diceRight.heightProperty().bind(widthProperty().divide(20));
-
-        diceLeft.layoutXProperty().bind(widthProperty().divide(2).subtract(diceLeft.widthProperty().multiply(3).divide(2)));
-        diceLeft.layoutYProperty().bind(heightProperty().subtract(heightProperty().divide(4.5)));
-
-        diceRight.layoutXProperty().bind(widthProperty().divide(2).add(diceRight.widthProperty().divide(2)));
-        diceRight.layoutYProperty().bind(heightProperty().subtract(heightProperty().divide(4.5)));
-
-        diceLeft.setFill(Color.TRANSPARENT);
-        diceRight.setFill(Color.TRANSPARENT);
-
-        getChildren().add(diceLeft);
-        getChildren().add(diceRight);
-
-        // Auction
-        auctionCircle.layoutXProperty().bind(tileInfo.layoutXProperty());
-        auctionCircle.layoutYProperty().bind(tileInfo.layoutYProperty());
-        auctionCircle.setFill(Color.WHITE);
-        auctionCircle.setStroke(Color.GOLD);
-        auctionCircle.radiusProperty().bind(tileInfo.radiusProperty().add(10));
-            // "Auction Started"
-        auctionHeading.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(auctionHeading.widthProperty().divide(2)));
-        auctionHeading.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(auctionCircle.radiusProperty().divide(1.5)));
-        auctionHeading.setFont(new Font("Verdana", 30));
-            // Player who is selling the property
-        playerSelling.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(playerSelling.widthProperty().divide(2)));
-        playerSelling.layoutYProperty().bind(auctionHeading.layoutYProperty().add(auctionHeading.heightProperty().add(20)));
-            // Auction Timer
-        timer.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(timer.widthProperty().divide(2)));
-        timer.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(auctionProp.radiusProperty().subtract(auctionProp.radiusProperty().divide(6))));
-        timer.setFont(new Font("Verdana", 60));
-        timer.setTextFill(Color.ORANGE);
-            // Property Image
-        auctionProp.layoutXProperty().bind(auctionCircle.layoutXProperty());
-        auctionProp.layoutYProperty().bind(auctionCircle.layoutYProperty());
-        auctionProp.radiusProperty().bind(auctionCircle.radiusProperty().divide(3));
-            // Property Name
-        auctionName.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(auctionName.widthProperty().divide(2)));
-        auctionName.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionProp.radiusProperty().add(auctionProp.radiusProperty().divide(4))));
-            // Current Highest Bidder
-        highestBidder.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(highestBidder.widthProperty().divide(2)));
-        highestBidder.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionCircle.radiusProperty().subtract(auctionCircle.radiusProperty().divide(7))));
-            // Current Auction Price
-        ImageView cur = new ImageView();
-        cur.setImage(currency);
-        cur.setFitWidth(30);
-        cur.setFitHeight(30);
-        current_Price.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(current_Price.widthProperty().divide(2)));
-        current_Price.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionCircle.radiusProperty().divide(2)));
-        current_Price.getChildren().addAll(cur, auctionPrice);
-        auctionPrice.setFont(new Font("Verdana", 50));
+        // Auction stuff
+        setUpperAuctionLayout();
     }
 
     // Updates information Feed
@@ -301,18 +248,49 @@ public class InformationPane extends Pane {
         }
 	}
 
+	public void setUpperAuctionLayout(){
+        // Property Image
+        auctionProp.layoutXProperty().bind(auctionCircle.layoutXProperty());
+        auctionProp.layoutYProperty().bind(auctionCircle.layoutYProperty());
+        auctionProp.radiusProperty().bind(auctionCircle.radiusProperty().divide(3));
+
+        // Upper layout
+        upperAuctionLayout.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(upperAuctionLayout.widthProperty().divide(2)));
+        upperAuctionLayout.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(auctionCircle.radiusProperty()).add(60));
+        upperAuctionLayout.getChildren().addAll(auctionHeading, playerSelling);
+        upperAuctionLayout.setAlignment(Pos.CENTER);
+
+        auctionHeading.setFont(new Font("Verdana", 30));
+        playerSelling.setId("pslabel");
+
+        // Auction countdown Timer
+        timer.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(timer.widthProperty().divide(2)));
+        timer.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(timer.heightProperty().divide(2)));
+        timer.setFont(new Font("Verdana", 65));
+        timer.setTextFill(Color.ORANGE);
+
+        //Lower Layout
+        lowerAuctionLayout.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(lowerAuctionLayout.widthProperty().divide(2)));
+        lowerAuctionLayout.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionProp.radiusProperty()));
+        lowerAuctionLayout.getChildren().addAll(auctionName,auctionPrice,highestBidder);
+        lowerAuctionLayout.setAlignment(Pos.CENTER);
+
+        //current_Price.getChildren().addAll(cur, auctionPrice);
+        auctionPrice.setFont(new Font("Verdana", 20));
+        auctionCircle.layoutXProperty().bind(tileInfo.layoutXProperty());
+        auctionCircle.layoutYProperty().bind(tileInfo.layoutYProperty());
+        auctionCircle.setFill(Color.WHITE);
+        auctionCircle.setStroke(Color.AQUA);
+        auctionCircle.radiusProperty().bind(tileInfo.radiusProperty().add(10));
+    }
+
 	// Add Auction Display
 	public void addAuctionCircle(){
-        // Current players location info
         getChildren().add(auctionCircle);
-        getChildren().add(auctionHeading);
-        getChildren().add(playerSelling);
-        getChildren().add(auctionName);
         getChildren().add(auctionProp);
-        getChildren().add(current_Price);
-        getChildren().add(highestBidder);
+        getChildren().add(upperAuctionLayout);
+        getChildren().add(lowerAuctionLayout);
         getChildren().add(timer);
-        timer.setText("10");
     }
 
     // Update Auction Display from server update
@@ -321,10 +299,12 @@ public class InformationPane extends Pane {
         Player pSelling = Game.getPlayer(auction.getPlayerSelling());
         if(pSelling != null){
             playerSelling.setText(pSelling.getCharacter() + " is auctioning: ");
+        }else{
+            playerSelling.setText("Intergalactic Banking Assoc is selling: ");
         }
         auctionProp.setFill(locImg);
         auctionName.setText(auction.getLocation().getName());
-        auctionPrice.setText(Integer.toString(auction.getCurrentPrice()));
+        auctionPrice.setText("Current Bid: " + Integer.toString(auction.getCurrentPrice()) + " SHM");
         Player currentHighest = Game.getPlayer(auction.getHighestBidder());
         if(currentHighest != null){
             highestBidder.setText("Highest Bidder: " + currentHighest.getCharacter());
@@ -339,16 +319,16 @@ public class InformationPane extends Pane {
     // Remove Auction display at Auction End
     public void removeAuctionCircle(){
         getChildren().remove(auctionCircle);
-        getChildren().remove(auctionHeading);
-        getChildren().remove(playerSelling);
-        getChildren().remove(auctionName);
         getChildren().remove(auctionProp);
-        getChildren().remove(current_Price);
-        getChildren().remove(highestBidder);
+        getChildren().remove(upperAuctionLayout);
+        getChildren().remove(lowerAuctionLayout);
         getChildren().remove(timer);
+
         playerSelling.setText("");
         auctionPrice.setText("");
         highestBidder.setText("");
+        auctionName.setText("");
+        timer.setText("10");
     }
 
     // Adds a player's stats in 4 corners of window
@@ -383,6 +363,28 @@ public class InformationPane extends Pane {
                         break;
             default:    break;
         }
+    }
+
+    public void setupDiceLayout(){
+        loadDiceImages();
+
+        diceLeft.widthProperty().bind(widthProperty().divide(20));
+        diceLeft.heightProperty().bind(widthProperty().divide(20));
+
+        diceRight.widthProperty().bind(widthProperty().divide(20));
+        diceRight.heightProperty().bind(widthProperty().divide(20));
+
+        diceLeft.layoutXProperty().bind(widthProperty().divide(2).subtract(diceLeft.widthProperty().multiply(3).divide(2)));
+        diceLeft.layoutYProperty().bind(heightProperty().subtract(heightProperty().divide(4.5)));
+
+        diceRight.layoutXProperty().bind(widthProperty().divide(2).add(diceRight.widthProperty().divide(2)));
+        diceRight.layoutYProperty().bind(heightProperty().subtract(heightProperty().divide(4.5)));
+
+        diceLeft.setFill(Color.TRANSPARENT);
+        diceRight.setFill(Color.TRANSPARENT);
+
+        getChildren().add(diceLeft);
+        getChildren().add(diceRight);
     }
 
     // Updates Dice Images
