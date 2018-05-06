@@ -390,7 +390,7 @@ public class BoardCanvas extends ResizableCanvas {
 	}
 
 	// Loads properties Image from the server
-	private Image getUrlImage(Location location){
+	public Image getUrlImage(Location location){
 		if(location.getPosition() == 0){
 			return new Image("/client/resources/images/Galactic Core.gif");
 		}

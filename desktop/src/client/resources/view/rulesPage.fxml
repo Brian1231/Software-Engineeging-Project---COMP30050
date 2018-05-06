@@ -9,7 +9,7 @@
             <Label fx:id="heading">
                 The Rules
             </Label>
-            <TextArea VBox.vgrow="ALWAYS" editable="false">
+            <TextArea fx:id="rulesfield" VBox.vgrow="ALWAYS" editable="false">
                Some Rules (To be filled in)
             </TextArea>
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackClick" text = "Back">

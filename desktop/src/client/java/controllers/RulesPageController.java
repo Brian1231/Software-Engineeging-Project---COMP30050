@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -17,6 +18,7 @@ public class RulesPageController {
     @FXML
     public BorderPane base;
     public Button backButton;
+    public TextField rulesfield;
 
     public void onBackClick(ActionEvent event){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/welcomeScreen.fxml"));
@@ -32,5 +34,9 @@ public class RulesPageController {
         welcomeScene.getStylesheets().addAll(this.getClass().getResource("/client/resources/css/welcome.css").toExternalForm());
         Stage welcomeStage = (Stage)((Node) event.getSource()).getScene().getWindow();
         welcomeStage.setScene(welcomeScene);
+    }
+
+    public void loadRules(){
+        
     }
 }
