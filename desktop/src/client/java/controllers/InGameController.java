@@ -67,20 +67,14 @@ public class InGameController {
     "Evicting squatters...",
     "Securing Intergalactic Prison..."
     };
-    private static int loadTime = 7;
 
+    private static int loadTime = 7;
 	private boolean imagesPlaced = false;
 
 	// Networking.
-	private String IP = "52.48.249.220";
+	private String ip = "52.48.249.220";
 	private final static int PORT = 8000;
-	private NetworkConnection connection = new NetworkConnection(IP,PORT, input -> {
-		try {
-			onUpdateReceived(input);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	});
+	private NetworkConnection connection;
 
 	// Initializes Game window
 	public void initialize() throws IOException, JSONException {
@@ -100,6 +94,24 @@ public class InGameController {
 		});
 		setUpBoard();
 		Game.setPlayerCanvas(playerCanvas);
+	}
+
+	void setGameStage(Stage gameStage) {
+		this.gameStage = gameStage;
+	}
+
+	// Sets Server IP, Makes a connection and connects
+	void setServerIP(String ipAddress){
+		this.ip = ipAddress;
+		connection = new NetworkConnection(ip,PORT, input -> {
+			try {
+				onUpdateReceived(input);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		});
+		System.out.println(ip);
+
 		try {
 			connection.startConnection();
 		} catch (Exception e1) {
@@ -107,16 +119,9 @@ public class InGameController {
 		}
 	}
 
-	void setGameStage(Stage gameStage) {
-		this.gameStage = gameStage;
-	}
-
-	void setServerIP(String ipAddress){
-		this.IP = ipAddress;
-	}
-
 	// Adds main Gui elements
 	private void setUpBoard() throws IOException, JSONException{
+		
 		// Loading Screen
 		// Background
 		Image l = new Image("client/resources/images/load.gif");
