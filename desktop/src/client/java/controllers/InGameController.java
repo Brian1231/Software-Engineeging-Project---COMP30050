@@ -48,6 +48,7 @@ public class InGameController {
 	private PlayerCanvas playerCanvas = new PlayerCanvas();
 	private InformationPane infoPane = new InformationPane();
 	private Pane loadingPane = new Pane();
+	private ImageView logo = new ImageView();
 
 	Button startButton = new Button("START GAME");
 
@@ -348,6 +349,13 @@ public class InGameController {
         loadDetails.layoutXProperty().bind(loadingPane.widthProperty().divide(2).subtract(loadDetails.widthProperty().divide(2)));
         loadDetails.layoutYProperty().bind(loadingPane.heightProperty().subtract(100));
         loadingPane.getChildren().add(loadDetails);
+
+        // Loading Screen Logo
+		logo.fitWidthProperty().bind(loadingPane.widthProperty().divide(2.5));
+		logo.fitHeightProperty().bind(loadingPane.heightProperty().divide(5));
+		logo.layoutXProperty().bind(loadingPane.widthProperty().divide(2).subtract(logo.fitWidthProperty().divide(2)));
+		logo.setImage(new Image("/client/resources/images/InterDimLogo.png"));
+		loadingPane.getChildren().add(logo);
 
         // Loading Message Timeline
         Timeline timeLine = new Timeline();

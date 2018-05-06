@@ -71,20 +71,16 @@ public class InformationPane extends Pane {
     private Label highestBidder = new Label("");
     private Label playerSelling = new Label("");
     private Label timer = new Label("10");
-    HBox current_Price = new HBox(3);
-
-
 
     // Initialisation
     public InformationPane() {
         // Load Images
         currency = new Image("/client/resources/images/Schmeckles.png");
 
-        //Title
+        // Game Logo
     	logo.fitWidthProperty().bind(this.widthProperty().divide(2.5));
     	logo.fitHeightProperty().bind(this.heightProperty().divide(5));
     	logo.layoutXProperty().bind(widthProperty().divide(2).subtract(logo.fitWidthProperty().divide(2)));
-    	//logo.setEffect(new Glow(5));
     	logo.setImage(new Image("/client/resources/images/InterDimLogo.png"));
     	getChildren().add(logo);
 
@@ -269,13 +265,13 @@ public class InformationPane extends Pane {
         timer.setFont(new Font("Verdana", 65));
         timer.setTextFill(Color.ORANGE);
 
-        //Lower Layout
+        // Lower Layout
         lowerAuctionLayout.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(lowerAuctionLayout.widthProperty().divide(2)));
         lowerAuctionLayout.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionProp.radiusProperty()));
         lowerAuctionLayout.getChildren().addAll(auctionName,auctionPrice,highestBidder);
         lowerAuctionLayout.setAlignment(Pos.CENTER);
 
-        //current_Price.getChildren().addAll(cur, auctionPrice);
+
         auctionPrice.setFont(new Font("Verdana", 20));
         auctionCircle.layoutXProperty().bind(tileInfo.layoutXProperty());
         auctionCircle.layoutYProperty().bind(tileInfo.layoutYProperty());
@@ -424,7 +420,6 @@ public class InformationPane extends Pane {
                 p.stats.setBorder(null);
             }
         }
-
     }
 
 }
