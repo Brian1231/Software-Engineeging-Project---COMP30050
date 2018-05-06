@@ -6,10 +6,10 @@
 <BorderPane fx:id="base" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="client.java.controllers.RulesPageController" prefHeight="800.0" prefWidth="1200.0">
     <center>
         <VBox alignment="CENTER"  spacing="20.0">
-            <Label fx:id="heading">
+            <Label fx:id="heading" style="-fx-font-family: Verdana; -fx-highlight-fill: #AC82FA; -fx-highlight-text-fill: #000000; -fx-text-fill: #AC82FA;">
                 The Rules
             </Label>
-            <TextArea fx:id="rulesArea" VBox.vgrow="ALWAYS" editable="true">
+            <TextArea fx:id="rulesArea" VBox.vgrow="ALWAYS" editable="false" wrapText="true"  style="-fx-font-size: 20px;-fx-control-inner-background:#000000; -fx-font-family: Verdana; -fx-highlight-fill: #AC82FA; -fx-highlight-text-fill: #000000; -fx-text-fill: #26d7ff; ">
             </TextArea>
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackClick" text = "Back">
 
