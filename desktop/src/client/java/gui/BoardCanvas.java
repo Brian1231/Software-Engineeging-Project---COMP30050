@@ -121,7 +121,6 @@ public class BoardCanvas extends ResizableCanvas {
 			else{
 				drawTile(point, g, Game.locations.get(locIndex));
 				g.setFill(Color.BLACK);
-				g.fillText(Game.locations.get(locIndex).getName(), point.getX() + (getWidth() / 2) - 20, point.getY() + (getHeight() / 2));
 			}
 			locIndex+=1;
 		}
@@ -294,10 +293,8 @@ public class BoardCanvas extends ResizableCanvas {
 		g.setStroke(null);
 		g.setLineWidth(1);
 
-		if(!location.getName().equals("Go")){
-			double titleRadius = width / 36;
-			addTileTitle(location.getName(), titleRadius, point);
-		}
+        double titleRadius = width / 36;
+        addTileTitle(location.getName(), titleRadius, point);
 	}
 
 	private void addMortgageLabel(Point2D center, Location location){

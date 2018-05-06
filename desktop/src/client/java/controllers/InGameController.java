@@ -334,12 +334,14 @@ public class InGameController {
 	// Adds main Gui elements
 	private void setUpBoard() throws IOException, JSONException{
 		// Loading Screen
+		// Background
         Image l = new Image("client/resources/images/load.gif");
         ImageView loadImage = new ImageView(l);
         loadImage.fitWidthProperty().bind(loadingPane.widthProperty());
         loadImage.fitHeightProperty().bind(loadingPane.heightProperty());
         loadingPane.getChildren().add(loadImage);
 
+        // Load Details
         Label loadDetails = new Label("");
         loadDetails.setFont(new Font("Verdana", 50));
         loadDetails.setTextFill(Color.WHITE);
@@ -376,22 +378,24 @@ public class InGameController {
 
         Pane boardWrapper = new Pane();
         boardWrapper.getChildren().add(boardCanvas);
-
         Pane playerWrapper = new Pane();
         playerWrapper.getChildren().add(playerCanvas);
 
+        // Adding Layers
         infoPane.getChildren().add(startButton);
         layers.getChildren().add(boardWrapper);
         layers.getChildren().add(playerWrapper);
         layers.getChildren().add(infoPane);
         layers.getChildren().add(loadingPane);
 
+        // Layout
         rootPane.setCenter(layers);
         boardCanvas.widthProperty().bind(rootPane.widthProperty());
         boardCanvas.heightProperty().bind(rootPane.heightProperty());
         playerCanvas.widthProperty().bind(rootPane.widthProperty());
         playerCanvas.heightProperty().bind(rootPane.heightProperty());
 
+        // Initial Draw
         boardCanvas.draw();
         boardCanvas.addCenterTile();
         playerCanvas.draw();
@@ -412,6 +416,8 @@ public class InGameController {
 		}
 		);
 	}
+
+
 
 	// Called on game exit
 	void closeGame() {
