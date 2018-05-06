@@ -203,7 +203,7 @@ public class InformationPane extends Pane {
             // Property Image
         auctionProp.layoutXProperty().bind(auctionCircle.layoutXProperty());
         auctionProp.layoutYProperty().bind(auctionCircle.layoutYProperty());
-        auctionProp.radiusProperty().bind(auctionCircle.radiusProperty().divide(4));
+        auctionProp.radiusProperty().bind(auctionCircle.radiusProperty().divide(3));
             // Property Name
         auctionName.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(auctionName.widthProperty().divide(2)));
         auctionName.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionProp.radiusProperty().add(auctionProp.radiusProperty().divide(4))));
