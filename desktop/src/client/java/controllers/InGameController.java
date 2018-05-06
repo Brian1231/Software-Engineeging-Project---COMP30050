@@ -149,7 +149,7 @@ public class InGameController {
 									} catch (Exception e1) {
 										e1.printStackTrace();
 									}
-									showGameOverScreen(0);
+									//showGameOverScreen(0);
 								}
 							});
 						}
@@ -417,7 +417,6 @@ public class InGameController {
 				output.put("id", 0);
 				output.put("action", "start");
 				connection.send(output);
-
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}

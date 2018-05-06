@@ -18,7 +18,6 @@ public class GameOverScreenController {
 
     public VBox layout = new VBox();
     private Label gameOverLabel = new Label();
-
     private int winner = 0;
 
     public void initialize(){
@@ -32,13 +31,18 @@ public class GameOverScreenController {
         base.setCenter(layout);
     }
 
-    public void setWinner(int playerId){
+    // Sets Winner and calls display
+    void setWinner(int playerId){
         this.winner = playerId;
-        if(winner != 0){
+        showGameOverInfo();
+    }
 
+    // Displays Winner and losers
+    private void showGameOverInfo(){
+        if(winner != 0){
             for(Player p :Game.bankruptPlayers){
                 Label pLabel = new Label();
-                pLabel.setText("Player " + p.getId() + ": " + p.getCharacter() + " lost");
+                pLabel.setText("Player " + p.getId() + ": " + p.getCharacter() + " lost.");
                 pLabel.setTextFill(Color.rgb(232, 142, 39));
                 pLabel.setFont(Font.font("Verdana", 20));
                 layout.getChildren().add(pLabel);
@@ -46,18 +50,22 @@ public class GameOverScreenController {
 
             Label winnerLabel = new Label();
             Player winnerP = Game.getPlayer(winner);
-            winnerLabel.setText("Player " + winnerP.getId() + ": " + winnerP.getCharacter() + "won!" +  " Money: " + winnerP.getBalance());
-            winnerLabel.setTextFill(Color.rgb(232, 142, 39));
-            winnerLabel.setFont(Font.font("Verdana", 20));
-            layout.getChildren().add(winnerLabel);
+            if(winnerP != null){
+                winnerLabel.setText("Player " + winnerP.getId() + ": " + winnerP.getCharacter() + "won!" +  " Capital: " + winnerP.getBalance());
+                winnerLabel.setTextFill(Color.rgb(232, 142, 39));
+                winnerLabel.setFont(Font.font("Verdana", 25));
+                layout.getChildren().add(winnerLabel);
+            }
         }
         else{
-            for(Player p : Game.observablePlayers){
-                Label pLabel = new Label();
-                pLabel.setText("Player " + p.getId() + ": " + p.getCharacter() + " won!");
-                pLabel.setTextFill(Color.rgb(232, 142, 39));
-                pLabel.setFont(Font.font("Verdana", 20));
-                layout.getChildren().add(pLabel);
+            if(!Game.bankruptPlayers.isEmpty()) {
+                for (Player p : Game.observablePlayers) {
+                    Label pLabel = new Label();
+                    pLabel.setText("Player " + p.getId() + ": " + p.getCharacter() + " won!");
+                    pLabel.setTextFill(Color.rgb(232, 142, 39));
+                    pLabel.setFont(Font.font("Verdana", 20));
+                    layout.getChildren().add(pLabel);
+                }
             }
             if(!Game.bankruptPlayers.isEmpty()){
                 for(Player p : Game.bankruptPlayers){

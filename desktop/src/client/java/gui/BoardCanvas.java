@@ -56,6 +56,7 @@ public class BoardCanvas extends ResizableCanvas {
 		});
 	}
 
+	// Callled on location changes
 	public void draw() throws IOException, JSONException {
 		double width = getWidth();
 		double height = getHeight();
@@ -126,7 +127,7 @@ public class BoardCanvas extends ResizableCanvas {
 		}
 	}
 
-	// Draws individual tiles.
+	// Draws Tile Auras and adds houses, mortgage banners and loaction types.
 	private void drawTile(Point2D point, GraphicsContext g, Location location) throws IOException, JSONException {
 
 		double width = getWidth();
@@ -185,7 +186,7 @@ public class BoardCanvas extends ResizableCanvas {
         }
 
 		if(location.isMortgaged() && location.isMortgagedLabelled()){
-			relocateMortgageLabels(point, location);
+			relocateMortgageLabel(point, location);
 		}
 
 		if(location.isMortgaged() && !location.isMortgagedLabelled()){
@@ -204,9 +205,9 @@ public class BoardCanvas extends ResizableCanvas {
 			addTypeLabel(point, location);
 		}
 
-
 	}
 
+	// Wraps title around location tiles
 	private void addTileTitle(String title, double radius, Point2D center){
 
 		int titleLength = title.length();
@@ -251,11 +252,13 @@ public class BoardCanvas extends ResizableCanvas {
 		}
 	}
 
+	// Removes Tile Titles on screen resize
 	public void removeTileTitles() {
 		Pane wrap = (Pane) this.getParent();
 		wrap.getChildren().removeAll(titles);
 	}
 
+	// Adds Image and Titles to Location tiles
 	private void drawImagedTile(Point2D point, GraphicsContext g, Location location){
 
 		double width = getWidth();
@@ -277,7 +280,7 @@ public class BoardCanvas extends ResizableCanvas {
 		else{
 			g.setFill(Color.BLACK);
 		}
-
+		
 		if(location.getType().equals("investment")){
 			g.setStroke(Color.TRANSPARENT);
 		}
@@ -297,6 +300,7 @@ public class BoardCanvas extends ResizableCanvas {
         addTileTitle(location.getName(), titleRadius, point);
 	}
 
+	// Adds mortgage label to property when mortgaged
 	private void addMortgageLabel(Point2D center, Location location){
 		Pane parent = (Pane) this.getParent();
 		Label mort = new Label("MORTGAGED");
@@ -309,15 +313,14 @@ public class BoardCanvas extends ResizableCanvas {
 
 		mort.setLayoutX(pointX);
 		mort.setLayoutY(pointY);
-
-		System.out.println("mortX: " + mort.getLayoutX() + "mortY: " + mort.getLayoutY());
-
+        
 		mortLabels.put(location.getPosition(), mort);
 		parent.getChildren().add(mort);
 
 		location.setMortgagedLabelled(true);
 	}
 
+	// removes mortgage label on redeem
 	private void removeMortgageLabel(Location location){
 		Pane parent = (Pane) this.getParent();
 		Label mortLabel = mortLabels.get(location.getPosition());
@@ -326,7 +329,8 @@ public class BoardCanvas extends ResizableCanvas {
 		location.setMortgagedLabelled(false);
 	}
 
-	private void relocateMortgageLabels(Point2D center, Location location){
+	// Relocates Mortgage label on screen resize / draw call
+	private void relocateMortgageLabel(Point2D center, Location location){
 		Label mortLabel = mortLabels.get(location.getPosition());
 
 		double pointX = center.getX() + getWidth()/2 - mortLabel.getWidth()/2;
@@ -336,6 +340,7 @@ public class BoardCanvas extends ResizableCanvas {
 		mortLabel.setLayoutY(pointY);
 	}
 
+	// Adds Property Types to non investement property tiles.
 	private void addTypeLabel(Point2D center, Location location){
 		Pane parent = (Pane) this.getParent();
 		Label typeLabel = new Label(location.getType().toUpperCase());
@@ -355,6 +360,7 @@ public class BoardCanvas extends ResizableCanvas {
 		location.setTypeLabelled(true);
 	}
 
+	// Reloactes Location type labels on Screen resize
 	private void relocateTypeLabels(Point2D center, Location location){
 		Label typeLabel = typeLabels.get(location.getPosition());
 
@@ -383,7 +389,8 @@ public class BoardCanvas extends ResizableCanvas {
 		}
 	}
 
-	public Image getUrlImage(Location location){
+	// Loads properties Image from the server
+	private Image getUrlImage(Location location){
 		if(location.getPosition() == 0){
 			return new Image("/client/resources/images/Galactic Core.gif");
 		}
@@ -408,6 +415,7 @@ public class BoardCanvas extends ResizableCanvas {
 		return null;
 	}
 
+	// Loads all property Images from server
 	public void getImages(){
 		for(Location loc : Game.locations){
 			Image urlImg = getUrlImage(loc);
@@ -415,6 +423,7 @@ public class BoardCanvas extends ResizableCanvas {
 		}
 	}
 
+	// Adds Galactic Core to Game
 	public void addCenterTile(){
 		Pane parent = (Pane) this.getParent();
 
