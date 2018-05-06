@@ -362,6 +362,7 @@ public class InGameController {
 
                         // Finished Loading
                         if(loadTime <= 0){
+                        	loadTime = 7;
                             timeLine.stop();
                             Platform.runLater(()-> {
                                 layers.getChildren().remove(loadingPane);
