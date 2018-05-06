@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import game_interfaces.Improvable;
-import game_interfaces.JSONable;
 
 
 /*
