@@ -1,0 +1,12 @@
+On a player's turn, the player must roll the dice and his/her token will move forward the number of spaces shown on the dice on the board.
+If the player lands on an unowned property, the player may buy it for the price listed on that property's space. If he or she agrees to buy it, he or she pays the Bank the amount shown on the property space and receives the deed for that property. Stations and utilities are also considered properties.
+If the player chooses not to buy the property then the property is auctioned off to the highest bidder. See Auction.
+If the player lands on an unmortgaged property owned by another player, he or she pays rent to that person, as specified on the property's deed.
+If the player lands on his or her own property, or on property which is owned by another player but currently mortgaged, nothing happens.
+If the player lands on ‘Tax’ he or she must pay the Bank either a flat rate fee or random percentage (between 5 and 30%) of his or her total assets (cash on hand, full property price of un mortgaged properties and half property price of mortgaged properties and house prices).
+If the player lands on a ‘Chance’ , the player takes a card and performs the instruction given on the card. You must settle any debt incurred from chance cards before you can end your turn.
+If the player lands on the Jail space, he or she is "Just Visiting". No penalty applies.
+If the player lands on the Go to Jail square, he or she is moved directly to Jail.
+If the player lands on or passes Galactic Core in the course of his or her turn, he or she receives 200 from the Bank. A player has until the beginning of his or her next turn to collect this money.
+You may sell houses back to the Bank for half the purchase price or sell property deeds to other players in the game.
+Players may not loan money to other players. Only the Bank can loan money, and then only by mortgaging properties.

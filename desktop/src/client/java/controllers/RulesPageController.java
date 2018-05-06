@@ -7,10 +7,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class RulesPageController {
@@ -18,7 +20,11 @@ public class RulesPageController {
     @FXML
     public BorderPane base;
     public Button backButton;
-    public TextField rulesfield;
+    public TextArea rulesArea;
+
+    public void initialize(){
+        loadRules();
+    }
 
     public void onBackClick(ActionEvent event){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/welcomeScreen.fxml"));
@@ -37,6 +43,20 @@ public class RulesPageController {
     }
 
     public void loadRules(){
-        
+        try(BufferedReader br = new BufferedReader(new FileReader("src/client/resources/rules.txt"))) {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            String everything = sb.toString();
+            rulesArea.appendText(everything);
+        }catch (Exception e){
+            System.out.println("Could not load text file.");
+            e.printStackTrace();
+        }
     }
 }
