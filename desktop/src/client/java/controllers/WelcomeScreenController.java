@@ -35,6 +35,7 @@ public class WelcomeScreenController {
         linkToGameStage(event);
     }
 
+    // Links to Game stage with a specified server ip address
     public void onLocalGameClick(ActionEvent event){
         Label ipLabel = new Label("Server IP Address: ");
         ipLabel.setId("input");
@@ -59,7 +60,7 @@ public class WelcomeScreenController {
         });
     }
 
-    public void linkToGameStage(ActionEvent event){
+    private void linkToGameStage(ActionEvent event){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/inGame.fxml"));
         Parent inGame = null;
 

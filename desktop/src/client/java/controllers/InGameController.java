@@ -48,11 +48,11 @@ public class InGameController {
 	private PlayerCanvas playerCanvas = new PlayerCanvas();
 	private InformationPane infoPane = new InformationPane();
 	private Pane loadingPane = new Pane();
+
 	private ImageView logo = new ImageView();
+	private Button startButton = new Button("START GAME");
 
-	Button startButton = new Button("START GAME");
-
-	String[] loadStrings = {
+	private String[] loadStrings = {
 	"Entering Game!",
     "Generating Worlds...",
     "Expanding Universe...",
@@ -62,8 +62,7 @@ public class InGameController {
     "Evicting squatters...",
     "Securing Intergalactic Prison..."
     };
-    static int loadTime = 7;
-
+    private static int loadTime = 7;
 
 	private boolean imagesPlaced = false;
 
@@ -103,22 +102,108 @@ public class InGameController {
 		}
 	}
 
-	public Stage getGameStage() {
-		return gameStage;
+	// Adds main Gui elements
+	private void setUpBoard() throws IOException, JSONException{
+		// Loading Screen
+		// Background
+		Image l = new Image("client/resources/images/load.gif");
+		ImageView loadImage = new ImageView(l);
+		loadImage.fitWidthProperty().bind(loadingPane.widthProperty());
+		loadImage.fitHeightProperty().bind(loadingPane.heightProperty());
+		loadingPane.getChildren().add(loadImage);
+
+		// Load Details
+		Label loadDetails = new Label("");
+		loadDetails.setFont(new Font("Verdana", 50));
+		loadDetails.setTextFill(Color.WHITE);
+		loadDetails.layoutXProperty().bind(loadingPane.widthProperty().divide(2).subtract(loadDetails.widthProperty().divide(2)));
+		loadDetails.layoutYProperty().bind(loadingPane.heightProperty().subtract(100));
+		loadingPane.getChildren().add(loadDetails);
+
+		// Loading Screen Logo
+		logo.fitWidthProperty().bind(loadingPane.widthProperty().divide(2.5));
+		logo.fitHeightProperty().bind(loadingPane.heightProperty().divide(5));
+		logo.layoutXProperty().bind(loadingPane.widthProperty().divide(2).subtract(logo.fitWidthProperty().divide(2)));
+		logo.setImage(new Image("/client/resources/images/InterDimLogo.png"));
+		loadingPane.getChildren().add(logo);
+
+		// Loading Message Timeline
+		Timeline timeLine = new Timeline();
+		timeLine.setCycleCount(Timeline.INDEFINITE);
+		timeLine.getKeyFrames().add(
+				new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						loadTime--;
+
+						Platform.runLater(()->{
+							loadDetails.setText(loadStrings[loadTime]);
+						});
+
+						// Finished Loading
+						if(loadTime <= 0){
+							loadTime = 7;
+							timeLine.stop();
+							Platform.runLater(()-> {
+								layers.getChildren().remove(loadingPane);
+								layers.getChildren().remove(loadDetails);
+							});
+						}
+					}
+				}
+				));
+		timeLine.playFromStart();
+
+		Pane boardWrapper = new Pane();
+		boardWrapper.getChildren().add(boardCanvas);
+		Pane playerWrapper = new Pane();
+		playerWrapper.getChildren().add(playerCanvas);
+
+		// Adding Layers
+		infoPane.getChildren().add(startButton);
+		layers.getChildren().add(boardWrapper);
+		layers.getChildren().add(playerWrapper);
+		layers.getChildren().add(infoPane);
+		layers.getChildren().add(loadingPane);
+
+		// Layout
+		rootPane.setCenter(layers);
+		boardCanvas.widthProperty().bind(rootPane.widthProperty());
+		boardCanvas.heightProperty().bind(rootPane.heightProperty());
+		playerCanvas.widthProperty().bind(rootPane.widthProperty());
+		playerCanvas.heightProperty().bind(rootPane.heightProperty());
+
+		// Initial Draw
+		boardCanvas.draw();
+		boardCanvas.addCenterTile();
+		playerCanvas.draw();
+
+		// Start game button
+		startButton.layoutXProperty().bind(boardWrapper.widthProperty().divide(2).subtract(startButton.widthProperty().divide(2)));
+		startButton.layoutYProperty().bind(boardWrapper.heightProperty().subtract(80));
+		startButton.setOnAction(e -> {
+					try {
+						JSONObject output = new JSONObject();
+						output.put("id", 0);
+						output.put("action", "start");
+						connection.send(output);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+		);
 	}
 
-	public void setGameStage(Stage gameStage) {
+	void setGameStage(Stage gameStage) {
 		this.gameStage = gameStage;
 	}
 
-	public void setServerIP(String ipAddress){
+	void setServerIP(String ipAddress){
 		this.IP = ipAddress;
 	}
 
 	// Called whenever a message/JSON/update is received form the server.
 	private void onUpdateReceived(JSONObject update) throws JSONException {
-
-
 		// If desktop failed to connect to the server
 		if(update.has("f")){
 			onFalseConnection();
@@ -149,7 +234,6 @@ public class InGameController {
 									} catch (Exception e1) {
 										e1.printStackTrace();
 									}
-									//showGameOverScreen(0);
 								}
 							});
 						}
@@ -332,98 +416,6 @@ public class InGameController {
 		});
 	}
 
-	// Adds main Gui elements
-	private void setUpBoard() throws IOException, JSONException{
-		// Loading Screen
-		// Background
-        Image l = new Image("client/resources/images/load.gif");
-        ImageView loadImage = new ImageView(l);
-        loadImage.fitWidthProperty().bind(loadingPane.widthProperty());
-        loadImage.fitHeightProperty().bind(loadingPane.heightProperty());
-        loadingPane.getChildren().add(loadImage);
-
-        // Load Details
-        Label loadDetails = new Label("");
-        loadDetails.setFont(new Font("Verdana", 50));
-        loadDetails.setTextFill(Color.WHITE);
-        loadDetails.layoutXProperty().bind(loadingPane.widthProperty().divide(2).subtract(loadDetails.widthProperty().divide(2)));
-        loadDetails.layoutYProperty().bind(loadingPane.heightProperty().subtract(100));
-        loadingPane.getChildren().add(loadDetails);
-
-        // Loading Screen Logo
-		logo.fitWidthProperty().bind(loadingPane.widthProperty().divide(2.5));
-		logo.fitHeightProperty().bind(loadingPane.heightProperty().divide(5));
-		logo.layoutXProperty().bind(loadingPane.widthProperty().divide(2).subtract(logo.fitWidthProperty().divide(2)));
-		logo.setImage(new Image("/client/resources/images/InterDimLogo.png"));
-		loadingPane.getChildren().add(logo);
-
-        // Loading Message Timeline
-        Timeline timeLine = new Timeline();
-        timeLine.setCycleCount(Timeline.INDEFINITE);
-        timeLine.getKeyFrames().add(
-                new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-						loadTime--;
-
-                        Platform.runLater(()->{
-                            loadDetails.setText(loadStrings[loadTime]);
-                        });
-
-                        // Finished Loading
-                        if(loadTime <= 0){
-                        	loadTime = 7;
-                            timeLine.stop();
-                            Platform.runLater(()-> {
-                                layers.getChildren().remove(loadingPane);
-                                layers.getChildren().remove(loadDetails);
-                            });
-                        }
-                    }
-                }
-                ));
-        timeLine.playFromStart();
-
-        Pane boardWrapper = new Pane();
-        boardWrapper.getChildren().add(boardCanvas);
-        Pane playerWrapper = new Pane();
-        playerWrapper.getChildren().add(playerCanvas);
-
-        // Adding Layers
-        infoPane.getChildren().add(startButton);
-        layers.getChildren().add(boardWrapper);
-        layers.getChildren().add(playerWrapper);
-        layers.getChildren().add(infoPane);
-        layers.getChildren().add(loadingPane);
-
-        // Layout
-        rootPane.setCenter(layers);
-        boardCanvas.widthProperty().bind(rootPane.widthProperty());
-        boardCanvas.heightProperty().bind(rootPane.heightProperty());
-        playerCanvas.widthProperty().bind(rootPane.widthProperty());
-        playerCanvas.heightProperty().bind(rootPane.heightProperty());
-
-        // Initial Draw
-        boardCanvas.draw();
-        boardCanvas.addCenterTile();
-        playerCanvas.draw();
-
-		// Start game button
-		startButton.layoutXProperty().bind(boardWrapper.widthProperty().divide(2).subtract(startButton.widthProperty().divide(2)));
-		startButton.layoutYProperty().bind(boardWrapper.heightProperty().subtract(80));
-		startButton.setOnAction(e -> {
-			try {
-				JSONObject output = new JSONObject();
-				output.put("id", 0);
-				output.put("action", "start");
-				connection.send(output);
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-		}
-		);
-	}
-
 	// Called on game exit
 	void closeGame() {
 		JSONObject output = new JSONObject();
@@ -437,7 +429,7 @@ public class InGameController {
 		connection.gameEnd();
 	}
 
-	// End Game
+	// End Game -> Links to Game over Screen
 	private void showGameOverScreen(int winnerID){
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/gameOverScreen.fxml"));
 		Parent gameOver = null;

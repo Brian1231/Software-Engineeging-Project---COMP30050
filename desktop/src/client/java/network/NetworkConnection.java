@@ -43,10 +43,6 @@ public class NetworkConnection {
 		Platform.exit();
 	}
 
-	public void setConsumerfunction(Consumer<JSONObject> function) {
-		this.onReceiveCallBack = function;
-	}
-
 	public void gameEnd(){
 		gameActive = false;
 	}
@@ -85,6 +81,7 @@ public class NetworkConnection {
 			}
 		}
 
+		// Calls back to method in game controller
 		void onMessage(String message) throws JSONException {
 			JSONObject input = new JSONObject(message);
 			onReceiveCallBack.accept(input);

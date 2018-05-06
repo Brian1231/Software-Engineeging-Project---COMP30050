@@ -14,7 +14,6 @@ public class Location {
     private int rent;
     private int ownerID;
     private Color colour;
-    private Color auraColour;
     private boolean isMortgaged;
     private Image image;
     private int houses;

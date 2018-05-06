@@ -28,7 +28,7 @@ import org.json.JSONObject;
 
 public class InformationPane extends Pane {
 
-    Image currency;
+    private Image currency;
 
     // General
 	private ImageView logo = new ImageView();
@@ -71,19 +71,41 @@ public class InformationPane extends Pane {
     private Label highestBidder = new Label("");
     private Label playerSelling = new Label("");
     private Label timer = new Label("10");
+    HBox current_Price = new HBox(3);
+
 
     // Initialisation
     public InformationPane() {
         // Load Images
         currency = new Image("/client/resources/images/Schmeckles.png");
-
-        // Game Logo
+        //Title
     	logo.fitWidthProperty().bind(this.widthProperty().divide(2.5));
     	logo.fitHeightProperty().bind(this.heightProperty().divide(5));
     	logo.layoutXProperty().bind(widthProperty().divide(2).subtract(logo.fitWidthProperty().divide(2)));
     	logo.setImage(new Image("/client/resources/images/InterDimLogo.png"));
     	getChildren().add(logo);
+        // News Feed
+        setupNewsFeed();
+		// Tile Info in right loop
+		setupTileInfoCircle();
+        // Player stats in 4 corners
+        setupPlayerStats();
+        // Dice
+        setupDiceLayout();
+        // Auction info setup
+        setUpperAuctionLayout();
+    }
 
+    private void setupPlayerStats(){
+        playerInfoLayout.prefWidthProperty().bind(this.widthProperty());
+        playerInfoLayout.prefHeightProperty().bind(this.heightProperty());
+        playerInfoLayout.setTop(top);
+        playerInfoLayout.setBottom(bottom);
+        top.setMaxHeight(200);
+        getChildren().add(playerInfoLayout);
+    }
+
+    private void setupNewsFeed(){
         // Circle text Area (currently invisible)
         eventLogger.setFill(Color.rgb(60, 67, 79, 0));
         eventLogger.setStroke(Color.rgb(119, 137, 165, 0));
@@ -94,25 +116,27 @@ public class InformationPane extends Pane {
 
         newsfeed.prefWidthProperty().bind(eventLogger.radiusProperty().multiply(2));
         newsfeed.prefHeightProperty().bind(eventLogger.radiusProperty().multiply(2));
-		newsfeed.layoutXProperty().bind(eventLogger.layoutXProperty().subtract(eventLogger.radiusProperty()));
-		newsfeed.layoutYProperty().bind(heightProperty().divide(2).subtract(newsfeed.prefHeightProperty().divide(2)));
-		getChildren().add(newsfeed);
+        newsfeed.layoutXProperty().bind(eventLogger.layoutXProperty().subtract(eventLogger.radiusProperty()));
+        newsfeed.layoutYProperty().bind(heightProperty().divide(2).subtract(newsfeed.prefHeightProperty().divide(2)));
+        getChildren().add(newsfeed);
 
-		Text welcome = new Text("Welcome to Interdimensional Panopoly!\n");
-		welcome.setFont(new Font("Verdana", 18));
-		welcome.setStyle("-fx-fill: rgb(254, 254, 254);");
-		messages.add(welcome);
-		newsfeed.getChildren().add(messages.get(0));
+        Text welcome = new Text("Welcome to Interdimensional Panopoly!\n");
+        welcome.setFont(new Font("Verdana", 18));
+        welcome.setStyle("-fx-fill: rgb(254, 254, 254);");
+        messages.add(welcome);
+        newsfeed.getChildren().add(messages.get(0));
+    }
 
-		// Current players location info
-		tileInfo.layoutXProperty().bind(widthProperty().subtract(widthProperty().divide(4.2)));
-		tileInfo.layoutYProperty().bind(heightProperty().divide(2));
-		tileInfo.setFill(Color.BLACK);
-		tileInfo.setStroke(Color.GOLD);
-		tileInfo.radiusProperty().bind(widthProperty().divide(9));
-		getChildren().add(tileInfo);
+    private void setupTileInfoCircle(){
+        // Current players location info
+        tileInfo.layoutXProperty().bind(widthProperty().subtract(widthProperty().divide(4.2)));
+        tileInfo.layoutYProperty().bind(heightProperty().divide(2));
+        tileInfo.setFill(Color.BLACK);
+        tileInfo.setStroke(Color.GOLD);
+        tileInfo.radiusProperty().bind(widthProperty().divide(9));
+        getChildren().add(tileInfo);
 
-		// Semi Circle
+        // Semi Circle
         infoBackground.centerXProperty().bind(tileInfo.layoutXProperty());
         infoBackground.centerYProperty().bind(tileInfo.layoutYProperty());
         infoBackground.radiusXProperty().bind(tileInfo.radiusProperty());
@@ -141,27 +165,48 @@ public class InformationPane extends Pane {
         infoLayout.setAlignment(Pos.CENTER);
         getChildren().add(infoLayout);
 
-		// Tile Image
+        // Tile Image
         tileImage.layoutXProperty().bind(tileInfo.layoutXProperty().subtract(tileImage.fitWidthProperty().divide(2)));
         tileImage.layoutYProperty().bind(tileInfo.layoutYProperty().subtract(tileImage.fitHeightProperty().divide(2)));
         tileImage.fitWidthProperty().bind(tileInfo.radiusProperty().multiply(1.8));
         tileImage.fitHeightProperty().bind(tileInfo.radiusProperty().divide(2));
         tileImage.setImage(new Image("/client/resources/images/InterDimLogo.png"));
         getChildren().add(tileImage);
+    }
 
-        // Player stats in 4 corners
-        playerInfoLayout.prefWidthProperty().bind(this.widthProperty());
-        playerInfoLayout.prefHeightProperty().bind(this.heightProperty());
-        playerInfoLayout.setTop(top);
-        playerInfoLayout.setBottom(bottom);
-        top.setMaxHeight(200);
-        getChildren().add(playerInfoLayout);
+    private void setUpperAuctionLayout(){
+        // Property Image
+        auctionProp.layoutXProperty().bind(auctionCircle.layoutXProperty());
+        auctionProp.layoutYProperty().bind(auctionCircle.layoutYProperty());
+        auctionProp.radiusProperty().bind(auctionCircle.radiusProperty().divide(3));
 
-        // Dice
-        setupDiceLayout();
+        // Upper layout
+        upperAuctionLayout.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(upperAuctionLayout.widthProperty().divide(2)));
+        upperAuctionLayout.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(auctionCircle.radiusProperty()).add(60));
+        upperAuctionLayout.getChildren().addAll(auctionHeading, playerSelling);
+        upperAuctionLayout.setAlignment(Pos.CENTER);
 
-        // Auction stuff
-        setUpperAuctionLayout();
+        auctionHeading.setFont(new Font("Verdana", 30));
+        playerSelling.setId("pslabel");
+
+        // Auction countdown Timer
+        timer.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(timer.widthProperty().divide(2)));
+        timer.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(timer.heightProperty().divide(2)));
+        timer.setFont(new Font("Verdana", 65));
+        timer.setTextFill(Color.ORANGE);
+
+        // Lower Layout
+        lowerAuctionLayout.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(lowerAuctionLayout.widthProperty().divide(2)));
+        lowerAuctionLayout.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionProp.radiusProperty()));
+        lowerAuctionLayout.getChildren().addAll(auctionName,auctionPrice,highestBidder);
+        lowerAuctionLayout.setAlignment(Pos.CENTER);
+
+        auctionPrice.setFont(new Font("Verdana", 20));
+        auctionCircle.layoutXProperty().bind(tileInfo.layoutXProperty());
+        auctionCircle.layoutYProperty().bind(tileInfo.layoutYProperty());
+        auctionCircle.setFill(Color.WHITE);
+        auctionCircle.setStroke(Color.AQUA);
+        auctionCircle.radiusProperty().bind(tileInfo.radiusProperty().add(10));
     }
 
     // Updates information Feed
@@ -208,8 +253,11 @@ public class InformationPane extends Pane {
                 tileOwner.setText("");
             }
         }
-        else
-            tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
+        else{
+            if(Game.getPlayer(loc.getOwnerID()).getCharacter() != null){
+                tileOwner.setText("Owner: " + " Player " + loc.getOwnerID() +  ": " + Game.getPlayer(loc.getOwnerID()).getCharacter());
+            }
+        }
         if(loc.getRent()>0)
             tileRent.setText("Rent: " + loc.getRent() + " Shm");
         else
@@ -230,55 +278,21 @@ public class InformationPane extends Pane {
         Color faded = Color.color(original.getRed(),original.getGreen(),original.getBlue(), 0.6);
         infoBackground.setFill(faded);
 
-        if(loc.getType().equals("investment")){
-            tileType.setText("Investment Property");
-        }
-        else if(loc.getType().equals("tax")){
-            tileType.setText("Tax");
-        }
-        else if(loc.getType().equals("utility")){
-            tileType.setText("Utility");
-        }
-        else if(loc.getType().equals("station")){
-            tileType.setText("Station");
+        switch (loc.getType()) {
+            case "investment":
+                tileType.setText("Investment Property");
+                break;
+            case "tax":
+                tileType.setText("Tax");
+                break;
+            case "utility":
+                tileType.setText("Utility");
+                break;
+            case "station":
+                tileType.setText("Station");
+                break;
         }
 	}
-
-	public void setUpperAuctionLayout(){
-        // Property Image
-        auctionProp.layoutXProperty().bind(auctionCircle.layoutXProperty());
-        auctionProp.layoutYProperty().bind(auctionCircle.layoutYProperty());
-        auctionProp.radiusProperty().bind(auctionCircle.radiusProperty().divide(3));
-
-        // Upper layout
-        upperAuctionLayout.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(upperAuctionLayout.widthProperty().divide(2)));
-        upperAuctionLayout.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(auctionCircle.radiusProperty()).add(60));
-        upperAuctionLayout.getChildren().addAll(auctionHeading, playerSelling);
-        upperAuctionLayout.setAlignment(Pos.CENTER);
-
-        auctionHeading.setFont(new Font("Verdana", 30));
-        playerSelling.setId("pslabel");
-
-        // Auction countdown Timer
-        timer.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(timer.widthProperty().divide(2)));
-        timer.layoutYProperty().bind(auctionCircle.layoutYProperty().subtract(timer.heightProperty().divide(2)));
-        timer.setFont(new Font("Verdana", 65));
-        timer.setTextFill(Color.ORANGE);
-
-        // Lower Layout
-        lowerAuctionLayout.layoutXProperty().bind(auctionCircle.layoutXProperty().subtract(lowerAuctionLayout.widthProperty().divide(2)));
-        lowerAuctionLayout.layoutYProperty().bind(auctionCircle.layoutYProperty().add(auctionProp.radiusProperty()));
-        lowerAuctionLayout.getChildren().addAll(auctionName,auctionPrice,highestBidder);
-        lowerAuctionLayout.setAlignment(Pos.CENTER);
-
-
-        auctionPrice.setFont(new Font("Verdana", 20));
-        auctionCircle.layoutXProperty().bind(tileInfo.layoutXProperty());
-        auctionCircle.layoutYProperty().bind(tileInfo.layoutYProperty());
-        auctionCircle.setFill(Color.WHITE);
-        auctionCircle.setStroke(Color.AQUA);
-        auctionCircle.radiusProperty().bind(tileInfo.radiusProperty().add(10));
-    }
 
 	// Add Auction Display
 	public void addAuctionCircle(){
@@ -361,7 +375,21 @@ public class InformationPane extends Pane {
         }
     }
 
-    public void setupDiceLayout(){
+    // Indicates which Player's turn it is
+    public void updatePlayerTurn(int playerTurn){
+        Player currentPlayer = Game.getPlayer(playerTurn);
+
+        for(Player p : Game.observablePlayers){
+            if(p == currentPlayer){
+                p.stats.setBorder(new Border(new BorderStroke(currentPlayer.getColor(),BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            }
+            else{
+                p.stats.setBorder(null);
+            }
+        }
+    }
+
+    private void setupDiceLayout(){
         loadDiceImages();
 
         diceLeft.widthProperty().bind(widthProperty().divide(20));
@@ -404,20 +432,6 @@ public class InformationPane extends Pane {
             }catch(Exception e){
                 System.out.println("Failed to find dice image");
                 e.printStackTrace();
-            }
-        }
-    }
-
-    // Indicates which Player's turn it is
-    public void updatePlayerTurn(int playerTurn){
-        Player currentPlayer = Game.getPlayer(playerTurn);
-
-        for(Player p : Game.observablePlayers){
-            if(p == currentPlayer){
-                p.stats.setBorder(new Border(new BorderStroke(currentPlayer.getColor(),BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-            }
-            else{
-                p.stats.setBorder(null);
             }
         }
     }

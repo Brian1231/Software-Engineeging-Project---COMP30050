@@ -95,6 +95,7 @@ public class Game {
         }
     }
 
+    // Get Player by their identifier
     public static Player getPlayer(int id){
         for(Player player: observablePlayers){
             if(player.getId() == id){
@@ -123,7 +124,7 @@ public class Game {
             }
         }
     }
-
+    // Updates Location Information from server
     private static void updateLocationData(Location location){
         if(locations.contains(location)){
             int index = locations.indexOf(location);
@@ -138,6 +139,7 @@ public class Game {
         }
     }
 
+    // Get location by its identifier
     public static Location getLocation(int position){
         for(Location loc: locations){
             if(loc.getPosition() == position){

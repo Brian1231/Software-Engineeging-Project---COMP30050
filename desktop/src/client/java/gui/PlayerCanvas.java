@@ -34,6 +34,7 @@ public class PlayerCanvas extends ResizableCanvas {
 		});
 	}
 
+	// Draw call
 	public void draw(){
 		double width =  getWidth();
 		double height = getHeight();
@@ -42,33 +43,6 @@ public class PlayerCanvas extends ResizableCanvas {
 		gc.clearRect(0, 0, width, height);
 
 		drawVillains(gc, width, height);
-	}
-
-	// Draws players at their current location.
-	public void drawPlayers(GraphicsContext g, double width, double height){
-
-		for(Player player : Game.players){
-			int position = player.getPosition();
-			if(position>19&&position<39)position++;
-			double t = -PI/2 + step*position;
-
-			Point2D point = lemniscate(t);
-			Point2D offset = playerOffset(player);
-
-			double playerX = point.getX() + (width/2) -10 + offset.getX();
-			double playerY = point.getY() + (height/2)-10 + offset.getY();
-
-			g.setFill(player.getColor());
-			g.fillOval(playerX,playerY,20,20);
-
-			// Payer ID numbers for testing
-			g.setStroke(Color.RED);
-			g.strokeText(Integer.toString(player.getId()),playerX+5,playerY+15);
-		}
-
-		for(Player p: Game.players ){
-			relocatePlayer(p);
-		}
 	}
 
 	// Draws Villains at their current location.
@@ -140,7 +114,7 @@ public class PlayerCanvas extends ResizableCanvas {
 		parent.getChildren().remove(p.playerToken);
 	}
 
-	// Animates PLayer Movement on dice Roll / Boost
+	// Animates Player Movement on dice Roll / Boost
 	public void animatePlayer(Player p, int newPos){
 		int duration = 4;
 		Polyline path = new Polyline();
@@ -158,6 +132,7 @@ public class PlayerCanvas extends ResizableCanvas {
 			oldPosition = 20;
 		}
 
+		// Constructing Animation Path
 		// If passing go from left loop to right loop
 		if(newPos < oldPosition){
 			for(int i = oldPosition; i < 40; i++){
@@ -205,7 +180,7 @@ public class PlayerCanvas extends ResizableCanvas {
 	}
 
 
-	// buggy at the moment
+	// Animate player Movement Backwards
 	public void animatePlayerBackwards(Player p, int newPos){
 		int duration = 4;
 
@@ -215,8 +190,8 @@ public class PlayerCanvas extends ResizableCanvas {
 		// if inside left loop
 		if(oldPosition > 19 && oldPosition < 39)oldPosition++;
 		if(newPos>19&&newPos<39)newPos++;
-//
-//		// if landing on Go coming from left loop
+
+		// if landing on Go coming from left loop
 		if(newPos == 0 && oldPosition > 20)newPos = 20;
 
 		// if entering either loop from go
@@ -229,8 +204,7 @@ public class PlayerCanvas extends ResizableCanvas {
 			}
 		}
 
-
-
+		// Constructing animation Path
 		// If passing go from right loop to left loop
 		if(newPos > oldPosition){
 			for(int i = oldPosition; i > 0; i--){
@@ -287,6 +261,34 @@ public class PlayerCanvas extends ResizableCanvas {
 
 		p.playerToken.setCenterX(playerX);
 		p.playerToken.setCenterY(playerY);
+	}
+
+	// Depreciated
+	// Draws players at their current location.
+	public void drawPlayers(GraphicsContext g, double width, double height){
+
+		for(Player player : Game.players){
+			int position = player.getPosition();
+			if(position>19&&position<39)position++;
+			double t = -PI/2 + step*position;
+
+			Point2D point = lemniscate(t);
+			Point2D offset = playerOffset(player);
+
+			double playerX = point.getX() + (width/2) -10 + offset.getX();
+			double playerY = point.getY() + (height/2)-10 + offset.getY();
+
+			g.setFill(player.getColor());
+			g.fillOval(playerX,playerY,20,20);
+
+			// Payer ID numbers for testing
+			g.setStroke(Color.RED);
+			g.strokeText(Integer.toString(player.getId()),playerX+5,playerY+15);
+		}
+
+		for(Player p: Game.players ){
+			relocatePlayer(p);
+		}
 	}
 
 }

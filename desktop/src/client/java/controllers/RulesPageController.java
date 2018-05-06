@@ -27,6 +27,7 @@ public class RulesPageController {
 		loadRules();
 	}
 
+	// Links back to Welcome Screen
 	public void onBackClick(ActionEvent event){
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/resources/view/welcomeScreen.fxml"));
 		Parent welcome = null;
@@ -43,9 +44,10 @@ public class RulesPageController {
 		welcomeStage.setScene(welcomeScene);
 	}
 
-	public void loadRules(){
+	// Loads Game Rules from text files and ands them to the Rule Page
+	private void loadRules(){
 		try(
-				InputStream in = this.getClass().getResourceAsStream("/client/resources/rules.txt"); 
+				InputStream in = this.getClass().getResourceAsStream("/client/resources/rules.txt");
 				BufferedReader br = new BufferedReader(new InputStreamReader(in))){
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();

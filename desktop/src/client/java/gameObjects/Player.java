@@ -52,6 +52,11 @@ public class Player implements Serializable {
 
         this.pcs = new PropertyChangeSupport(this);
 
+        setupPlayerStats();
+    }
+
+    // Setups Player Information for corner of Screen
+    public void setupPlayerStats(){
         try {
             playerNameLabel.textProperty().bind(new JavaBeanStringPropertyBuilder().bean(this).name("character").build().concat(" Player: " + id));
             playerBalanceLabel.textProperty().bind(new JavaBeanStringPropertyBuilder().bean(this).name("balance").build());
@@ -60,8 +65,8 @@ public class Player implements Serializable {
             e.printStackTrace();
         }
 
-        playerNameLabel.setTextFill(colour);
-        playerBalanceLabel.setTextFill(colour);
+        playerNameLabel.setTextFill(color);
+        playerBalanceLabel.setTextFill(color);
 
         ImageView c = new ImageView();
         c.setImage(currency);

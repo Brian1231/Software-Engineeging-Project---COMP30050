@@ -27,16 +27,12 @@ import org.json.JSONException;
 
 public class BoardCanvas extends ResizableCanvas {
 
-	private int currentTile;
-	private Pane wrapperPane = (Pane) this.getParent();
 	private ArrayList<Text> titles = new ArrayList<>();
 	private HashMap<Integer, Label> mortLabels = new HashMap();
 	private HashMap<Integer, Label> typeLabels = new HashMap();
 
 	public BoardCanvas() {
 		// Redraw canvas when size changes
-		currentTile = 0;
-
 		widthProperty().addListener(evt -> {
 			try {
 				removeTileTitles();
@@ -56,7 +52,7 @@ public class BoardCanvas extends ResizableCanvas {
 		});
 	}
 
-	// Callled on location changes
+	// Called on location changes
 	public void draw() throws IOException, JSONException {
 		double width = getWidth();
 		double height = getHeight();
@@ -127,7 +123,7 @@ public class BoardCanvas extends ResizableCanvas {
 		}
 	}
 
-	// Draws Tile Auras and adds houses, mortgage banners and loaction types.
+	// Draws Tile Auras and adds houses, mortgage banners and location types.
 	private void drawTile(Point2D point, GraphicsContext g, Location location) throws IOException, JSONException {
 
 		double width = getWidth();
@@ -207,6 +203,63 @@ public class BoardCanvas extends ResizableCanvas {
 
 	}
 
+	// Adds Image and Titles to Location tiles
+	private void drawImagedTile(Point2D point, GraphicsContext g, Location location){
+
+		double width = getWidth();
+		double height = getHeight();
+		double x = point.getX();
+		double y = point.getY();
+
+		Image image = location.getImage();
+
+		if(image != null) {
+			try {
+				ImagePattern imgPattern = new ImagePattern(image);
+				g.setEffect(new Glow(.4));
+				g.setFill(imgPattern);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			}
+		}
+		else{
+			g.setFill(Color.BLACK);
+		}
+		
+		if(location.getType().equals("investment")){
+			g.setStroke(Color.TRANSPARENT);
+		}
+		else{
+			g.setStroke(location.getColour());
+			g.setLineWidth(10);
+		}
+
+		g.fillOval(x + (width / 2) - width / 42, y + (height / 2) - width / 42, width / 21, width / 21);
+		g.strokeOval(x + (width / 2) - width / 42, y + (height / 2) - width / 42, width / 21, width / 21);
+
+		g.setEffect(null);
+		g.setStroke(null);
+		g.setLineWidth(1);
+
+        double titleRadius = width / 36;
+        addTileTitle(location.getName(), titleRadius, point);
+	}
+
+	// Adds Galactic Core to Game
+	public void addCenterTile(){
+		Pane parent = (Pane) this.getParent();
+
+		Image centerImage = new Image("client/resources/images/Galactic Core.gif");
+		ImagePattern cImage = new ImagePattern(centerImage);
+
+		Circle centerCircle = new Circle();
+		centerCircle.centerXProperty().bind(parent.widthProperty().divide(2));
+		centerCircle.centerYProperty().bind(parent.heightProperty().divide(2));
+		centerCircle.radiusProperty().bind(parent.widthProperty().divide(41));
+		centerCircle.setFill(cImage);
+		parent.getChildren().add(centerCircle);
+	}
+
 	// Wraps title around location tiles
 	private void addTileTitle(String title, double radius, Point2D center){
 
@@ -258,48 +311,6 @@ public class BoardCanvas extends ResizableCanvas {
 		wrap.getChildren().removeAll(titles);
 	}
 
-	// Adds Image and Titles to Location tiles
-	private void drawImagedTile(Point2D point, GraphicsContext g, Location location){
-
-		double width = getWidth();
-		double height = getHeight();
-		double x = point.getX();
-		double y = point.getY();
-
-		Image image = location.getImage();
-
-		if(image != null) {
-			try {
-				ImagePattern imgPattern = new ImagePattern(image);
-				g.setEffect(new Glow(.4));
-				g.setFill(imgPattern);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			}
-		}
-		else{
-			g.setFill(Color.BLACK);
-		}
-		
-		if(location.getType().equals("investment")){
-			g.setStroke(Color.TRANSPARENT);
-		}
-		else{
-			g.setStroke(location.getColour());
-			g.setLineWidth(10);
-		}
-
-		g.fillOval(x + (width / 2) - width / 42, y + (height / 2) - width / 42, width / 21, width / 21);
-		g.strokeOval(x + (width / 2) - width / 42, y + (height / 2) - width / 42, width / 21, width / 21);
-
-		g.setEffect(null);
-		g.setStroke(null);
-		g.setLineWidth(1);
-
-        double titleRadius = width / 36;
-        addTileTitle(location.getName(), titleRadius, point);
-	}
-
 	// Adds mortgage label to property when mortgaged
 	private void addMortgageLabel(Point2D center, Location location){
 		Pane parent = (Pane) this.getParent();
@@ -340,7 +351,7 @@ public class BoardCanvas extends ResizableCanvas {
 		mortLabel.setLayoutY(pointY);
 	}
 
-	// Adds Property Types to non investement property tiles.
+	// Adds Property Types to non investment property tiles.
 	private void addTypeLabel(Point2D center, Location location){
 		Pane parent = (Pane) this.getParent();
 		Label typeLabel = new Label(location.getType().toUpperCase());
@@ -360,7 +371,7 @@ public class BoardCanvas extends ResizableCanvas {
 		location.setTypeLabelled(true);
 	}
 
-	// Reloactes Location type labels on Screen resize
+	// Relocates Location type labels on Screen resize
 	private void relocateTypeLabels(Point2D center, Location location){
 		Label typeLabel = typeLabels.get(location.getPosition());
 
@@ -371,26 +382,8 @@ public class BoardCanvas extends ResizableCanvas {
 		typeLabel.setLayoutY(pointY);
 	}
 
-	// Depreciated
-	private Image getImage(Location location){
-
-		if(location.getPosition() == 0){
-			return new Image("/client/resources/images/Galactic Core.gif");
-		}
-		StringBuilder sb = new StringBuilder();
-		sb.append("/client/resources/images/worlds/");
-		sb.append(location.getName());
-		sb.append(".jpg");
-
-		try{
-			return new Image( sb.toString() );
-		}catch(Exception e){
-			return null;
-		}
-	}
-
 	// Loads properties Image from the server
-	public Image getUrlImage(Location location){
+	private Image getUrlImage(Location location){
 		if(location.getPosition() == 0){
 			return new Image("/client/resources/images/Galactic Core.gif");
 		}
@@ -423,19 +416,22 @@ public class BoardCanvas extends ResizableCanvas {
 		}
 	}
 
-	// Adds Galactic Core to Game
-	public void addCenterTile(){
-		Pane parent = (Pane) this.getParent();
+	// Depreciated
+	private Image getImage(Location location){
 
-		Image centerImage = new Image("client/resources/images/Galactic Core.gif");
-		ImagePattern cImage = new ImagePattern(centerImage);
+		if(location.getPosition() == 0){
+			return new Image("/client/resources/images/Galactic Core.gif");
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append("/client/resources/images/worlds/");
+		sb.append(location.getName());
+		sb.append(".jpg");
 
-		Circle centerCircle = new Circle();
-		centerCircle.centerXProperty().bind(parent.widthProperty().divide(2));
-		centerCircle.centerYProperty().bind(parent.heightProperty().divide(2));
-		centerCircle.radiusProperty().bind(parent.widthProperty().divide(41));
-		centerCircle.setFill(cImage);
-		parent.getChildren().add(centerCircle);
+		try{
+			return new Image( sb.toString() );
+		}catch(Exception e){
+			return null;
+		}
 	}
 
 }

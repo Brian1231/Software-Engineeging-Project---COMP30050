@@ -10,7 +10,7 @@ import org.json.JSONException;
 import javafx.geometry.Point2D;
 
 // JavaFx canvas' are not resizeable by default
-// Had to override Canvas class in order to facilitate Canvas resizing on window resize
+// Override of Canvas class in order to facilitate Canvas resizing on window resize
 
 public class ResizableCanvas extends Canvas {
 
@@ -47,7 +47,7 @@ public class ResizableCanvas extends Canvas {
 
     // Function to calculate a point on the infinity shape (Lemniscate of Bernoulli)
     // Used to draw objects along infinity curve
-    public Point2D lemniscate(double t){
+    Point2D lemniscate(double t){
         double x = (xAmplitude()*Math.sqrt(2)*Math.cos(t))/(Math.pow(Math.sin(t),2)+1);
         double y = (yAmplitude()*Math.sqrt(2)*Math.cos(t)*Math.sin(t))/(Math.pow(Math.sin(t),2)+1);
 
