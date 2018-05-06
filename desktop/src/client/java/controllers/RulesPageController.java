@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 public class RulesPageController {
 
@@ -43,7 +46,9 @@ public class RulesPageController {
     }
 
     public void loadRules(){
-        try(BufferedReader br = new BufferedReader(new FileReader("src/client/resources/rules.txt"))) {
+        try(
+        		InputStream in = this.getClass().getResourceAsStream("/client/resources/rules.txt"); 
+        		BufferedReader br = new BufferedReader(new InputStreamReader(in))){
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
 

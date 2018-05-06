@@ -4,7 +4,6 @@ import game.Player;
 import game.RentalProperty;
 import noc_db.Character_noc;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 public interface Playable extends Identifiable{
