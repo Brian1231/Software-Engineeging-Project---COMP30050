@@ -32,6 +32,6 @@ public class Dice implements Rollable{
 		this.diceValues = dice;
 
 		// un-comment below line to set dice to 1 for testing
-		//this.diceValues = new int[]{0, 20};
+		//this.diceValues = new int[]{0, 1};
 	}
 }
