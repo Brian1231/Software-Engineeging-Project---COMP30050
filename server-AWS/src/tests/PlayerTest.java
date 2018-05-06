@@ -190,7 +190,7 @@ public class PlayerTest {
 
 		player.addNewPropertyBought(prop, prop.getPrice());
 		player.topUpFuel();
-		player.moveForward(10);
+		player.moveForward(9);
 
 
 		try {
@@ -199,7 +199,7 @@ public class PlayerTest {
 			assertEquals(850, obj.getInt("balance"));
 			assertEquals(3, obj.getInt("fuel"));
 			assertEquals(player.getCharName(), obj.getString("character"));
-			assertEquals(10, obj.getInt("position"));
+			assertEquals(9, obj.getInt("position"));
 			assertTrue(obj.getBoolean("moving_forward"));
 			assertEquals(player.getID(), obj.getInt("id"));
 			assertNotNull(obj.get("properties"));

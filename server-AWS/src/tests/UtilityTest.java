@@ -27,11 +27,11 @@ public class UtilityTest {
 	@Test
 	public void constructorTest() {
 		assertNotNull(util1);
-		assertEquals("Utility", util1.getType());
+		assertEquals("utility", util1.getType());
 		assertEquals("UCD1", util1.getId());
 
 		assertNotNull(util2);
-		assertEquals("Utility", util2.getType());
+		assertEquals("utility", util2.getType());
 		assertEquals("UCD2", util2.getId());
 	}
 
