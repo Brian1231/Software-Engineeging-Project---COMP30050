@@ -13,6 +13,12 @@ import org.json.JSONObject;
 
 import main.Main;
 
+/*
+ * This class runs on its own thread and is used to hold open a connection between the server and the desktop application.
+ * It may send and receive messages from the desktop app.
+ * 
+ * */
+
 public class ClientUpdater extends Thread {
 
 	private ServerSocket server;

@@ -5,6 +5,9 @@ import java.util.Random;
 
 import game_interfaces.Rollable;
 
+/*
+ * Dice object to simulate players rolling a pair of dice
+ * */
 public class Dice implements Rollable{
 
 	private Random rand;
@@ -20,10 +23,8 @@ public class Dice implements Rollable{
 
 	public Dice() {
 		this.rand = new Random();
-
 		diceValues = new int[]{0, 0};
 	}
-
 
 	@Override
 	public void roll() {

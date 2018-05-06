@@ -6,7 +6,12 @@ import org.json.JSONObject;
 import game_interfaces.Improvable;
 import game_interfaces.JSONable;
 
-public class InvestmentProperty extends RentalProperty implements Improvable, JSONable {
+
+/*
+ * Class to model improvable properties
+ * 
+ * */
+public class InvestmentProperty extends RentalProperty implements Improvable {
 
 	private int housePrice = 0;
 	private int houseSellValue;

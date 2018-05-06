@@ -6,18 +6,28 @@ import game_interfaces.Activatable;
 import main.Main;
 import noc_db.Character_noc;
 
+
+/*
+ * This class represents the Interdimensional TV tiles in our game
+ * 
+ * */
 public class ChanceSquare extends NamedLocation implements Activatable{
 
-	
 	public ChanceSquare(String s){
 		super(s);
 		this.setType("chance");
 	}
 	
+	/*
+	 * Get the text generated from the chance templates
+	 * */
 	public String getChance(Character_noc ch, int type){
 		return new ChanceTemplate(ch).getTemplateType(type);
 	}
 	
+	/*
+	 * Trigger the chance card when a player lands on it
+	 * */
 	@Override
 	public String activate(Player player){
 		Random random = new Random();

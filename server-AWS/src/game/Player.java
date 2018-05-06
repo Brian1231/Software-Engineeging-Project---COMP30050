@@ -12,6 +12,11 @@ import noc_db.Vehicle_noc;
 import java.awt.*;
 import java.util.ArrayList;
 
+/*
+ * Class to represent player object in the game
+ * Contains all information relevant to individual player
+ * 
+ * */
 public class Player implements Playable, JSONable{
 
 	private int id;
@@ -38,7 +43,7 @@ public class Player implements Playable, JSONable{
 
 	public Player(int playerId, Character_noc ch, Vehicle_noc vehicle, Color color){
 		this.id = playerId;
-		this.balance = 1500;
+		this.balance = 1500; //Initial balance
 		this.position = 0;
 		this.debt = 0;
 		this.jailTurnCount = 0;
@@ -52,7 +57,7 @@ public class Player implements Playable, JSONable{
 		this.fuel = 1;
 		this.character = ch;
 		this.vehicle = vehicle;
-		this.movingForward = false;//fix memooimnjnjjnibhbubkgbggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+		this.movingForward = true;
 		this.rgbColour = color;
 	}
 
@@ -65,11 +70,7 @@ public class Player implements Playable, JSONable{
 		return false;
 	}
 
-	@Override
-	public String toString(){
-		return "ID: " + this.id;
-	}
-
+	//Has the player rolled this turn?
 	@Override
 	public boolean hasRolled(){
 		return this.hasRolled;
@@ -82,11 +83,13 @@ public class Player implements Playable, JSONable{
 		this.hasBought = false;
 	}
 
+	//Has the player bought this turn?
 	@Override
 	public boolean hasBought(){
 		return this.hasBought;
 	}
 
+	//Has the player boosted this turn?
 	@Override
 	public boolean hasBoosted(){
 		return this.hasBoosted;
@@ -128,11 +131,13 @@ public class Player implements Playable, JSONable{
 		this.movingForward = !this.movingForward;
 	}
 
+	//Assign player a villain character
 	@Override
 	public void setVillain(Character_noc villain) {
 		this.villain = villain;
 	}
 
+	//Player can only stay in jail for 3 turns
 	@Override
 	public boolean incrementJailTurns(){
 		this.jailTurnCount++;
@@ -144,6 +149,7 @@ public class Player implements Playable, JSONable{
 		return false;
 	}
 
+	//Check if the player owns a full color group
 	@Override
 	public boolean ownsThree(int color){
 		int count = 0;
@@ -165,7 +171,6 @@ public class Player implements Playable, JSONable{
 		for(NamedLocation l : this.ownedProperties){
 			properties.put(l.getInfo());
 		}
-
 		info.put("id", this.id);
 		info.put("balance", this.balance);
 		info.put("position", this.position);
@@ -175,9 +180,9 @@ public class Player implements Playable, JSONable{
 		info.put("colour", this.rgbColour.getRGB());
 		info.put("moving_forward", this.movingForward);
 		return info;
-
 	}
 
+	//Get location of player on the board
 	@Override
 	public int getPos(){
 		return this.position;
@@ -205,6 +210,7 @@ public class Player implements Playable, JSONable{
 		return this.moveForward(1); 
 	}
 
+	//Move Player around the board by a certain number of spaces
 	@Override
 	public String moveForward(int spaces){
 		if(this.movingForward){

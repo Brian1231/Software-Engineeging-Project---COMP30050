@@ -9,6 +9,10 @@ import noc_db.NOC_Manager;
 import server.ClientUpdater;
 import server.PortAllocator;
 
+/*
+ * This is our main class containing all of our main objects
+ * 
+ * */
 public class Main {
 
 	private static final int MAINPORT = 8080;
@@ -23,6 +27,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		isActive = false;
 
+		//Print Local IP for playing locally
 		System.out.println(InetAddress.getLocalHost().getHostAddress());
 
 		while(true){
@@ -50,23 +55,6 @@ public class Main {
 				portAllocator = new PortAllocator(MAINPORT);
 				portAllocator.start();
 			}
-			/* - possible fix to kill all threads to re-launch game ??
-			if(!isActive) {
-				portAllocator.interrupt();
-				clientUpdater.interrupt();
-			}
-			*/
 		}
-
-
-		/*
-
-			  Now have threads for each player all accessing Main.gamestate to update game
-
-			  Also have ClientUpdater on separate thread to update desktop
-
-
-		 */
-
 	}
 }

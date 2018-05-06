@@ -10,6 +10,12 @@ import game_interfaces.JSONable;
 import noc_db.Character_noc;
 import noc_db.Weapon_noc;
 
+/*
+ * This class represents the gang of villains which may be summoned in our game.
+ * This object will move around the board and attack any players that land on the same tile as it.
+ * 
+ * */
+
 public class VillainGang implements JSONable, VillainGangable {
 
 	private int turnsToLive;
@@ -38,6 +44,7 @@ public class VillainGang implements JSONable, VillainGangable {
 		return this.turnsToLive;
 	}
 
+	//Villain gang has been summoned
 	@Override
     public void activate(int location){
 		this.isActive = true;
@@ -55,6 +62,7 @@ public class VillainGang implements JSONable, VillainGangable {
 		this.isActive = false;
 	}
 
+	//Move around the board and decrement time to live
 	@Override
     public void update(){
 		if(this.isActive){
@@ -67,18 +75,16 @@ public class VillainGang implements JSONable, VillainGangable {
 			}
 			else{
 				this.position = (this.position+=1)%39;
-
 				//If we land on go going backwards
 				if(this.position == 20) {
 					this.position = 0;
 					this.isOnGo = true;
 				}
-			
-
 			}
 		}
 	}
 
+	//Player lands on same tile as villain gang
 	@Override
     public String attackPlayer(Player player){
 		Random random = new Random();

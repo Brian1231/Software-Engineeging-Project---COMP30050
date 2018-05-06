@@ -13,8 +13,13 @@ import org.json.JSONObject;
 
 import main.Main;
 
-public class PlayerConnection extends Thread{
+/*
+ * This class runs on its own thread and is used to hold open a connection between the server and an android application.
+ * It may send and receive messages from the android app.
+ * 
+ * */
 
+public class PlayerConnection extends Thread{
 
 	private ServerSocket server;
 	private Socket socket;
