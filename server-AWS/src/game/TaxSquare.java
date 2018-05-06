@@ -29,8 +29,8 @@ public class TaxSquare extends NamedLocation implements Taxable, Activatable {
 			res+="\n"+player.getCharName()+" owes the flat amount of "+flatAmount+" SHM.";
 			return res;
 		case 1:
-			//Percent in range 5% - 30%
-			double percentage = (0.05 + (random.nextInt(26)*0.01));
+			//Percent in range 5% - 10%
+			double percentage = (0.05 + (random.nextInt(6)*0.01));
 			int amount = this.getIncomePercentage(player, percentage);
 			res+="\n"+player.getCharName()+" owes "+Math.round(percentage*100)+"% of their net worth. That's "+amount+" SHM.";
 			player.setDebt(amount, null);
@@ -50,7 +50,7 @@ public class TaxSquare extends NamedLocation implements Taxable, Activatable {
 	
 	@Override
 	public int getFlatAmount() {
-		return 50 + 10*random.nextInt(26);
+		return 20 + 10*random.nextInt(9);
 	}
 
 }
