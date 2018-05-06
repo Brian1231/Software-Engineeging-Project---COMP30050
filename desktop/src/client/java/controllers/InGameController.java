@@ -107,6 +107,14 @@ public class InGameController {
 		}
 	}
 
+	void setGameStage(Stage gameStage) {
+		this.gameStage = gameStage;
+	}
+
+	void setServerIP(String ipAddress){
+		this.IP = ipAddress;
+	}
+
 	// Adds main Gui elements
 	private void setUpBoard() throws IOException, JSONException{
 		// Loading Screen
@@ -199,16 +207,10 @@ public class InGameController {
 		);
 	}
 
-	void setGameStage(Stage gameStage) {
-		this.gameStage = gameStage;
-	}
-
-	void setServerIP(String ipAddress){
-		this.IP = ipAddress;
-	}
 
 	// Called whenever a message/JSON/update is received form the server.
 	private void onUpdateReceived(JSONObject update) throws JSONException {
+
 		// If desktop failed to connect to the server
 		if(update.has("f")){
 			onFalseConnection();
@@ -216,128 +218,30 @@ public class InGameController {
 		else{
 			Platform.runLater(() -> {
 				try {
+					// Event Update
+					String actionInfo = update.getString("action_info");
+
+					// Game start update
 					if(update.has("game_started") && !Game.getGameStarted()){
-
-						boolean gstart = update.getBoolean("game_started");
-
-						if(gstart){
-							infoPane.removeLogo();
-							Game.gameStarted = true;
-							startButton.setText("End Game");
-							startButton.setOnAction(null);
-
-							startButton.setOnAction(e2 -> {
-								boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?", gameStage);
-								if (answer) {
-									try {
-										JSONObject output = new JSONObject();
-										output.put("id", 0);
-										output.put("action", "end");
-										connection.send(output);
-									} catch (JSONException e1) {
-										e1.printStackTrace();
-									} catch (Exception e1) {
-										e1.printStackTrace();
-									}
-								}
-							});
-						}
+						boolean game_started = update.getBoolean("game_started");
+						handleGameStartUpdate(game_started);
 					}
-
-					System.out.println("Current GameState: " + update.toString());
-
-					if(update.has("player_turn")){
-						Game.playerTurn = update.getInt("player_turn");
-						infoPane.updatePlayerTurn(Game.playerTurn);
-					}
-
+					// Game End Update
 					if(update.has("winner")){
 						int winnerID = update.getInt("winner");
 						showGameOverScreen(winnerID);
 					}
-
-					String actionInfo = update.getString("action_info");
-
-					// Auctioning
-					if(update.has("auction")){
-						JSONObject auctionObject = update.getJSONObject("auction");
-
-						int player_selling = auctionObject.getInt("player_selling");
-						int player_buying = auctionObject.getInt("player_buying");
-						int highest_bid = auctionObject.getInt("price");
-						int position = auctionObject.getInt("location");
-
-						Auction auct = new Auction(player_selling,player_buying,highest_bid,position);
-						Game.setAuction(auct);
-
-						infoPane.updateAuctionInfo(auct);
-
-						if(!Game.isAuctionActive()){
-							// Shows Auction Information on Screen
-							infoPane.addAuctionCircle();
-							Game.setAuctionActive(true);
-							Game.setAuctionTimer(10);
-							Game.getAuction().setTime(10);
-
-							// Auction Countdown Timer
-							Timeline timeLine = new Timeline();
-							timeLine.setCycleCount(Timeline.INDEFINITE);
-							timeLine.getKeyFrames().add(
-								new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-									@Override
-									public void handle(ActionEvent event) {
-
-										Game.getAuction().setTime(Game.getAuction().getTime()-1);
-										infoPane.updateTimer(Game.getAuction().getTime());
-
-										// Auction End
-										if(Game.getAuction().getTime() <= 0){
-											timeLine.stop();
-											JSONObject output = new JSONObject();
-											try {
-												output.put("id", 0);
-												output.put("action", "auction_over");
-												connection.send(output);
-											} catch (JSONException e) {
-												e.printStackTrace();
-											} catch (Exception e) {
-												e.printStackTrace();
-											}
-											infoPane.removeAuctionCircle();
-											Game.setAuctionActive(false);
-										}
-									}
-								}
-								));
-							timeLine.playFromStart();
-						}
-						else{
-							infoPane.updateAuctionInfo(auct);
-							Game.setAuctionTimer(10);
-							Game.getAuction().setTime(10);
-						}
+					// Player Turn Update
+					if(update.has("player_turn")){
+						Game.playerTurn = update.getInt("player_turn");
+						infoPane.updatePlayerTurn(Game.playerTurn);
 					}
-
-					// Update player information and Redraw players according to new player positions
+					// Players / Villains / Dice Update
 					if(update.has("players")){
-						List<Player> plyrs = new ArrayList<>();
 						JSONArray playerObjects = update.getJSONArray("players");
 
-						for(int i=0;i<playerObjects.length();i++){
-							int bal = playerObjects.getJSONObject(i).getInt("balance");
-							String balance = Integer.toString(bal);
-							int id = playerObjects.getJSONObject(i).getInt("id");
-							int position = playerObjects.getJSONObject(i).getInt("position");
-							int c = playerObjects.getJSONObject(i).getInt("colour");
-							java.awt.Color col = new java.awt.Color(c);
-							Color fxColor = Color.rgb(col.getRed(),col.getGreen(),col.getBlue());
-							String character = playerObjects.getJSONObject(i).getString("character");
-							int fuel = playerObjects.getJSONObject(i).getInt("fuel");
-							boolean direction = playerObjects.getJSONObject(i).getBoolean("moving_forward");
-							plyrs.add(new Player(balance,id,position,fxColor,character,fuel,direction));
-						}
-						Game.updatePlayers(plyrs, actionInfo);
-						playerCanvas.draw();
+						// Update Players
+						handlePlayerUpdate(playerObjects, actionInfo);
 
 						// Update Villain Gang
 						JSONObject villains = update.getJSONObject("villain_gang");
@@ -349,45 +253,21 @@ public class InGameController {
 						int dice2 = dice.getInt(1);
 						infoPane.updateDice(dice1, dice2);
 					}
-
-					// Updates location info and redraws locations according to new Location information.
-					List<Location> locs = new ArrayList<>();
+					// Locations Update
 					if(update.has("locations")){
 						JSONArray locationObjects = update.getJSONArray("locations");
-
-						for(int i=0;i<locationObjects.length();i++){
-							String id = locationObjects.getJSONObject(i).getString("id");
-							int price = locationObjects.getJSONObject(i).getInt("price");
-							int rent = locationObjects.getJSONObject(i).getInt("rent");
-							int position = locationObjects.getJSONObject(i).getInt("location");
-							int owner = locationObjects.getJSONObject(i).getInt("owner");
-							int houses = locationObjects.getJSONObject(i).getInt("houses");
-							java.awt.Color col = new java.awt.Color(locationObjects.getJSONObject(i).getInt("color"));
-							Color color = Color.rgb(col.getRed(), col.getGreen(), col.getBlue());
-							boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
-							if(locationObjects.getJSONObject(i).has("type")){
-								String type = locationObjects.getJSONObject(i).getString("type");
-								locs.add(new Location(id,position,price,rent,owner, color, isMortgaged, houses, type));
-							}
-							else{
-								locs.add(new Location(id,position,price,rent,owner, color, isMortgaged, houses, ""));
-							}
-						}
-
-						Game.updateLocations(locs);
-						Game.locationsSet = true;
-						// Load location images
-						if(!imagesPlaced){
-							boardCanvas.getImages();
-						}
-						boardCanvas.removeTileTitles();
-						boardCanvas.draw();
-						imagesPlaced = true;
+						handleLocationUpdate(locationObjects);
+					}
+					// Auction Update
+					if(update.has("auction")){
+						JSONObject auctionObject = update.getJSONObject("auction");
+						handleAuctionUpdate(auctionObject);
 					}
 
 					// Update Information Feed
 					infoPane.updateFeed(actionInfo);
 
+					// Update Magnified Tile info in right loop
 					if(Game.gameStarted){
 						int playerPos = 0;
 						for(Player p : Game.players){
@@ -400,6 +280,148 @@ public class InGameController {
 					e.printStackTrace();
 				}
 			});
+		}
+	}
+
+	// Sets games started boolean and transforms start button into end game button.
+	private void handleGameStartUpdate(boolean gstart){
+		if(gstart){
+			infoPane.removeLogo();
+			Game.gameStarted = true;
+			startButton.setText("End Game");
+			startButton.setOnAction(null);
+
+			startButton.setOnAction(e2 -> {
+				boolean answer = ConfirmBox.display("Are you sure?", "Are you sure that you want to quit the game?", gameStage);
+				if (answer) {
+					try {
+						JSONObject output = new JSONObject();
+						output.put("id", 0);
+						output.put("action", "end");
+						connection.send(output);
+					} catch (JSONException e1) {
+						e1.printStackTrace();
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
+		}
+	}
+
+	// Update player information and Redraw players according to new player positions
+	private void handlePlayerUpdate(JSONArray playerObjects, String actionInfo) throws JSONException {
+
+		List<Player> plyrs = new ArrayList<>();
+
+		for(int i=0;i<playerObjects.length();i++){
+			int bal = playerObjects.getJSONObject(i).getInt("balance");
+			String balance = Integer.toString(bal);
+			int id = playerObjects.getJSONObject(i).getInt("id");
+			int position = playerObjects.getJSONObject(i).getInt("position");
+			int c = playerObjects.getJSONObject(i).getInt("colour");
+			java.awt.Color col = new java.awt.Color(c);
+			Color fxColor = Color.rgb(col.getRed(),col.getGreen(),col.getBlue());
+			String character = playerObjects.getJSONObject(i).getString("character");
+			int fuel = playerObjects.getJSONObject(i).getInt("fuel");
+			boolean direction = playerObjects.getJSONObject(i).getBoolean("moving_forward");
+			plyrs.add(new Player(balance,id,position,fxColor,character,fuel,direction));
+		}
+		Game.updatePlayers(plyrs, actionInfo);
+		playerCanvas.draw();
+	}
+
+	// Updates location info and redraws locations according to new Location information.
+	private void handleLocationUpdate(JSONArray locationObjects) throws JSONException, IOException {
+
+		List<Location> locs = new ArrayList<>();
+
+		for(int i=0;i<locationObjects.length();i++){
+			String id = locationObjects.getJSONObject(i).getString("id");
+			int price = locationObjects.getJSONObject(i).getInt("price");
+			int rent = locationObjects.getJSONObject(i).getInt("rent");
+			int position = locationObjects.getJSONObject(i).getInt("location");
+			int owner = locationObjects.getJSONObject(i).getInt("owner");
+			int houses = locationObjects.getJSONObject(i).getInt("houses");
+			java.awt.Color col = new java.awt.Color(locationObjects.getJSONObject(i).getInt("color"));
+			Color color = Color.rgb(col.getRed(), col.getGreen(), col.getBlue());
+			boolean isMortgaged = locationObjects.getJSONObject(i).getBoolean("is_mortgaged");
+			if(locationObjects.getJSONObject(i).has("type")){
+				String type = locationObjects.getJSONObject(i).getString("type");
+				locs.add(new Location(id,position,price,rent,owner, color, isMortgaged, houses, type));
+			}
+			else{
+				locs.add(new Location(id,position,price,rent,owner, color, isMortgaged, houses, ""));
+			}
+		}
+
+		Game.updateLocations(locs);
+		Game.locationsSet = true;
+		// Load location images
+		if(!imagesPlaced){
+			boardCanvas.getImages();
+		}
+		boardCanvas.removeTileTitles();
+		boardCanvas.draw();
+		imagesPlaced = true;
+	}
+
+	// Starts Auction / Updates auction information according to server update.
+	private void handleAuctionUpdate(JSONObject auctionObject) throws JSONException {
+
+		int player_selling = auctionObject.getInt("player_selling");
+		int player_buying = auctionObject.getInt("player_buying");
+		int highest_bid = auctionObject.getInt("price");
+		int position = auctionObject.getInt("location");
+
+		Auction auct = new Auction(player_selling,player_buying,highest_bid,position);
+		Game.setAuction(auct);
+
+		infoPane.updateAuctionInfo(auct);
+
+		// Shows Auction Information on Screen
+		if(!Game.isAuctionActive()){
+			infoPane.addAuctionCircle();
+			Game.setAuctionActive(true);
+			Game.setAuctionTimer(10);
+			Game.getAuction().setTime(10);
+
+			// Auction Countdown Timer
+			Timeline timeLine = new Timeline();
+			timeLine.setCycleCount(Timeline.INDEFINITE);
+			timeLine.getKeyFrames().add(
+					new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent event) {
+
+							Game.getAuction().setTime(Game.getAuction().getTime()-1);
+							infoPane.updateTimer(Game.getAuction().getTime());
+
+							// Auction End
+							if(Game.getAuction().getTime() <= 0){
+								timeLine.stop();
+								JSONObject output = new JSONObject();
+								try {
+									output.put("id", 0);
+									output.put("action", "auction_over");
+									connection.send(output);
+								} catch (JSONException e) {
+									e.printStackTrace();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+								infoPane.removeAuctionCircle();
+								Game.setAuctionActive(false);
+							}
+						}
+					}
+					));
+			timeLine.playFromStart();
+		}
+		else{
+			infoPane.updateAuctionInfo(auct);
+			Game.setAuctionTimer(10);
+			Game.getAuction().setTime(10);
 		}
 	}
 
