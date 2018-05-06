@@ -53,7 +53,7 @@ public class Player implements Playable, JSONable{
 		this.fuel = 1;
 		this.character = ch;
 		this.vehicle = vehicle;
-		this.movingForward = true;
+		this.movingForward = false;
 		this.rgbColour = color;
 	}
 
@@ -265,21 +265,24 @@ public class Player implements Playable, JSONable{
 				}
 
 				//Check if we pass go
-				if((oldPos>20 && this.position<=20) || (this.position>=20 && oldPos>0 && oldPos<20)){
+				if((oldPos>=20 && this.position<20) || (this.position>=20 && oldPos>0 && oldPos<20)){
 					res.append(this.getCharName() +" passed the Galactic Core and received 100 SHM.\n");
 					this.receiveMoney(100);
 				}
+				if(oldPos>=20 && this.position<20){
+					this.position++;
+				}
 
 				//If we land on go going backwards
-				if(this.position == 20) {
+				if(this.position == 19) {
 					this.position = 0;
 					this.isOnGo = true;
 				}
 
 				//Allocating for extra space at go
-				if((oldPos>20 && this.position<20)){
+				/*if((oldPos>20 && this.position<20)){
 					this.position++;
-				}
+				}*/
 				res.append(this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle());
 				return res.toString();
 			}
