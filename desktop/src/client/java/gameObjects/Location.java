@@ -2,8 +2,6 @@ package client.java.gameObjects;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-
 
 public class Location {
 
