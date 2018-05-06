@@ -2,15 +2,27 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="base" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="client.java.controllers.RulesPageController" prefHeight="800.0" prefWidth="1200.0">
     <center>
-        <VBox alignment="CENTER"  spacing="20.0">
-            <Label fx:id="heading">
+        <VBox alignment="CENTER"  spacing="20.0" >
+            <Label fx:id="heading" style="-fx-font-family: Verdana; -fx-highlight-fill: #AC82FA; -fx-highlight-text-fill: #000000; -fx-text-fill: #AC82FA;">
                 The Rules
             </Label>
-            <TextArea VBox.vgrow="ALWAYS" editable="false">
-               Some Rules (To be filled in)
+            <!-- &#10; for \n  
+            	 &#9;  for \t    -->
+            <TextArea VBox.vgrow="ALWAYS" editable="false" wrapText="true"
+            style="-fx-font-size: 20px;-fx-control-inner-background:#000000; -fx-font-family: Verdana; -fx-highlight-fill: #AC82FA; -fx-highlight-text-fill: #000000; -fx-text-fill: #26d7ff; ">
+          
+               Welcome to Interdimensional Panopoly!&#10;
+               In this game you will play as characters from various fictional worlds on a quest to become the sole proprietor of the entire multi-verse!
+               Connect using our Interdimentional Controller Android app to begin playing. 
+               Players take turns to move around the board buying and selling a wide variety of property types. Ifyou land on an owned property then you'll have to pay the owner rent! 
+               These properties may be auctioned off for a profit or to get you out of a tough situation. Try and be the last player left who hasn't declared bankruptcy to win!
+   
+               
+               
             </TextArea>
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackClick" text = "Back">
 

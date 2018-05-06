@@ -166,7 +166,6 @@ public class Player implements Playable, JSONable{
 	@Override
 	public JSONObject getInfo() throws JSONException{
 		JSONObject info = new JSONObject();
-
 		JSONArray properties = new JSONArray();
 		for(NamedLocation l : this.ownedProperties){
 			properties.put(l.getInfo());
@@ -220,28 +219,22 @@ public class Player implements Playable, JSONable{
 				this.isOnGo = false;
 				this.position = (this.position + spaces)%39;
 				return this.character.getName() + " travelled ahead " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle();
-
 			}
 			else{
 				StringBuilder res = new StringBuilder();
 				this.position = (this.position + spaces)%39;
-
 				//Check if we pass go
 				if((oldPos<20 && this.position>19) || (oldPos>20 && this.position>=0 && this.position<20)){
 					res.append(this.getCharName() +" passed the Galactic Core and received 100 SHM.\n");
 					this.receiveMoney(100);
 				}
-
 				//If we land on go going backwards
 				if(this.position == 20) {
 					this.position = 0;
 					this.isOnGo = true;
 				}
-
 				//Allocating for extra space at go
-				if(oldPos<20 && this.position>20){
-					this.position--;
-				}
+				if(oldPos<20 && this.position>20) this.position--;
 				res.append(this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle());
 				return res.toString();
 			}
@@ -268,26 +261,17 @@ public class Player implements Playable, JSONable{
 					int x = spaces - this.position;
 					this.position = 39-x;
 				}
-
 				//Check if we pass go
 				if((oldPos>=20 && this.position<20) || (this.position>=20 && oldPos>0 && oldPos<20)){
 					res.append(this.getCharName() +" passed the Galactic Core and received 100 SHM.\n");
 					this.receiveMoney(100);
 				}
-				if(oldPos>=20 && this.position<20){
-					this.position++;
-				}
-
+				if(oldPos>=20 && this.position<20) this.position++;
 				//If we land on go going backwards
 				if(this.position == 19) {
 					this.position = 0;
 					this.isOnGo = true;
 				}
-
-				//Allocating for extra space at go
-				/*if((oldPos>20 && this.position<20)){
-					this.position++;
-				}*/
 				res.append(this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle());
 				return res.toString();
 			}
