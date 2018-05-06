@@ -221,7 +221,12 @@ public class PlayerCanvas extends ResizableCanvas {
 
 		// if entering left loop from go
 		if(oldPosition == 0 ){
-			oldPosition = 40;
+			if(newPos > 19){
+				oldPosition = 40;
+			}
+			else if(newPos > 19){
+				oldPosition = 20;
+			}
 		}
 
 		// If passing go from left loop to right loop

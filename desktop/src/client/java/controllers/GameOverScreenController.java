@@ -46,7 +46,6 @@ public class GameOverScreenController {
 
             Label winnerLabel = new Label();
             Player winnerP = Game.getPlayer(winner);
-
             winnerLabel.setText("Player " + winnerP.getId() + ": " + winnerP.getCharacter() + "won!" +  " Money: " + winnerP.getBalance());
             winnerLabel.setTextFill(Color.rgb(232, 142, 39));
             winnerLabel.setFont(Font.font("Verdana", 20));

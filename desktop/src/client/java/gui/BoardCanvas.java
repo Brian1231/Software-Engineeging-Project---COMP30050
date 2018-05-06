@@ -415,7 +415,6 @@ public class BoardCanvas extends ResizableCanvas {
 		}
 	}
 
-
 	public void addCenterTile(){
 		Pane parent = (Pane) this.getParent();
 
