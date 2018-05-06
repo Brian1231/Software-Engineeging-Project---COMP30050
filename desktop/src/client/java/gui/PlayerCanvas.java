@@ -217,19 +217,21 @@ public class PlayerCanvas extends ResizableCanvas {
 		if(newPos>19&&newPos<39)newPos++;
 //
 //		// if landing on Go coming from left loop
-//		if(newPos == 0 && oldPosition > 20)newPos = 20;
+		if(newPos == 0 && oldPosition > 20)newPos = 20;
 
-		// if entering left loop from go
+		// if entering either loop from go
 		if(oldPosition == 0 ){
-			if(newPos > 19){
+			if(newPos > 20){
 				oldPosition = 40;
 			}
-			else if(newPos > 19){
+			else if(newPos < 20){
 				oldPosition = 20;
 			}
 		}
 
-		// If passing go from left loop to right loop
+
+
+		// If passing go from right loop to left loop
 		if(newPos > oldPosition){
 			for(int i = oldPosition; i > 0; i--){
 				double t = -PI/2 + step*i;
@@ -239,7 +241,7 @@ public class PlayerCanvas extends ResizableCanvas {
 				double playerY = point.getY() + (getHeight()/2) + offset.getY();
 				path.getPoints().addAll(new Double[]{playerX,playerY});
 			}
-			for(int i = 0; i >= newPos; i--){
+			for(int i = 40; i >= newPos; i--){
 				double t = -PI/2 + step*i;
 				Point2D point = lemniscate(t);
 				Point2D offset = playerOffset(p);
@@ -261,7 +263,7 @@ public class PlayerCanvas extends ResizableCanvas {
 
 		PathTransition trans = new PathTransition();
 		trans.setNode(p.playerToken);
-		trans.setDuration(Duration.seconds(3));
+		trans.setDuration(Duration.seconds(duration));
 		trans.setPath(path);
 		trans.setCycleCount(1);
 		trans.play();

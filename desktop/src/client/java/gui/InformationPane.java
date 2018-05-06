@@ -312,6 +312,7 @@ public class InformationPane extends Pane {
         getChildren().add(current_Price);
         getChildren().add(highestBidder);
         getChildren().add(timer);
+        timer.setText("10");
     }
 
     // Update Auction Display from server update
