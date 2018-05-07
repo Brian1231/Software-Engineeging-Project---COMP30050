@@ -1,4 +1,10 @@
-# SEProject
+# Software Engineering Project - COMP30050
+Andrew Fitzgerald - 12376456<br />
+Brian O’Leary - 13475468<br />
+Conal O’Neill - 13315756<br />
+Jose Collado San Pedro - 17202360<br />
+<br /><br /><br />
+
 ## Desktop-to-Server JSON on port 8000:
 "id": int (0 for desktop) <br />
 "game_started": boolean <br />
