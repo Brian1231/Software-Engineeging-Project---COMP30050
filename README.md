@@ -16,4 +16,8 @@ Choose local server on the app and enter the IP address of the machine running S
 * To begin the game, select Start Game on the Desktop application.
 
 ## How to access our AWS instance for running Server.jar remotely
+### On MAC
+Our AWS instance can be accessed by using the aws.sh file in this repo. This will SSH into the AWS instance using the server.pem file in the server-AWS folder. Alternatively, the command 'ssh -i server.pem ubuntu@ec2-52-48-249-220.eu-west-1.compute.amazonaws.com' may be ran from within the server-AWS folder of this repository.
 
+### On Windows
+Our AWS instance can be accessed by using the application PuTTY. This is a SSH client for windows and may be downloaded from www.putty.org/. When connecting with PuTTY, the Host name is ubuntu@ec2-52-48-249-220.eu-west-1.compute.amazonaws.com. The path to serverKPPuTTY.ppk in the folder server-AWS must also be added to the Connection/SSH/Auth/Authentication Parameters in PuTTY. Once these parameters are set the AWS instance may be accessed by selecting 'Open'.
