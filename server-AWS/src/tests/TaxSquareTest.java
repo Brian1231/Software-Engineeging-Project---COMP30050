@@ -44,6 +44,7 @@ public class TaxSquareTest {
 	public void constructorTest() {
 		assertNotNull(tax);
 		assertEquals("UCD", tax.getId());
+		assertEquals("tax", tax.getType());
 	}
 
 	@Test
@@ -54,7 +55,7 @@ public class TaxSquareTest {
 	@Test
 	public void getIncomePercentage() {
         double percentage = 0.05;
-        assertEquals(50, tax.getIncomePercentage(player, percentage));
+        assertEquals(75, tax.getIncomePercentage(player, percentage));
 	}
 
 	@Test
@@ -65,7 +66,7 @@ public class TaxSquareTest {
 	@Test
 	public void getFlatAmount() {
         int taxAmount = tax.getFlatAmount();
-        assertTrue(50<=taxAmount && 300>= taxAmount);
+        assertTrue(20<=taxAmount && 100>= taxAmount);
 	}
 
 }

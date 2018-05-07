@@ -29,6 +29,7 @@ public class NamedLocationTest {
 	@Test
 	public void constructorTest() {
 		assertNotNull(loc);
+		assertEquals("named_location", loc.getType());
 	}
 
 

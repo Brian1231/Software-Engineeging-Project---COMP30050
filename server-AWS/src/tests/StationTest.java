@@ -55,6 +55,7 @@ public class StationTest {
 		assertEquals("UCD2", station2.getId());
 		assertEquals("UCD3", station3.getId());
 		assertEquals("UCD4", station4.getId());
+		assertEquals("station", station1.getType());
 
 	}
 

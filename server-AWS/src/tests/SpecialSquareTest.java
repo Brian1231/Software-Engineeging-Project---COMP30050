@@ -42,6 +42,7 @@ public class SpecialSquareTest {
     public void constructorTest() {
         assertNotNull(specialSquare);
         assertEquals("UCD", specialSquare.getId());
+        assertEquals("special", specialSquare.getType());
     }
 
     @Test
@@ -59,7 +60,7 @@ public class SpecialSquareTest {
 
         specialSquare.setLocation(10);
         String result = "\n" + player.getCharName() + " was sent to intergalactic prison!\n"+
-            "Attempt to break free by rolling doubles or pay the fee of 500 SHM.";
+            "Attempt to break free by rolling doubles or pay the fee of 50 SHM.";
         assertEquals(result, specialSquare.activate(player));
     }
 
