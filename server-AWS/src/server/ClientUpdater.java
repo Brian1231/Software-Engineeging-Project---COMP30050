@@ -28,6 +28,7 @@ public class ClientUpdater extends Thread {
 		System.out.println("Connecting to Desktop...");
 		ServerSocket server = new ServerSocket(port);
 		socket = server.accept();
+		server.close();
 		System.out.println("Connected!");
 	}
 
@@ -128,15 +129,15 @@ public class ClientUpdater extends Thread {
 						if (id == 0) {
 							String action = obj.getString("action");
 							if (action.equals("start")) {
-							//	if (Main.gameState.numberOfPlayers() >=2) {
+								if (Main.gameState.numberOfPlayers() >=2) {
 									Main.gameState.startGame();
 									Main.gameState.updateActionInfo("\nGame has started! Good Luck!\n");
 									Main.portAllocator.updatePlayers();
 									Main.clientUpdater.updateDesktopPlayers();
-								/*} else {
+								} else {
 									Main.gameState.updateActionInfo("Must have at least 2 players to start the game!");
 									Main.clientUpdater.updateDesktopPlayers();
-								}*/
+								}
 							}
 							if (action.equals("end")) {
 								Main.gameState.endGame();

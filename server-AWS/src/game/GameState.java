@@ -458,4 +458,8 @@ public class GameState implements JSONable {
 		Main.portAllocator.endGame();
 		Main.isActive = false;
 	}
+
+	public int numberOfPlayers() {
+		return this.players.size();
+	}
 }
