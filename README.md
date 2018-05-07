@@ -14,3 +14,6 @@ to our server application running on an AWS instance. Selecting Local Game will 
 * Once the desktop application is connected, the android app may be connected. This is connected similarly to the desktop application.
 Choose local server on the app and enter the IP address of the machine running Server.jar. Once this is entered, select Join Game to enter the game.
 * To begin the game, select Start Game on the Desktop application.
+
+## How to access our AWS instance for running Server.jar remotely
+
