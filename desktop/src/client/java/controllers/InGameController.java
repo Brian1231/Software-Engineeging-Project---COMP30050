@@ -121,7 +121,7 @@ public class InGameController {
 
 	// Adds main Gui elements
 	private void setUpBoard() throws IOException, JSONException{
-		
+
 		// Loading Screen
 		// Background
 		Image l = new Image("client/resources/images/load.gif");
