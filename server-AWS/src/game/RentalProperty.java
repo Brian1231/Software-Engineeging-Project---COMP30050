@@ -126,7 +126,7 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 
 	@Override
 	public int getTrapPrice() {
-		return this.getPrice();
+		return this.trapPrice;
 	}
 
 	@Override
@@ -147,9 +147,8 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 	@Override
 	public String activateTrap(Player player) {
 		if (!player.equals(this.getOwner())) {
-			int trapAmount = this.getPrice() / 3;
-			player.setDebt(trapAmount, this.getOwner());
-			return player.getCharName() + " activated " + this.getOwner().getCharName() + "'s trap and now owes them an additional " + trapAmount + " SHM. ";
+			player.setDebt(this.trapPrice, this.getOwner());
+			return player.getCharName() + " activated " + this.getOwner().getCharName() + "'s trap and now owes them an additional " + this.trapPrice + " SHM. ";
 		}
 		return "";
 	}

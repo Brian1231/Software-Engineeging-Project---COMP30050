@@ -54,7 +54,7 @@ public class TaxSquareTest {
 	@Test
 	public void getIncomePercentage() {
         double percentage = 0.05;
-        assertEquals(50, tax.getIncomePercentage(player, percentage));
+        assertEquals(75, tax.getIncomePercentage(player, percentage));
 	}
 
 	@Test

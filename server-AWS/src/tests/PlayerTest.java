@@ -44,7 +44,7 @@ public class PlayerTest {
 	public void constructorTest() {
 		assertNotNull(player);
 		assertEquals(1, player.getID());
-		assertEquals(1000, player.getNetWorth());
+		assertEquals(1500, player.getNetWorth());
 		assertEquals(0, player.getPos());
 	}
 
@@ -196,7 +196,7 @@ public class PlayerTest {
 		try {
 			JSONObject obj = player.getInfo();
 			assertEquals(Color.BLUE.getRGB(), obj.get("colour"));
-			assertEquals(850, obj.getInt("balance"));
+			assertEquals(1350, obj.getInt("balance"));
 			assertEquals(3, obj.getInt("fuel"));
 			assertEquals(player.getCharName(), obj.getString("character"));
 			assertEquals(9, obj.getInt("position"));
@@ -223,9 +223,9 @@ public class PlayerTest {
 
 	@Test
 	public void getBalance() {
-		assertEquals(1000, player.getBalance());
-		player.receiveMoney(500);
 		assertEquals(1500, player.getBalance());
+		player.receiveMoney(500);
+		assertEquals(2000, player.getBalance());
 	}
 
 	@Test
@@ -259,25 +259,25 @@ public class PlayerTest {
 
 	@Test
 	public void getNetWorth() {
-		assertEquals(1000, player.getNetWorth());
+		assertEquals(1500, player.getNetWorth());
 		RentalProperty prop = new RentalProperty("UCD",150);
 		player.addNewPropertyBought(prop, prop.getPrice());
-		assertEquals(850, player.getBalance());
-		assertEquals(1000, player.getNetWorth());
+		assertEquals(1350, player.getBalance());
+		assertEquals(1500, player.getNetWorth());
 	}
 
 	@Test
 	public void payMoney() {
-		assertEquals(1000, player.getBalance());
+		assertEquals(1500, player.getBalance());
 		player.payMoney(300);
-		assertEquals(700, player.getBalance());
+		assertEquals(1200, player.getBalance());
 	}
 
 	@Test
 	public void receiveMoney() {
-		assertEquals(1000, player.getBalance());
+		assertEquals(1500, player.getBalance());
 		player.receiveMoney(300);
-		assertEquals(1300, player.getBalance());
+		assertEquals(1800, player.getBalance());
 	}
 
 	@Test
