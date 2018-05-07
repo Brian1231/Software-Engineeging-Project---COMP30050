@@ -2,7 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import game.NamedLocation;
+import game_models.NamedLocation;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;

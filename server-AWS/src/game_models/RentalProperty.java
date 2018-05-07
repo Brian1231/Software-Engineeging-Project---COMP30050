@@ -1,4 +1,4 @@
-package game;
+package game_models;
 
 import game_interfaces.JSONable;
 import game_interfaces.Mortgageable;

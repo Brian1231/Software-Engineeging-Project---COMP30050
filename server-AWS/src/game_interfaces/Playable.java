@@ -1,7 +1,7 @@
 package game_interfaces;
 
-import game.Player;
-import game.RentalProperty;
+import game_models.Player;
+import game_models.RentalProperty;
 import noc_db.Character_noc;
 
 import java.util.ArrayList;

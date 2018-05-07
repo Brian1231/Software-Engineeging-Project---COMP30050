@@ -1,9 +1,9 @@
 package tests;
 
-import game.Dice;
-import game.Player;
+import game_models.Dice;
+import game_models.Player;
 
-import game.Utility;
+import game_models.Utility;
 import noc_db.Character_noc;
 import noc_db.NOC_Manager;
 import org.junit.After;

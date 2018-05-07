@@ -1,5 +1,7 @@
 package game;
 
+import game_models.Player;
+import game_models.RentalProperty;
 import org.json.JSONException;
 import org.json.JSONObject;
 

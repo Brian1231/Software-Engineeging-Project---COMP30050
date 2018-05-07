@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import game.Dice;
+import game_models.Dice;
 
 public class DiceTest {
 	private Dice dice;
