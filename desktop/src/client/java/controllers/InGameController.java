@@ -104,15 +104,7 @@ public class InGameController {
 	// Sets Server IP, Makes a connection and connects
 	void setServerIP(String ipAddress){
 		this.ip = ipAddress;
-		connection = new NetworkConnection(ip,PORT, input -> {
-			try {
-				onUpdateReceived(input);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		});
-		System.out.println(ip);
-
+		connection = new NetworkConnection(ip,PORT, input -> onUpdateReceived(input));
 		try {
 			connection.startConnection();
 		} catch (Exception e1) {
@@ -213,9 +205,8 @@ public class InGameController {
 		);
 	}
 
-
 	// Called whenever a message/JSON/update is received form the server.
-	private void onUpdateReceived(JSONObject update) throws JSONException {
+	private void onUpdateReceived(JSONObject update) {
 
 		// If desktop failed to connect to the server
 		if(update.has("f")){
@@ -282,9 +273,7 @@ public class InGameController {
 						Location locToDisplay = Game.getLocation(playerPos);
 						infoPane.updateLocationInfo(locToDisplay);
 					}
-				} catch (JSONException | IllegalArgumentException | SecurityException e) { e.printStackTrace(); } catch (IOException e) {
-					e.printStackTrace();
-				}
+				} catch (JSONException | IllegalArgumentException | SecurityException | IOException e) { e.printStackTrace(); }
 			});
 		}
 	}
