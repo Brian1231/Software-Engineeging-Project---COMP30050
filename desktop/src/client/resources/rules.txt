@@ -1,13 +1,107 @@
-Welcome to Interdimensional Panopoly! Here are some rules to elp you get started with our game.
+Interdimensional Panopoly Rules
+
+
+
+
+General
+The Game board is shown on the desktop app.
+The Game board is infinity shaped.
+Players use the android app to play the game.
+Vibrations are used on the apps to signal events to the players.
+In-game currency is Schmeckles (SHM).
+Players are denoted by coloured token on the board tiles, and each player has their information in one corner of the board screen.
+You start moving in a clockwise direction from the center tile up to the right hand loop.
+All properties on the board will be generated randomly at the start of the game. Each Property will be a different fictional world from the NOC list.
+Each player takes on a character at the start of the game. These characters being from one of the fictional worlds on the board.
+Each player has a Vehicle attribute. See Boost.
+The center tile on the board is called the “Galactic Core” landing on the centre tile will fill up a player’s vehicle fuel. See Boost
+At the start of the game all players are positioned at the Galactic Core tile which is the center tile on the board.
+Chance chest cards will contain procedurally generated events created from the NOC list.
+Each player’s character has an villain/opponent which will try to hinder their progress during the game. This opponent will appear through chance cards. See Villain Gang.
+
+
+
+
+
+Gameplay
+
 On a player's turn, the player must roll the dice and his/her token will move forward the number of spaces shown on the dice on the board.
-If the player lands on an unowned property, the player may buy it for the price listed on that property's space. If he or she agrees to buy it, he or she pays the Bank the amount shown on the property space and receives the deed for that property. Stations and utilities are also considered properties.
+If the player lands on an unowned property, the player may buy it for the price listed on that property's space. If he or she agrees to buy it, he or she pays the Bank the amount shown on the property space and receives the deed for that property. Stations and Utilities are also considered properties.
 If the player chooses not to buy the property then the property is auctioned off to the highest bidder. See Auction.
 If the player lands on an unmortgaged property owned by another player, he or she pays rent to that person, as specified on the property's deed.
 If the player lands on his or her own property, or on property which is owned by another player but currently mortgaged, nothing happens.
-If the player lands on Tax he or she must pay the Bank either a flat rate fee or random percentage (between 5 and 30%) of his or her total assets (cash on hand, full property price of un mortgaged properties and half property price of mortgaged properties and house prices).
-If the player lands on a Chance , the player takes a card and performs the instruction given on the card. You must settle any debt incurred from chance cards before you can end your turn.
+If the player lands on ‘Tax’ he or she must pay the Bank either a flat rate fee (20-100 SHM) or random percentage (between 5 and 10%) of his or her total assets (cash on hand, full property price of un mortgaged properties and half property price of mortgaged properties and house prices).
+If the player lands on ‘Chance’, the player takes a card and performs the instruction given on the card. You must settle any debt incurred from chance cards before you can end your turn.
 If the player lands on the Jail space, he or she is "Just Visiting". No penalty applies.
-If the player lands on the Go to Jail square, he or she is moved directly to Jail.
-If the player lands on or passes Galactic Core in the course of his or her turn, he or she receives 100 from the Bank. A player has until the beginning of his or her next turn to collect this money.
-You may sell houses back to the Bank for half the purchase price or sell property deeds to other players in the game.
-Players may not loan money to other players. Only the Bank can loan money, and then only by mortgaging properties.
+If the player lands on the Go to Jail square, he or she is moved directly to Jail. and penalties now apply.
+If the player lands on or passes Galactic Core in the course of his or her turn, he or she receives 100 SHM from the Bank.
+If you land on the Galactic Core then your vehicle will get re-fueled back to the full 3 bars of fuel. See Boost.
+If a player runs out of money they can mortgage any properties they have and receive the mortgage value of the property from the Intergalactic Banking Association. Once mortgaged a player can no longer receive rent on that property or upgrade the property.
+Properties can be redeemed by paying the redeem amount of the property back to the Intergalactic Banking Association. This amount is the mortgage value of the property plus 10% interest.
+Players can also sell any upgrades they have made to properties back to the Intergalactic Banking Association for half the price paid for them to get more money.
+
+
+
+
+Doubles
+
+When doubles are rolled, the player resolves the roll as normal including buying, selling or upgrading, but rolls the dice again for another turn. The player moves forward as directed by the dice, and if this is also doubles, rolls again. If the third dice roll in the same turn is doubles, the player cannot make any moves, and is instead moved directly to Intergalactic Prison. See Intergalactic Prison.
+Intergalactic Prison
+A player is moved to Intergalactic Prison when landing on the square marked "Go to Intergalactic Prison“, drawing a card marked "Go to Intergalactic Prison", or rolling three consecutive doubles when moving in a turn. The player is placed directly in the Intergalactic Prison cell, and does not get any benefit for passing "GO". A player that lands normally in the Intergalactic Prison square is in the "Just Visiting" section, and is unhindered. Any player in Intergalactic Prison may still buy and sell properties during their turn, or collect rent on properties owned.
+When in Intergalactic Prison, a player may pay the 50 SHM fine or try to roll doubles. If successful rolling doubles, the player is then released from Intergalactic Prison and can then roll again as if it is the start of their turn. If the player fails to roll doubles for three turns, he or she must pay the fine of 50 SHM and then roll again to move forward.
+Backward moving
+One of the Chance cards is to change the direction of travel of the player who gets that card.
+When a player gets this card they will change direction of movement in the game and will proceed in an anti-clockwise direction until they get the same chance card later in the game.
+Everything behaves the same way as before just the player moves in the opposite direction.
+
+
+
+
+Auctions
+
+Auctions can be started two ways: attempting to move off a property that is un-owned or by selling a property.
+When a player lands on an unowned property they have the option to buy it at the listed price. If they choose not to buy it then an auction will be started by the Intergalactic Banking Association to auction the property off to the highest bidder.
+When a player wants to sell a property, the property is auctioned off to the highest bidder. As it is the player selling the property they can choose the starting price for the auction.
+Each player can press the auction button in the menu bar and place bids while the timer is still running on the board. Bids can be any amount up to your balance. Any time a bid is placed that is bigger than the current bid the timer is reset.
+When the timer runs out the highest bidder is awarded the property and the game continues.
+
+
+
+
+Boost
+
+Every player has a vehicle available to them. This vehicle allows them to “boost” 1 space forward on top of rolling the dice. This can be used to avoid paying rent to other players or to land on a property you want to buy it.
+The vehicle runs on fuel. At the start of the game you have 1 bar of fuel so you can only use the boost feature once until you top up again by landing on the Galactic Core tile.
+The boost can not be used after buying a property, when you are in jail, if you are in debt or you have not rolled yet.
+If you boost away from an unowned property then the Intergalactic Banking Association will auction that property off. See Auction.
+
+
+
+
+Upgrades
+
+Every property that can be improved is part of a colour group that have three properties each. These colours group are: Cyan, Green, Magenta, Yellow, White, Orange, Blue and Pink. The colours are shown by a ring around each of the property images.
+Once a player owns three properties of the same colour group they can begin to upgrade the property.
+Upgrading the property will increase the rent that is charged to other players landing on your property.
+Every upgrade has a set price that differs from property to property. When downgrading a property the player will only receive half of the upgrade price back from the Intergalactic Banking Association.
+
+
+
+
+Traps
+
+When you own a property you can set a trap on it.
+Traps have a set price that is one fifth of the property price e.g property price of 100 SMH means the trap price is 20 SHM.
+Traps are activated when another player lands on a property that has a trap. The player who landed on the trap, incurs debt of the trap fine amount.
+Traps have a fine amount which is two fifths of the property price e.g. property price of 100 SHM means the trap fine amount is 40 SHM.
+
+
+
+
+Villain Gang
+
+Every player in the game has their own villain or opponent. These villains can appear throughout the game through the Chance cards.
+When a player pulls out a chance card that summons their Villain, their Villain will appear on the same tile as the player.
+The Villain then has 10 turns to live. E.g if two players in the game, then the Villain would stay in the game for 5 turns of player A and 5 turns of player B.
+The Villain will move around the board 1 space at a time.
+If the player lands on the same tile as the Villain then they are faced with a random fine between 50 and 300 SHM.
