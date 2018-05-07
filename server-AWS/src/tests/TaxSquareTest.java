@@ -65,7 +65,7 @@ public class TaxSquareTest {
 	@Test
 	public void getFlatAmount() {
         int taxAmount = tax.getFlatAmount();
-        assertTrue(50<=taxAmount && 300>= taxAmount);
+        assertTrue(20<=taxAmount && 100>= taxAmount);
 	}
 
 }

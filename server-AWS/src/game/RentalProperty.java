@@ -16,7 +16,8 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 
 	private int price;
 	private int mortgageAmount;
-	private int trapPrice;
+	private int trapSetPrice;
+	private int trapFineAmount;
 	private int[] rentAmounts;
 	private boolean isMortgaged = false;
 	private boolean hasTrap;
@@ -26,7 +27,8 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 	public RentalProperty(String name, int price) {
 		super(name);
 		this.price = price;
-		this.trapPrice = this.price / 5;
+		this.trapSetPrice = Math.round(this.price / 5);
+		this.trapFineAmount = Math.round(this.trapSetPrice * 2);
 		this.hasTrap = false;
 		this.setType("rental");
 	}
@@ -65,7 +67,8 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 	@Override
 	public void setPrice(int price) {
 		this.price = price;
-		this.trapPrice = this.price / 5;
+		this.trapSetPrice = Math.round(this.price / 5);
+		this.trapFineAmount = Math.round(this.trapSetPrice * 2);
 	}
 
 	@Override
@@ -125,8 +128,13 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 	}
 
 	@Override
-	public int getTrapPrice() {
-		return this.trapPrice;
+	public int getTrapSetPrice() {
+		return this.trapSetPrice;
+	}
+
+	@Override
+	public int getTrapFineAmount() {
+		return this.trapFineAmount;
 	}
 
 	@Override
@@ -136,19 +144,16 @@ public class RentalProperty extends NamedLocation implements Ownable, Rentable, 
 
 	@Override
 	public String setTrap() {
-		if (this.getOwner().getBalance() > this.trapPrice) {
-			this.hasTrap = true;
-			this.getOwner().payMoney(this.trapPrice);
-			return this.getOwner().getCharName() + " paid " + this.trapPrice + " SHM and set a trap at " + this.getId() + ". ";
-		} else
-			return "You can't afford the cost of " + this.trapPrice + " SHM to set a trap.";
+		this.hasTrap = true;
+		this.getOwner().payMoney(this.trapSetPrice);
+		return this.getOwner().getCharName() + " paid " + this.trapSetPrice + " SHM and set a trap at " + this.getId() + ". ";
 	}
 
 	@Override
 	public String activateTrap(Player player) {
 		if (!player.equals(this.getOwner())) {
-			player.setDebt(this.trapPrice, this.getOwner());
-			return player.getCharName() + " activated " + this.getOwner().getCharName() + "'s trap and now owes them an additional " + this.trapPrice + " SHM. ";
+			player.setDebt(this.trapFineAmount, this.getOwner());
+			return player.getCharName() + " activated " + this.getOwner().getCharName() + "'s trap and now owes them an additional " + this.trapFineAmount + " SHM. ";
 		}
 		return "";
 	}

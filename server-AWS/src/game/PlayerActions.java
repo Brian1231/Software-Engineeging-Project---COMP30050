@@ -324,8 +324,11 @@ public class PlayerActions {
                 if (property.getOwner().equals(player)) {
                     if (!property.isMortgaged()) {
                         if (!property.hasTrap()) {
-                            player.payMoney(property.getTrapPrice());
-                            return property.setTrap();
+                            if (player.getBalance() >= property.getTrapSetPrice()) {
+                                player.payMoney(property.getTrapSetPrice());
+                                return property.setTrap();
+                            } else
+                                return "You can't afford the cost of " + property.getTrapSetPrice() + " SHM to set a trap.";
                         }
                         return property.getId() + " already has a trap set!";
                     }
