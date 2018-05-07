@@ -116,22 +116,6 @@ public class LocationTest {
     }
 
     @Test
-    public void getImage() {
-        getImageFromFile(loc);
-        loc.setImage(img);
-        assertEquals(img, loc.getImage());
-    }
-
-    @Test
-    public void setImage() {
-        getImageFromFile(loc);
-
-        assertNull(loc.getImage());
-        loc.setImage(img);
-        assertEquals(img, loc.getImage());
-    }
-
-    @Test
     public void getHouses() {
         assertEquals(0, loc.getHouses());
     }
@@ -141,20 +125,5 @@ public class LocationTest {
         assertEquals(0, loc.getHouses());
         loc.setHouses(2);
         assertEquals(2, loc.getHouses());
-    }
-
-
-    private void getImageFromFile(Location location){
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("/client/resources/images/worlds/");
-        sb.append(location.getName().trim().replace(":", ""));
-        sb.append(".jpg");
-
-        try{
-            img = new Image( sb.toString() );
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
     }
 }
