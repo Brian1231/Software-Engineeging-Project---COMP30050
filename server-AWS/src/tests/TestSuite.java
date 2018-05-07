@@ -6,16 +6,17 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-		DiceTest.class,
-		PlayerTest.class,
-		NamedLocationTest.class,
-		RentalPropertyTest.class,
-		StationTest.class,
-		InvestmentPropertyTest.class,
-		UtilityTest.class,
-		TaxSquareTest.class,
-		SpecialSquareTest.class,
-		VillainGangTest.class
+	DiceTest.class,
+	InvestmentPropertyTest.class,
+	NamedLocationTest.class,
+	NOC_ManagerTest.class,
+	PlayerTest.class,
+	RentalPropertyTest.class,
+	SpecialSquareTest.class,
+	StationTest.class,
+	TaxSquareTest.class,
+	UtilityTest.class,
+	VillainGangTest.class
 })
 
 public class TestSuite {
