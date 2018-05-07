@@ -58,5 +58,4 @@ public class TaxSquare extends NamedLocation implements Taxable, Activatable {
 	public int getFlatAmount() {
 		return 20 + 10*random.nextInt(9);
 	}
-
 }
