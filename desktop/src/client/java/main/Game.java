@@ -46,9 +46,9 @@ public class Game {
                 updatePlayerData(p,action);
             }
         }
-        for (int i = 0; i< observablePlayers.size(); i++) {
-            if (!plyrs.contains(observablePlayers.get(i))) {
-                removePlayer(observablePlayers.get(i));
+        for (Player observablePlayer : observablePlayers) {
+            if (!plyrs.contains(observablePlayer)) {
+                removePlayer(observablePlayer);
             }
         }
     }

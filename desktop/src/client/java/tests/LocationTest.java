@@ -28,7 +28,7 @@ public class LocationTest {
     public void equals() {
         Location loc2 = new Location("UCD", 0, 150, 50, 1, javafx.scene.paint.Color.RED, false, 0, "");
 
-        assertTrue(loc.equals(loc2));
+        assertEquals(loc, loc2);
     }
 
     @Test
@@ -154,6 +154,7 @@ public class LocationTest {
         try{
             img = new Image( sb.toString() );
         }catch(Exception e) {
+            e.printStackTrace();
         }
     }
 }

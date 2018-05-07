@@ -23,7 +23,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 
 import javafx.scene.text.Font;
@@ -294,8 +293,6 @@ public class InGameController {
 						output.put("id", 0);
 						output.put("action", "end");
 						connection.send(output);
-					} catch (JSONException e1) {
-						e1.printStackTrace();
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -400,8 +397,6 @@ public class InGameController {
 									output.put("id", 0);
 									output.put("action", "auction_over");
 									connection.send(output);
-								} catch (JSONException e) {
-									e.printStackTrace();
 								} catch (Exception e) {
 									e.printStackTrace();
 								}

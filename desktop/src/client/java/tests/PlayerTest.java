@@ -1,7 +1,6 @@
 package client.java.tests;
 
 import client.java.gameObjects.Player;
-import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import org.junit.After;
 import org.junit.Before;
@@ -29,7 +28,7 @@ public class PlayerTest {
     @Test
     public void equals() {
         Player player2 = new Player("1000", 1, 0, Color.BLUE, "Batman", 1.0, true);
-        assertTrue(player.equals(player2));
+        assertEquals(player, player2);
     }
 
     @Test
