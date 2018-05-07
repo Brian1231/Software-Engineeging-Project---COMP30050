@@ -8,7 +8,7 @@ public class Vehicle_noc {
 	private String vehicle;
 	private String affordances;
 
-	private Random random = new Random();
+	private final Random random = new Random();
 
 	public Vehicle_noc(String[] info){
 		switch(info.length){

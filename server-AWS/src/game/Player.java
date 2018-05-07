@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * */
 public class Player implements Playable, JSONable{
 
-	private int id;
+	private final int id;
 	private int fuel;
 	private int debt;
 	private int jailTurnCount;
@@ -34,12 +34,12 @@ public class Player implements Playable, JSONable{
 	private boolean isInJail;
 	private boolean movingForward;
 
-	private Color rgbColour;
+	private final Color rgbColour;
 	private Playable playerOwed;
-	private ArrayList<RentalProperty> ownedProperties = new ArrayList<>();
-	private Character_noc character;
+	private final ArrayList<RentalProperty> ownedProperties = new ArrayList<>();
+	private final Character_noc character;
 	private Character_noc villain;
-	private Vehicle_noc vehicle;
+	private final Vehicle_noc vehicle;
 
 	public Player(int playerId, Character_noc ch, Vehicle_noc vehicle, Color color){
 		this.id = playerId;
@@ -225,7 +225,7 @@ public class Player implements Playable, JSONable{
 				this.position = (this.position + spaces)%39;
 				//Check if we pass go
 				if((oldPos<20 && this.position>19) || (oldPos>20 && this.position>=0 && this.position<20)){
-					res.append(this.getCharName() +" passed the Galactic Core and received 100 SHM.\n");
+					res.append(this.getCharName()).append(" passed the Galactic Core and received 100 SHM.\n");
 					this.receiveMoney(100);
 				}
 				//If we land on go going backwards
@@ -235,7 +235,7 @@ public class Player implements Playable, JSONable{
 				}
 				//Allocating for extra space at go
 				if(oldPos<20 && this.position>20) this.position--;
-				res.append(this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle());
+				res.append(this.character.getName()).append(" travelled ").append(spaces).append(" spaces ").append(this.vehicle.getAffordance()).append(" ").append(this.vehicle.getDeterminer()).append(" ").append(this.vehicle.getVehicle());
 				return res.toString();
 			}
 		}
@@ -263,7 +263,7 @@ public class Player implements Playable, JSONable{
 				}
 				//Check if we pass go
 				if((oldPos>=20 && this.position<20) || (this.position>=20 && oldPos>0 && oldPos<20)){
-					res.append(this.getCharName() +" passed the Galactic Core and received 100 SHM.\n");
+					res.append(this.getCharName()).append(" passed the Galactic Core and received 100 SHM.\n");
 					this.receiveMoney(100);
 				}
 				if(oldPos>=20 && this.position<20) this.position++;
@@ -272,7 +272,7 @@ public class Player implements Playable, JSONable{
 					this.position = 0;
 					this.isOnGo = true;
 				}
-				res.append(this.character.getName() + " travelled " + spaces + " spaces " + this.vehicle.getAffordance() + " " + this.vehicle.getDeterminer() + " " + this.vehicle.getVehicle());
+				res.append(this.character.getName()).append(" travelled ").append(spaces).append(" spaces ").append(this.vehicle.getAffordance()).append(" ").append(this.vehicle.getDeterminer()).append(" ").append(this.vehicle.getVehicle());
 				return res.toString();
 			}
 		}
@@ -381,7 +381,6 @@ public class Player implements Playable, JSONable{
 						this.payMoney(debt);
 						this.debt = 0;
 						this.isInDebt = false;
-						//Main.portAllocator.updatePlayer(playerOwed.getID());
 						this.playerOwed = null;
 						return res;
 					}

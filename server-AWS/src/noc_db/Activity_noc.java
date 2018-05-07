@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class Activity_noc {
 
-	private String activity;
-	private String[] settings;
-	private Random random = new Random();
+	private final String activity;
+	private final String[] settings;
+	private final Random random = new Random();
 	
 	public Activity_noc(String[] info){
 		this.activity = info[0];

@@ -20,8 +20,8 @@ public class SpecialSquare extends NamedLocation implements Activatable{
 		switch (this.getLocation()){
 		//Go
 		case 0:
-			res.append("\n"+player.getCharName() + " arrived at the galactic core.");
-			res.append("\nThe fuel for " + player.getPossessive().toLowerCase() + " " + player.getCharacter().getVehicle()+" was topped up.");
+			res.append("\n").append(player.getCharName()).append(" arrived at the galactic core.");
+			res.append("\nThe fuel for ").append(player.getPossessive().toLowerCase()).append(" ").append(player.getCharacter().getVehicle()).append(" was topped up.");
 			player.topUpFuel(); //Top up a players fuel if they land at the centre
 			return res.toString();
 			//Go to jail

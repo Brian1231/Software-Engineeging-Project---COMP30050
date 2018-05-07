@@ -13,20 +13,20 @@ import com.sun.org.apache.bcel.internal.util.ClassLoader;
  * The noc list is loaded into objects held in array lists in this class.
  * These objects may be retrieved using relevant methods here.
  * */
+@SuppressWarnings("ALL")
 public class NOC_Manager {
 
 	public static NOC_Manager nocManager;
 
-	private Random random = new Random();
-	private ArrayList<Superlative_noc> superlatives;
-	private ArrayList<Character_noc> characters;
-	private ArrayList<Weapon_noc> weapons;
-	private ArrayList<Vehicle_noc> vehicles;
-	private ArrayList<Activity_noc> activities;
-	private ArrayList<World_noc> worlds;
-	private ArrayList<Location_noc> locations;
-	private ArrayList<Clothes_noc> clothes;
-	private ArrayList<World_noc> usedWorlds;
+	private final Random random = new Random();
+	private final ArrayList<Character_noc> characters;
+	private final ArrayList<Weapon_noc> weapons;
+	private final ArrayList<Vehicle_noc> vehicles;
+	private final ArrayList<Activity_noc> activities;
+	private final ArrayList<World_noc> worlds;
+	private final ArrayList<Location_noc> locations;
+	private final ArrayList<Clothes_noc> clothes;
+	private final ArrayList<World_noc> usedWorlds;
 
 
 	public static NOC_Manager getNocManager() {
@@ -34,11 +34,10 @@ public class NOC_Manager {
 	}
 
 	private static class SingletonCache {
-		public static final NOC_Manager ONE = new NOC_Manager();
+		static final NOC_Manager ONE = new NOC_Manager();
 	}
 
 	private NOC_Manager(){
-		this.superlatives = new ArrayList<Superlative_noc>();
 		this.characters = new ArrayList<Character_noc>();
 		this.weapons = new ArrayList<Weapon_noc>();
 		this.vehicles = new ArrayList<Vehicle_noc>();
@@ -52,25 +51,12 @@ public class NOC_Manager {
 	//Populate NOC List
 	public void setup() throws IOException{
 
-		/////////////////SUPERLATIVES//////////////////////
-		InputStream in = ClassLoader.getSystemResourceAsStream("noc_files/superlatives.txt");
+		/////////////////Characters//////////////////////
+		InputStream in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's The NOC List.txt");
 		InputStreamReader isr = new InputStreamReader(in);
 		BufferedReader br = new BufferedReader(isr);
 
 		String line = br.readLine();
-		while (line != null) {
-			String data[] = line.split("\t");
-			superlatives.add(new Superlative_noc(data[0], data[1]));
-			line = br.readLine();
-		}
-		br.close();
-
-		/////////////////Characters//////////////////////
-		in = ClassLoader.getSystemResourceAsStream("noc_files/Veale's The NOC List.txt");
-		isr = new InputStreamReader(in);
-		br = new BufferedReader(isr);
-
-		line = br.readLine();
 		while (line != null) {
 			String data[] = line.split("\t");
 			characters.add(new Character_noc(data));
@@ -174,9 +160,9 @@ public class NOC_Manager {
 	}
 
 	public Character_noc getOpponent(Character_noc ch){
-		String opp = ch.getName();
+		String opp = ch.getOpponent();
 		for(Character_noc other: this.characters){
-			if(other.getOpponent().equals(opp)){
+			if(other.getName().equals(opp)){
 				return other;
 			}
 		}
@@ -261,5 +247,10 @@ public class NOC_Manager {
 			}
 		}
 		return "";
+	}
+
+	public Clothes_noc getRandomClothes() {
+		int i = random.nextInt(clothes.size());
+		return clothes.get(i);
 	}
 }

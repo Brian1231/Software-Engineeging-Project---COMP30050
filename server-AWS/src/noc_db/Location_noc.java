@@ -1,10 +1,10 @@
 package noc_db;
 
-public class Location_noc {
+class Location_noc {
 
-	private String location;
+	private final String location;
 	//private String type;
-	private String determiner;
+	private final String determiner;
 //	private String preposition;
 //	private String size;
 //	private String ambience;

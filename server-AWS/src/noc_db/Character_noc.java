@@ -1,36 +1,34 @@
 package noc_db;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Character_noc {
 
-    private String character;
-    private String canName;
-    private String gender;
-    private String addr1;
-    private String addr2;
-    private String addr3;
-    private String politics;
-    private String maritalStatus;
-    private String Opponent;
-    private String TypicalActivity;
-    private String VehicleOfChoice;
-    private String WeaponOfChoice;
-    private String SeenWearing;
-    private String Domains;
-    private String Genres;
-    private String FictiveStatus;
-    private String PortrayedBy;
-    private String GroupAffiliation;
-    private String[] NegativeTalkingPoints;
+    private final String character;
+    private final String canName;
+    private final String gender;
+    private final String addr1;
+    private final String addr2;
+    private final String addr3;
+    private final String politics;
+    private final String maritalStatus;
+    private final String Opponent;
+    private final String TypicalActivity;
+    private final String VehicleOfChoice;
+    private final String WeaponOfChoice;
+    private final String SeenWearing;
+    private final String Domains;
+    private final String Genres;
+    private final String FictiveStatus;
+    private final String PortrayedBy;
+    private final String GroupAffiliation;
     private String[] PositiveTalkingPoints;
-    private String Creator;
-    private String Creation;
-    private String FictionalWorld;
-    private String Category;
+    private final String Creator;
+    private final String Creation;
+    private final String FictionalWorld;
+    private final String Category;
     private Weapon_noc weapon;
-
-    private Random random = new Random();
 
     public Character_noc(String[] info) {
         this.character = info[0];
@@ -43,9 +41,10 @@ public class Character_noc {
         this.maritalStatus = info[7];
 
         String[] opponents = info[8].split(", ");
-        this.Opponent = opponents[random.nextInt(opponents.length)].trim();
+        this.Opponent = opponents[0].trim();
 
         String[] activities = info[9].split(", ");
+        Random random = new Random();
         this.TypicalActivity = activities[random.nextInt(activities.length)].trim();
 
         String[] vehicles = info[10].split(", ");
@@ -66,38 +65,34 @@ public class Character_noc {
         this.GroupAffiliation = info[19];
         this.FictionalWorld = info[20];
         this.Category = info[21];
-        this.NegativeTalkingPoints = info[22].split(", ");;
         if (info.length == 24)
             this.PositiveTalkingPoints = info[23].split(", ");
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Character : " + this.character + "\n");
-        sb.append("Canonical Name : " + this.canName + "\n");
-        sb.append("Gender : " + this.gender + "\n");
-        sb.append("Addr 1 : " + this.addr1 + "\n");
-        sb.append("Addr 2 : " + this.addr2 + "\n");
-        sb.append("Addr 3: " + this.addr3 + "\n");
-        sb.append("Politics : " + this.politics + "\n");
-        sb.append("Marital Status : " + this.maritalStatus + "\n");
-        sb.append("Opponent : " + this.Opponent + "\n");
-        sb.append("TypicalActivity : " + this.TypicalActivity + "\n");
-        sb.append("VehicleOfChoice : " + this.VehicleOfChoice + "\n");
-        sb.append("WeaponOfChoice : " + this.WeaponOfChoice + "\n");
-        sb.append("SeenWearing : " + this.SeenWearing + "\n");
-        sb.append("Domains : " + this.Domains + "\n");
-        sb.append("Genres : " + this.Genres + "\n");
-        sb.append("FictiveStatus : " + this.FictiveStatus + "\n");
-        sb.append("PortrayedBy : " + this.PortrayedBy + "\n");
-        sb.append("Creator :" + this.Creator + "\n");
-        sb.append("Creation : " + this.Creation + "\n");
-        sb.append("GroupAffiliation : " + this.GroupAffiliation + "\n");
-        sb.append("FictionalWorld :" + this.FictionalWorld + "\n");
-        sb.append("Category : " + this.Category + "\n");
-        sb.append("NegativeTalkingPoints : " + this.NegativeTalkingPoints + "\n");
-        sb.append("PositiveTalkingPoints : " + this.PositiveTalkingPoints + "\n");
-        return sb.toString();
+        return ("Character : " + this.character + "\n") +
+            "Canonical Name : " + this.canName + "\n" +
+            "Gender : " + this.gender + "\n" +
+            "Addr 1 : " + this.addr1 + "\n" +
+            "Addr 2 : " + this.addr2 + "\n" +
+            "Addr 3: " + this.addr3 + "\n" +
+            "Politics : " + this.politics + "\n" +
+            "Marital Status : " + this.maritalStatus + "\n" +
+            "Opponent : " + this.Opponent + "\n" +
+            "TypicalActivity : " + this.TypicalActivity + "\n" +
+            "VehicleOfChoice : " + this.VehicleOfChoice + "\n" +
+            "WeaponOfChoice : " + this.WeaponOfChoice + "\n" +
+            "SeenWearing : " + this.SeenWearing + "\n" +
+            "Domains : " + this.Domains + "\n" +
+            "Genres : " + this.Genres + "\n" +
+            "FictiveStatus : " + this.FictiveStatus + "\n" +
+            "PortrayedBy : " + this.PortrayedBy + "\n" +
+            "Creator :" + this.Creator + "\n" +
+            "Creation : " + this.Creation + "\n" +
+            "GroupAffiliation : " + this.GroupAffiliation + "\n" +
+            "FictionalWorld :" + this.FictionalWorld + "\n" +
+            "Category : " + this.Category + "\n" +
+            "PositiveTalkingPoints : " + Arrays.toString(this.PositiveTalkingPoints) + "\n";
     }
 
     public String getGender() {
@@ -137,10 +132,6 @@ public class Character_noc {
 
     public String[] getPositives() {
         return this.PositiveTalkingPoints;
-    }
-
-    public String[] getNegatives() {
-        return this.NegativeTalkingPoints;
     }
 
 }

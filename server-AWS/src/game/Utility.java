@@ -15,7 +15,7 @@ import main.Main;
 
 public class Utility extends RentalProperty implements JSONable{
 
-	private int[] rentMultipliers;
+	private final int[] rentMultipliers;
 
 	public Utility(String name, int price, int[] rentMultipliers) {
 		super(name, price);

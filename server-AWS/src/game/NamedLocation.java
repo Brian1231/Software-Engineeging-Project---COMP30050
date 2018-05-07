@@ -12,7 +12,7 @@ import org.json.JSONObject;
  * */
 public class NamedLocation implements Identifiable, Locatable, JSONable, Typeable, Colourable {
 
-	private String identifier;
+	private final String identifier;
 	private int location;
 	private String type;
 	private Color colour;

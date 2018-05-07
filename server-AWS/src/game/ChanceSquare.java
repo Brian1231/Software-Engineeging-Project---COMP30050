@@ -21,7 +21,7 @@ public class ChanceSquare extends NamedLocation implements Activatable{
 	/*
 	 * Get the text generated from the chance templates
 	 * */
-	public String getChance(Character_noc ch, int type){
+	private String getChance(Character_noc ch, int type){
 		return new ChanceTemplate(ch).getTemplateType(type);
 	}
 	
