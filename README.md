@@ -21,3 +21,5 @@ Our AWS instance can be accessed by using the aws.sh file in this repo. This wil
 
 ### On Windows
 Our AWS instance can be accessed by using the application PuTTY. This is a SSH client for windows and may be downloaded from www.putty.org/. When connecting with PuTTY, the Host name is ubuntu@ec2-52-48-249-220.eu-west-1.compute.amazonaws.com. The path to serverKPPuTTY.ppk in the folder server-AWS must also be added to the Connection/SSH/Auth/Authentication Parameters in PuTTY. Once these parameters are set the AWS instance may be accessed by selecting 'Open'.
+<br /><br />
+Once the AWS instance is accessed, our server application may be ran by the command 'java -jar Server.jar'.
