@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import javafx.util.Duration;
@@ -23,6 +24,8 @@ import java.util.List;
  */
 
 public class PlayerCanvas extends ResizableCanvas {
+
+	private AudioClip diceRoll = new AudioClip(this.getClass().getResource("/client/resources/sounds/diceRoll.mp3").toString());
 
 	public PlayerCanvas() {
 		// Redraw canvas when size changes.
@@ -124,6 +127,7 @@ public class PlayerCanvas extends ResizableCanvas {
 
 	// Animates Player Movement on dice Roll / Boost
 	public void animatePlayer(Player p, int newPos){
+
 		int duration = 4;
 		Polyline path = new Polyline();
 		int oldPosition = p.getPosition();
@@ -170,9 +174,12 @@ public class PlayerCanvas extends ResizableCanvas {
 				path.getPoints().addAll(new Double[]{playerX,playerY});
 			}
 		}
-		if(path.getPoints().size() <= 2){
+		if(path.getPoints().size() <= 3){
 			duration = 1;
+		}else{
+			diceRoll.play();
 		}
+
 
 		PathTransition trans = new PathTransition();
 		trans.setNode(p.playerToken);
@@ -241,6 +248,12 @@ public class PlayerCanvas extends ResizableCanvas {
 				double playerY = point.getY() + (getHeight()/2) + offset.getY();
 				path.getPoints().addAll(new Double[]{playerX,playerY});
 			}
+		}
+
+		if(path.getPoints().size() <= 3){
+			duration = 1;
+		}else{
+			diceRoll.play();
 		}
 
 		PathTransition trans = new PathTransition();
