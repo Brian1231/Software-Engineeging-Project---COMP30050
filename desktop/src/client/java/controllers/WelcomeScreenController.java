@@ -80,11 +80,11 @@ public class WelcomeScreenController {
 
         InGameController gameController = loader.getController();
         gameStage.setOnCloseRequest(e -> gameController.closeGame());
-        gameController.setServerIP(ip);
         gameController.setGameStage(gameStage);
-        //gameStage.setFullScreen(true);
-        gameStage.setMaximized(true);
+        gameStage.setFullScreen(true);
+        //gameStage.setMaximized(true);
         gameStage.show();
+        gameController.setServerIP(ip);
     }
 
 

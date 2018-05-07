@@ -220,6 +220,10 @@ public class BoardCanvas extends ResizableCanvas {
 		double y = point.getY();
 
 		Image image = location.getImage();
+		if(image == null){
+			location.setImage(getUrlImage(location));
+			image = location.getImage();
+		}
 
 		if(image != null) {
 			try {
