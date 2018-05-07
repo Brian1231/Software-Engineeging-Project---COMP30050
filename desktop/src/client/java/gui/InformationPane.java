@@ -194,6 +194,7 @@ public class InformationPane extends Pane {
         upperAuctionLayout.setAlignment(Pos.CENTER);
 
         auctionHeading.setFont(new Font("Verdana", 30));
+        auctionHeading.setTextFill(Color.BLACK);
         playerSelling.setId("pslabel");
 
         // Auction countdown Timer
@@ -338,6 +339,12 @@ public class InformationPane extends Pane {
     // Update auction countdown timer
     public void updateTimer(int time){
         timer.setText(Integer.toString(time));
+        if(auctionHeading.getTextFill() == Color.BLACK){
+            auctionHeading.setTextFill(Color.ORANGE);
+        }
+        else{
+            auctionHeading.setTextFill(Color.BLACK);
+        }
     }
 
     // Remove Auction display at Auction End
