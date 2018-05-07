@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Arc;
@@ -61,7 +62,11 @@ public class InformationPane extends Pane {
     // Dice
     private Rectangle diceLeft = new Rectangle();
     private Rectangle diceRight = new Rectangle();
+    private Rectangle diceLeftbg = new Rectangle();
+    private Rectangle diceRightbg = new Rectangle();
     private ArrayList<Image> diceFaces = new ArrayList<>();
+    private AudioClip diceRoll = new AudioClip(this.getClass().getResource("/client/resources/sounds/diceRoll.mp3").toString());
+    private int diceSum = 0;
 
     // Player Stats in 4 Corners
     private BorderPane playerInfoLayout = new BorderPane();
@@ -79,6 +84,7 @@ public class InformationPane extends Pane {
     private Label highestBidder = new Label("");
     private Label playerSelling = new Label("");
     private Label timer = new Label("10");
+
 
     // Initialisation
     public InformationPane() {
@@ -424,15 +430,38 @@ public class InformationPane extends Pane {
         diceRight.layoutXProperty().bind(widthProperty().divide(2).add(diceRight.widthProperty().divide(2)));
         diceRight.layoutYProperty().bind(heightProperty().subtract(heightProperty().divide(4.5)));
 
+        diceLeftbg.widthProperty().bind(diceLeft.widthProperty());
+        diceLeftbg.heightProperty().bind(diceLeft.heightProperty());
+
+        diceRightbg.widthProperty().bind(diceRight.widthProperty());
+        diceRightbg.heightProperty().bind(diceRight.heightProperty());
+
+        diceLeftbg.layoutXProperty().bind(diceLeft.layoutXProperty());
+        diceLeftbg.layoutYProperty().bind(diceLeft.layoutYProperty());
+
+        diceRightbg.layoutXProperty().bind(diceRight.layoutXProperty());
+        diceRightbg.layoutYProperty().bind(diceRight.layoutYProperty());
+
+        diceLeftbg.setFill(Color.WHITE);
+        diceRightbg.setFill(Color.WHITE);
+
         diceLeft.setFill(Color.TRANSPARENT);
         diceRight.setFill(Color.TRANSPARENT);
 
+        getChildren().add(diceLeftbg);
+        getChildren().add(diceRightbg);
         getChildren().add(diceLeft);
         getChildren().add(diceRight);
     }
 
     // Updates Dice Images
     public void updateDice(int dice1, int dice2){
+        if(diceSum != (dice1 + dice2)){
+            diceRoll.play();
+        }
+
+        diceSum = dice1 + dice2;
+
         if(dice1 != 0 && dice2 != 0){
             diceLeft.setFill(new ImagePattern(diceFaces.get(dice1-1)));
             diceRight.setFill(new ImagePattern(diceFaces.get(dice2-1)));

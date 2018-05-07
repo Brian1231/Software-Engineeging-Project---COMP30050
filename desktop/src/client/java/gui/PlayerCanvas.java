@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import javafx.util.Duration;
@@ -24,8 +23,6 @@ import java.util.List;
  */
 
 public class PlayerCanvas extends ResizableCanvas {
-
-	private AudioClip diceRoll = new AudioClip(this.getClass().getResource("/client/resources/sounds/diceRoll.mp3").toString());
 
 	public PlayerCanvas() {
 		// Redraw canvas when size changes.
@@ -176,10 +173,7 @@ public class PlayerCanvas extends ResizableCanvas {
 		}
 		if(path.getPoints().size() <= 3){
 			duration = 1;
-		}else{
-			diceRoll.play();
 		}
-
 
 		PathTransition trans = new PathTransition();
 		trans.setNode(p.playerToken);
@@ -252,8 +246,6 @@ public class PlayerCanvas extends ResizableCanvas {
 
 		if(path.getPoints().size() <= 3){
 			duration = 1;
-		}else{
-			diceRoll.play();
 		}
 
 		PathTransition trans = new PathTransition();
