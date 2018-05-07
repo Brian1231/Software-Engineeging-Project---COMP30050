@@ -50,6 +50,7 @@ public class RentalPropertyTest {
 	public void constructorTest() {
 		assertNotNull(prop);
 		assertEquals("UCD", prop.getId());
+		assertEquals("rental", prop.getType());
 	}
 
 

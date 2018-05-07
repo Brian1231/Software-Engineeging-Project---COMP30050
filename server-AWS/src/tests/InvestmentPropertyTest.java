@@ -53,6 +53,7 @@ public class InvestmentPropertyTest {
 	public void constructorTest(){
 		assertNotNull(prop);
 		assertEquals("UCD", prop.getId());
+		assertEquals("investment", prop.getType());
 	}
 
 	@Test

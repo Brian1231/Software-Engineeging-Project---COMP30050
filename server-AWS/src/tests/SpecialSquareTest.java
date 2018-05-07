@@ -42,6 +42,7 @@ public class SpecialSquareTest {
     public void constructorTest() {
         assertNotNull(specialSquare);
         assertEquals("UCD", specialSquare.getId());
+        assertEquals("special", specialSquare.getType());
     }
 
     @Test

@@ -29,6 +29,7 @@ public class UtilityTest {
 		assertNotNull(util1);
 		assertEquals("utility", util1.getType());
 		assertEquals("UCD1", util1.getId());
+		assertEquals("utility", util1.getType());
 
 		assertNotNull(util2);
 		assertEquals("utility", util2.getType());
