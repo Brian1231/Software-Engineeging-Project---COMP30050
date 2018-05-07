@@ -1,6 +1,6 @@
 package game_interfaces;
 
-import game.Player;
+import game_models.Player;
 
 public interface Activatable {
 

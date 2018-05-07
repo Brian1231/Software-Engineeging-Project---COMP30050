@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 
+import game_models.*;
 import main.Main;
 
 /*

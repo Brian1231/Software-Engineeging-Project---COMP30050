@@ -3,7 +3,7 @@ package main;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import game.Dice;
+import game_models.Dice;
 import game.GameState;
 import noc_db.NOC_Manager;
 import server.ClientUpdater;

@@ -6,6 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
+	AuctionTest.class,
 	DiceTest.class,
 	InvestmentPropertyTest.class,
 	NamedLocationTest.class,

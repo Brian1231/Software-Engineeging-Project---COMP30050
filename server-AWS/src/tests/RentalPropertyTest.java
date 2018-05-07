@@ -1,8 +1,8 @@
 package tests;
 
 
-import game.Player;
-import game.RentalProperty;
+import game_models.Player;
+import game_models.RentalProperty;
 import noc_db.Character_noc;
 import noc_db.NOC_Manager;
 import org.json.JSONException;

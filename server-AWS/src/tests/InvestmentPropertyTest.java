@@ -1,7 +1,7 @@
 package tests;
 
-import game.InvestmentProperty;
-import game.Player;
+import game_models.InvestmentProperty;
+import game_models.Player;
 import noc_db.Character_noc;
 import noc_db.NOC_Manager;
 import org.json.JSONException;

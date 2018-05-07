@@ -1,7 +1,7 @@
 package tests;
 
-import game.Player;
-import game.SpecialSquare;
+import game_models.Player;
+import game_models.SpecialSquare;
 import noc_db.Character_noc;
 import noc_db.NOC_Manager;
 import org.junit.After;

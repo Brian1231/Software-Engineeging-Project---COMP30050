@@ -1,4 +1,4 @@
-package game;
+package game_models;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,7 +1,7 @@
 package tests;
 
-import game.Player;
-import game.TaxSquare;
+import game_models.Player;
+import game_models.TaxSquare;
 import noc_db.Character_noc;
 import noc_db.NOC_Manager;
 import org.junit.After;

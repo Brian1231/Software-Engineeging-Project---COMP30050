@@ -40,6 +40,7 @@
 "colour": int <br />
 "is_mortgaged": boolean <br />
 "hasTrap": boolean <br />
+"type": String <br />
 
 ## Phone-to-Server 
 ### Initial Phone-to-Server JSON on port 8080:
