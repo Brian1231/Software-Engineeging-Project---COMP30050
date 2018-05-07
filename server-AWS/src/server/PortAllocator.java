@@ -30,7 +30,7 @@ public class PortAllocator extends Thread{
 	private int playerCount=1;
 	private ArrayList<PlayerConnection> playerConnections;
 	private ArrayList<String> blockedAndroidIds = new ArrayList<String>();
-	//Map of current andoid ids to their player id
+	//Map of current android ids to their player id
 	private HashMap<String, Integer> androidIdMap = new HashMap<String, Integer> ();
 
 	public PortAllocator(int portNum){

@@ -107,9 +107,9 @@ public class GameState implements JSONable {
 		SpecialSquare galacticCore = new SpecialSquare("Galactic Core");
 		galacticCore.setColour(Constants.SPECIAL_COLOURS[4]);
 		locations.add(0, galacticCore);
-		SpecialSquare gotojail = new SpecialSquare("Go to Intergalactic Prison");
-		gotojail.setColour(Constants.SPECIAL_COLOURS[4]);
-		locations.add(10, gotojail);
+		SpecialSquare goToJail = new SpecialSquare("Go to Intergalactic Prison");
+		goToJail.setColour(Constants.SPECIAL_COLOURS[4]);
+		locations.add(10, goToJail);
 		SpecialSquare jail= new SpecialSquare("Intergalactic Prison");
 		jail.setColour(Constants.SPECIAL_COLOURS[4]);
 		locations.add(29,jail);
