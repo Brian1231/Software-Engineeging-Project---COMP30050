@@ -6,7 +6,7 @@ Jose Collado San Pedro - 17202360<br />
 <br /><br />
 
 ## How to run our project
-Our project consists of 3 applications. A server application, a desktop application and an android application.<br />
+Our project consists of 3 applications. A server application, a desktop application and an android application. Builds of these applications may be found in the Builds folder of this repository<br />
 To run our project:
 * First run Server.jar. This application was made to run on an AWS instance but may also be run locally.
 * Next run Desktop.jar. This application displays the graphics of our project. In the desktop application selecting New Game will connect
