@@ -24,6 +24,7 @@ public class Main {
 	public static NOC_Manager noc;
 	public static Dice dice;
 
+	@SuppressWarnings("InfiniteLoopStatement")
 	public static void main(String[] args) throws IOException {
 		isActive = false;
 

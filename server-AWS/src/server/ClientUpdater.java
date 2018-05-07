@@ -19,14 +19,14 @@ import main.Main;
  * 
  * */
 
+@SuppressWarnings("ConstantConditions")
 public class ClientUpdater extends Thread {
 
-	private ServerSocket server;
 	private Socket socket;
 
 	public void setup(int port) throws IOException {
 		System.out.println("Connecting to Desktop...");
-		server = new ServerSocket(port);
+		ServerSocket server = new ServerSocket(port);
 		socket = server.accept();
 		System.out.println("Connected!");
 	}

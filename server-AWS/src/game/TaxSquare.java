@@ -50,7 +50,7 @@ public class TaxSquare extends NamedLocation implements Taxable, Activatable {
 		return (int) (player.getNetWorth() * percentage);
 	}
 
-	public String getText(Character_noc ch, int taxType){
+	private String getText(Character_noc ch, int taxType){
 		return new TaxTemplate(ch, taxType).getTemplate();
 	}
 	
@@ -58,5 +58,4 @@ public class TaxSquare extends NamedLocation implements Taxable, Activatable {
 	public int getFlatAmount() {
 		return 20 + 10*random.nextInt(9);
 	}
-
 }

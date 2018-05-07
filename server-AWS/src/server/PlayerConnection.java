@@ -19,13 +19,14 @@ import main.Main;
  * 
  * */
 
-public class PlayerConnection extends Thread{
+@SuppressWarnings("ConstantConditions")
+class PlayerConnection extends Thread{
 
 	private ServerSocket server;
 	private Socket socket;
-	private int port;
-	private int playerID;
-	private String androidId;
+	private final int port;
+	private final int playerID;
+	private final String androidId;
 	private BufferedWriter out;
 	private boolean keepAlive;
 

@@ -10,7 +10,7 @@ import game_interfaces.Rollable;
  * */
 public class Dice implements Rollable{
 
-	private Random rand;
+	private final Random rand;
 	private int[] diceValues;
 
 	public int[] getDiceValues() {
@@ -28,8 +28,7 @@ public class Dice implements Rollable{
 
 	@Override
 	public void roll() {
-		int[] dice = {(rand.nextInt(6) + 1), (rand.nextInt(6) + 1)};
-		this.diceValues = dice;
+		this.diceValues = new int[]{(rand.nextInt(6) + 1), (rand.nextInt(6) + 1)};
 
 		// un-comment below line to set dice to 1 for testing
 		//this.diceValues = new int[]{0, 1};

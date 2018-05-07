@@ -25,13 +25,13 @@ public class PortAllocator extends Thread{
 
 	private ServerSocket server;
 	private Socket socket;
-	private int port;
+	private final int port;
 	private int playerPortCount;
 	private int playerCount=1;
-	private ArrayList<PlayerConnection> playerConnections;
-	private ArrayList<String> blockedAndroidIds = new ArrayList<String>();
+	private final ArrayList<PlayerConnection> playerConnections;
+	private final ArrayList<String> blockedAndroidIds = new ArrayList<String>();
 	//Map of current android ids to their player id
-	private HashMap<String, Integer> androidIdMap = new HashMap<String, Integer> ();
+	private final HashMap<String, Integer> androidIdMap = new HashMap<String, Integer> ();
 
 	public PortAllocator(int portNum){
 		this.port = portNum;
@@ -157,12 +157,6 @@ public class PortAllocator extends Thread{
 				}
 
 			}
-		}
-	}
-
-	public void updatePlayer(int id) {
-		for(PlayerConnection pc : this.playerConnections){
-			if(pc.getPlayerId() == id) pc.updatePlayer();
 		}
 	}
 

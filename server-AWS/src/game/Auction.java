@@ -36,7 +36,7 @@ public class Auction implements JSONable{
 		this.playerSelling = prop.getOwner();
 	}
 
-	public void reset(){
+	private void reset(){
 		this.prop = null;
 		this.price = 0;
 		this.playerBuying = null;

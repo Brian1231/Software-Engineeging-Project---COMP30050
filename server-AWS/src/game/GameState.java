@@ -22,21 +22,22 @@ import noc_db.World_noc;
  * 
  * */
 
+@SuppressWarnings("ConstantConditions")
 public class GameState implements JSONable {
 
-	private Random rand = new Random();
-	private ArrayList<Player> players;
-	private ArrayList<Character_noc> playerCharacters;
-	private ArrayList<String> seenAndroidIds;
-	private ArrayList<NamedLocation> locations;
-	private HashMap<Integer, String> pendingActions;
+	private final Random rand = new Random();
+	private final ArrayList<Player> players;
+	private final ArrayList<Character_noc> playerCharacters;
+	private final ArrayList<String> seenAndroidIds;
+	private final ArrayList<NamedLocation> locations;
+	private final HashMap<Integer, String> pendingActions;
 	private boolean gameStarted;
 	private int playerTurn;
-	private PlayerActions playerActions = new PlayerActions();
-	private VillainGang villainGang;
-	private Auction auction;
+	private final PlayerActions playerActions = new PlayerActions();
+	private final VillainGang villainGang;
+	private final Auction auction;
 	private String actionInfo;
-	private List<Integer> removedPlayers;
+	private final List<Integer> removedPlayers;
 
 
 	/*
@@ -187,7 +188,7 @@ public class GameState implements JSONable {
 	/**
 	 * Returns new player ID or -1
 	 */
-	public int addPlayer(String androidId) {
+	public void addPlayer(String androidId) {
 		int newID = players.size() + 1;
 		//Check if this is a reconnecting player that we've seen before
 		if(!this.seenAndroidIds.contains(androidId)){
@@ -204,11 +205,8 @@ public class GameState implements JSONable {
 			villain.setWeaponObject(Main.noc.getWeapon(villain.getWeapon()));
 			newPlayer.setVillain(villain);
 			this.players.add(newPlayer);
-			return newID;
-		}
-		else
-			return -1;
-	}
+        }
+    }
 
 	/*
 	 * Completely remove player from game state.
@@ -251,10 +249,7 @@ public class GameState implements JSONable {
 	public boolean auctionInProgress(){
 		return this.auction.auctionInProgress();
 	}
-	
-	public int numberOfPlayers(){
-		return this.players.size();
-	}
+
 	
 	public boolean isValidBid(Player player){
 		return this.auction.isValidBid(player);
@@ -295,11 +290,11 @@ public class GameState implements JSONable {
 			switch (action) {
 			case "roll":
 
-				return playerActions.roll(player, id, this.locations);
+				return playerActions.roll(player, this.locations);
 
 			case "buy":
 
-				return playerActions.buy(player, this.locations.get(player.getPos()), id);
+				return playerActions.buy(player, this.locations.get(player.getPos()));
 
 
 			case "sell":
@@ -313,11 +308,11 @@ public class GameState implements JSONable {
 
 			case "mortgage":
 
-				return playerActions.mortgage(player, this.locations.get(Integer.parseInt(args[0])), id);
+				return playerActions.mortgage(player, this.locations.get(Integer.parseInt(args[0])));
 
 			case "redeem":
 
-				return playerActions.redeem(player, this.locations.get(Integer.parseInt(args[0])), id);
+				return playerActions.redeem(player, this.locations.get(Integer.parseInt(args[0])));
 
 			case "boost":
 
@@ -325,11 +320,11 @@ public class GameState implements JSONable {
 
 			case "build":
 
-				return playerActions.build(player, this.locations.get(Integer.parseInt(args[0])), Integer.parseInt(args[1]), id);
+				return playerActions.build(player, this.locations.get(Integer.parseInt(args[0])), Integer.parseInt(args[1]));
 
 			case "demolish":
 
-				return playerActions.demolish(player, this.locations.get(Integer.parseInt(args[0])), Integer.parseInt(args[1]), id);
+				return playerActions.demolish(player, this.locations.get(Integer.parseInt(args[0])), Integer.parseInt(args[1]));
 
 			case "pay":
 
@@ -365,10 +360,6 @@ public class GameState implements JSONable {
 		if(this.removedPlayers.contains(this.playerTurn))
 			this.incrementPlayerTurn();
 		Main.portAllocator.alertPlayer(this.playerTurn);
-	}
-
-	public String getLocationName(int location) {
-		return this.locations.get(location).getId();
 	}
 
 	/**

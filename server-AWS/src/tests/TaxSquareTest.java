@@ -48,19 +48,9 @@ public class TaxSquareTest {
 	}
 
 	@Test
-	public void activate() {
- //       assertNotNull(tax.activate(player));
-	}
-
-	@Test
 	public void getIncomePercentage() {
         double percentage = 0.05;
         assertEquals(75, tax.getIncomePercentage(player, percentage));
-	}
-
-	@Test
-	public void getText() {
-//	    assertNotNull(tax.getText(ch, 1));
 	}
 
 	@Test

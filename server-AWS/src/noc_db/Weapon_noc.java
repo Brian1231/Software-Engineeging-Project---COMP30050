@@ -8,9 +8,8 @@ public class Weapon_noc {
 	private String weapon;
 	private String affordance;
 
-	private Random random = new Random();
-
 	public Weapon_noc(String[] info){
+		Random random = new Random();
 		switch(info.length){
 		case 3:
 			this.determiner = info[0];
@@ -39,10 +38,6 @@ public class Weapon_noc {
 		return this.weapon.trim();
 	}
 
-	
-	public String getAffordance(){
-		return this.affordance;
-	}
 
 	public String getAffordanceWithTarget(String target){
 		if(this.affordance != null){

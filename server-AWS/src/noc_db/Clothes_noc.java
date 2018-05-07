@@ -1,13 +1,14 @@
 package noc_db;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class Clothes_noc {
 
-	private String determiner;
-	private String clothing;
+	private final String determiner;
+	private final String clothing;
 	private String covers;
 	
 	public Clothes_noc(String[] info){
@@ -33,15 +34,9 @@ public class Clothes_noc {
 		return aff[random .nextInt(aff.length)].trim();
 	}
 	
-	public String[] getCoverings() {
-		return this.covers.split(", ");
-	}
-	
 	public List<String> getClothings() {
 		List<String> l = new ArrayList<String>();
-		for(String s : this.clothing.split(", ")){
-			l.add(s);
-		}
+		Collections.addAll(l, this.clothing.split(", "));
 		return l;
 	}
 }
