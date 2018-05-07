@@ -41,7 +41,6 @@ public class NetworkConnection {
 	}
 
 	public void send(JSONObject output) throws Exception {
-		System.out.println("Sending :" + output.toString());
 		PrintWriter writer = new PrintWriter(networkThread.out, true);
 		writer.println(output.toString());
 	}
@@ -64,7 +63,6 @@ public class NetworkConnection {
 
 		public void run() {
 			try {
-				System.out.println("Connecting!");
 				socket = new Socket(Inet4Address.getByName(ip), port);
 				out = new OutputStreamWriter(socket.getOutputStream());
 				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));

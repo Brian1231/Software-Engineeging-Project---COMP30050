@@ -25,8 +25,6 @@ import java.util.List;
 
 public class PlayerCanvas extends ResizableCanvas {
 
-	private AudioClip diceRoll = new AudioClip(this.getClass().getResource("/client/resources/sounds/diceRoll.mp3").toString());
-
 	public PlayerCanvas() {
 		// Redraw canvas when size changes.
 		widthProperty().addListener(evt -> {
@@ -176,10 +174,7 @@ public class PlayerCanvas extends ResizableCanvas {
 		}
 		if(path.getPoints().size() <= 3){
 			duration = 1;
-		}else{
-			diceRoll.play();
 		}
-
 
 		PathTransition trans = new PathTransition();
 		trans.setNode(p.playerToken);
@@ -252,8 +247,6 @@ public class PlayerCanvas extends ResizableCanvas {
 
 		if(path.getPoints().size() <= 3){
 			duration = 1;
-		}else{
-			diceRoll.play();
 		}
 
 		PathTransition trans = new PathTransition();
